@@ -1,1 +1,15 @@
-Run script/pkild_server.pl to test the application.
+# Prerequisites: (debian lenny)
+  apt-get install -y libnet-ldap-perl libtest-exception-perl                \
+                     libtest-mockobject-perl libdata-dump-perl              \
+                     libnet-ldap-perl libnet-ldap-server-perl               \
+                     libclass-inspector-perl libclass-mop-perl              \
+                     libmro-compat-perl libmoose-perl                       \
+                     libobject-signature-perl libtest-deep-perl             \
+                     libnamespace-clean-perl libnamespace-clean-perl        \
+                     libcatalyst-modules-perl libcatalyst-modules-extra-perl
+# Catalyst-Plugin-Authentication-Store-LDAP (I used 0.1005)
+    apt-get install -y dh-make-perl
+    bin/cpan2deb http://search.cpan.org/CPAN/authors/id/K/KA/KARMAN/Catalyst-Authentication-Store-LDAP-0.1005.tar.gz
+    dpkg -i /opt/local/src/CPAN/libcatalyst-authentication-store-ldap-perl_0.1005-1_all.deb
+
+# Run script/pkild_server.pl to test the application.

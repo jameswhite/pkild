@@ -1,0 +1,54 @@
+#!/bin/bash
+################################################################################
+# This is a hack I use to convert a cpan module to a deb
+# It fails more often than not, but it still saves me time...
+################################################################################
+TMPDIR=$(mktemp -d /var/tmp/C2P.XXXXX)
+clear
+if [ ! -d /opt/local/src/CPAN ]; then mkdir -p /opt/local/src/CPAN;fi 
+cd /opt/local/src/CPAN
+tarball=$(echo $1|sed -e 's/.*\///g')
+if [ ! -f ${tarball} ];then
+    wget -qO "${tarball}" "$1"
+fi
+dirname=$(tar tvzf $tarball | sed -e 's/.* //g' -e 's/\/.*//'| sort -u)
+if [ ! -z "${dirname}" -a  -d "${dirname}" ];then
+    rm -fr $dirname
+fi
+tar xzf ${tarball}
+cd ${dirname}
+dh-make-perl > /dev/null 2>&1
+debian/rules binary 2>&1 | egrep "Warning: prerequisite .* not found.|locate .* in @INC " > ${TMPDIR}/dependencies
+if [ $? -eq 0 ];then
+    cat ${TMPDIR}/dependencies| \
+        sed -e 's/.* prerequisite //' \
+            -e 's/ in @INC.*//' \
+            -e 's/.* locate //' \
+            -e 's/\//::/g'  \
+            -e 's/.pm$//g'  \
+            -e 's/#.*//g'  \
+            -e 's/ .*//g' |\
+        grep .            |\
+        while read line; do
+            GUESS=$(echo ${line}|tr A-Z a-z|sed -e 's/::/-/g')
+            apt-cache search lib${GUESS}-perl|awk '{print $1}'|\
+             grep "^lib${GUESS}-perl$" > /dev/null 2>&1
+             if [ "$?" == "0" ]; then 
+                 echo "apt-get install -y lib${GUESS}-perl"
+             else 
+                 echo $line
+             fi
+        done
+    rm -fr ${TMPDIR}
+    exit;
+else
+    PKGSTR=$(debian/rules binary 2>&1 | grep "dpkg-deb: building package")
+    if [ ! -z '${PKGSTR}' ];then 
+        DEB=$(echo "${PKGSTR}"| sed -e 's/.*\.\.\///g' -e 's/.\.$//')
+        if [ ! -z "${DEB}" ];then
+           echo /opt/local/src/CPAN/${DEB}
+        fi
+    fi
+
+
+fi

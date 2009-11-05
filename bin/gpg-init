@@ -1,0 +1,82 @@
+#!/bin/bash
+#########################################################################
+# prerequisites:
+#   - packages:
+#       - gnupg
+#       - rng-tools
+#   - configs:
+#       - hostname in /etc/hosts (and loopback line)
+#   - scripts:
+#       - /usr/local/sbin/secret (from secret-init, if running unattended)
+#########################################################################
+export PATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin"
+dpkg -l gnupg|grep -q "ii *gnupg"||apt-get install -y gnupg 
+dpkg -l rng-tools|grep -q "ii *rng-tools"|| apt-get install -y rng-tools
+# This should probably check that the key is in there too.
+gpg --list-keys|grep -q "^uid.*root@${FQDN}"
+if [ $? -eq 0 ];then 
+    logger -p local5.error -- "$0[$$] root keys already exists. Aborting..."
+    exit
+fi
+if [ -z ${SECRET_PASSPHRASE} ];then
+    if [ -x /usr/local/sbin/secret ]; then
+        export SECRET_PASSPHRASE=$(/usr/local/sbin/secret)
+    else if [ -x /usr/local/sbin/secret-init ]; then
+             /usr/local/sbin/secret-init
+             $0 $* 
+             exit 0;
+         else 
+             echo "cannot proceed without /usr/local/sbin/secret-init"
+         fi
+    fi
+    if [ -z ${SECRET_PASSPHRASE} ];then
+        logger -p local5.error -- "$0[$$] environment SECRET_PASSPHRASE not set. Aborting..."
+        exit
+    fi
+fi
+
+PREUMASK=$(umask)
+umask 0377
+TMPFILE=$(mktemp /dev/shm/gpg-genkey.XXXXX)
+/bin/cat<<EOF>${TMPFILE}
+%echo Generating a package signing key
+Key-Type: DSA
+Key-Length: 1024
+Subkey-Type: ELG-E
+Subkey-Length: 2048
+Name-Real:  `hostname --fqdn`
+Name-Email: root@`hostname --fqdn`
+Expire-Date: 0
+Passphrase: ${SECRET_PASSPHRASE}
+%commit
+%echo Done
+EOF
+umask ${PREUMSK}
+/bin/ps -ef | /bin/grep -q "rn[g]d " || /usr/sbin/rngd -r /dev/urandom
+(find / -xdev -type f -exec sha256sum {} >/dev/null \; 2>&1) &
+gpg --batch --gen-key ${TMPFILE} > /var/log/gpg-keygen.log \
+    2> /var/log/gpg-keygen_error.log
+rm ${TMPFILE}
+#########################################################################
+# Now that we have our personal keys, import some trusted public ones...
+#########################################################################
+DOMAIN=$(/bin/dnsdomainname)
+PGP_KEYSERVER=$(dig +short -t txt pgp-keyserver.${DOMAIN}|sed -e's/"//g')
+PGP_KEYID=$(dig +short -t txt pgp-keyid.${DOMAIN}|sed -e's/"//g')
+gpg --list-keys | grep -q "^pub.*${PGP_KEYID}" || \
+    gpg --keyserver ${PGP_KEYSERVER} --recv-keys ${PGP_KEYID}
+echo -e "y\n${SECRET_PASSPHRASE}\n"|gpg --command-fd 0 --status-fd 2 \
+                             --lsign-key ${PGP_KEYID}
+echo -e "trust\n5\n"|gpg --command-fd 0 --status-fd 2 --edit-key ${PGP_KEYID}
+
+#########################################################################
+# Make apt/yum trust packages signed with these keys
+#########################################################################
+# add them for apt on debian
+if [ -f /etc/debian_version ];then
+    /usr/bin/apt-key list|grep -q "${PGP_KEYID}"||/usr/bin/gpg --export ${PGP_KEYID}|/usr/bin/apt-key add -
+fi
+# do something similar for yum on redhat here...
+if [ -f /etc/redhat-release ];then
+    /usr/bin/gpg --export -a ${PGP_KEYID}|rpm --import
+fi

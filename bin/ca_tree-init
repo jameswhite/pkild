@@ -1,0 +1,307 @@
+#!/bin/bash
+rm -fr /dev/shm/certificate.*
+###################################################################
+# Requires: gpg-init, secret-init, rotate-secret
+# dpkg: dns-browse openssl gpg
+###################################################################
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/usr/local/sbin:/sbin"
+if [ -f /usr/local/sbin/gpg-init ];then /usr/local/sbin/gpg-init;fi
+for elf in `echo "dig openssl gpg"`; do 
+    if [ -z $(which ${elf}) ];then 
+        echo "${elf} not found. Aborting...";
+        exit -1
+    fi    
+done
+if [ -d /var/lib/certificate_authority/mid_ca ];then 
+    echo "I've already got a pki infrastructure... Aborting"
+    exit 0;
+fi
+###################################################################
+# These need to be set up in DNS (and this should be documented)
+###################################################################
+DOMAIN="$(dnsdomainname)"
+CA_COUNTRY=$(dig +short -t txt ca-country.${DOMAIN}|sed -e's/"//g')
+CA_STATE=$(dig +short -t txt ca-state.${DOMAIN}|sed -e's/"//g')
+CA_LOCALITY=$(dig +short -t txt ca-locality.${DOMAIN}|sed -e's/"//g')
+CA_ORG=$(dig +short -t txt ca-org.${DOMAIN}|sed -e's/"//g')
+CA_ORGUNIT=$(dig +short -t txt ca-orgunit.${DOMAIN}|sed -e's/"//g')
+CA_EMAIL=$(dig +short -t txt ca-email.${DOMAIN}|sed -e's/"//g')
+CA_CRL=$(dig +short -t txt ca-crl.${DOMAIN}|sed -e's/"//g')
+
+###################################################################
+# These as well, we will use them to pack up the private keys...
+###################################################################
+SECRET=$(secret)
+PGP_KEYSERVER=$(dig +short -t txt pgp-keyserver.${DOMAIN}|sed -e's/"//g')
+PGP_KEYID=$(dig +short -t txt pgp-keyid.${DOMAIN}|sed -e's/"//g')
+gpg --list-keys | grep -q "^pub.*${PGP_KEYID}" || \
+    gpg --keyserver ${PGP_KEYSERVER} --recv-keys ${PGP_KEYID}
+echo -e "y\n${SECRET}\n"|gpg --command-fd 0 --status-fd 2 \
+                             --lsign-key ${PGP_KEYID} 
+echo -e "trust\n5\n"|gpg --command-fd 0 --status-fd 2 --edit-key ${PGP_KEYID}
+
+###################################################################
+# We use the same secret for everything that we do on a system.
+###################################################################
+SECRET=$(/usr/local/sbin/secret)
+WORKDIR=$(mktemp -d /dev/shm/certificate.XXXXX)
+
+###################################################################
+# OpenSSL configuration Template
+###################################################################
+cat<<EOTPL>${WORKDIR}/openssl.tpl
+HOME                    = .
+RANDFILE                = \$ENV::HOME/.rnd
+DOMAIN                  = ${DOMAIN}
+
+[ ca ]
+default_ca      = CA_default            # The default ca section
+[ CA_default ]
+dir             = .
+certs           = \$dir/certs
+crl_dir         = \$dir/crl
+database        = \$dir/index.txt
+new_certs_dir   = \$dir/newcerts
+certificate     = \$dir/~LEVEL~.\${DOMAIN}.pem
+serial          = \$dir/serial
+crlnumber       = \$dir/crlnumber
+crl             = \$dir/crl.\${DOMAIN}.pem
+private_key     = \$dir/private/~LEVEL~.\${DOMAIN}.key
+RANDFILE        = \$dir/private/.rand
+x509_extensions = usr_cert
+name_opt        = ca_default
+cert_opt        = ca_default
+default_days    = ~DAYS~
+default_crl_days= ~DAYS~
+default_md      = sha1
+preserve        = no
+policy          = policy_match
+
+[ policy_match ]
+countryName             = match
+stateOrProvinceName     = match
+organizationName        = match
+organizationalUnitName  = optional
+commonName              = supplied
+emailAddress            = optional
+
+[ policy_anything ]
+countryName             = optional
+stateOrProvinceName     = optional
+localityName            = optional
+organizationName        = optional
+organizationalUnitName  = optional
+commonName              = supplied
+emailAddress            = optional
+
+[ req ]
+default_bits            = 1024
+default_keyfile         = \${DOMAIN}.pem
+distinguished_name      = req_distinguished_name
+attributes              = req_attributes
+x509_extensions = v3_ca
+
+[ req_distinguished_name ]
+countryName                     = Country Name (2 letter code)
+countryName_default             = ${CA_COUNTRY}
+countryName_min                 = 2
+countryName_max                 = 2
+stateOrProvinceName             = State or Province Name (full name)
+stateOrProvinceName_default     = ${CA_STATE}
+localityName                    = Locality Name (eg, city)
+localityName_default            = ${CA_LOCALITY}
+0.organizationName              = Organization Name (eg, company)
+0.organizationName_default      = ${CA_ORG}
+organizationalUnitName          = Organizational Unit Name (eg, section)
+organizationalUnitName_default  = ~TEXTLEVEL~
+commonName                      = Common Name (eg, YOUR name)
+commonName_max                  = 64
+commonName_default              = ~LEVEL~.\${DOMAIN}
+emailAddress                    = Email Address
+emailAddress_max                = 64
+emailAddress_default            = ~EMAIL~
+
+[ req_attributes ]
+challengePassword               = A challenge password
+challengePassword_min           = 4
+challengePassword_max           = 20
+
+[ usr_cert ]
+basicConstraints=CA:FALSE
+nsComment                       = "OpenSSL Generated Certificate"
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid,issuer
+nsCaRevocationUrl               = ${CA_CRL}
+
+[ v3_req ]
+basicConstraints = CA:FALSE
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+nsCaRevocationUrl               = ${CA_CRL}
+
+[ v3_ca ]
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid:always,issuer:always
+basicConstraints = CA:true
+nsCaRevocationUrl               = ${CA_CRL}
+
+EOTPL
+
+###################################################################
+# Create the Root Certificate Authority
+###################################################################
+ROOT_CA="${WORKDIR}/root_ca"
+if [ ! -d ${ROOT_CA} ];then mkdir -p ${ROOT_CA};fi
+echo "01" > ${ROOT_CA}/serial
+cp /dev/null ${ROOT_CA}/index.txt
+for dir in `echo "certs crl newcerts private"`;do
+    if [ ! -d ${ROOT_CA}/${dir} ];then
+        mkdir ${ROOT_CA}/${dir}
+    fi
+done
+sed -e 's/~LEVEL~/root-ca/g' \
+    -e 's/~TEXTLEVEL~/Root Certificate Authority/g' \
+    -e 's/~EMAIL~/certificate.authority@${DOMAIN}/g' \
+    -e 's/~DAYS~/1825/g' \
+    ${WORKDIR}/openssl.tpl > ${ROOT_CA}/root-openssl.cnf
+# root ca
+cd ${ROOT_CA}
+echo ${SECRET} | openssl genrsa -des3 -passout fd:0 \
+                                -out private/root-ca.${DOMAIN}.key
+echo ${SECRET} | openssl req -new -x509 -nodes -sha1 \
+                             -days 1825 -passin fd:0 \
+                             -key private/root-ca.${DOMAIN}.key \
+                             -out root-ca.${DOMAIN}.pem \
+                             -config root-openssl.cnf -batch
+
+###################################################################
+# Create the Intermediate Certificate Authority
+###################################################################
+MID_CA="${WORKDIR}/mid_ca"
+if [ ! -d ${MID_CA} ];then mkdir -p ${MID_CA};fi
+echo "01" > ${MID_CA}/serial
+cp /dev/null ${MID_CA}/index.txt
+for dir in `echo "certs crl newcerts private"`;do
+    if [ ! -d ${MID_CA}/${dir} ];then
+        mkdir ${MID_CA}/${dir}
+    fi
+done
+sed -e 's/~LEVEL~/mid-ca/g' \
+    -e 's/~TEXTLEVEL~/Intermediate Certificate Authority/g' \
+    -e 's/~EMAIL~/certificate.authority@${DOMAIN}/g' \
+    -e 's/~DAYS~/1095/g' \
+    ${WORKDIR}/openssl.tpl > ${MID_CA}/mid-openssl.cnf
+
+# mid ca
+cd ${MID_CA}
+echo "${SECRET}" | openssl genrsa -des3 -passout fd:0 \
+                                  -out private/mid-ca.${DOMAIN}.key 4096
+echo "${SECRET}" | openssl req -new -sha1 -days 1095 -passin fd:0 \
+                               -key private/mid-ca.${DOMAIN}.key \
+                               -out mid-ca.${DOMAIN}.csr \
+                               -config mid-openssl.cnf -batch
+
+###################################################################
+# sign the Intermediate CA with the Root CA
+###################################################################
+mv ${MID_CA}/mid-ca.${DOMAIN}.csr ${ROOT_CA}
+cd ${ROOT_CA}
+echo "${SECRET}" | openssl ca -extensions v3_ca -days 1095 \
+                              -passin fd:0 \
+                              -out mid-ca.${DOMAIN}.crt \
+                              -in mid-ca.${DOMAIN}.csr \
+                              -config root-openssl.cnf -batch
+
+cat mid-ca.${DOMAIN}.crt root-ca.${DOMAIN}.pem > ca_trust_chain.crt
+mv ${ROOT_CA}/mid-ca.${DOMAIN}.crt ${MID_CA}/mid-ca.${DOMAIN}.pem
+
+###################################################################
+# Create Server Certificate for self
+###################################################################
+HNAME=$(hostname -s)
+if [ -z ${HNAME} ];then
+    echo "hostname -f doesn't return the hostname"
+    exit
+fi
+MY_CERT="${WORKDIR}/${HNAME}.${DOMAIN}"
+if [ ! -d ${MY_CERT} ];then mkdir -p ${MY_CERT};fi
+
+sed -e "s/~LEVEL~/${HNAME}/g" \
+    -e "s/~TEXTLEVEL~/${CA_ORGUNIT}/g" \
+    -e "s/~EMAIL~/${CA_EMAIL}/g" \
+    -e 's/~DAYS~/365/g' \
+    ${WORKDIR}/openssl.tpl > ${MY_CERT}/${HNAME}-openssl.cnf
+
+cd ${MY_CERT}
+echo ${SECRET} | openssl genrsa -des3 -passout fd:0 -out ${HNAME}.${DOMAIN}.key
+echo ${SECRET} | openssl req -new -key ${HNAME}.${DOMAIN}.key \
+                             -passin fd:0 \
+                             -out ${HNAME}.${DOMAIN}.csr \
+                             -config ${HNAME}-openssl.cnf -batch
+###################################################################
+# Sign Server Certificate with Intermediate
+###################################################################
+mv ${MY_CERT}/${HNAME}.${DOMAIN}.csr ${MID_CA}
+cd ${MID_CA}
+# sign server with intermediate
+echo ${SECRET} | openssl ca -config mid-openssl.cnf \
+                            -passin fd:0 \
+                            -policy policy_anything \
+                            -out ${HNAME}.${DOMAIN}.crt \
+                            -batch \
+                            -infiles ${HNAME}.${DOMAIN}.csr
+
+mv ${MID_CA}/${HNAME}.${DOMAIN}.crt ${MY_CERT}
+
+###################################################################
+# Pack Up the Certificate authorities...
+###################################################################
+if [ ! -d /etc/vault ];then 
+   mkdir -p /etc/vault
+   chmod 700 /etc/vault
+fi
+UMASK=$(umask)
+umask 077
+cd ${WORKDIR}
+cp ${ROOT_CA}/ca_trust_chain.crt /etc/vault
+if [ ! -d /var/www/ ];then mkdir /var/www;fi
+cp ${ROOT_CA}/ca_trust_chain.crt /var/www/${DOMAIN}_trustchain.crt
+cp ${ROOT_CA}/ca_trust_chain.crt /etc/ssl/certs/${DOMAIN}_trustchain.pem
+secret | gpg -e -a -r ${PGP_KEYID} > /etc/vault/passphrase.gpg
+tar cvzf - root_ca|gpg -e -a -r ${PGP_KEYID} > /etc/vault/root_ca.gpg 
+rm -fr root_ca
+tar cvzf - mid_ca|gpg -e -a -r ${PGP_KEYID} > /etc/vault/mid_ca.gpg 
+chmod 600 /etc/vault/*
+if [ ! -d /var/lib/certificate_authority ];then 
+    mkdir -p /var/lib/certificate_authority
+fi
+mv mid_ca /var/lib/certificate_authority
+find /var/lib/certificate_authority -type d -exec chmod 700 {} \;
+find /var/lib/certificate_authority -type f -exec chmod 600 {} \;
+/bin/cp ${MY_CERT}/${HNAME}.${DOMAIN}.crt /var/lib/certificate_authority/mid_ca/certs
+/bin/cp ${MY_CERT}/${HNAME}.${DOMAIN}.key /var/lib/certificate_authority/mid_ca/certs
+
+# and to where other applications can get to them:
+
+/bin/cp ${MY_CERT}/${HNAME}.${DOMAIN}.crt /etc/ssl/certs/${HNAME}.${DOMAIN}.pem
+/bin/cp ${MY_CERT}/${HNAME}.${DOMAIN}.key /etc/ssl/private/${HNAME}.${DOMAIN}.key
+echo "${SECRET}"| openssl rsa -in /etc/ssl/private/${HNAME}.${DOMAIN}.key -out /etc/ssl/private/${HNAME}.${DOMAIN}.clearkey -passin fd:0
+(cd /etc/ssl/certs/; /usr/bin/c_rehash)
+
+umask ${UMASK}
+
+rm -fr ${WORKDIR}
+exit 1;
+###################################################################
+# 
+###################################################################
+# This should be moved somewhere else
+/bin/cp /var/lib/certificate/mid_ca/certs/${HNAME}.${DOMAIN}.crt /etc/ssl/certs/
+/bin/cp /var/lib/certificate/mid_ca/certs/${HNAME}.${DOMAIN}.crt /etc/ssl/certs/
+/bin/cp /var/lib/certificate/mid_ca/certs/${HNAME}.${DOMAIN}.key /etc/ssl/private/
+scp ${ROOT_CA}/chain.crt james@jameswhite.org:public_html/_catrustchain.crt
+scp ${ROOT_CA}/root-ca.websages.com.pem james@jameswhite.org:public_html/_root-ca.websages.com.crt
+scp ${MID_CA}/mid-ca.websages.com.pem james@jameswhite.org:public_html/_mid-ca.websages.com.crt
+
+/etc/init.d/apache2 restart
+#openssl x509 -text -in ${MY_CERT}/${HNAME}.${DOMAIN}.crt | less
+exit 1;
