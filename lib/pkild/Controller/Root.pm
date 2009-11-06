@@ -30,7 +30,16 @@ sub default : Private {
     my ( $self, $c ) = @_;
 
     # Hello World
-    $c->response->body( $c->welcome_message );
+    $c->response->body( Data::Dumper->Dump([$user]) );
+}
+
+sub login : Global {
+    my ( $self, $c ) = @_;
+    $c->authenticate({
+                       id          => $c->req->param("login"), 
+                       password    => $c->req->param("password") 
+                      });
+    $c->res->body("Welcome " . $c->user->username . "!");
 }
 
 =head2 end

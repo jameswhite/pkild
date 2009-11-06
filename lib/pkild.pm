@@ -4,6 +4,9 @@ use strict;
 use warnings;
 
 use Catalyst::Runtime '5.70';
+use YAML qw(LoadFile);
+use Path::Class 'file';
+
 
 # Set flags and add plugins for the application
 #
@@ -13,7 +16,7 @@ use Catalyst::Runtime '5.70';
 # Static::Simple: will serve static files from the application's root 
 #                 directory
 
-use Catalyst qw/-Debug ConfigLoader Static::Simple/;
+use Catalyst qw/-Debug ConfigLoader Static::Simple Authentication/;
 
 our $VERSION = '0.01';
 
@@ -26,7 +29,10 @@ our $VERSION = '0.01';
 # with a external configuration file acting as an override for
 # local deployment.
 
-__PACKAGE__->config( name => 'pkild' );
+__PACKAGE__->config( 
+                     'name' => 'pkild',
+                     'authentication' => YAML::LoadFile( file(__PACKAGE__->config->{home}, 'Config.yaml'))
+                   );
 
 # Start the application
 __PACKAGE__->setup;
