@@ -28,7 +28,6 @@ pkild::Controller::Root - Root Controller for pkild
 
 sub default : Private {
     my ( $self, $c ) = @_;
-$c->barf();
     if(!defined $c->session->{'user'}){
         $c->response->body( "Login plz." );
     }else{
