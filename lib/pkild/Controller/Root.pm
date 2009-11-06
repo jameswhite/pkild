@@ -28,9 +28,12 @@ pkild::Controller::Root - Root Controller for pkild
 
 sub default : Private {
     my ( $self, $c ) = @_;
-
-    # Hello World
-    $c->response->body( Data::Dumper->Dump([$user]) );
+$c->barf();
+    if(!defined $c->session->{'user'}){
+        $c->response->body( "Login plz." );
+    }else{
+        $c->response->body( "the application" );
+    }
 }
 
 sub login : Global {

@@ -13,3 +13,9 @@
     dpkg -i /opt/local/src/CPAN/libcatalyst-authentication-store-ldap-perl_0.1005-1_all.deb
 
 # Run script/pkild_server.pl to test the application.
+
+# I also had to reverse the order of:
+#    Class::Accessor::Fast 
+#    Class::Data::Inheritable 
+# in  the base of /usr/share/perl5/Catalyst/Plugin/Session/Store/FastMmap.pm
+# to reconcile a "Inconsistent hierarchy found while merging" catalyst error
