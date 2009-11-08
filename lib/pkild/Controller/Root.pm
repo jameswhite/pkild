@@ -42,7 +42,10 @@ sub default : Private {
     }
 
     # Log us out if logout was sent
-    if(defined($c->req->param("logout"))){ delete $c->session->{'user'}; }
+    if(defined($c->req->param("logout"))){ 
+        delete $c->session->{'user'}; 
+        $c->session->delete "logged out";
+    }
 
     # If we're logged in, send us to the application, othewise the login page.
     if(!defined $c->session->{'user'}){
