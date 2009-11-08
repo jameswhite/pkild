@@ -50,6 +50,7 @@ sub default : Private {
     }else{
         $c->stash->{template}="application.tt";
     }
+}
 
 sub login : Global {
     my ( $self, $c ) = @_;
