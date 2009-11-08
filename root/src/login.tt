@@ -10,7 +10,7 @@
     <tr>
     </tr>
         <td align="right">&nbsp;</td>
-        <td align="left"><input type="submit" name="login"></td>
+        <td align="right"><input type="submit" name="login" value="Login"></td>
     <tr>
     </tr>
 </table>
