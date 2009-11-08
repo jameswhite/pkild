@@ -34,8 +34,6 @@ __PACKAGE__->config(
                      'authentication' => YAML::LoadFile( file(__PACKAGE__->config->{home}, 'Config.yaml'))
                    );
 
-print STDERR "\n\n-=[".__PACKAGE__->config->{home}."/Config.yaml]=-\n\n";
-
 # Start the application
 __PACKAGE__->setup( qw/RequireSSL/ );
 __PACKAGE__->config->{require_ssl} = {
