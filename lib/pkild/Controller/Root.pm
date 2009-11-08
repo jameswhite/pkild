@@ -31,7 +31,7 @@ sub default : Private {
     $c->require_ssl;
     if( (defined($c->req->param("login")))&&(defined($c->req->param("password")))){
         $c->session->{'user'} = $c->authenticate({
-                                                   id       => $c->req->param("login"), 
+                                                   id       => $c->req->param("username"), 
                                                    password => $c->req->param("password") 
                                                  });
    
