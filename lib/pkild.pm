@@ -38,8 +38,8 @@ __PACKAGE__->config(
 # Start the application
 __PACKAGE__->setup( qw/RequireSSL/ );
 __PACKAGE__->config->{require_ssl} = {
-        https => ':443',
-        http => ':80',
+        https => 'https://'.$c->request->{'server'},
+        http => 'http://'.$c-Rewquest->{'server'},
         remain_in_ssl => 1,
         no_cache => 1,
     };
