@@ -39,11 +39,13 @@ sub default : Private {
                                             $c->stash->{'ERROR'}="Authentication Failed.";
                                             $c->dump();
                                           }
+    }elsef(defined($c->req->param("logout"))){
+        delete $c->session->{'user'}; 
     }
     if(!defined $c->session->{'user'}){
         $c->stash->{template}="login.tt";
     }else{
-        $c->response->body( "the application" );
+        $c->stash->{template}="application.tt";
     }
 }
 
