@@ -48,7 +48,8 @@ sub default : Private {
     if(!defined $c->session->{'user'}){
         $c->stash->{template}="login.tt";
     }else{
-        $c->stash->{'ERROR'} = "Logged in as: ".$c->session->{'user'}->{ $c->session->{'user'}->{'user_field'} };
+        #$c->stash->{'ERROR'} = "Logged in as: ".$c->session->{'user'}->{ $c->session->{'user'}->{'user_field'} };
+        $c->stash->{'ERROR'} = "Logged in as: ".Data::Dumper->Dump([ $c->session->{'user'}->{'user_field'} ]);
         $c->stash->{template}="application.tt";
     }
 }
