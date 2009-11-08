@@ -5,7 +5,13 @@ use warnings;
 
 use base 'Catalyst::View::TT';
 
-__PACKAGE__->config(TEMPLATE_EXTENSION => '.tt');
+__PACKAGE__->config(
+                     TEMPLATE_EXTENSION => '.tt'
+                     # Set the location for TT files
+                     INCLUDE_PATH => [
+                                       MyApp->path_to( 'root', 'src' ),
+                                     ],
+                   );
 
 =head1 NAME
 
