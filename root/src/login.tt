@@ -2,10 +2,10 @@
 <table>
     <tr>
         <td align="right">Login: </td>
-        <td align="left"><input type="Text" name="title" size="15"></td>
+        <td align="left"><input type="text" name="title" size="15"></td>
     </tr>
         <td align="right">Password: </td>
-        <td align="left"><input type="Text" name="title" size="15"></td>
+        <td align="left"><input type="password" name="title" size="15"></td>
     <tr>
     </tr>
 </table>
