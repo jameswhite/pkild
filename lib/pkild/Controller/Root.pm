@@ -37,6 +37,7 @@ sub default : Private {
    
         if(!defined $c->session->{'user'}){
                                             $c->stash->{'ERROR'}="Authentication Failed.";
+                                            $c->dump();
                                           }
     }
     if(!defined $c->session->{'user'}){

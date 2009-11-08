@@ -18,7 +18,6 @@ use Path::Class 'file';
 
 use Catalyst qw/-Debug ConfigLoader Authentication Static::Simple Session Session::Store::FastMmap Session::State::Cookie/;
 
-
 our $VERSION = '0.01';
 
 # Configure the application. 
@@ -34,18 +33,17 @@ __PACKAGE__->config(
                      'name' => 'pkild',
                      'authentication' => YAML::LoadFile( file(__PACKAGE__->config->{home}, 'Config.yaml'))
                    );
-print STDERR "\n\n-=[".__PACKAGE__->config->{home}."]=-\n\n";
+
+print STDERR "\n\n-=[".__PACKAGE__->config->{home}."/Config.yaml]=-\n\n";
 
 # Start the application
 __PACKAGE__->setup( qw/RequireSSL/ );
 __PACKAGE__->config->{require_ssl} = {
-        #https => 'https://server.example.org:443',
-        #http => 'http://server.example.org:80',
-        remain_in_ssl => 1,
-        no_cache => 1,
-    };
-
-
+                                      #https => 'https://server.example.org:443',
+                                      #http => 'http://server.example.org:80',
+                                       remain_in_ssl => 1,
+                                       no_cache => 1,
+                                     };
 
 =head1 NAME
 
