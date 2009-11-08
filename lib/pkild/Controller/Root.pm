@@ -30,7 +30,7 @@ sub default : Private {
     my ( $self, $c ) = @_;
     $c->require_ssl;
     if(!defined $c->session->{'user'}){
-        $c->response->body( "Login plz." );
+        $c->stash->{template}="login.tt";
     }else{
         $c->response->body( "the application" );
     }
