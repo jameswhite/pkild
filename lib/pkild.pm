@@ -34,7 +34,7 @@ __PACKAGE__->config(
                      'name' => 'pkild',
                      'authentication' => YAML::LoadFile( file(__PACKAGE__->config->{home}, 'Config.yaml'))
                    );
-print STDERR "\n\n__PACKAGE__->config->{home}\n\n";
+print STDERR "\n\n-=[".__PACKAGE__->config->{home}."]=-\n\n";
 
 # Start the application
 __PACKAGE__->setup( qw/RequireSSL/ );
