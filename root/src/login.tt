@@ -21,10 +21,10 @@ legend   {
 <table>
     <tr>
         <td align="right"><label for="username">Username: </label></td>
-        <td align="left"><input type="text" name="title" size="15"></td>
+        <td align="left"><input type="text" name="username" size="15"></td>
     </tr>
         <td align="right"><label for="username">Password: </label></td>
-        <td align="left"><input type="password" name="title" size="15"></td>
+        <td align="left"><input type="password" name="password" size="15"></td>
     <tr>
     </tr>
         <td align="right">&nbsp;</td>

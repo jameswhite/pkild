@@ -29,6 +29,12 @@ pkild::Controller::Root - Root Controller for pkild
 sub default : Private {
     my ( $self, $c ) = @_;
     $c->require_ssl;
+    if( (defined($c->req->param("login")))&&(defined($c->req->param("password")))){
+        $c->session->{'user'} = $c->authenticate({
+                                                   id       => $c->req->param("login"), 
+                                                   password => $c->req->param("password") 
+                                                 });
+    }
     if(!defined $c->session->{'user'}){
         $c->stash->{template}="login.tt";
     }else{
