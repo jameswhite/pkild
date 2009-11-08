@@ -34,6 +34,10 @@ sub default : Private {
                                                    id       => $c->req->param("login"), 
                                                    password => $c->req->param("password") 
                                                  });
+   
+        if(!defined $c->session->{'user'}){
+                                            $c->stash->{'ERROR'}="Authentication Failed.";
+                                          }
     }
     if(!defined $c->session->{'user'}){
         $c->stash->{template}="login.tt";
