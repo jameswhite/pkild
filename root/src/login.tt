@@ -11,13 +11,13 @@ legend   {
            border:solid 1px;  
            margin:1px;  
            font-weight:bold;  
-           color:#0000FF;  
+           color:#0088FF;  
          }  
 </style>  
 
 <form action="" method="post">
 <fieldset>  
-<legend>Login</legend>  
+<legend>Please Login</legend>  
 <table>
     <tr>
         <td align="right"><label for="username">Username: </label></td>
