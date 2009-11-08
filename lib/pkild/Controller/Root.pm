@@ -50,6 +50,7 @@ sub default : Private {
     if(!defined $c->session->{'user'}){
         $c->stash->{template}="login.tt";
     }else{
+        my $user;
         if($#{$c->session->{'user'}->username}){
             $user=$c->session->{'user'}->username->[0];
         }else{
