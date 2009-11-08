@@ -1,5 +1,3 @@
-<center>
-<div style="width:100%; height:100%; text-align:center; vertical-align:middle; margin: 0 auto;border:1px solid #CCCCCC">
 <form action="" method="post">
 <table>
     <tr>
@@ -16,5 +14,3 @@
     </tr>
 </table>
 </form>
-</div>
-</center>
