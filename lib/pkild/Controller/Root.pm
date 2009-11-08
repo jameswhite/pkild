@@ -49,7 +49,7 @@ sub default : Private {
         $c->stash->{template}="login.tt";
     }else{
         #$c->stash->{'ERROR'} = "Logged in as: ".$c->session->{'user'}->{ $c->session->{'user'}->{'user_field'} };
-        $c->stash->{'ERROR'} = "Logged in as: ".Data::Dumper->Dump([ $c->session->{'user'} ]);
+        $c->stash->{'ERROR'} = "Logged in as: ".Data::Dumper->Dump([ $c->user->username ]);
         $c->stash->{template}="application.tt";
     }
 }
