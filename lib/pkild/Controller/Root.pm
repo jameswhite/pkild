@@ -29,6 +29,7 @@ pkild::Controller::Root - Root Controller for pkild
 sub default : Private {
     my ( $self, $c ) = @_;
     $c->require_ssl;
+    # Attempt to authenticate
     if( (defined($c->req->param("login")))&&(defined($c->req->param("password")))){
         $c->session->{'user'} = $c->authenticate({
                                                    id       => $c->req->param("username"), 
@@ -37,17 +38,18 @@ sub default : Private {
    
         if(!defined $c->session->{'user'}){
                                             $c->stash->{'ERROR'}="Authentication Failed.";
-                                            $c->dump();
                                           }
-    }elsef(defined($c->req->param("logout"))){
-        delete $c->session->{'user'}; 
     }
+
+    # Log us out if logout was sent
+    if(defined($c->req->param("logout"))){ delete $c->session->{'user'}; }
+
+    # If we're logged in, send us to the application, othewise the login page.
     if(!defined $c->session->{'user'}){
         $c->stash->{template}="login.tt";
     }else{
         $c->stash->{template}="application.tt";
     }
-}
 
 sub login : Global {
     my ( $self, $c ) = @_;
