@@ -9,7 +9,7 @@ __PACKAGE__->config(
                      TEMPLATE_EXTENSION => '.tt',
                      # Set the location for TT files
                      INCLUDE_PATH => [
-                                       __PACKAGE__->path_to( 'root', 'src' ),
+                                       pkild->path_to( 'root', 'src' ),
                                      ],
                    );
 
