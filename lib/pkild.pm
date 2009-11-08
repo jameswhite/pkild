@@ -36,7 +36,14 @@ __PACKAGE__->config(
                    );
 
 # Start the application
-__PACKAGE__->setup;
+__PACKAGE__->setup( qw/RequireSSL/ );
+    MyApp->config->{require_ssl} = {
+        # https => 'secure.mydomain.com',
+        # http => 'www.mydomain.com',
+        remain_in_ssl => 1,
+        no_cache => 1,
+    };
+
 
 
 =head1 NAME
