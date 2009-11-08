@@ -9,6 +9,10 @@
         <td align="left"><input type="password" name="title" size="15"></td>
     <tr>
     </tr>
+        <td align="right">&nbsp;</td>
+        <td align="left"><input type="submit" name="login"></td>
+    <tr>
+    </tr>
 </table>
 </form>
 </div>
