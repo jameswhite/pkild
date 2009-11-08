@@ -39,7 +39,7 @@ __PACKAGE__->config(
 __PACKAGE__->setup( qw/RequireSSL/ );
 __PACKAGE__->config->{require_ssl} = {
         https => 'https://'.$c->request->{'server'},
-        http => 'http://'.$c-Rewquest->{'server'},
+        http => 'http://'.$c-request->{'server'},
         remain_in_ssl => 1,
         no_cache => 1,
     };
