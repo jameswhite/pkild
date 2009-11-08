@@ -1,1 +1,10 @@
-login plz.
+<form action="" method="post">
+<td><input type="Text" name="title" size="15"
+value="[% id %]">
+</td>
+</tr>
+<tr>
+<td>Body*</td>
+<td><textarea name="body" cols="40" rows="20">
+[% id.body %]
+</form>
