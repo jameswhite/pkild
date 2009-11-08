@@ -17,6 +17,7 @@ legend   {
 
 <form action="" method="post">
 <fieldset>  
+<legend>Login</legend>  
 <table>
     <tr>
         <td align="right">Username: </td>
@@ -27,7 +28,7 @@ legend   {
     <tr>
     </tr>
         <td align="right">&nbsp;</td>
-        <td align="right"><input type="submit" name="login" value="Login"></td>
+        <td align="right"><input type="submit" name="login" value="Submit"></td>
     <tr>
     </tr>
 </table>
