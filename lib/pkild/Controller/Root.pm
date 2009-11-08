@@ -50,14 +50,12 @@ sub default : Private {
     if(!defined $c->session->{'user'}){
         $c->stash->{template}="login.tt";
     }else{
-        #$c->stash->{'ERROR'} = "Logged in as: ".$c->session->{'user'}->{ $c->session->{'user'}->{'user_field'} };
-#        my $user;
-#        if($#{$c->user->username}){
-#            $user=$c->user->username->[0];
-#        }else{
-#            $user=$c->user->username;
-#        }
-#        $c->stash->{'ERROR'} = "Logged in as: $user ";
+        if($#{$c->session->{'user'}->username}){
+            $user=$c->session->{'user'}->username->[0];
+        }else{
+            $user=$c->session->{'user'}->username;
+        }
+        $c->stash->{'ERROR'} = "Logged in as: $user ";
         $c->stash->{template}="application.tt";
     }
 }
