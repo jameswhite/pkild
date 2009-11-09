@@ -16,14 +16,26 @@ legend   {
 </style>  
 <form action="" method="post">
     <fieldset>  
-        <legend>Certificate Authority URIs</legend>  
+        <legend>Domain Name</legend>  
         <table>
             <tr>
-                <td align="right"><label for="username"><nobr>Certificate Authority URI: </nobr></label></td>
+                <td align="right"><label for="domain"><nobr>Domain Name: </nobr></label></td>
+                <td align="left"><input type="text" name="domain" size="20"></td>
+            </tr>
+        </table>
+    </fieldset>
+</form>
+
+<form action="" method="post">
+    <fieldset>  
+        <legend>Certificate Authority Permanent URIs</legend>  
+        <table>
+            <tr>
+                <td align="right"><label for="username"><nobr>Certificate Authority: </nobr></label></td>
                 <td align="left"><input type="text" name="ca-cert" size="20"></td>
             </tr>
             <tr>
-                <td align="right"><label for="username"><nobr>Certificate Revocation List URI: </nobr></label></td>
+                <td align="right"><label for="username"><nobr>Certificate Revocation List: </nobr></label></td>
                 <td align="left"><input type="text" name="ca-crl" size="20"></td>
             </tr>
         </table>
@@ -33,7 +45,7 @@ legend   {
 <font color="red">[% ERROR %]</font>
 <form action="" method="post">
     <fieldset>  
-        <legend>Certificate Authority</legend>  
+        <legend>Certificate Authority Information</legend>  
         <table>
             <tr>
                 <td align="right"><label for="username">Country: </label></td>
