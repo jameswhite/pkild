@@ -31,6 +31,10 @@ legend   {
 <legend>Certificate Authority</legend>  
 <table>
     <tr>
+        <td align="right"><label for="username">Permanent Certificate Authority URI: </label></td>
+        <td align="left"><input type="text" name="ca-cert" size="20"></td>
+    </tr>
+    <tr>
         <td align="right"><label for="username">Country: </label></td>
         <td align="left"><input type="text" name="ca-country" size="20"></td>
     </tr>
@@ -55,11 +59,7 @@ legend   {
         <td align="left"><input type="text" name="ca-email" size="20"></td>
     </tr>
     <tr>
-        <td align="right"><label for="username">Certificate Authority: </label></td>
-        <td align="left"><input type="text" name="ca-cert" size="20"></td>
-    </tr>
-    <tr>
-        <td align="right"><label for="username">Certificate Revocation List: </label></td>
+        <td align="right"><label for="username">Certificate Revocation List URI: </label></td>
         <td align="left"><input type="text" name="ca-crl" size="20"></td>
     </tr>
 </table>
