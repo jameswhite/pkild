@@ -11,3 +11,31 @@
     bin/cpan2deb http://search.cpan.org/CPAN/authors/id/A/AG/AGRUNDMA/Catalyst-Plugin-RequireSSL-0.06.tar.gz
     dpkg -i /opt/local/src/CPAN/libcatalyst-plugin-requiressl-perl_0.06-1_all.deb
 # Run script/pkild_server.pl to test the application.
+
+
+################################################################################
+# Adding to Apache
+# You'll need to install the ssl server too as this application forces SSL
+################################################################################
+apt-get install -y apache2-mpm-prefork libapache2-mod-perl2                  \
+                   libcatalyst-engine-apache-perl perlmagick                 \
+                   libcatalyst-modules-extra-perl libcatalyst-modules-perl   \
+                   libcatalyst-perl libcatalyst-plugin-session-fastmmap-perl \
+                   libcatalyst-view-tt-perl libhtml-prototype-perl
+
+[ -d /var/cache/git ] || mkdir -p /var/cache/git
+(cd /var/cache/git; git clone git://github.com/fapestniegd/pkild.git )
+
+# httpd.conf
+# (Outside of VirtualHost block (main section))
+PerlSwitches -I/var/cache/git/pkild/lib
+PerlModule pkild
+
+#<VirtualHost..>
+<Location />
+    SetHandler          modperl
+    PerlResponseHandler pkild
+</Location>
+#</VirtualHost..>
+
+# That's it.
