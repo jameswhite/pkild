@@ -31,7 +31,7 @@ legend   {
 <legend>Certificate Authority</legend>  
 <table>
     <tr>
-        <td align="right"><label for="username">CACert URI: </label></td>
+        <td align="right"><label for="username"><nobr>Certificate Authority URI: </nobr></label></td>
         <td align="left"><input type="text" name="ca-cert" size="20"></td>
     </tr>
     <tr>
