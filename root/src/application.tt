@@ -31,7 +31,7 @@ legend   {
 <legend>Certificate Authority</legend>  
 <table>
     <tr>
-        <td align="right"><label for="username">Permanent CACert URI: </label></td>
+        <td align="right"><label for="username">CACert URI: </label></td>
         <td align="left"><input type="text" name="ca-cert" size="20"></td>
     </tr>
     <tr>
@@ -51,7 +51,7 @@ legend   {
         <td align="left"><input type="text" name="ca-org" size="20"></td>
     </tr>
     <tr>
-        <td align="right"><label for="username">Organizational Unit: </label></td>
+        <td align="right"><label for="username"><nobr>Organizational Unit: </nobr></label></td>
         <td align="left"><input type="text" name="ca-orgunit" size="20"></td>
     </tr>
     <tr>
@@ -59,7 +59,7 @@ legend   {
         <td align="left"><input type="text" name="ca-email" size="20"></td>
     </tr>
     <tr>
-        <td align="right"><label for="username">Permanent CRL URI: </label></td>
+        <td align="right"><label for="username">CRL URI: </label></td>
         <td align="left"><input type="text" name="ca-crl" size="20"></td>
     </tr>
 </table>
