@@ -3,7 +3,7 @@
 <head>  
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />  
     <title>yensdesign.com - Create a smooth tabbed menu with jQuery</title>  
-    <link rel="stylesheet" href="css/general.css" type="text/css" media="screen" />  
+    <link rel="stylesheet" href="static/css/general.css" type="text/css" media="screen" />  
     <!--[if IE 6]>  
         <link rel="stylesheet" href="css/ie6.css" type="text/css" media="screen," />  
     <![endif]\u2013>  
@@ -48,6 +48,6 @@
         </div>  
     </div>  
     <script type="text/javascript" src="http://jqueryjs.googlecode.com/files/jquery-1.2.6.min.js"></script>  
-    <script type="text/javascript" src="tabs.js"></script>  
+    <script type="text/javascript" src="/static/js/tabs.js"></script>  
 </body>  
 </html>  
