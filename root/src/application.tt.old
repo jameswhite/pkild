@@ -1,0 +1,92 @@
+<style type="text/css">  
+fieldset {  
+            width: 360px;  
+            font-family:Verdana, Arial, Helvetica, sans-serif;  
+            font-size:14px;  
+         }  
+legend   {  
+           width:100px;  
+           text-align:center;  
+           background:#DDE7F0;  
+           border:solid 1px;  
+           margin:1px;  
+           font-weight:bold;  
+           color:#0088FF;  
+         }  
+</style>  
+<form action="" method="post">
+    <fieldset>  
+        <legend>Domain Name</legend>  
+        <table>
+            <tr>
+                <td align="right"><label for="domain"><nobr>Domain Name: </nobr></label></td>
+                <td align="left"><input type="text" name="domain" size="20"></td>
+            </tr>
+        </table>
+    </fieldset>
+</form>
+
+<form action="" method="post">
+    <fieldset>  
+        <legend>Certificate Authority Permanent URIs</legend>  
+        <table>
+            <tr>
+                <td align="right"><label for="username"><nobr>Certificate Authority: </nobr></label></td>
+                <td align="left"><input type="text" name="ca-cert" size="20"></td>
+            </tr>
+            <tr>
+                <td align="right"><label for="username"><nobr>Certificate Revocation List: </nobr></label></td>
+                <td align="left"><input type="text" name="ca-crl" size="20"></td>
+            </tr>
+        </table>
+    </fieldset>
+</form>
+
+<font color="red">[% ERROR %]</font>
+<form action="" method="post">
+    <fieldset>  
+        <legend>Certificate Authority Information</legend>  
+        <table>
+            <tr>
+                <td align="right"><label for="username">Country: </label></td>
+                <td align="left"><input type="text" name="ca-country" size="20"></td>
+            </tr>
+            <tr>
+                <td align="right"><label for="username">State: </label></td>
+                <td align="left"><input type="text" name="ca-state" size="20"></td>
+            </tr>
+            <tr>
+                <td align="right"><label for="username">Locality: </label></td>
+                <td align="left"><input type="text" name="ca-locality" size="20"></td>
+            </tr>
+            <tr>
+                <td align="right"><label for="username">Organization: </label></td>
+                <td align="left"><input type="text" name="ca-org" size="20"></td>
+            </tr>
+            <tr>
+                <td align="right"><label for="username"><nobr>Organizational Unit: </nobr></label></td>
+                <td align="left"><input type="text" name="ca-orgunit" size="20"></td>
+            </tr>
+            <tr>
+                <td align="right"><label for="username">Email: </label></td>
+                <td align="left"><input type="text" name="ca-email" size="20"></td>
+            </tr>
+            </tr>
+                <td align="right">&nbsp;</td>
+                <td align="right"><input type="submit" name="update" value="Update"></td>
+            <tr>
+        </table>
+    </fieldset>
+</form>
+<form action="" method="post">
+    <fieldset>  
+        <legend>Logout</legend>  
+        <table>
+            </tr>
+                <td align="right">&nbsp;</td>
+                <td align="right"><input type="submit" name="logout" value="Logout"></td>
+            <tr>
+            </tr>
+        </table>
+    </fieldset>
+</form>
