@@ -19,8 +19,8 @@
         <span class="clear"></span>  
         [% FOREACH name IN menunames %]
         <div class="content [% name %]">  
-            [% name.fields %]
-            [% FOREACH input name.fields %]
+            [% menudata.name %]
+            [% FOREACH input menudata.name.fields %]
                  [% input %] 
             [% END %]
         </div>  
