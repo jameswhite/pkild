@@ -12,38 +12,17 @@
     <a id="logo" title="pkild" href="http://wcyd.org"><img src="css/images/logo.jpg" alt="wcyd.org" /></a>  
     <div id="container">  
         <ul class="menu">  
-            <li id="news" class="active">News</li>  
-            <li id="tutorials">Tutorials</li>  
-            <li id="links">Links</li>  
-            <li id="links2">Links2</li>  
-            <li id="links3">Links3</li>  
+            [% FOREACH menu IN menunames %] 
+            <li id="[% item %]" class="active">[% item %]</li>  
+            [% END %]
         </ul>  
         <span class="clear"></span>  
+
+        [% FOREACH datum IN menudata %]
         <div class="content news">  
-            <h1>Latest News</h1>  
-            <ul>  
-            <ul>  
+            [% datum %]
         </div>  
-        <div class="content tutorials">  
-            <h1>Latest Tutorials</h1>  
-            <ul>  
-                <li><img src="css/images/bullet.gif" alt="-" /> Top 10 free fonts for professional design</li>  
-                <li><img src="css/images/bullet.gif" alt="-" /> Create an amazing music player using mouse gestures &amp;amp; hotkeys</li>  
-                <li><img src="css/images/bullet.gif" alt="-" /> Boobles: First theme on Themeforest released!</li>  
-                <li><img src="css/images/bullet.gif" alt="-" /> Creating AJAX websites based on anchor navigation</li>  
-                <li><img src="css/images/bullet.gif" alt="-" /> Fast Tip: Create your personal blog to promote your self</li>  
-                <li><img src="css/images/bullet.gif" alt="-" /> How to make a brilliant mysql forum database from scratch</li>  
-            <ul>  
-        </div>  
-        <div class="content links">  
-            <h1>You may visit</h1>  
-            <ul>  
-                <li><img src="css/images/bullet.gif" alt="-" /> <a href="http://www.plusmusica.com">www.plusmusica.com</a> - Online jukebox!</li>  
-                <li><img src="css/images/bullet.gif" alt="-" /> <a href="http://www.cokidoo.com">www.cokidoo.com</a> - Awesome startup! :)</li>  
-                <li><img src="css/images/bullet.gif" alt="-" /> <a href="http://www.cokidoo.com">www.pixelartgames.com</a> - Do you want pixel art games? ;)</li>  
-                <li><img src="css/images/bullet.gif" alt="-" /> <a href="http://www.dmsconsulting.es">www.dmsconsulting.es</a> - Great guys</li>  
-            <ul>  
-        </div>  
+        [% END %]
     </div>  
     <script type="text/javascript" src="/static/js/jquery-1.2.6.min.js"></script>  
     <script type="text/javascript" src="/static/js/tabs.js"></script>  
