@@ -50,8 +50,7 @@ sub default : Private {
     # Update the default tab if changed
     if(defined($c->req->param("change_tab"))){ 
         $c->session->{'default_tab'} = $c->req->param("change_tab"); 
-        $c->stash->{'default_tab'} = $c->session->{'default_tab'};
-        $c->res->body("Tab changed to ".$c->stash->{'default_tab'}.".");
+        $c->res->body("Default tab changed to ".$c->stash->{'default_tab'}.".");
     }
 
     # If we're logged in, send us to the application, othewise the login page.
@@ -70,6 +69,7 @@ sub default : Private {
         my $form_data=YAML::LoadFile("/tmp/pkild.yaml");
         $c->stash->{menunames}=$form_data->{'order'};
         $c->stash->{menudata}=$form_data->{'forms'};
+        $c->stash->{'default_tab'} = $c->session->{'default_tab'}||$c->stash->{menunames}->[0];
         $c->stash->{template}="application.tt";
     }
 }
