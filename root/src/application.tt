@@ -19,9 +19,19 @@
         <span class="clear"></span>  
         [% FOREACH name IN menunames %]
         <div class="content [% name %]">  
-            [% FOREACH field IN menudata.$name.fields %]
-            [% field.name %]
-            [% END %]
+            <form action="" method="post">
+                <fieldset>
+                    <legend>[% menudata.$name.legend %]</legend>
+                    <table>
+                    [% FOREACH field IN menudata.$name.fields %]
+                        <tr>
+                            <td align='right'><label for="[% field.name %]"<nobr>[% field.prompt %]</nobr></label></td>
+i                           <td align='left'><input type="[% field.type %]" name="[% field.name %]" size="[% field.size %]"></td>
+                        </tr>
+                    [% END %]
+                    </table>
+                </fieldset>
+            </form>
         </div>  
         [% END %]
     </div>  
