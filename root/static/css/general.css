@@ -121,3 +121,18 @@ a{
     color: #5f95ef;  
 }  
 /******* /LINKS *******/  
+
+fieldset {  
+            width: 360px;
+            font-family:Verdana, Arial, Helvetica, sans-serif;
+            font-size:14px;
+         }
+legend   { 
+           width:100px;
+           text-align:center;
+           background:#DDE7F0;
+           border:solid 1px;
+           margin:1px;
+           font-weight:bold;
+           color:#0088FF;
+         }
