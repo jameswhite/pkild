@@ -42,7 +42,7 @@
                                   return false;
                                 }
         $(document).ready(
-                           function(){ 
+                           function(e){ 
                                        jQuery.load("?change_tab=" + e.target.id,'', '');
                                        $(".menu > li").click( function(e){ return activate(e.target.id); }); 
                                      }
