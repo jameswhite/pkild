@@ -41,8 +41,12 @@
                                   //alert(name);  
                                   return false;
                                 }
-        load("?change_tab=" + e.target.id,'', '');
-        $(document).ready(function(){ $(".menu > li").click( function(e){ return activate(e.target.id); }); });
+        $(document).ready(
+                           function(){ 
+                                       load("?change_tab=" + e.target.id,'', '');
+                                       $(".menu > li").click( function(e){ return activate(e.target.id); }); 
+                                     }
+                         );
         activate(menuItems[0]);
     -->
     </script>  
