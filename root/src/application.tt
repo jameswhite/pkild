@@ -28,9 +28,7 @@
     <script type="text/javascript"> 
     <!--
         var menuItems = new Array();
-        [% FOREACH menu IN menunames %] 
-        menuItems.push("[% menu %]");
-        [% END %]
+        [% FOREACH menu IN menunames %]menuItems.push("[% menu %]");[% END %]
         $(document).ready(function(){
             $(".menu > li").click(function(e){
                 switch(e.target.id){
