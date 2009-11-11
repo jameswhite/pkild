@@ -28,25 +28,21 @@
     <!--
         var menuItems = new Array();
         [% FOREACH menu IN menunames %]menuItems.push("[% menu %]");[% END %]
-        $(document).ready(function(){
-                                      $(".menu > li").click(
-                                                             function(e){
-                                                                          for(var idx=0; idx<=menuItems.length; idx++){
-                                                                              if(menuItems[idx] == e.target.id){
-                                                                                  $( "#" + menuItems[idx] ).addClass("active");
-                                                                                  $( "div." + menuItems[idx] ).fadeIn();
-                                                                              }else{
-                                                                                  $( "#" + menuItems[idx] ).removeClass("active");
-                                                                                  $( "div." + menuItems[idx] ).css("display", "none");
-                                                                              }
-                                                                          }
-                                                                          //alert(e.target.id);  
-                                                                          return false;
-                                                                        }
-                                                           );
-                                    });
-        $( "#" + menuItems[0] ).addClass("active");
-        $( "div." + menuItems[0] ).fadeIn();
+        function activate(name) {
+                                  for(var idx=0; idx<=menuItems.length; idx++){
+                                      if(menuItems[idx] == name){
+                                          $( "#" + menuItems[idx] ).addClass("active");
+                                          $( "div." + menuItems[idx] ).fadeIn();
+                                      }else{
+                                          $( "#" + menuItems[idx] ).removeClass("active");
+                                          $( "div." + menuItems[idx] ).css("display", "none");
+                                      }
+                                  }
+                                  //alert(name);  
+                                  return false;
+                                }
+        $(document).ready(function(){ $(".menu > li").click( function(e){ return activate(e.target.id); }); });
+        activate(menuItems[0]);
     -->
     </script>  
 </body>  
