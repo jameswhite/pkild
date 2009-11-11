@@ -12,14 +12,14 @@
     <a id="logo" title="pkild" href="http://wcyd.org"><img src="css/images/logo.jpg" alt="wcyd.org" /></a>  
     <div id="container">  
         <ul class="menu">  
-            [% FOREACH menu IN menunames %] 
-            <li id="[% menu %]">[% menu %]</li>  
+            [% FOREACH name IN menunames %] 
+            <li id="[% name %]">[% name %]</li>  
             [% END %]
         </ul>  
         <span class="clear"></span>  
-        [% FOREACH menu IN menunames %]
-        <div class="content [% menu %]">  
-            [% menudata.$menu %]
+        [% FOREACH name IN menunames %]
+        <div class="content [% name %]">  
+            [% menudata.$name %]
         </div>  
         [% END %]
     </div>  

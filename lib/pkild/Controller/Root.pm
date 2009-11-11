@@ -3,6 +3,7 @@ package pkild::Controller::Root;
 use strict;
 use warnings;
 use base 'Catalyst::Controller';
+use YAML;
 
 #
 # Sets the actions in this controller to be registered with no prefix
@@ -57,14 +58,11 @@ sub default : Private {
             $user=$c->session->{'user'}->username;
         }
         $c->stash->{'ERROR'} = "Logged in as: $user ";
-        $c->stash->{menunames}=["Domain","Certificate","Create","Sign","Revoke"];
-        $c->stash->{menudata}={
-                                'Domain'=>"Domain.form",
-                                'Certificate'=>"Certificate.form",
-                                'Create'=>"Create.form",
-                                'Sign' => "Sign.form",
-                                'Revoke' => "Revoke.form"
-                              };
+       
+        
+        my $form_data=YAML::LOADFILE("/tmp/pkild.yaml");
+        $c->stash->{menunames}=$form_data->{'order'};
+        $c->stash->{menudata}=$form_data->{'forms'};
         $c->stash->{template}="application.tt";
     }
 }
