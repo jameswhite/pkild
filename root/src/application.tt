@@ -18,8 +18,8 @@
         </ul>  
         <span class="clear"></span>  
         [% FOREACH menu IN menunames %]
-        <div class="content [% menudata.$menu %]">  
-            [% menu %]
+        <div class="content [% menu %]">  
+            [% menudata.$menu %]
         </div>  
         [% END %]
     </div>  
