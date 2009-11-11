@@ -47,6 +47,12 @@ sub default : Private {
         delete $c->session->{'user'}; 
     }
 
+    # Update the default tab if changed
+    if(defined($c->req->param("change_tab"))){ 
+        $c->session->{'default_tab'} = $c->req->param("change_tab"); 
+        $c->stash->{'default_tab'} = $c->session->{'default_tab'};
+    }
+
     # If we're logged in, send us to the application, othewise the login page.
     if(!defined $c->session->{'user'}){
         $c->stash->{template}="login.tt";
