@@ -25,7 +25,7 @@
                     <table>
                     [% FOREACH field IN menudata.$name.fields %]
                         <tr>
-                            <td align='right'><label for="[% field.name %]"<nobr>[% field.prompt %]: </nobr></label></td>
+                            <td align='right'><label for="[% field.name %]"<nobr>[% field.prompt %]</nobr></label></td>
                             <td align='left'><input type="[% field.type %]" name="[% field.name %]" size="[% field.size %]" value="[% field.value %]"></td>
                         </tr>
                     [% END %]
