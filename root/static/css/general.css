@@ -44,8 +44,7 @@ a{
 /******* MENU *******/  
 #container{  
     margin: 7em auto;  
-    width: 800px;  
-    height: 800px;  
+    width: 400px;  
 }  
 #container ul{  
     list-style: none;  
