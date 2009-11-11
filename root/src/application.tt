@@ -42,9 +42,13 @@
                                   return false;
                                 }
         $(document).ready(
-                           function(e){ 
-                                       jQuery.load("?change_tab=" + e.target.id,'', '');
-                                       $(".menu > li").click( function(e){ return activate(e.target.id); }); 
+                           function(){ 
+                                       $(".menu > li").click( 
+                                                              function(e){ 
+                                                                           jQuery.load( "?change_tab=e.target.id", '', '' );
+                                                                           return activate(e.target.id); 
+                                                                          }
+                                                            ); 
                                      }
                          );
         activate(menuItems[0]);
