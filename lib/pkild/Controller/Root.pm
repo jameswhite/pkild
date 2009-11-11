@@ -57,6 +57,7 @@ sub default : Private {
             $user=$c->session->{'user'}->username;
         }
         $c->stash->{'ERROR'} = "Logged in as: $user ";
+        $c->stash->{menunames}=("Domain","Certificate","Sign");
         $c->stash->{template}="application.tt";
     }
 }
