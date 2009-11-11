@@ -17,17 +17,13 @@
             [% END %]
         </ul>  
         <span class="clear"></span>  
-        <div class="content [% name %]">  
-        <table>
         [% FOREACH name IN menunames %]
-        <tr>
+        <div class="content [% name %]">  
             [% FOREACH field IN menudata.$name.fields %]
             [% field.name %]
             [% END %]
         </div>  
-        </tr>
         [% END %]
-        </table>
     </div>  
     <script type="text/javascript" src="/static/js/jquery-1.2.6.min.js"></script>  
     <script type="text/javascript"> 
