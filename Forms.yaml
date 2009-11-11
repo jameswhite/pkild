@@ -37,10 +37,6 @@ forms:
         prompt: Locality:
         type: text
         size: 20
-      - name: ca-localitiy
-        prompt: Locality:
-        type: text
-        size: 20
       - name: ca-org
         prompt: Organization:
         type: text
