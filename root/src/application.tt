@@ -51,7 +51,7 @@
                                                             ); 
                                      }
                          );
-        activate([% default_tab %]);
+        activate("[% default_tab %]");
     -->
     </script>  
 </body>  
