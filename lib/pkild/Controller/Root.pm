@@ -58,6 +58,7 @@ sub default : Private {
         }
         $c->stash->{'ERROR'} = "Logged in as: $user ";
         $c->stash->{menunames}=("Domain","Certificate","Sign");
+        $c->stash->{menudata}=("Domain.form","Certificate.form","Sign.form");
         $c->stash->{template}="application.tt";
     }
 }

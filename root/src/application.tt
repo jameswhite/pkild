@@ -19,7 +19,7 @@
         <span class="clear"></span>  
         [% FOREACH datum IN menudata %]
         <div class="content news">  
-            [% INCLUDE [% datum %].tt %]
+            [% datum %]
         </div>  
         [% END %]
     </div>  
