@@ -45,6 +45,8 @@
                                                                         }
                                                            );
                                     });
+        $( "#" + menuItems[0] ).addClass("active");
+        $( "div." + menuItems[0] ).fadeIn();
     -->
     </script>  
 </body>  
