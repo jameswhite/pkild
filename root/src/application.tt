@@ -15,8 +15,8 @@
             <li id="domain" class="active">News</li>  
             <li id="tutorials">Tutorials</li>  
             <li id="links">Links</li>  
-            <li id="links2">Links</li>  
-            <li id="links3">Links</li>  
+            <li id="links2">Links2</li>  
+            <li id="links3">Links3</li>  
         </ul>  
         <span class="clear"></span>  
         <div class="content news">  
