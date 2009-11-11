@@ -24,7 +24,6 @@
         [% END %]
     </div>  
     <script type="text/javascript" src="/static/js/jquery-1.2.6.min.js"></script>  
-    <script type="text/javascript" src="/static/js/resize.js"></script>  
     <script type="text/javascript"> 
     <!--
         var menuItems = new Array();
