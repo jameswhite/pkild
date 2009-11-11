@@ -8,7 +8,7 @@
         <link rel="stylesheet" href="static/css/ie6.css" type="text/css" media="screen," />  
     <![endif]-->  
 </head>  
-<body>  
+<body onLoad='';>  
     <a id="logo" title="pkild" href="http://wcyd.org"><img src="css/images/logo.jpg" alt="wcyd.org" /></a>  
     <div id="container">  
         <ul class="menu">  
