@@ -1,11 +1,11 @@
 order:
-#  - Domain
-#  - Certificate
-#  - URIs
-#  - Unlock
+  - Domain
+  - Certificate
+  - URIs
+  - Unlock
   - Create
   - Sign
-#  - Revoke
+  - Revoke
   - Logout
 forms:
   Domain:
