@@ -19,7 +19,7 @@
         <span class="clear"></span>  
         [% FOREACH name IN menunames %]
         <div class="content [% name %]">  
-            [% menudata.$name %]
+            [% menudata.$name.fields %]
         </div>  
         [% END %]
     </div>  

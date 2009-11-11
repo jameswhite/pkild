@@ -64,7 +64,6 @@ sub default : Private {
             $user=$c->session->{'user'}->username;
         }
         $c->stash->{'ERROR'} = "Logged in as: $user ";
-       
         
         my $form_data=YAML::LoadFile("/tmp/pkild.yaml");
         $c->stash->{menunames}=$form_data->{'order'};
