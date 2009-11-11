@@ -12,7 +12,7 @@
     <a id="logo" title="pkild" href="http://wcyd.org"><img src="css/images/logo.jpg" alt="wcyd.org" /></a>  
     <div id="container">  
         <ul class="menu">  
-            <li id="news" class="active">News</li>  
+            <li id="domain" class="active">News</li>  
             <li id="tutorials">Tutorials</li>  
             <li id="links">Links</li>  
         </ul>  
