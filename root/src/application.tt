@@ -9,7 +9,7 @@
     <![endif]-->  
 </head>  
 <body>  
-    <a id="logo" title="Go to yensdesign.com!" href="http://www.yensdesign.com"><img src="css/images/logo.jpg" alt="yensdesign.com" /></a>  
+    <a id="logo" title="pkild" href="http://wcyd.org"><img src="css/images/logo.jpg" alt="wcyd.org" /></a>  
     <div id="container">  
         <ul class="menu">  
             <li id="news" class="active">News</li>  
@@ -49,5 +49,6 @@
     </div>  
     <script type="text/javascript" src="/static/js/jquery-1.2.6.min.js"></script>  
     <script type="text/javascript" src="/static/js/tabs.js"></script>  
+    <script type="text/javascript" src="/static/js/resize.js"></script>  
 </body>  
 </html>  

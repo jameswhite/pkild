@@ -45,6 +45,7 @@ a{
 #container{  
     margin: 7em auto;  
     width: 800px;  
+    height: 800px;  
 }  
 #container ul{  
     list-style: none;  
