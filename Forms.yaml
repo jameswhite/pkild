@@ -1,0 +1,106 @@
+order:
+  - Domain
+  - Certificate
+  - URIs
+  - Unlock
+  - Create
+  - Sign
+  - Revoke
+  - Logout
+forms:
+  Domain:
+    legend: Domain Name
+    fields:
+      - name: domain
+        prompt: Domain Name:
+        type: text
+        size: 20
+  Unlock:
+    legend: Passphrase
+    fields:
+      - name: passphrase
+        prompt: Passprhase:
+        type: text
+        size: 20
+  Certificate:
+    legend: Certificate
+    fields:
+      - name: ca-country
+        prompt: Country:
+        type: text
+        size: 20
+      - name: ca-state
+        prompt: State:
+        type: text
+        size: 20
+      - name: ca-localitiy
+        prompt: Locality:
+        type: text
+        size: 20
+      - name: ca-localitiy
+        prompt: Locality:
+        type: text
+        size: 20
+      - name: ca-org
+        prompt: Organization:
+        type: text
+        size: 20
+      - name: ca-orgunit
+        prompt: Organizational Unit:
+        type: text
+        size: 20
+      - name: ca-email
+        prompt: Email:
+        type: text
+        size: 20
+      - name: update
+        prompt: ~
+        type: submit
+        value : Update
+  URIs:
+    legend: URIs
+    fields:
+      - name: ca-crt
+        prompt: Certificate Authority:
+        type: text
+        size: 40
+      - name: ca-crl
+        prompt: Certificate Revocation List:
+        type: text
+        size: 40
+  Create:
+    legend: Create
+    fields:
+      - name: newcert-name
+        prompt: Certificate Name:
+        type: text
+        size: 30
+      - name: create 
+        prompt: ~
+        type: submit
+        value: Create
+  Sign:
+    legend: Sign
+    fields:
+      - name: csr
+        prompt: Certificate Signing Request
+        type: file
+        size: 30
+      - name: sign
+        prompt: ~
+        type: submit
+        value: Sign
+  Revoke:
+    legend: Revoke
+    fields:
+      - name: revoke
+        prompt: ~
+        type: submit
+        value: Revoke
+  Logout: 
+    legend: Logout
+    fields:
+      - name: logout
+        prompt: ~
+        type: submit
+        value: Logout

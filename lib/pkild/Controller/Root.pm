@@ -65,7 +65,7 @@ sub default : Private {
         }
         $c->stash->{'ERROR'} = "Logged in as: $user ";
         
-        my $form_data=YAML::LoadFile("/tmp/pkild.yaml");
+        my $form_data=$c->config->{'layout'};
         $c->stash->{menunames}=$form_data->{'order'};
         $c->stash->{menudata}=$form_data->{'forms'};
         $c->stash->{'default_tab'} = $c->session->{'default_tab'}||$c->stash->{menunames}->[0];
