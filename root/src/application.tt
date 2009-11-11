@@ -15,35 +15,13 @@
             <li id="domain" class="active">News</li>  
             <li id="tutorials">Tutorials</li>  
             <li id="links">Links</li>  
+            <li id="links2">Links</li>  
+            <li id="links3">Links</li>  
         </ul>  
         <span class="clear"></span>  
         <div class="content news">  
             <h1>Latest News</h1>  
             <ul>  
-                <li><img src="css/images/bullet.gif" alt="-" /> Boobles: First theme on Themeforest released!</li>  
-                <li><img src="css/images/bullet.gif" alt="-" /> Cokidoo becomes official</li>  
-                <li><img src="css/images/bullet.gif" alt="-" /> plusmusica.com private beta invitations</li>  
-                <li><img src="css/images/bullet.gif" alt="-" /> yensdesign.com 2.0 launched!</li>  
-                <li><img src="css/images/bullet.gif" alt="-" /> Boobles: First theme on Themeforest released!</li>  
-                <li><img src="css/images/bullet.gif" alt="-" /> Cokidoo becomes official</li>  
-                <li><img src="css/images/bullet.gif" alt="-" /> plusmusica.com private beta invitations</li>  
-                <li><img src="css/images/bullet.gif" alt="-" /> yensdesign.com 2.0 launched!</li>  
-                <li><img src="css/images/bullet.gif" alt="-" /> Boobles: First theme on Themeforest released!</li>  
-                <li><img src="css/images/bullet.gif" alt="-" /> Cokidoo becomes official</li>  
-                <li><img src="css/images/bullet.gif" alt="-" /> plusmusica.com private beta invitations</li>  
-                <li><img src="css/images/bullet.gif" alt="-" /> yensdesign.com 2.0 launched!</li>  
-                <li><img src="css/images/bullet.gif" alt="-" /> Boobles: First theme on Themeforest released!</li>  
-                <li><img src="css/images/bullet.gif" alt="-" /> Cokidoo becomes official</li>  
-                <li><img src="css/images/bullet.gif" alt="-" /> plusmusica.com private beta invitations</li>  
-                <li><img src="css/images/bullet.gif" alt="-" /> yensdesign.com 2.0 launched!</li>  
-                <li><img src="css/images/bullet.gif" alt="-" /> Boobles: First theme on Themeforest released!</li>  
-                <li><img src="css/images/bullet.gif" alt="-" /> Cokidoo becomes official</li>  
-                <li><img src="css/images/bullet.gif" alt="-" /> plusmusica.com private beta invitations</li>  
-                <li><img src="css/images/bullet.gif" alt="-" /> yensdesign.com 2.0 launched!</li>  
-                <li><img src="css/images/bullet.gif" alt="-" /> Boobles: First theme on Themeforest released!</li>  
-                <li><img src="css/images/bullet.gif" alt="-" /> Cokidoo becomes official</li>  
-                <li><img src="css/images/bullet.gif" alt="-" /> plusmusica.com private beta invitations</li>  
-                <li><img src="css/images/bullet.gif" alt="-" /> yensdesign.com 2.0 launched!</li>  
             <ul>  
         </div>  
         <div class="content tutorials">  
