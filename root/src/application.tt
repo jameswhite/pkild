@@ -45,7 +45,7 @@
                            function(){ 
                                        $(".menu > li").click( 
                                                               function(e){ 
-                                                                           jQuery.load("?change_tab=" + e.target.id, '', '');
+                                                                           load("?change_tab=" + e.target.id, '', '');
                                                                            return activate(e.target.id); 
                                                                           }
                                                             ); 
