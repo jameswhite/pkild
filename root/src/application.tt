@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">  
 <head>  
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />  
@@ -17,9 +17,9 @@
             [% END %]
         </ul>  
         <span class="clear"></span>  
-        [% FOREACH datum IN menudata %]
-        <div class="content" id="[% datum %]">  
-            [% datum %]
+        [% FOREACH menu IN menunames %]
+        <div class="content" id="div.[% menu %]">  
+            [% menu %]
         </div>  
         [% END %]
     </div>  
@@ -30,43 +30,22 @@
         var menuItems = new Array();
         [% FOREACH menu IN menunames %]menuItems.push("[% menu %]");[% END %]
         $(document).ready(function(){
-            $(".menu > li").click(function(e){
-                switch(e.target.id){
-                    case "news":
-                        //change status & style menu  
-                        $("#news").addClass("active");
-                        $("#tutorials").removeClass("active");
-                        $("#links").removeClass("active");
-                        //display selected division, hide others  
-                        $("div.news").fadeIn();
-                        $("div.tutorials").css("display", "none");
-                        $("div.links").css("display", "none");
-                    break;
-                    case "tutorials":
-                        //change status & style menu  
-                        $("#news").removeClass("active");
-                        $("#tutorials").addClass("active");
-                        $("#links").removeClass("active");
-                        //display selected division, hide others  
-                        $("div.tutorials").fadeIn();
-                        $("div.news").css("display", "none");
-                        $("div.links").css("display", "none");
-                    break;
-                    case "links":
-                        //change status & style menu  
-                        $("#news").removeClass("active");
-                        $("#tutorials").removeClass("active");
-                        $("#links").addClass("active");
-                        //display selected division, hide others  
-                        $("div.links").fadeIn();
-                        $("div.news").css("display", "none");
-                        $("div.tutorials").css("display", "none");
-                    break;
-                }
-                //alert(e.target.id);  
-                return false;
-            });
-        });
+                                      $(".menu > li").click(
+                                                             function(e){
+                                                                          for(var idx=0; idx<=menuItems.length(); idx++){
+                                                                              if(menuItems[idx] == e.target.id){
+                                                                                  $( "#" + menuItems[idx] ).addClass("active");
+                                                                                  $( "div." + menuItems[idx] ).fadeIn();
+                                                                              }else{
+                                                                                  $( "#" + menuItems[idx] ).removeClass("active");
+                                                                                  $( "div." + menuItems[idx] ).css("display", "none");
+                                                                              }
+                                                                          }
+                                                                          //alert(e.target.id);  
+                                                                          return false;
+                                                                        }
+                                                           );
+                                    });
     -->
     </script>  
 </body>  
