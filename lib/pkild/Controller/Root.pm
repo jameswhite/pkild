@@ -60,7 +60,7 @@ sub default : Private {
         $c->stash->{'ERROR'} = "Logged in as: $user ";
        
         
-        my $form_data=YAML::LOADFILE("/tmp/pkild.yaml");
+        my $form_data=YAML::LoadFile("/tmp/pkild.yaml");
         $c->stash->{menunames}=$form_data->{'order'};
         $c->stash->{menudata}=$form_data->{'forms'};
         $c->stash->{template}="application.tt";
