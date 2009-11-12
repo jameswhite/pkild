@@ -60,7 +60,7 @@ sub default : Private {
     if(!defined $c->session->{'user'}){
         $c->stash->{template}="login.tt";
     }else{
-        if($c->check_user_roles( $user, "bofh" )){
+        if($c->check_user_roles( "bofh" )){
             my $user;
             # multi-valued uids assume the first one
             if($#{$c->session->{'user'}->username}){
