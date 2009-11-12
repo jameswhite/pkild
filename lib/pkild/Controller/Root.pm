@@ -63,11 +63,11 @@ sub default : Private {
         if($c->check_user_roles( "bofh" )){
             my $user;
             # multi-valued uids assume the first one
-            if($#{$c->session->{'user'}->username}){
-                $user=$c->session->{'user'}->username->[0];
-            }else{
-                $user=$c->session->{'user'}->username;
-            }
+            #if($#{$c->session->{'user'}->username}){
+            #    $user=$c->session->{'user'}->username->[0];
+            #}else{
+            #    $user=$c->session->{'user'}->username;
+            #}
     
             my $form_data=$c->config->{'layout'};
             $c->stash->{menunames}=$form_data->{'order'};
