@@ -44,9 +44,9 @@ sub default : Private {
 
     # Log us out if logout was sent
     if(defined($c->req->param("logout"))){ 
-        print STDERR ":::::::::::::::::::::".ref($c->session)."\n";
+        print STDERR ":::::::::::::::::::::".ref($c->session->user)."\n";
         print STDERR ":::::::::::::::::::::".Data::Dumper->Dump([$c->session])."\n";
-        $c->session->delete_session("logout") if $c->session;
+        $c->session->user->delete_session("logout") if $c->session;
         $c->res->redirect("/");
         $c->detach();
     }
