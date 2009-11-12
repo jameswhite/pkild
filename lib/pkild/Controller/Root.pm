@@ -65,7 +65,7 @@ sub default : Private {
         }
         $c->stash->{'ERROR'} = "Logged in as: $user ";
         
-        $c->assert_user_roles( qw/ssl-cert/ ); # only admins can see the page
+        #$c->assert_user_roles( qw/ssl-cert/ ); # only admins can see the page
         my $form_data=$c->config->{'layout'};
         $c->stash->{menunames}=$form_data->{'order'};
         $c->stash->{menudata}=$form_data->{'forms'};
