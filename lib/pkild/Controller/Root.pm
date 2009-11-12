@@ -68,7 +68,7 @@ sub default : Private {
         $c->stash->{'ERROR'} = "Logged in as: $user ";
         
         my $userinrole=$c->check_user_roles( "bofh" );
-        print STDERR Data::Dumper->Dump([$c->user->username]) if $c->user;
+        print STDERR Data::Dumper->Dump([$c->user]) if $c->user;
         print STDERR Data::Dumper->Dump([$userinrole]);
       
 
