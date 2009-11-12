@@ -60,27 +60,32 @@ sub default : Private {
     if(!defined $c->session->{'user'}){
         $c->stash->{template}="login.tt";
     }else{
-        my $user;
-        if($#{$c->session->{'user'}->username}){
-            $user=$c->session->{'user'}->username->[0];
+        if(!$c->check_user_roles( "bofh" )){
+            $c->stash->{template}="login.tt";
         }else{
-            $user=$c->session->{'user'}->username;
+            my $user;
+            # multi-valued uids assume the first one
+            if($#{$c->session->{'user'}->username}){
+                $user=$c->session->{'user'}->username->[0];
+            }else{
+                $user=$c->session->{'user'}->username;
+            }
+    
+            $c->stash->{'ERROR'} = "Logged in as: $user ";
+            
+            print STDERR Data::Dumper->Dump([$c->user]);
+            print STDERR "::::::::::";
+            print STDERR Data::Dumper->Dump([$c->user]) if $c->user;
+            print STDERR Data::Dumper->Dump([$userinrole]);
+            print STDERR "::::::::::";
+          
+    
+            my $form_data=$c->config->{'layout'};
+            $c->stash->{menunames}=$form_data->{'order'};
+            $c->stash->{menudata}=$form_data->{'forms'};
+            $c->stash->{'default_tab'} = $c->session->{'default_tab'}||$c->stash->{menunames}->[0];
+            $c->stash->{template}="application.tt";
         }
-        $c->stash->{'ERROR'} = "Logged in as: $user ";
-        
-        print STDERR Data::Dumper->Dump([$c->user]);
-        my $userinrole=$c->check_user_roles( "bofh" );
-        print STDERR "::::::::::";
-        print STDERR Data::Dumper->Dump([$c->user]) if $c->user;
-        print STDERR Data::Dumper->Dump([$userinrole]);
-        print STDERR "::::::::::";
-      
-
-        my $form_data=$c->config->{'layout'};
-        $c->stash->{menunames}=$form_data->{'order'};
-        $c->stash->{menudata}=$form_data->{'forms'};
-        $c->stash->{'default_tab'} = $c->session->{'default_tab'}||$c->stash->{menunames}->[0];
-        $c->stash->{template}="application.tt";
     }
 }
 
