@@ -45,6 +45,7 @@ sub default : Private {
     # Log us out if logout was sent
     if(defined($c->req->param("logout"))){ 
         delete $c->session->{'user'}; 
+        $c->redirect("/");
     }
 
     # Update the default tab if changed
