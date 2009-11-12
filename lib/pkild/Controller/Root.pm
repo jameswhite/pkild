@@ -45,6 +45,7 @@ sub default : Private {
     # Log us out if logout was sent
     if(defined($c->req->param("logout"))){ 
         $c->session_expires(0);
+        delete $c->session->{'user'};
         $c->res->redirect("/");
         $c->detach();
     }
