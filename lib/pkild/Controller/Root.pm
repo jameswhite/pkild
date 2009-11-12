@@ -53,7 +53,7 @@ sub default : Private {
     # Update the default tab if changed
     if(defined($c->req->param("change_tab"))){ 
         $c->session->{'default_tab'} = $c->req->param("change_tab"); 
-        $c->res->body("Default tab changed to ".$c->stash->{'default_tab'}.".");
+        $c->res->body("Default tab changed to ".$c->session->{'default_tab'}.".");
     }
 
     # If we're logged in, send us to the application, othewise the login page.
