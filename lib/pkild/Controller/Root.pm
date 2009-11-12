@@ -70,8 +70,10 @@ sub default : Private {
         
         print STDERR Data::Dumper->Dump([$c->user]);
         my $userinrole=$c->check_user_roles( "bofh" );
+        print STDERR "::::::::::";
         print STDERR Data::Dumper->Dump([$c->user]) if $c->user;
         print STDERR Data::Dumper->Dump([$userinrole]);
+        print STDERR "::::::::::";
       
 
         my $form_data=$c->config->{'layout'};
