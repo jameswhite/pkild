@@ -68,7 +68,7 @@ sub default : Private {
         $c->stash->{'ERROR'} = "Logged in as: $user ";
         
         my $userinrole=$c->check_user_roles( "bofh" );
-        print STDERR "-=[".$c->user->username." ".$userinrole."]=-\n";
+        print STDERR "-=[".$c->user->username." ".Data::Dumper->Dump([$userinrole])."]=-\n";
       
 
         my $form_data=$c->config->{'layout'};
