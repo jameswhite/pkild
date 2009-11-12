@@ -32,13 +32,10 @@ sub default : Private {
     $c->require_ssl;
     # Attempt to authenticate
     if( (defined($c->req->param("login")))&&(defined($c->req->param("password")))){
-        $c->authenticate(
-                          {
-                            id       => $c->req->param("username"), 
-                            password => $c->req->param("password") 
-                          },
-                          'certificate_administrators'
-                        );
+        $c->authenticate({
+                           id       => $c->req->param("username"), 
+                           password => $c->req->param("password") 
+                         });
         if(!defined $c->user){ $c->stash->{'ERROR'}="Authentication Failed."; }
     }
 
@@ -60,11 +57,17 @@ sub default : Private {
     if(!defined $c->user){
         $c->stash->{template}="login.tt";
     }else{
-        my $form_data=$c->config->{'layout'};
-        $c->stash->{menunames}=$form_data->{'order'};
-        $c->stash->{menudata}=$form_data->{'forms'};
-        $c->stash->{'default_tab'} = $c->session->{'default_tab'}||$c->stash->{menunames}->[0];
-        $c->stash->{template}="application.tt";
+        print STDERR "-=[".ref( $c->user )."]=-\n";;
+        if($c->check_user_roles( "certificate_administrators" )){
+            my $form_data=$c->config->{'layout'};
+            $c->stash->{menunames}=$form_data->{'order'};
+            $c->stash->{menudata}=$form_data->{'forms'};
+            $c->stash->{'default_tab'} = $c->session->{'default_tab'}||$c->stash->{menunames}->[0];
+            $c->stash->{template}="application.tt";
+        }else{
+            $c->barf();
+            $c->stash->{template}="login.tt";
+        }
     }
 }
 
