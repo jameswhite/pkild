@@ -41,8 +41,15 @@ sub default : Private {
 
     # Log us out if logout was sent
     if(defined($c->req->param("logout"))){ 
-        $c->session_expires(0);
+
+        # remove all user handles
         delete $c->session->{'user'};
+        $c->logout();
+
+        # expire our session
+        $c->session_expires(0);
+
+        # send us home, so subsequent page refreshes won't post logout
         $c->res->redirect("/");
         $c->detach();
     }
@@ -54,6 +61,10 @@ sub default : Private {
     }
 
     # If we're logged in, send us to the application, othewise the login page.
+    print STDERR ":::::::::::::::::::::::::::::::::\n"
+    print STDERR Data::Dumper->Dump([$c->user]);
+    print STDERR ":::::::::::::::::::::::::::::::::\n"
+
     if(!defined $c->user){
         $c->stash->{template}="login.tt";
     }else{
