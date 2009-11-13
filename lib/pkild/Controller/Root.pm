@@ -71,14 +71,15 @@ sub default : Private {
         $c->res->body("Default tab changed to ".$c->session->{'default_tab'}.".");
     }
    
-    my $form_data;
-    $form_data=$c->config->{'layout'};
+    my $form_data=$c->config->{'layout'};
     if(! defined $c->session->{menudata}){
         $c->session->{menudata}=$form_data->{'forms'};
     }
     # Remember what we set things to.
     foreach my $value ($c->req->param()){
+print STDERR ":::::::::::::::::::::::::::: $value\n";
         for(my $idx=0; $idx < $#{ $c->session->{menudata}->{$value} }; $idx++){
+print STDERR "::::::::::::::::::::::::::::".$c->session->{menudata}->{$value}->{'fields'}->[$idx]->{'name'}."\n";
             if($value eq  $c->session->{menudata}->{$value}->{'fields'}->[$idx]->{'name'}){
                 $c->session->{menudata}->{$value}->{'fields'}->[$idx]->{'value'} = $c->req->param($value);
             }
