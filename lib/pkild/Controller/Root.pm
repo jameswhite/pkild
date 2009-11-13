@@ -71,17 +71,24 @@ sub default : Private {
         $c->res->body("Default tab changed to ".$c->session->{'default_tab'}.".");
     }
    
-    $c->ssssion->{menudata}=$form_data->{'forms'};
+    if(! defined $c->session->{menudata}){
+        my $form_data=$c->config->{'layout'};
+        $c->session->{menudata}=$form_data->{'forms'};
+    }
     # Remember what we set things to.
-    #foreach my $value ($c->req->param()]){
-    #}
+    foreach my $value ($c->req->param()]){
+        for(my $idx=0; $idx < $#{ $c->session->{menudata}->{$value} }; idx++){
+            if($value eq  $c->session->{menudata}->{$value}->{'fields'}->[$idx]->{'name'}){
+                $c->session->{menudata}->{$value}->{'fields'}->[$idx]->{'value'} = $c->req->param($value);
+            }
+        }
+    }
 
     # If we're logged in, send us to the application, othewise the login page.
     if(!defined $c->session->{'user'}){
         $c->stash->{template}="login.tt";
     }else{
         if($c->check_user_roles( "certificate_administrators" )){
-            my $form_data=$c->config->{'layout'};
             $c->stash->{menunames}=$form_data->{'order'}->{'administrator'};
             $c->stash->{menudata}=$c->session->{'menudata'};
             $c->stash->{'default_tab'} = $c->session->{'default_tab'}||$c->stash->{menunames}->[0];
