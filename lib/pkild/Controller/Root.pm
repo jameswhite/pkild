@@ -37,13 +37,16 @@ sub default : Private {
                            id       => $c->req->param("username"), 
                            password => $c->req->param("password") 
                          });
-        $c->session->{'user'}=$c->user;
-        if( $#{ $c->user->username } > 0 ){
-            $c->session->{'username'} = $c->user->username->[0];
+        if(defined($c->user)){
+            $c->session->{'user'}=$c->user;
+            if( $#{ $c->user->username } > 0 ){
+                $c->session->{'username'} = $c->user->username->[0];
+            }else{
+                $c->session->{'username'}=$c->user->username;
+            }
         }else{
-            $c->session->{'username'}=$c->user->username;
+            $c->stash->{'ERROR'}="Authentication Failed."; 
         }
-        if(!defined $c->user){ $c->stash->{'ERROR'}="Authentication Failed."; }
     }
 
     # Log us out if logout was sent
