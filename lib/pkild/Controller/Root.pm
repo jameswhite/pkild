@@ -39,11 +39,12 @@ sub default : Private {
                          });
         if(defined($c->user)){
             $c->session->{'user'}=$c->user;
-            if( ref($c->user->username) == 'ARRAY' ){
-                $c->session->{'username'} = $c->user->username->[0];
-            }else{
-                $c->session->{'username'}=$c->user->username;
-            }
+        # There is no reason for this as multiple uids are just fail all over.
+        #    if( $#{ $c->user->username } > -1 ){
+        #        $c->session->{'username'} = $c->user->username->[0];
+        #    }else{
+        #        $c->session->{'username'}=$c->user->username;
+        #    }
         }else{
             $c->stash->{'ERROR'}="Authentication Failed."; 
         }
