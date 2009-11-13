@@ -77,17 +77,16 @@ sub default : Private {
     }else{
         if($c->check_user_roles( "certificate_administrators" )){
             my $form_data=$c->config->{'layout'};
-            $c->stash->{menunames}=$form_data->{'order'};
+            $c->stash->{menunames}=$form_data->{'order'}->{'administrator'};
             $c->stash->{menudata}=$form_data->{'forms'};
             $c->stash->{'default_tab'} = $c->session->{'default_tab'}||$c->stash->{menunames}->[0];
             $c->stash->{template}="application.tt";
         }else{
-            delete $c->session->{'user'};
-            delete $c->session->{'username'};
-            $c->session_expires(0);
-   $c->barf();
-            $c->res->redirect("/");
-            $c->detach();
+            my $form_data=$c->config->{'layout'};
+            $c->stash->{menunames}=$form_data->{'order'}->{'user'};
+            $c->stash->{menudata}=$form_data->{'forms'};
+            $c->stash->{'default_tab'} = $c->session->{'default_tab'}||$c->stash->{menunames}->[0];
+            $c->stash->{template}="application.tt";
         }
     }
 }
