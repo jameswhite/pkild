@@ -26,6 +26,10 @@ forms:
         prompt: Passprhase:
         type: text
         size: 20
+      - name: unlock_store
+        prompt: ~
+        type: submit
+        value : Unlock
   Certificate:
     legend: Certificate
     fields:
@@ -53,7 +57,7 @@ forms:
         prompt: Email:
         type: text
         size: 20
-      - name: update
+      - name: update_cert_info
         prompt: ~
         type: submit
         value : Update
@@ -68,6 +72,10 @@ forms:
         prompt: Certificate Revocation List:
         type: text
         size: 40
+      - name: update_cert_paths
+        prompt: ~
+        type: submit
+        value : Update
   Create:
     legend: Create
     fields:
