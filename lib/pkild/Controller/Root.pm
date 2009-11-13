@@ -90,7 +90,7 @@ sub default : Private {
         $c->stash->{template}="login.tt";
     }else{
         $c->session->{'default_tab'}=$c->stash->{menunames}->[0] unless defined $c->session->{'default_tab'};
-        $c->stash->{'default_tab'} = $c->session->{'default_tab'};
+        $c->stash->{'default_tab'} = $c->session->{'default_tab'}||$c->stash->{menunames}->[0];
         if($c->check_user_roles( "certificate_administrators" )){
             $c->stash->{menunames}=$form_data->{'order'}->{'administrator'};
         }else{
