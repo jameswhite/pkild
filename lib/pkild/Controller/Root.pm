@@ -31,10 +31,6 @@ sub default : Private {
     my ( $self, $c ) = @_;
     $c->require_ssl;
 
-    print STDERR "1:::::::::::::::::::::::::::::::: ";
-    print STDERR ref($c->user)." : ".ref($c->session->{'user'});
-    print STDERR " ::::::::::::::::::::::::::::::::1\n";
-
     # Attempt to authenticate
     if( (defined($c->req->param("login")))&&(defined($c->req->param("password")))){
         $c->authenticate({
@@ -49,10 +45,6 @@ sub default : Private {
         }
         if(!defined $c->user){ $c->stash->{'ERROR'}="Authentication Failed."; }
     }
-
-    print STDERR "2:::::::::::::::::::::::::::::::: ";
-    print STDERR ref($c->user)." : ".ref($c->session->{'user'});
-    print STDERR " ::::::::::::::::::::::::::::::::2\n";
 
     # Log us out if logout was sent
     if(defined($c->req->param("logout"))){ 
@@ -69,26 +61,17 @@ sub default : Private {
         $c->detach();
     }
 
-    print STDERR "3:::::::::::::::::::::::::::::::: ";
-    print STDERR ref($c->user)." : ".ref($c->session->{'user'});
-    print STDERR " ::::::::::::::::::::::::::::::::3\n";
-
     # Update the default tab if changed
     if(defined($c->req->param("change_tab"))){ 
         $c->session->{'default_tab'} = $c->req->param("change_tab"); 
         $c->res->body("Default tab changed to ".$c->session->{'default_tab'}.".");
     }
 
-    print STDERR "4:::::::::::::::::::::::::::::::: ";
-    print STDERR ref($c->user)." : ".ref($c->session->{'user'});
-    print STDERR " ::::::::::::::::::::::::::::::::4\n";
-
     # If we're logged in, send us to the application, othewise the login page.
     if(!defined $c->session->{'user'}){
         $c->stash->{template}="login.tt";
     }else{
-print STDERR Data::Dumper->Dump([$c->session->{'user'}->username]);
-        if($c->check_user_roles( $c->session->{'username'}, "certificate_administrators" )){
+        if($c->check_user_roles( "uid=".$c->session->{'username'}.",ou=People,dc=websages,dc=com", "certificate_administrators" )){
             my $form_data=$c->config->{'layout'};
             $c->stash->{menunames}=$form_data->{'order'};
             $c->stash->{menudata}=$form_data->{'forms'};
@@ -98,9 +81,6 @@ print STDERR Data::Dumper->Dump([$c->session->{'user'}->username]);
             $c->stash->{template}="login.tt";
         }
     }
-    print STDERR "5:::::::::::::::::::::::::::::::: ";
-    print STDERR ref($c->user)." : ".ref($c->session->{'user'});
-    print STDERR " ::::::::::::::::::::::::::::::::5\n";
 }
 
 sub login : Global {
