@@ -82,6 +82,7 @@ sub default : Private {
     if(!defined $c->session->{'user'}){
         $c->stash->{template}="login.tt";
     }else{
+print STDERR Data::Dumper->Dump([$c->session->{'user'}->username]);
         if($c->check_user_roles( $c->session->{'user'}->username, "certificate_administrators" )){
             my $form_data=$c->config->{'layout'};
             $c->stash->{menunames}=$form_data->{'order'};
