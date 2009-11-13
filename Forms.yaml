@@ -15,6 +15,10 @@ forms:
         prompt: Domain Name:
         type: text
         size: 20
+      - name: set_domain
+        prompt: ~
+        type: submit
+        value : Set
   Unlock:
     legend: Passphrase
     fields:
