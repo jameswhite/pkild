@@ -31,9 +31,9 @@ sub default : Private {
     my ( $self, $c ) = @_;
     $c->require_ssl;
 
-    print STDERR "1::::::::::::::::::::::::::::::::";
+    print STDERR "1:::::::::::::::::::::::::::::::: ";
     print STDERR ref($c->user);
-    print STDERR "::::::::::::::::::::::::::::::::1\n";
+    print STDERR " ::::::::::::::::::::::::::::::::1\n";
 
     # Attempt to authenticate
     if( (defined($c->req->param("login")))&&(defined($c->req->param("password")))){
@@ -44,9 +44,9 @@ sub default : Private {
         if(!defined $c->user){ $c->stash->{'ERROR'}="Authentication Failed."; }
     }
 
-    print STDERR "2::::::::::::::::::::::::::::::::";
+    print STDERR "2:::::::::::::::::::::::::::::::: ";
     print STDERR ref($c->user);
-    print STDERR "::::::::::::::::::::::::::::::::2\n";
+    print STDERR " ::::::::::::::::::::::::::::::::2\n";
 
     # Log us out if logout was sent
     if(defined($c->req->param("logout"))){ 
@@ -63,9 +63,9 @@ sub default : Private {
         $c->detach();
     }
 
-    print STDERR "3::::::::::::::::::::::::::::::::";
+    print STDERR "3:::::::::::::::::::::::::::::::: ";
     print STDERR ref($c->user);
-    print STDERR "::::::::::::::::::::::::::::::::3\n";
+    print STDERR " ::::::::::::::::::::::::::::::::3\n";
 
     # Update the default tab if changed
     if(defined($c->req->param("change_tab"))){ 
@@ -73,9 +73,9 @@ sub default : Private {
         $c->res->body("Default tab changed to ".$c->session->{'default_tab'}.".");
     }
 
-    print STDERR "4::::::::::::::::::::::::::::::::";
+    print STDERR "4:::::::::::::::::::::::::::::::: ";
     print STDERR ref($c->user);
-    print STDERR "::::::::::::::::::::::::::::::::4\n";
+    print STDERR " ::::::::::::::::::::::::::::::::4\n";
 
     # If we're logged in, send us to the application, othewise the login page.
     if(!defined $c->user){
@@ -92,9 +92,9 @@ sub default : Private {
             $c->stash->{template}="login.tt";
         }
     }
-    print STDERR "5::::::::::::::::::::::::::::::::";
+    print STDERR "5:::::::::::::::::::::::::::::::: ";
     print STDERR ref($c->user);
-    print STDERR "::::::::::::::::::::::::::::::::5\n";
+    print STDERR " ::::::::::::::::::::::::::::::::5\n";
 }
 
 sub login : Global {
