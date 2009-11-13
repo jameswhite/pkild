@@ -77,7 +77,7 @@ sub default : Private {
     }
     # Remember what we set things to.
     foreach my $value ($c->req->param()]){
-        for(my $idx=0; $idx < $#{ $c->session->{menudata}->{$value} }; idx++){
+        for(my $idx=0; $idx < $#{ $c->session->{menudata}->{$value} }; $idx++){
             if($value eq  $c->session->{menudata}->{$value}->{'fields'}->[$idx]->{'name'}){
                 $c->session->{menudata}->{$value}->{'fields'}->[$idx]->{'value'} = $c->req->param($value);
             }
