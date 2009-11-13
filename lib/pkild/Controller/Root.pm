@@ -42,6 +42,11 @@ sub default : Private {
                            password => $c->req->param("password") 
                          });
         $c->session->{'user'}=$c->user;
+        if( $#{ $c->user->username } > 0 ){
+            $c->session->{'username'} = $c->user->username->[0];
+        }else{
+            $c->session->{'username'}=$c->user->username;
+        }
         if(!defined $c->user){ $c->stash->{'ERROR'}="Authentication Failed."; }
     }
 
@@ -54,7 +59,7 @@ sub default : Private {
 
         # remove all user handles
         delete $c->session->{'user'};
-        $c->logout();
+        delete $c->session->{'username'};
 
         # expire our session
         $c->session_expires(0);
@@ -83,7 +88,7 @@ sub default : Private {
         $c->stash->{template}="login.tt";
     }else{
 print STDERR Data::Dumper->Dump([$c->session->{'user'}->username]);
-        if($c->check_user_roles( $c->session->{'user'}->username, "certificate_administrators" )){
+        if($c->check_user_roles( $c->session->{'username'}, "certificate_administrators" )){
             my $form_data=$c->config->{'layout'};
             $c->stash->{menunames}=$form_data->{'order'};
             $c->stash->{menudata}=$form_data->{'forms'};
