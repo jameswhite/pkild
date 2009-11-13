@@ -32,7 +32,7 @@ sub default : Private {
     $c->require_ssl;
 
     print STDERR "1:::::::::::::::::::::::::::::::: ";
-    print STDERR ref($c->user);
+    print STDERR ref($c->user)." ".$c->session->{'user'};
     print STDERR " ::::::::::::::::::::::::::::::::1\n";
 
     # Attempt to authenticate
@@ -41,11 +41,12 @@ sub default : Private {
                            id       => $c->req->param("username"), 
                            password => $c->req->param("password") 
                          });
+        $c->session->{'user'}=$c->user;
         if(!defined $c->user){ $c->stash->{'ERROR'}="Authentication Failed."; }
     }
 
     print STDERR "2:::::::::::::::::::::::::::::::: ";
-    print STDERR ref($c->user);
+    print STDERR ref($c->user)." ".$c->session->{'user'};
     print STDERR " ::::::::::::::::::::::::::::::::2\n";
 
     # Log us out if logout was sent
@@ -64,7 +65,7 @@ sub default : Private {
     }
 
     print STDERR "3:::::::::::::::::::::::::::::::: ";
-    print STDERR ref($c->user);
+    print STDERR ref($c->user)." ".$c->session->{'user'};
     print STDERR " ::::::::::::::::::::::::::::::::3\n";
 
     # Update the default tab if changed
@@ -74,7 +75,7 @@ sub default : Private {
     }
 
     print STDERR "4:::::::::::::::::::::::::::::::: ";
-    print STDERR ref($c->user);
+    print STDERR ref($c->user)." ".$c->session->{'user'};
     print STDERR " ::::::::::::::::::::::::::::::::4\n";
 
     # If we're logged in, send us to the application, othewise the login page.
@@ -93,7 +94,7 @@ sub default : Private {
         }
     }
     print STDERR "5:::::::::::::::::::::::::::::::: ";
-    print STDERR ref($c->user);
+    print STDERR ref($c->user)." ".$c->session->{'user'};
     print STDERR " ::::::::::::::::::::::::::::::::5\n";
 }
 

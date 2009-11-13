@@ -9,7 +9,7 @@
     <![endif]-->  
 </head>  
 <body>  
-    <a id="logo" title="pkild" href="http://github.com/fapestniegd/pkild"><img src="css/images/logo.jpg" alt="PKILD" /></a>  
+    <a id="logo" title="pkild" href="http://github.com/fapestniegd/pkild"><img src="static/images/logo.jpg" alt="PKILD" /></a>  
     <div id="container">  
         <ul class="menu">  
             [% FOREACH name IN menunames %] 
