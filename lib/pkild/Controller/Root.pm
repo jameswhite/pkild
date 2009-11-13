@@ -39,7 +39,7 @@ sub default : Private {
                          });
         if(defined($c->user)){
             $c->session->{'user'}=$c->user;
-            if( $#{ $c->user->username } > 0 ){
+            if( $#{ $c->user->username } > -1 ){
                 $c->session->{'username'} = $c->user->username->[0];
             }else{
                 $c->session->{'username'}=$c->user->username;
