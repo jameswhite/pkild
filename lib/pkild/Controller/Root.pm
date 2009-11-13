@@ -58,7 +58,7 @@ sub default : Private {
         delete $c->session->{'username'};
 
         # expire our session
-        $c->session->delete_session("logout");
+        $c->delete_session("logout");
 
         # send us home, so subsequent page refreshes won't post logout
         $c->res->redirect("/");
