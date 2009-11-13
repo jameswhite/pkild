@@ -77,7 +77,7 @@ sub default : Private {
     }
     # Remember what we set things to.
     foreach my $value ($c->req->param()){
-print STDERR ">>>>>>>>>>>>>>>>>>>>>>>>>>>> $value\n";
+print STDERR ">>>>>>>>>>>>>>>>>>>>>>>>>>>> $value".$c->session->{'default_tab'}."\n";
         for(my $idx=0; $idx < $#{ $c->session->{menudata}->{ $c->session->{'default_tab'} }->{'fields'} }; $idx++){
 print STDERR "<<<<<<<<<<<<<<<<<<<<<<<<<<<<".$c->session->{menudata}->{ $c->session->{'default_tab'} }->{'fields'}->[$idx]->{'name'}."\n";
             if($value eq  $c->session->{menudata}->{ $c->session->{'default_tab'} }->{'fields'}->[$idx]->{'name'}){
