@@ -32,7 +32,7 @@ sub default : Private {
     $c->require_ssl;
 
     print STDERR "1:::::::::::::::::::::::::::::::: ";
-    print STDERR ref($c->user)." ".$c->session->{'user'};
+    print STDERR ref($c->user)." : ".$c->session->{'user'};
     print STDERR " ::::::::::::::::::::::::::::::::1\n";
 
     # Attempt to authenticate
@@ -46,7 +46,7 @@ sub default : Private {
     }
 
     print STDERR "2:::::::::::::::::::::::::::::::: ";
-    print STDERR ref($c->user)." ".$c->session->{'user'};
+    print STDERR ref($c->user)." : ".$c->session->{'user'};
     print STDERR " ::::::::::::::::::::::::::::::::2\n";
 
     # Log us out if logout was sent
@@ -65,7 +65,7 @@ sub default : Private {
     }
 
     print STDERR "3:::::::::::::::::::::::::::::::: ";
-    print STDERR ref($c->user)." ".$c->session->{'user'};
+    print STDERR ref($c->user)." : ".$c->session->{'user'};
     print STDERR " ::::::::::::::::::::::::::::::::3\n";
 
     # Update the default tab if changed
@@ -75,11 +75,11 @@ sub default : Private {
     }
 
     print STDERR "4:::::::::::::::::::::::::::::::: ";
-    print STDERR ref($c->user)." ".$c->session->{'user'};
+    print STDERR ref($c->user)." : ".ref($c->session->{'user'});
     print STDERR " ::::::::::::::::::::::::::::::::4\n";
 
     # If we're logged in, send us to the application, othewise the login page.
-    if(!defined $c->user){
+    if(!defined $c->session->{'user'}){
         $c->stash->{template}="login.tt";
     }else{
         if($c->check_user_roles( "certificate_administrators" )){
@@ -94,7 +94,7 @@ sub default : Private {
         }
     }
     print STDERR "5:::::::::::::::::::::::::::::::: ";
-    print STDERR ref($c->user)." ".$c->session->{'user'};
+    print STDERR ref($c->user)." : ".$c->session->{'user'};
     print STDERR " ::::::::::::::::::::::::::::::::5\n";
 }
 
