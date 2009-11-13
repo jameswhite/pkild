@@ -71,7 +71,7 @@ sub default : Private {
     if(!defined $c->session->{'user'}){
         $c->stash->{template}="login.tt";
     }else{
-        if($c->check_user_roles( $c->session->{'username'}, "certificate_administrators" )){
+        if($c->check_user_roles( "certificate_administrators" )){
             my $form_data=$c->config->{'layout'};
             $c->stash->{menunames}=$form_data->{'order'};
             $c->stash->{menudata}=$form_data->{'forms'};
