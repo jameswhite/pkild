@@ -61,9 +61,9 @@ sub default : Private {
     }
 
     # If we're logged in, send us to the application, othewise the login page.
-    print STDERR ":::::::::::::::::::::::::::::::::\n"
+    print STDERR ":::::::::::::::::::::::::::::::::\n";
     print STDERR Data::Dumper->Dump([$c->user]);
-    print STDERR ":::::::::::::::::::::::::::::::::\n"
+    print STDERR ":::::::::::::::::::::::::::::::::\n";
 
     if(!defined $c->user){
         $c->stash->{template}="login.tt";
