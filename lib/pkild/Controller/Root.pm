@@ -30,6 +30,11 @@ pkild::Controller::Root - Root Controller for pkild
 sub default : Private {
     my ( $self, $c ) = @_;
     $c->require_ssl;
+
+    print STDERR ":::::::::::::::::::::::::::::::::\n";
+    print STDERR Data::Dumper->Dump([$c->user]);
+    print STDERR ":::::::::::::::::::::::::::::::::\n";
+
     # Attempt to authenticate
     if( (defined($c->req->param("login")))&&(defined($c->req->param("password")))){
         $c->authenticate({
@@ -61,14 +66,10 @@ sub default : Private {
     }
 
     # If we're logged in, send us to the application, othewise the login page.
-    print STDERR ":::::::::::::::::::::::::::::::::\n";
-    print STDERR Data::Dumper->Dump([$c->user]);
-    print STDERR ":::::::::::::::::::::::::::::::::\n";
 
     if(!defined $c->user){
         $c->stash->{template}="login.tt";
     }else{
-        print STDERR "-=[".ref( $c->user )."]=-\n";;
         if($c->check_user_roles( "certificate_administrators" )){
             my $form_data=$c->config->{'layout'};
             $c->stash->{menunames}=$form_data->{'order'};
