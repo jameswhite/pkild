@@ -72,8 +72,8 @@ sub default : Private {
     }
    
     my $form_data;
+    $form_data=$c->config->{'layout'};
     if(! defined $c->session->{menudata}){
-        $form_data=$c->config->{'layout'};
         $c->session->{menudata}=$form_data->{'forms'};
     }
     # Remember what we set things to.
