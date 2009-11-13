@@ -78,7 +78,10 @@ sub default : Private {
             $c->stash->{'default_tab'} = $c->session->{'default_tab'}||$c->stash->{menunames}->[0];
             $c->stash->{template}="application.tt";
         }else{
-            $c->stash->{template}="login.tt";
+            delete $c->session->{'user'};
+            delete $c->session->{'username'};
+            $c->res->redirect("/");
+            $c->detach();
         }
     }
 }
