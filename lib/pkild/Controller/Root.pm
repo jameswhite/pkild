@@ -32,7 +32,6 @@ sub default : Private {
     $c->require_ssl;
 
     # Attempt to authenticate
-print STDERR Data::Dumper->Dump([$c->req->param()]);
     if( (defined($c->req->param("login")))&&(defined($c->req->param("password")))){
         $c->authenticate({
                            id       => $c->req->param("username"), 
@@ -71,6 +70,11 @@ print STDERR Data::Dumper->Dump([$c->req->param()]);
         $c->session->{'default_tab'} = $c->req->param("change_tab"); 
         $c->res->body("Default tab changed to ".$c->session->{'default_tab'}.".");
     }
+   
+    $c->ssssion->{menudata}=$form_data->{'forms'};
+    # Remember what we set things to.
+    #foreach my $value ($c->req->param()]){
+    #}
 
     # If we're logged in, send us to the application, othewise the login page.
     if(!defined $c->session->{'user'}){
@@ -79,13 +83,13 @@ print STDERR Data::Dumper->Dump([$c->req->param()]);
         if($c->check_user_roles( "certificate_administrators" )){
             my $form_data=$c->config->{'layout'};
             $c->stash->{menunames}=$form_data->{'order'}->{'administrator'};
-            $c->stash->{menudata}=$form_data->{'forms'};
+            $c->stash->{menudata}=$c->session->{'menudata'};
             $c->stash->{'default_tab'} = $c->session->{'default_tab'}||$c->stash->{menunames}->[0];
             $c->stash->{template}="application.tt";
         }else{
             my $form_data=$c->config->{'layout'};
             $c->stash->{menunames}=$form_data->{'order'}->{'user'};
-            $c->stash->{menudata}=$form_data->{'forms'};
+            $c->stash->{menudata}=$c->session->{'menudata'};
             $c->stash->{'default_tab'} = $c->session->{'default_tab'}||$c->stash->{menunames}->[0];
             $c->stash->{template}="application.tt";
         }
