@@ -32,6 +32,7 @@ sub default : Private {
     $c->require_ssl;
 
     # Attempt to authenticate
+print Data::Dumper->Dump([$c->req->param()]);
     if( (defined($c->req->param("login")))&&(defined($c->req->param("password")))){
         $c->authenticate({
                            id       => $c->req->param("username"), 
