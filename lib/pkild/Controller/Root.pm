@@ -77,9 +77,9 @@ sub default : Private {
     }
     # Remember what we set things to.
     foreach my $value ($c->req->param()){
-print STDERR ":::::::::::::::::::::::::::: $value\n";
+print STDERR ">>>>>>>>>>>>>>>>>>>>>>>>>>>> $value\n";
         for(my $idx=0; $idx < $#{ $c->session->{menudata}->{$value} }; $idx++){
-print STDERR "::::::::::::::::::::::::::::".$c->session->{menudata}->{$value}->{'fields'}->[$idx]->{'name'}."\n";
+print STDERR "<<<<<<<<<<<<<<<<<<<<<<<<<<<<".$c->session->{menudata}->{$value}->{'fields'}->[$idx]->{'name'}."\n";
             if($value eq  $c->session->{menudata}->{$value}->{'fields'}->[$idx]->{'name'}){
                 $c->session->{menudata}->{$value}->{'fields'}->[$idx]->{'value'} = $c->req->param($value);
             }
