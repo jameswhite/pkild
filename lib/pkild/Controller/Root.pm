@@ -70,16 +70,16 @@ sub default : Private {
         $c->res->body(
                        "{ 
 	                  attributes: { id : 'node_0'}, 
-	                  data: 'node_title_0', 
+	                  data: 'Root Certificate Authority', 
                           state: closed,
                           children: [
 	                              {
                                         attributes: { id : 'node_1'}, 
-	                                data: 'node_title_1', 
+	                                data: 'External Intermediate Certificate Authority', 
                                       },
 	                              {
                                         attributes: { id : 'node_2'}, 
-	                                data: 'node_title_2', 
+	                                data: 'Internal Intermediate Certificate Authority', 
                                       },
                                     ]
                         }"
