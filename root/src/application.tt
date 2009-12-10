@@ -46,6 +46,10 @@
     <!--
         var menuItems = new Array();
         [% FOREACH menu IN menunames %]menuItems.push("[% menu %]");[% END %]
+        $(function() {
+                       $("#certificate_tree").tree( data: { type: "json",async: true, opts: { method: "GET", url:false } );
+                     }
+         );
         function activate(name) {
                                   for(var idx=0; idx<=menuItems.length; idx++){
                                       if(menuItems[idx] == name){
@@ -69,7 +73,6 @@
                                                             ); 
                                      }
                          );
-        $("#certificate_tree").tree( data: { type: "json",async: true, opts: {} } ); )
         activate("[% default_tab %]");
     -->
     </script>  
