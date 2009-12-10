@@ -11,8 +11,8 @@
 <body>  
     <a id="logo" title="pkild" href="http://github.com/fapestniegd/pkild"><img src="static/images/logo.jpg" alt="PKILD" /></a>  
     <div id="application">  
-    <div id="tree">  
-tree
+    <div id="certificate_tree">  
+    
     </div>
     <div id="container">  
         <ul class="menu">  
@@ -41,6 +41,7 @@ tree
     </div>  
     </div>  
     <script type="text/javascript" src="/static/js/jquery-1.2.6.min.js"></script>  
+    <script type="text/javascript" src="/static/js/jquery.tree.min.js"></script>  
     <script type="text/javascript"> 
     <!--
         var menuItems = new Array();
@@ -69,6 +70,17 @@ tree
                                      }
                          );
         activate("[% default_tab %]");
+        $(function(){ ("#certificate_tree").tree( data : { 
+				                           type : "json",
+				                           async : true,
+				                           opts : {
+					                            method : "POST",
+					                            url : "async_json_data.json"
+                                                                  }
+			                                 }
+                                                );
+                    }
+        );
     -->
     </script>  
 </body>  
