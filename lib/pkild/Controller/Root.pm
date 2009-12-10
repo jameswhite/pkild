@@ -66,6 +66,26 @@ sub default : Private {
         $c->detach();
     }
 
+    if( $c->request->arguments->[0] eq "jstree"){
+        $c->res->body(
+                       "{ 
+	                  attributes: { id : "node_0"}, 
+	                  data: "node_title_0", 
+                          state: closed,
+                          children: [
+	                              {
+                                        attributes: { id : "node_1"}, 
+	                                data: "node_title_1", 
+                                      },
+	                              {
+                                        attributes: { id : "node_2"}, 
+	                                data: "node_title_2", 
+                                      },
+                                    ]
+                        }"
+                      );
+    }
+
     # Update the default tab if changed
     if(defined($c->req->param("change_tab"))){ 
         $c->session->{'default_tab'} = $c->req->param("change_tab"); 
