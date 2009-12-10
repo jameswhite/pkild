@@ -69,13 +69,13 @@
                                                             ); 
                                      }
                          );
-        ("#certificate_tree").tree( data : { 
-				             type : "json",
-				             async : true,
-				             opts : {
-					              method : "POST",
-					              url : "async_json_data.json"
-                                                    }
+        $("#certificate_tree").tree( data : { 
+                                              type : "json",
+				              async : true,
+				              opts : {
+					               method : "POST",
+					               url : "async_json_data.json"
+                                                     }
                                            });
         activate("[% default_tab %]");
     -->
