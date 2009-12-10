@@ -39,3 +39,13 @@ PerlModule pkild
 #</VirtualHost..>
 
 # That's it.
+
+################################################################################
+# Thoughts
+################################################################################
+Create:
+  Root Certificate Authority
+    Intermediate Certificate Authority
+      host_certificate
+    Intermediate Certificate Authority
+    
