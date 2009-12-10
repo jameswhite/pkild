@@ -66,6 +66,7 @@ sub default : Private {
         $c->detach();
     }
 
+    # Forward me to the certificate controller...
     if( $c->request->arguments->[0] eq "jstree" ){
         $c->res->body(
                        "{ 
@@ -76,10 +77,32 @@ sub default : Private {
 	                              {
                                         attributes: { id : 'node_1'}, 
 	                                data: 'External Intermediate Certificate Authority', 
+                                        state: closed,
+                                        children: [
+	                                            {
+                                                      attributes: { id : 'cert_1_0'}, 
+	                                              data: 'some host cert 0', 
+                                                    },
+	                                            {
+                                                      attributes: { id : 'cert_1_1'}, 
+	                                              data: 'some host cert 1', 
+                                                    },
+                                                  ]
                                       },
 	                              {
                                         attributes: { id : 'node_2'}, 
 	                                data: 'Internal Intermediate Certificate Authority', 
+                                        state: closed,
+                                        children: [
+	                                            {
+                                                      attributes: { id : 'cert_2_0'}, 
+	                                              data: 'some host cert 2', 
+                                                    },
+	                                            {
+                                                      attributes: { id : 'cert_2_1'}, 
+	                                              data: 'some host cert 3', 
+                                                    },
+                                                  ]
                                       },
                                     ]
                         }"
