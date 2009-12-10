@@ -66,20 +66,20 @@ sub default : Private {
         $c->detach();
     }
 
-    if( $c->request->arguments->[0] eq "jstree"){
+    if( $c->request->arguments->[0] eq "jstree" ){
         $c->res->body(
                        "{ 
-	                  attributes: { id : "node_0"}, 
-	                  data: "node_title_0", 
+	                  attributes: { id : 'node_0'}, 
+	                  data: 'node_title_0', 
                           state: closed,
                           children: [
 	                              {
-                                        attributes: { id : "node_1"}, 
-	                                data: "node_title_1", 
+                                        attributes: { id : 'node_1'}, 
+	                                data: 'node_title_1', 
                                       },
 	                              {
-                                        attributes: { id : "node_2"}, 
-	                                data: "node_title_2", 
+                                        attributes: { id : 'node_2'}, 
+	                                data: 'node_title_2', 
                                       },
                                     ]
                         }"
