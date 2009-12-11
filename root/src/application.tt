@@ -62,7 +62,7 @@
         var menuItems = new Array();
         [% FOREACH menu IN menunames %]menuItems.push("[% menu %]");[% END %]
         $().ready(function(){ $("#application").splitter({
-                                                           type: 'v'
+                                                           type: 'v',
                                                            outline: true,
                                                            minLeft: 100, sizeLeft: 150, minRight: 100,
                                                            resizeToWidth: true,
