@@ -32,7 +32,7 @@ PerlSwitches -I/var/cache/git/pkild/lib
 PerlModule pkild
 
 #<VirtualHost..>
-<Location />
+<Location /pkild>
     SetHandler          modperl
     PerlResponseHandler pkild
 </Location>
