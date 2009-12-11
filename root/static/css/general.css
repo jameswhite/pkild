@@ -44,7 +44,7 @@ a{
 #certificate_tree li{
     float: left;  
 }
-#certificate_tree ul{
+#certificate_tree a{
     float: left;  
 }
 /******* TREE *******/  
