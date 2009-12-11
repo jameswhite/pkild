@@ -12,13 +12,13 @@
         body { padding: 10px; }
         #application { height: 400px; margin: 1em 3em; border: 4px solid #bdb; /* No padding allowed */ }
         #left-pane { background: #efe; overflow: auto; /* No margin or border allowed */ }
-        #right-pane { background: #f8fff8; overflow: auto; /* No margin or border allowed */ }
+        #right-pane { background: #0088FF; overflow: auto; /* No margin or border allowed */ }
         #application .vsplitbar { width: 6px; background: #aca url(img/vgrabber.gif) no-repeat center; }
         #application .vsplitbar.active { background: #da8 url(img/vgrabber.gif) no-repeat center; opacity: 0.7; }
     </style>
 </head>  
 <body>  
-    <a id="logo" title="pkild" href="http://github.com/fapestniegd/pkild"><img src="static/images/logo.jpg" alt="PKILD" /></a>  
+    <a id="logo" title="pkild" href="http://github.com/fapestniegd/pkild"><img src="static/images/logo.jpg" alt="[PKILD LOGO]" /></a>  
     <div id="application">  
     <div id='left-pane'>
     <div id="certificate_tree" class="demo tree tree-default" style="directip; ltr;">  
