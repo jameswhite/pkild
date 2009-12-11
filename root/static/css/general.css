@@ -40,14 +40,14 @@ a{
     margin-top: 1em;  
     display: block;  
 }  
-/******* /LOGO  *******  
+/******* /LOGO  *******/
 #certificate_tree li{
     float: left;  
 }
-#certificate_tree li.open{
+#certificate_tree ul{
     float: left;  
 }
-******* TREE *******/  
+/******* TREE *******/  
 
 /******* /TREE *******/  
 /******* MENU *******/  
