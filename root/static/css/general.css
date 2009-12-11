@@ -43,8 +43,9 @@ a{
 /******* /LOGO  *******/  
 #certificate_tree li{
     float: left;  
-    margin-right: 0px;  
-    margin-bottom: 0px;  
+}
+#certificate_tree li.open{
+    float: left;  
 }
 /******* TREE *******/  
 
