@@ -3,7 +3,6 @@
 <head>  
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />  
     <title>pkild -- ldap authenticated pki utility</title>  
-    <link rel="stylesheet" href="static/css/general.css" type="text/css" media="screen" />  
     <!--[if IE 6]>  
         <link rel="stylesheet" href="static/css/ie6.css" type="text/css" media="screen," />  
     <![endif]-->  
