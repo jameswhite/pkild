@@ -21,7 +21,7 @@
     <a id="logo" title="pkild" href="http://github.com/fapestniegd/pkild"><img src="static/images/logo.jpg" alt="[PKILD LOGO]" /></a>  
     <div id="application">  
     <div id='left-pane'>
-    <div id="certificate_tree" class="demo tree tree-default" style="directip; ltr;">  
+    <div id="certificate_tree" class="tree-default" style="">  
     
     </div>
     </div>
