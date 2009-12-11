@@ -16,12 +16,6 @@
         #application .vsplitbar { width: 3px; background: #dde7f0 url(img/vgrabber.gif) no-repeat center; }
         #application .vsplitbar.active { background: #dde7f0 url(img/vgrabber.gif) no-repeat center; opacity: 0.7; }
     </style>
-    <style type="text/css">
-    html, body { margin:0; padding:0; }
-    body, td, th, pre, code, select, option, input, textarea { font-family:"Trebuchet MS", Sans-serif; font-size:10pt; }
-    .demo { height:200px; width:300px; float:left; margin:0; border:1px solid gray; font-family:Verdana; font-size:10px; background:white; overflow:auto; }
-    pre { display:block; }
-    </style>
 </head>  
 <body>  
     <a id="logo" title="pkild" href="http://github.com/fapestniegd/pkild"><img src="static/images/logo.jpg" alt="[PKILD LOGO]" /></a>  
