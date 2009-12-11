@@ -16,6 +16,12 @@
         #application .vsplitbar { width: 3px; background: #dde7f0 url(img/vgrabber.gif) no-repeat center; }
         #application .vsplitbar.active { background: #dde7f0 url(img/vgrabber.gif) no-repeat center; opacity: 0.7; }
     </style>
+    <style type="text/css">
+    html, body { margin:0; padding:0; }
+    body, td, th, pre, code, select, option, input, textarea { font-family:"Trebuchet MS", Sans-serif; font-size:10pt; }
+    .demo { height:200px; width:300px; float:left; margin:0; border:1px solid gray; font-family:Verdana; font-size:10px; background:white; overflow:auto; }
+    pre { display:block; }
+    </style>
 </head>  
 <body>  
     <a id="logo" title="pkild" href="http://github.com/fapestniegd/pkild"><img src="static/images/logo.jpg" alt="[PKILD LOGO]" /></a>  
@@ -56,22 +62,10 @@
     </div>
     <script type="text/javascript" src="/static/js/jquery-1.3.2.min.js"></script>  
 <!-- begin jquery tree stuff -->
-    <script type="text/javascript" src="/static/js/lib/jquery.js"></script>
-    <script type="text/javascript" src="/static/js/lib/jquery.cookie.js"></script>
-    <script type="text/javascript" src="/static/js/lib/jquery.hotkeys.js"></script>
-    <script type="text/javascript" src="/static/js/lib/jquery.metadata.js"></script>
-    <script type="text/javascript" src="/static/js/lib/sarissa.js"></script>
-    <script type="text/javascript" src="/static/js/jquery.tree.js"></script>
-    <script type="text/javascript" src="/static/js/plugins/jquery.tree.checkbox.js"></script>
-    <script type="text/javascript" src="/static/js/plugins/jquery.tree.contextmenu.js"></script>
-    <script type="text/javascript" src="/static/js/plugins/jquery.tree.cookie.js"></script>
-    <script type="text/javascript" src="/static/js/plugins/jquery.tree.hotkeys.js"></script>
-    <script type="text/javascript" src="/static/js/plugins/jquery.tree.metadata.js"></script>
-    <script type="text/javascript" src="/static/js/plugins/jquery.tree.themeroller.js"></script>
-    <script type="text/javascript" src="/static/js/plugins/jquery.tree.xml_flat.js"></script>
-    <script type="text/javascript" src="/static/js/plugins/jquery.tree.xml_nested.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.tree.min.js"></script>
 <!-- end jquery tree stuff -->
     <script type="text/javascript" src="/static/js/splitter.js"></script>  
+    <script type="text/javascript" src="/static/js/jquery.cookie.js"></script>  
     <script type="text/javascript"> 
     <!--
         var menuItems = new Array();
