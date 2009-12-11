@@ -12,9 +12,13 @@
 <body>  
     <a id="logo" title="pkild" href="http://github.com/fapestniegd/pkild"><img src="static/images/logo.jpg" alt="PKILD" /></a>  
     <div id="application">  
+    <div id='left-pane'>
     <div id="certificate_tree" class="demo tree tree-default" style="directip; ltr;">  
     
     </div>
+    </div>
+    
+    <div id='right-pane'>
     <div id="container">  
         <ul class="menu">  
             [% FOREACH name IN menunames %] 
@@ -41,12 +45,15 @@
         [% END %]
     </div>  
     </div>  
+    </div>
     <script type="text/javascript" src="/static/js/jquery-1.3.2.min.js"></script>  
     <script type="text/javascript" src="/static/js/jquery.tree.min.js"></script>  
     <script type="text/javascript"> 
     <!--
         var menuItems = new Array();
         [% FOREACH menu IN menunames %]menuItems.push("[% menu %]");[% END %]
+        $().ready(function(){ $("#application").splitter({type: 'v'}); });
+
         $(function() {
                        $("#certificate_tree").tree({ data: { type: "json",async: true, opts: { method: "GET", url:"/jstree/" } } } );
                      }
