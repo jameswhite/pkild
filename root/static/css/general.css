@@ -41,6 +41,14 @@ a{
     display: block;  
 }  
 /******* /LOGO  *******/  
+#certificate_tree li{
+    float: left;  
+    margin-right: 0px;  
+    margin-bottom: 0px;  
+}
+/******* TREE *******/  
+
+/******* /TREE *******/  
 /******* MENU *******/  
 #container{  
     margin: 7em auto;  
