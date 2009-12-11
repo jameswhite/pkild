@@ -74,9 +74,6 @@ sub default : Private {
 	                  attributes: { id : 'node_0'}, 
 	                  data: 'Root Certificate Authority', 
                           state: closed,
-                          callback: { 
-                                      onselect: function(NODE, TREE_OBJ) { };
-                                    },
                           children: [
 	                              {
                                         attributes: { id : 'node_1'}, 
