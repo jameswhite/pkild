@@ -75,7 +75,7 @@ sub default : Private {
 	                  data: 'Root Certificate Authority', 
                           state: closed,
                           callback: { 
-                                      onselect: function(NODE, TREE_OBJ) { alert (NODE + ' ' + TREE_OBJ); }
+                                      onselect: function(NODE, TREE_OBJ) { alert (NODE + ' ' + TREE_OBJ); };
                                     }
                           children: [
 	                              {
