@@ -31,8 +31,9 @@ sub default : Private {
     my ( $self, $c ) = @_;
     # remove this if not running in apache (can we do this automatically?)
     $c->require_ssl;
-
+    ############################################################################
     # Attempt to authenticate
+    ############################################################################
     if( (defined($c->req->param("login")))&&(defined($c->req->param("password")))){
         $c->authenticate({
                            id       => $c->req->param("username"), 
@@ -40,12 +41,6 @@ sub default : Private {
                          });
         if(defined($c->user)){
             $c->session->{'user'}=$c->user;
-        # There is no reason for this as multiple uids are just fail all over.
-        #    if( $#{ $c->user->username } > -1 ){
-        #        $c->session->{'username'} = $c->user->username->[0];
-        #    }else{
-        #        $c->session->{'username'}=$c->user->username;
-        #    }
         }else{
             $c->stash->{'ERROR'}="Authentication Failed."; 
         }
@@ -67,6 +62,7 @@ sub default : Private {
         $c->detach();
     }
 
+    if( $c->request->arguments){
     # Forward me to the certificate controller...
     if( $c->request->arguments->[0] eq "jstree" ){
         $c->res->body(
@@ -109,6 +105,7 @@ sub default : Private {
                         }"
                       );
     }
+}
 
     # Update the default tab if changed
     if(defined($c->req->param("change_tab"))){ 
