@@ -1,12 +1,16 @@
 order:
-  - Domain
-  - Certificate
-  - URIs
-  - Unlock
-  - Create
-  - Sign
-  - Revoke
-  - Logout
+  administrator:
+    - Domain
+    - Certificate
+    - URIs
+    - Unlock
+    - Create
+    - Sign
+    - Revoke
+    - Logout
+  user:
+    - Sign
+    - Logout
 forms:
   Domain:
     legend: Domain Name
