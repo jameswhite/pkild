@@ -65,17 +65,10 @@ PerlSwitches -I/var/cache/git/pkild/lib
 PerlModule pkild
 
 #<VirtualHost..>
-<<<<<<< HEAD:README
     <Location />
         SetHandler          modperl
         PerlResponseHandler pkild
     </Location>
-=======
-<Location /pkild>
-    SetHandler          modperl
-    PerlResponseHandler pkild
-</Location>
->>>>>>> 26f0d8d8e6c3a0852d50384847633d3181fad69e:README
 #</VirtualHost..>
 
 /etc/init.d/apache2 restart
