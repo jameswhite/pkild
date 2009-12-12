@@ -46,7 +46,9 @@ sub default : Private {
         }
     }
 
-    # Log us out if logout was sent
+    ############################################################################
+    # Log us out if ?logout=1 was sent
+    ############################################################################
     if(defined($c->req->param("logout"))){ 
 
         # remove all user handles
@@ -63,7 +65,9 @@ sub default : Private {
     }
 
     if( $c->request->arguments){
-    # Forward me to the certificate controller...
+    ############################################################################
+    # Forward me to the certificate controller instead of this:
+    ############################################################################
     if( $c->request->arguments->[0] eq "jstree" ){
         $c->res->body(
                        "{ 
@@ -107,7 +111,9 @@ sub default : Private {
     }
 }
 
-    # Update the default tab if changed
+    ############################################################################
+    # Update the default tab in the session if changed
+    ############################################################################
     if(defined($c->req->param("change_tab"))){ 
         $c->session->{'default_tab'} = $c->req->param("change_tab"); 
         $c->res->body("Default tab changed to ".$c->session->{'default_tab'}.".");
@@ -125,15 +131,17 @@ sub default : Private {
             }
         }
     }
-#
+    ############################################################################
     # If we're logged in, send us to the application, othewise the login page.
+    ############################################################################
     if(!defined $c->session->{'user'}){
         $c->stash->{template}="login.tt";
     }else{
         if($c->check_user_roles( "certificate_administrators" )){
             $c->stash->{menunames}=$form_data->{'order'}->{'administrator'};
         }else{
-            my $form_data=$c->config->{'layout'};
+            my $form_data = $c->config->{'layout'};
+print STDERR Data::Dumper->Dump([$form_data]);
             #$c->stash->{menunames}=$form_data->{'order'}->{'user'};
         }
         $c->session->{'default_tab'}=$c->stash->{menunames}->[0] unless defined $c->session->{'default_tab'};
