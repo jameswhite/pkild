@@ -5,17 +5,28 @@
                        libcatalyst-modules-extra-perl                          \
                        libnet-ldap-perl libnet-ldap-server-perl                \
                        libconvert-asn1-perl
+
+# The following assume you're ${CWD} is the top-level pkild app...
+
 # Catalyst-Plugin-Authentication-Store-LDAP (I used 0.1005)
     bin/cpan2deb http://search.cpan.org/CPAN/authors/id/K/KA/KARMAN/Catalyst-Authentication-Store-LDAP-0.1005.tar.gz
     dpkg -i /opt/local/src/CPAN/libcatalyst-authentication-store-ldap-perl_0.1005-1_all.deb
     bin/cpan2deb http://search.cpan.org/CPAN/authors/id/A/AG/AGRUNDMA/Catalyst-Plugin-RequireSSL-0.06.tar.gz
     dpkg -i /opt/local/src/CPAN/libcatalyst-plugin-requiressl-perl_0.06-1_all.deb
-# Run script/pkild_server.pl to test the application.
+# copy the Config.yaml.template to Config.yaml and replace the [% LDAP_<variables> %] manally
+# OR
+# Create the Config.yaml from the Config.yaml.template with:
+    bin/secret-init # -> creates /usr/local/bin/secret where the LDAP password is cached.
+    bin/local_config
 
+# Test the application with: 
+    script/pkild_server.pl
 
 ################################################################################
 # Adding to Apache
 # You'll need to install the ssl server too as this application forces SSL
+# The "RequireSSL: Disabling SSL redirection while running under 
+# Catalyst::Engine::HTTP" feature just makes it hang
 ################################################################################
 apt-get install -y apache2-mpm-prefork libapache2-mod-perl2                  \
                    libcatalyst-engine-apache-perl perlmagick                 \
@@ -23,20 +34,51 @@ apt-get install -y apache2-mpm-prefork libapache2-mod-perl2                  \
                    libcatalyst-perl libcatalyst-plugin-session-fastmmap-perl \
                    libcatalyst-view-tt-perl libhtml-prototype-perl
 
-[ -d /var/cache/git ] || mkdir -p /var/cache/git
-(cd /var/cache/git; git clone git://github.com/fapestniegd/pkild.git )
+# Copy it to where apache will expect it to be:
+if [ ! -d /var/cache/git ];then 
+    mkdir -p /var/cache/git
+    (cd /var/cache/git; git clone git://github.com/fapestniegd/pkild.git )
+else
+    (cd /var/cache/git/pkild; git pull)
+fi
 
-# httpd.conf
+################################################################################
+# apache setup (from a fresh install)
+################################################################################
+# if you don't have a certificate...
+apt-get install ssl-cert 
+# OR
+bin/gpg-init
+bin/ca_tree-init
+# and edit the default-ssl below appropriately
+
+(cd /etc/apache2/sites-enabled; ln -s ../sites-available/default-ssl 001-ssl)
+(cd /etc/apache2/mods-enabled; ln -s ../mods-available/ssl.load)
+(cd /etc/apache2/mods-enabled; ln -s ../mods-available/ssl.conf)
+
+################################################################################
+# Just the config stuff
+################################################################################
+# httpd.conf (ssl and non-ssl)
 # (Outside of VirtualHost block (main section))
 PerlSwitches -I/var/cache/git/pkild/lib
 PerlModule pkild
 
 #<VirtualHost..>
+<<<<<<< HEAD:README
+    <Location />
+        SetHandler          modperl
+        PerlResponseHandler pkild
+    </Location>
+=======
 <Location /pkild>
     SetHandler          modperl
     PerlResponseHandler pkild
 </Location>
+>>>>>>> 26f0d8d8e6c3a0852d50384847633d3181fad69e:README
 #</VirtualHost..>
+
+/etc/init.d/apache2 restart
 
 # That's it.
 
