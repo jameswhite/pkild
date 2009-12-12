@@ -134,7 +134,7 @@ sub default : Private {
             $c->stash->{menunames}=$form_data->{'order'}->{'administrator'};
         }else{
             my $form_data=$c->config->{'layout'};
-            $c->stash->{menunames}=$form_data->{'order'}->{'user'};
+            #$c->stash->{menunames}=$form_data->{'order'}->{'user'};
         }
         $c->session->{'default_tab'}=$c->stash->{menunames}->[0] unless defined $c->session->{'default_tab'};
         $c->stash->{'default_tab'} = $c->session->{'default_tab'};
