@@ -2,6 +2,7 @@ package pkild::Model::Certificates;
 
 use strict;
 use base 'Catalyst::Model::File';
+use Data::Dumper;
 
 __PACKAGE__->config(
     root_dir => '/var/tmp/certificate_authority',
