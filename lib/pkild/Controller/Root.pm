@@ -78,7 +78,7 @@ sub default : Private {
             #$node=~s/var\/tmp\/certificate_authority\///g;
             $node=~s/$rootdir///g;
             my @parts = split('\/',$node);
-            for my ($idx=0; $idx<=$#parts; $idx++){
+            for(my $idx=0; $idx<=$#parts; $idx++){
                 print STDERR $parts[$idx]."\n";
             }
             print STDERR "\n";
