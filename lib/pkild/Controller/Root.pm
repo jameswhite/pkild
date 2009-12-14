@@ -73,7 +73,7 @@ sub default : Private {
         my @file_names = $c->model('Certificates')->list(mode => 'both', recurse =>1);
         @file_names=sort(@file_names);
         foreach my $node (@file_names){
-            next if $node=='.';
+            next if $node eq '.';
             $node=~s/var\/tmp\///g;
             print STDERR $node."\n";
         }
