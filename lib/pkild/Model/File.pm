@@ -1,13 +1,15 @@
-package pkild::Model::Certificates;
+package pkild::Model::File;
 
 use strict;
 use base 'Catalyst::Model::File';
 
-__PACKAGE__->config( root_dir => '/var/tmp/certificate_authority' );
+__PACKAGE__->config(
+    root_dir => '/var/tmp/certificate_authority',
+);
 
 =head1 NAME
 
-pkild::Model::Certificates - Catalyst File Model
+pkild::Model::File - Catalyst File Model
 
 =head1 SYNOPSIS
 
