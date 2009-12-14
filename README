@@ -15,10 +15,10 @@
     dpkg -i /opt/local/src/CPAN/libcatalyst-plugin-requiressl-perl_0.06-1_all.deb
 
 # Catalyst::Model::File (to access the certificates)
-    bin/cpan2deb http://search.cpan.org/CPAN/authors/id/A/AS/ASH/Catalyst-Model-File-0.08.tar.gz
-    dpkg -i /opt/local/src/CPAN/libcatalyst-model-file-perl_0.08-1_all.deb
     bin/cpan2deb http://search.cpan.org/CPAN/authors/id/G/GR/GRODITI/Catalyst-Component-InstancePerContext-0.001001.tar.gz
     dpkg -i /opt/local/src/CPAN/libcatalyst-component-instancepercontext-perl_0.001001-1_all.deb
+    bin/cpan2deb http://search.cpan.org/CPAN/authors/id/A/AS/ASH/Catalyst-Model-File-0.08.tar.gz
+    dpkg -i /opt/local/src/CPAN/libcatalyst-model-file-perl_0.08-1_all.deb
 
 # copy the Config.yaml.template to Config.yaml and replace the [% LDAP_<variables> %] manally
 # OR
