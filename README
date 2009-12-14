@@ -5,10 +5,12 @@
                        libcatalyst-modules-extra-perl                          \
                        libnet-ldap-perl libnet-ldap-server-perl                \
                        libconvert-asn1-perl libmoose-perl
-
+     
 # The following assume you're ${CWD} is the top-level pkild app...
 
 # Catalyst-Plugin-Authentication-Store-LDAP (for authentication/authorization against LDAP)
+    bin/cpan2deb http://search.cpan.org/CPAN/authors/id/K/KA/KARMAN/Net-LDAP-Server-Test-0.08.tar.gz
+    dpkg -i /opt/local/src/CPAN/libnet-ldap-server-test-perl_0.08-1_all.deb
     bin/cpan2deb http://search.cpan.org/CPAN/authors/id/K/KA/KARMAN/Catalyst-Authentication-Store-LDAP-0.1005.tar.gz
     dpkg -i /opt/local/src/CPAN/libcatalyst-authentication-store-ldap-perl_0.1005-1_all.deb
     bin/cpan2deb http://search.cpan.org/CPAN/authors/id/A/AG/AGRUNDMA/Catalyst-Plugin-RequireSSL-0.06.tar.gz
