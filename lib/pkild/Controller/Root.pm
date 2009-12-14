@@ -72,8 +72,11 @@ sub default : Private {
         my @file_names=$c->model('Certificates')->list;
         my @file_names = $c->model('Certificates')->list(mode => 'both', recurse =>1);
         @file_names=sort(@file_names);
-
-        print STDERR join("\n",@file_names)."\n";
+        foreach my $node (@file_names){
+            next if $node=='.';
+            $node=~s/var\/tmp\///g;
+            print STDERR $node."\n";
+        }
         $c->res->body(
                        "{ 
 	                  attributes: { id : 'node_0'}, 
