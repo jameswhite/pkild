@@ -81,7 +81,7 @@ sub default : Private {
             for(my $idx=0; $idx<=$#parts; $idx++){
                 print STDERR $parts[$idx]."\n";
             }
-            print STDERR "\n";
+            print STDERR "-=[$rootdir]=-\n";
                  
         }
         $c->res->body(
