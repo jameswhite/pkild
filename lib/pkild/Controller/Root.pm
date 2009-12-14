@@ -70,19 +70,15 @@ sub default : Private {
     ############################################################################
     if( $c->request->arguments->[0] eq "jstree" ){
         my @file_names = $c->model('Certificates')->list(mode => 'both', recurse =>1);
-        my $rootdir=join("/",@{ $c->model('Certificates')->{'root_dir'}->{'dirs'} });
-        $rootdir=~s/^\///;
+        my $rootdir=join(@{ $c->model('Certificates')->{'root_dir'}->{'dirs'} });
         @file_names=sort(@file_names);
         foreach my $node (@file_names){
             next if $node eq '.';
-            # FIXME
-            #$node=~s/var\/tmp\/certificate_authority\///g;
             $node=~s/$rootdir//g;
             my @parts = split('\/',$node);
             for(my $idx=0; $idx<=$#parts; $idx++){
                 print STDERR $parts[$idx]."\n";
             }
-            print STDERR "-=[$rootdir]=-\n";
                  
         }
         $c->res->body(
