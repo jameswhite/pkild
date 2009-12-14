@@ -68,6 +68,8 @@ sub default : Private {
     ############################################################################
     # Forward me to the certificate controller instead of this:
     ############################################################################
+    @file_names=$c->model('Certificates')->list;
+    print STDERR Data::Dumper->Dump([@file_names]);
     if( $c->request->arguments->[0] eq "jstree" ){
         $c->res->body(
                        "{ 
