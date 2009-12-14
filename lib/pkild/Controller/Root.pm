@@ -3,7 +3,7 @@ package pkild::Controller::Root;
 use strict;
 use warnings;
 use base 'Catalyst::Controller';
-use base 'Catalyst::Model::File';
+use 'Catalyst::Model::File';
 use YAML;
 
 #
