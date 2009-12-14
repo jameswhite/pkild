@@ -74,7 +74,9 @@ sub default : Private {
         @file_names=sort(@file_names);
         foreach my $node (@file_names){
             next if $node eq '.';
-            $node=~s/var\/tmp\///g;
+            # FIXME
+            $node=~s/var\/tmp\/certificate_authority\///g;
+               
             print STDERR $node."\n";
         }
         $c->res->body(
