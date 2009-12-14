@@ -32,7 +32,10 @@ our $VERSION = '0.01';
 __PACKAGE__->config( 
                      'name' => 'pkild',
                      'authentication' => YAML::LoadFile( file(__PACKAGE__->config->{home}, 'Config.yaml')),
-                     'layout' => YAML::LoadFile( file(__PACKAGE__->config->{home}, 'Forms.yaml'))
+                     'layout' => YAML::LoadFile( file(__PACKAGE__->config->{home}, 'Forms.yaml')),
+                     'Model::Certificates' => {
+                                                directory => pkild->path_to('/var/lib/certificates')
+                                              }
                    );
 
 # Start the application
