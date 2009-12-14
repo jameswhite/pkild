@@ -20,6 +20,7 @@ sub tree{
     foreach my $node (@file_names){
         next if $node eq '.';
         $node=~s/$rootdir//g;
+        $node=~s/^\///g;
         $tree=$self->add_element($tree,$node);
     }
     return $tree;
