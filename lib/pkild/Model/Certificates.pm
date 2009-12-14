@@ -10,7 +10,7 @@ __PACKAGE__->config(
 sub tree{
     my ($self, $c)=@_;
     my @list=$self->list(mode => 'both', recurse =>1);
-    print STDERR Data::Dumper->Dump([@list]);
+    print STDERR Data::Dumper->Dump([\@list]);
 }
 =head1 NAME
 
