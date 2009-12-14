@@ -69,20 +69,25 @@ sub default : Private {
     # Forward me to the certificate controller instead of this:
     ############################################################################
     if( $c->request->arguments->[0] eq "jstree" ){
-        my @file_names = $c->model('Certificates')->list(mode => 'both', recurse =>1);
-        my $rootdir=join("/",@{ $c->model('Certificates')->{'root_dir'}->{'dirs'} });
-        $rootdir=~s/^\///;
-        @file_names=sort(@file_names);
-        foreach my $node (@file_names){
-            next if $node eq '.';
-            $node=~s/$rootdir//g;
-            my @parts = split('\/',$node);
-            for(my $idx=0; $idx<=$#parts; $idx++){
-                print STDERR $parts[$idx]."\n";
-            }
-            print STDERR "-=[$rootdir]=-\n";
-                 
-        }
+     
+         $c->model('Certificates')->tree();
+#        my @file_names = $c->model('Certificates')->list(mode => 'both', recurse =>1);
+#        my $rootdir=join("/",@{ $c->model('Certificates')->{'root_dir'}->{'dirs'} });
+#        $rootdir=~s/^\///;
+#        @file_names=sort(@file_names);
+#        my $tree;
+#        foreach my $node (@file_names){
+#            next if $node eq '.';
+#            $node=~s/$rootdir//g;
+#
+#            my @parts = split('\/',$node);
+#            
+#            for(my $idx=0; $idx<=$#parts; $idx++){
+#               print STDERR $parts[$idx]."\n";
+#            }
+#            print STDERR "\n";
+#
+#        }
         $c->res->body(
                        "{ 
 	                  attributes: { id : 'node_0'}, 

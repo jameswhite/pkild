@@ -7,6 +7,11 @@ __PACKAGE__->config(
     root_dir => '/var/tmp/certificate_authority',
 );
 
+sub tree{
+    my $c,$self=shift;
+    my @list=$self->list(mode => 'both', recurse =>1)
+    print STDERR Data::Dumper([]);
+}
 =head1 NAME
 
 pkild::Model::Certificates - Catalyst File Model
