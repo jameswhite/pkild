@@ -9,7 +9,7 @@ __PACKAGE__->config(
 
 sub tree{
     my ($c,$self)=@_;
-    my @list=$c->model('Certificates')->list(mode => 'both', recurse =>1);
+    my @list=list(mode => 'both', recurse =>1);
     print STDERR Data::Dumper([@list]);
 }
 =head1 NAME
