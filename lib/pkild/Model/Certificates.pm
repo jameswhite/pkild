@@ -26,7 +26,7 @@ sub tree{
         my @oldpart=split('\/',$previous_node);
         for(my $depth=0; $depth<= $#part; $depth++){
             if($part[$depth] ne $oldpart[$depth]){
-                push( $tree->[$depth], { 'name' => $part[$depth]; });
+                push( $tree->[$depth], { 'name' => $part[$depth] });
             }   
         }
         $previous_node=$node;
