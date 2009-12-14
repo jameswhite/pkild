@@ -79,6 +79,7 @@ sub default : Private {
             foreach my $pathpart (split('\/',$node)){
                 print STDERR $pathpart."\n";
             }
+            print STDERR "\n";
                  
         }
         $c->res->body(
