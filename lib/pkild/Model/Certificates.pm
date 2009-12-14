@@ -13,13 +13,19 @@ __PACKAGE__->config(
 sub tree{
     my ($self, $c)=@_;
     my $tree;
-    my @list=$self->list(mode => 'both', recurse =>1);
-    @list=sort(@list);
-    foreach my $path (@list){
+    my @file_names=$self->list(mode => 'both', recurse =>1);
+    my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
+    $rootdir=~s/^\///;
+    $rootdir=~s/^\///;
+    @file_names=sort(@file_names);
+    foreach my $node (@file_names){
+        next if $node eq '.';
+        $node=~s/$rootdir//g;
         $tree=$self->add_element($tree,$path);
     }
     return $tree;
 }
+
 
 sub add_element{
     my $self=shift;
