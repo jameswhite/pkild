@@ -2,7 +2,6 @@ package pkild::Model::Certificates;
 
 use strict;
 use base 'Catalyst::Model::File';
-use Data::Dumper;
 
 __PACKAGE__->config(
     root_dir => '/var/tmp/certificate_authority',
@@ -11,7 +10,7 @@ __PACKAGE__->config(
 sub tree{
     my ($self, $c)=@_;
     my @list=$self->list(mode => 'both', recurse =>1);
-    print STDERR Data::Dumper([@list]);
+    print STDERR Data::Dumper->Dump([@list]);
 }
 =head1 NAME
 
