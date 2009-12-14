@@ -68,12 +68,12 @@ sub default : Private {
     ############################################################################
     # Forward me to the certificate controller instead of this:
     ############################################################################
-    my @file_names=$c->model('Certificates')->list;
-    my @file_names = $c->model('Certificates')->list(mode => 'both', recurse =>1);
-    @file_names=sort(@file_names);
-
-    print STDERR join("\n",@file_names)."\n";
     if( $c->request->arguments->[0] eq "jstree" ){
+        my @file_names=$c->model('Certificates')->list;
+        my @file_names = $c->model('Certificates')->list(mode => 'both', recurse =>1);
+        @file_names=sort(@file_names);
+
+        print STDERR join("\n",@file_names)."\n";
         $c->res->body(
                        "{ 
 	                  attributes: { id : 'node_0'}, 
