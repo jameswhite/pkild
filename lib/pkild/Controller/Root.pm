@@ -69,7 +69,6 @@ sub default : Private {
     # Forward me to the certificate controller instead of this:
     ############################################################################
     if( $c->request->arguments->[0] eq "jstree" ){
-        my @file_names=$c->model('Certificates')->list;
         my @file_names = $c->model('Certificates')->list(mode => 'both', recurse =>1);
         my $rootdir=join("/",@{ $c->model('Certificates')->{'root_dir'}->{'dirs'} });
         @file_names=sort(@file_names);
