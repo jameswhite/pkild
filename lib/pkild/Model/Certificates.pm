@@ -17,21 +17,20 @@ sub tree{
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     $rootdir=~s/^\///;
     @file_names=sort(@file_names);
-    foreach my $node (@file_names){
+    my $previous_node='';
+    for my $node (@file_names){
         next if $node eq '.';
         $node=~s/$rootdir//g;
         $node=~s/^\///g;
-        $tree=$self->add_element($tree,$node);
+        my @part=split('\/',$node);
+        my @oldpart=split('\/',$previous_node);
+        for(my $depth=0; $depth<= $#part; $depth++){
+            if($part[$depth] ne $oldpart[$depth]){
+                push( $tree->[$depth], { 'name' => $part[$depth]; });
+            }   
+        }
+        $previous_node=$node;
     }
-    return $tree;
-}
-
-
-sub add_element{
-    my $self=shift;
-    my $tree=shift;
-    my $path=shift;
-    push (@{ $tree }, $path);
     return $tree;
 }
 
