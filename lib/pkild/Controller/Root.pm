@@ -2,8 +2,8 @@ package pkild::Controller::Root;
 
 use strict;
 use warnings;
+use 'Model::Certificates';
 use base 'Catalyst::Controller';
-use 'Catalyst::Model::Certificates';
 use YAML;
 
 #
