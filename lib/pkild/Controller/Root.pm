@@ -71,6 +71,7 @@ sub default : Private {
     if( $c->request->arguments->[0] eq "jstree" ){
         my @file_names = $c->model('Certificates')->list(mode => 'both', recurse =>1);
         my $rootdir=join("/",@{ $c->model('Certificates')->{'root_dir'}->{'dirs'} });
+        $rootdir=~s/^\///;
         @file_names=sort(@file_names);
         foreach my $node (@file_names){
             next if $node eq '.';
