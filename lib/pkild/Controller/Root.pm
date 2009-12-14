@@ -72,7 +72,7 @@ sub default : Private {
     my @file_names = $c->model('Certificates')->list(mode => 'both', recurse =>1);
     @file_names=sort(@file_names);
 
-    print STDERR join("\n",@file_names);
+    print STDERR join("\n",@file_names)."\n";
     if( $c->request->arguments->[0] eq "jstree" ){
         $c->res->body(
                        "{ 
