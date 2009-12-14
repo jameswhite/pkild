@@ -70,7 +70,7 @@ sub default : Private {
     ############################################################################
     if( $c->request->arguments->[0] eq "jstree" ){
      
-         $c->model('Certificates')->tree();
+         print STDERR YAML::Dump( $c->model('Certificates')->tree() );
 #        my @file_names = $c->model('Certificates')->list(mode => 'both', recurse =>1);
 #        my $rootdir=join("/",@{ $c->model('Certificates')->{'root_dir'}->{'dirs'} });
 #        $rootdir=~s/^\///;

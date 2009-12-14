@@ -7,11 +7,28 @@ __PACKAGE__->config(
     root_dir => '/var/tmp/certificate_authority',
 );
 
+################################################################################
+# Return a list of hashes of lists of hashes that describe the directory tree
+################################################################################
 sub tree{
     my ($self, $c)=@_;
+    my $tree;
     my @list=$self->list(mode => 'both', recurse =>1);
-    print STDERR Data::Dumper->Dump([\@list]);
+    @list=sort(@list);
+    foreach my $path (@list){
+        $tree=$self->add_element($tree,$path);
+    }
+    return $tree;
 }
+
+sub add_element{
+    my $self=shift;
+    my $tree=shift;
+    my $path=shift;
+    push (@{ $tree }, $path);
+    return $tree;
+}
+
 =head1 NAME
 
 pkild::Model::Certificates - Catalyst File Model
