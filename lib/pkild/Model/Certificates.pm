@@ -16,7 +16,6 @@ sub tree{
     my @file_names=$self->list(mode => 'both', recurse =>1);
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     $rootdir=~s/^\///;
-    $rootdir=~s/^\///;
     @file_names=sort(@file_names);
     foreach my $node (@file_names){
         next if $node eq '.';
