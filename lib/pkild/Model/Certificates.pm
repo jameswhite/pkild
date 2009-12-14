@@ -1,4 +1,4 @@
-package pkild::Model::File;
+package pkild::Model::Certificates;
 
 use strict;
 use base 'Catalyst::Model::File';
@@ -9,7 +9,7 @@ __PACKAGE__->config(
 
 =head1 NAME
 
-pkild::Model::File - Catalyst File Model
+pkild::Model::Certificates - Catalyst File Model
 
 =head1 SYNOPSIS
 
