@@ -76,8 +76,10 @@ sub default : Private {
             next if $node eq '.';
             # FIXME
             $node=~s/var\/tmp\/certificate_authority\///g;
-               
-            print STDERR $node."\n";
+            foreach my $pathpart (split('\/',$node)){
+                print STDERR $pathpart."\n";
+            }
+                 
         }
         $c->res->body(
                        "{ 
