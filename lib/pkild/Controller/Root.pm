@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use base 'Catalyst::Controller';
 use YAML;
+use JSON;
 
 #
 # Sets the actions in this controller to be registered with no prefix
@@ -68,49 +69,11 @@ sub default : Private {
     ############################################################################
     # Forward me to the certificate controller instead of this:
     ############################################################################
-    if( $c->request->arguments->[0] eq "jstree" ){
-        print STDERR YAML::Dump( $c->model('Certificates')->tree() );
-        $c->res->body(
-                       "{ 
-	                  attributes: { id : 'node_0'}, 
-	                  data: 'Root Certificate Authority', 
-                          state: closed,
-                          children: [
-	                              {
-                                        attributes: { id : 'node_1'}, 
-	                                data: 'External Intermediate Certificate Authority', 
-                                        state: closed,
-                                        children: [
-	                                            {
-                                                      attributes: { id : 'cert_1_0'}, 
-	                                              data: 'some host cert 0', 
-                                                    },
-	                                            {
-                                                      attributes: { id : 'cert_1_1'}, 
-	                                              data: 'some host cert 1', 
-                                                    },
-                                                  ]
-                                      },
-	                              {
-                                        attributes: { id : 'node_2'}, 
-	                                data: 'Internal Intermediate Certificate Authority', 
-                                        state: closed,
-                                        children: [
-	                                            {
-                                                      attributes: { id : 'cert_2_0'}, 
-	                                              data: 'some host cert 2', 
-                                                    },
-	                                            {
-                                                      attributes: { id : 'cert_2_1'}, 
-	                                              data: 'some host cert 3', 
-                                                    },
-                                                  ]
-                                      },
-                                    ]
-                        }"
-                      );
+        if( $c->request->arguments->[0] eq "jstree" ){
+            my $tree = $c->model('Certificates')->tree():
+            $c->res->body(to_json($tree->{'children'});
+        }
     }
-}
 
     ############################################################################
     # Update the default tab in the session if changed
