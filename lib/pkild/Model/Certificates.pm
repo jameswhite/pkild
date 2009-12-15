@@ -54,8 +54,8 @@ sub tree{
             }
         }
     }
-    print STDERR Data::Dumper->Dump([ $tree->{''}->{'children'} ]);
-    return $tree->{''}->{'children'};
+    print STDERR Data::Dumper->Dump([ $tree ]);
+    return $tree;
 }
 
 =head1 NAME
