@@ -54,6 +54,7 @@ sub tree{
             }
         }
     }
+    print STDERR Data::Dumper->Dump([ $tree->{''}->{'children'} ]);
     return $tree->{''}->{'children'};
 }
 
