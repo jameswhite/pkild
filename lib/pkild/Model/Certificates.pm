@@ -28,12 +28,15 @@ sub tree{
                                 'attributes' => { 'id' => $node },
                                 'data'       => $nodeparts[$#nodeparts],
                                 'state'      => 'closed',
-                                'children'   => []
                               };
             while(my $name=pop(@nodeparts)){
                 my $updir=join("\/",@nodeparts);
-                unless(grep($node , @{ $tree->{$updir}->{'children'} })){
+                if(!defined( $tree->{ $updir }->{'children'} )){
                     push( @{ $tree->{ $updir }->{'children'} }, $node );
+                }else{
+                    unless(grep($node , @{ $tree->{$updir}->{'children'} })){
+                        push( @{ $tree->{ $updir }->{'children'} }, $node );
+                    }
                 }
             }
         }
