@@ -54,6 +54,7 @@ sub tree{
             }
         }
     }
+print STDERR YAML::Dump($tree);
     return YAML::Load(YAML::Dump($tree->{'children'}));
 }
 
