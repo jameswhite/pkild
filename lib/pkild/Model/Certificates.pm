@@ -20,7 +20,7 @@ sub tree{
     my $previous_node='';
     for my $node (@file_names){
         next if $node eq '.';
-        next if $node eq '_data';
+        next if $node=~m/_data$/;
         $node=~s/$rootdir//g;
         $node=~s/^\///g;
         if(! defined $tree->{$node}){  
