@@ -23,20 +23,23 @@ sub tree{
         $node=~s/$rootdir//g;
         $node=~s/^\///g;
         if(! defined $tree->{$node}){  
-             my @nodeparts=split("\/",$node);
-             $tree->{$node} = { 
-                                'attributes' => { 'id' => $node },
-                                'data'       => $nodeparts[$#nodeparts],
-                                'state'      => 'closed',
-                              };
-            while(my $name=pop(@nodeparts)){
-                my $updir=join("\/",@nodeparts);
-                if(!defined( $tree->{ $updir }->{'children'} )){
-                    push( @{ $tree->{ $updir }->{'children'} }, $node );
-                }else{
-                        push( @{ $tree->{ $updir }->{'children'} }, $node );
-                }
-            }
+            my @nodeparts=split("\/",$node);
+            $tree->{$node} = { 
+                               'attributes' => { 'id' => $node },
+                               'data'       => $nodeparts[$#nodeparts],
+                               'state'      => 'closed',
+                             };
+            pop(@nodeparts);
+            my $updir=join("\/",@nodeparts);
+            if(!defined( $tree->{ $updir }->{'children'} )){
+               push( @{ $tree->{ $updir }->{'children'} }, $node );
+            }else{
+               $found=0;
+               foreach my $child (@{ $tree->{ $updir }->{'children'} }){
+                   if($node eq $child){ $found=1;}
+               }
+               if(! $found){ push( @{ $tree->{ $updir }->{'children'} }, $node ); }
+           }
         }
     }
     return $tree;
