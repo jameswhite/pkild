@@ -30,12 +30,12 @@ sub tree{
                                 'state'      => 'closed',
                                 'children'   => []
                               };
-          #  while(my $name=pop(@nodeparts)){
-          #      my $updir=join("\/",@nodeparts):
+            while(my $name=pop(@nodeparts)){
+                my $updir=join("\/",@nodeparts):
           #      unless(grep($node , @{ $tree->{$updir}->{'children'} })){
           #          push( @{ $tree->{$updir}->{'children'} }, $node );
           #      }
-          #  }
+            }
         }
     }
     return $tree;
