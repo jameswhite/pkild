@@ -22,13 +22,7 @@ sub tree{
         next if $node eq '.';
         $node=~s/$rootdir//g;
         $node=~s/^\///g;
-        my @part=split('\/',$node);
-        for(my $depth=0; $depth<= $#part; $depth++){
-            if($part[$depth] ne $tree->[$depth]->{'name'}){
-                push( @{ $tree->[$depth]->{'children'} }, { 'name' => $part[$depth] });
-            }   
-        }
-        $previous_node=$node;
+push (@{ $tree },$node);
     }
     return $tree;
 }
