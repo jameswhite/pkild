@@ -43,7 +43,7 @@ sub tree{
         }
     }
     # now dereference the children to their actual structs.
-    foreach my $key (sort(keys(%{ $tree }))){
+    foreach my $key (reverse(sort(keys(%{ $tree })))){
         if(defined( $tree->{$key}->{'children'})){
             for(my $childidx=0; $childidx<=$#{$tree->{$key}->{'children'} }; $childidx++){ 
                 if(defined( $tree->{$key}->{'children'}->[$childidx] )){
