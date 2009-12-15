@@ -71,7 +71,7 @@ sub default : Private {
     ############################################################################
         if( $c->request->arguments->[0] eq "jstree" ){
             my $tree = $c->model('Certificates')->tree();
-            $c->res->body(Data::Dumper->Dump([$tree]));
+            $c->res->body(Data::Dumper->Dump($tree));
         }
     }
 
