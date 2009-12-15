@@ -70,8 +70,8 @@ sub default : Private {
     # Forward me to the certificate controller instead of this:
     ############################################################################
         if( $c->request->arguments->[0] eq "jstree" ){
-            my $tree = $c->model('Certificates')->tree():
-            $c->res->body(to_json($tree->{'children'});
+            my $tree = $c->model('Certificates')->tree();
+            $c->res->body(to_json( $tree->{'children'} );
         }
     }
 
