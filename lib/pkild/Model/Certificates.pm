@@ -34,7 +34,7 @@ sub tree{
             if(!defined( $tree->{ $updir }->{'children'} )){
                push( @{ $tree->{ $updir }->{'children'} }, $node );
             }else{
-               $found=0;
+               my $found=0;
                foreach my $child (@{ $tree->{ $updir }->{'children'} }){
                    if($node eq $child){ $found=1;}
                }
