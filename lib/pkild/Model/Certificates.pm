@@ -53,8 +53,7 @@ sub tree{
             }
         }
     }
-    print STDERR Data::Dumper->Dump([ $tree ]);
-    push(@{ $tree->{''}->{'children'} },{ 'attributes' => { id: "NEW_ROOT_CA"}, 'data' => 'Create New Root CA' });
+    #push(@{ $tree->{''}->{'children'} }, { 'attributes' => { id: "NEW_ROOT_CA"}, 'data' => 'Create New Root CA' });
     return $tree->{''}->{'children'};
 }
 
