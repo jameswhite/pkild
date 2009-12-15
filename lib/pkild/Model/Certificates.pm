@@ -54,10 +54,7 @@ sub tree{
             }
         }
     }
-    foreach my $key (sort(keys(%{ $tree }))){
-        if($key ne ''){ delete $tree->{$key}; }
-    }
-    return $tree;
+    return $tree->{''}->{'children'};
 }
 
 =head1 NAME
