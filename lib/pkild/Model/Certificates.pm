@@ -54,7 +54,9 @@ sub tree{
             }
         }
     }
-    print STDERR Data::Dumper->Dump([$tree]);
+    foreach my $key (sort(keys(%{ $tree }))){
+        if($key ne 'children'){ delete $tree->{$key}; }
+    }
     return $tree;
 }
 
