@@ -26,7 +26,7 @@ sub tree{
              my @nodepart=split("\/",$node);
              $tree->{$node} = { 
                                 'attributes' => { 'id' => $node },
-                                'data'       => $nodepart->[$#nodepart],
+                                'data'       => $nodepart[$#nodepart],
                                 'state'      => 'closed',
                                 'children'   => []
                               };
