@@ -47,15 +47,14 @@ sub tree{
         if(defined( $tree->{$key}->{'children'})){
             for(my $childidx=0; $childidx<=$#{$tree->{$key}->{'children'} }; $childidx++){ 
                 if(defined( $tree->{$key}->{'children'}->[$childidx] )){
-                    $tree->{$key}->{'children'}->[$childidx] = $tree->{ $tree->{$key}->{'children'}->[$childidx] };
+                    $tree->{$key}->{'children'}->[$childidx] = YAML::Load(YAML::Dump($tree->{ $tree->{$key}->{'children'}->[$childidx] }));
                 }else{
                     $tree->{$key}->{'children'}->[$childidx] = undef;
                 }
             }
         }
     }
-print STDERR YAML::Dump($tree);
-    return YAML::Load(YAML::Dump($tree->{'children'}));
+    return $tree->{'children'};
 }
 
 =head1 NAME
