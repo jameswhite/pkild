@@ -54,7 +54,7 @@ sub tree{
             }
         }
     }
-    return $tree->{'children'};
+    return $tree;
 }
 
 =head1 NAME
