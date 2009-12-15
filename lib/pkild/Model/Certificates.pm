@@ -34,9 +34,7 @@ sub tree{
                 if(!defined( $tree->{ $updir }->{'children'} )){
                     push( @{ $tree->{ $updir }->{'children'} }, $node );
                 }else{
-                    unless(grep($node , @{ $tree->{$updir}->{'children'} })){
                         push( @{ $tree->{ $updir }->{'children'} }, $node );
-                    }
                 }
             }
         }
