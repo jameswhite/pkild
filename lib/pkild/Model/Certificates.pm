@@ -22,7 +22,15 @@ sub tree{
         next if $node eq '.';
         $node=~s/$rootdir//g;
         $node=~s/^\///g;
-push (@{ $tree },$node);
+        if(! defined $tree->{$node}){  
+             my @nodepart=split("\/",$node);
+             $tree->{$node} = { 
+                                'attributes' => { 'id' => $node },
+                                'data'       => $nodepart->[$#nodepart],
+                                'state'      => 'closed',
+                                'children'   => []
+                              };
+        }
     }
     return $tree;
 }
