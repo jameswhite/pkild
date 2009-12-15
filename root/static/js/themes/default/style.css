@@ -18,7 +18,7 @@
 .tree-default ins { background-image:url("icons.png"); background-position:0 0; background-repeat:no-repeat; }
 .tree-default ul li a.loading ins { background-image:url("throbber.gif") !important; background-position:0 0 !important; } /* UL is added to make selector stronger */
 .tree-default li a ins.forbidden { background-position:-16px -16px; }
-.tree-default li a ins.permitted { background-position:-32px -16px; }
+.tree-default li a ins.permitted { background-position:-16px -32px; }
 .tree-default .locked li a ins { background-position:0 -48px; }
 .tree-default li span ins { background-position:-16px 0; }
 #jstree-dragged.tree-default ins { background:url("icons.png") -16px -32px no-repeat; }
