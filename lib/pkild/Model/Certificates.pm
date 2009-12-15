@@ -55,7 +55,7 @@ sub tree{
         }
     }
     foreach my $key (sort(keys(%{ $tree }))){
-        if($key ne 'children'){ delete $tree->{$key}; }
+        if($key ne ''){ delete $tree->{$key}; }
     }
     return $tree;
 }
