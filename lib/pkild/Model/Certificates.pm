@@ -27,7 +27,6 @@ sub tree{
             $tree->{$node} = { 
                                'attributes' => { 'id' => $node },
                                'data'       => $nodeparts[$#nodeparts],
-                               'state'      => 'closed',
                              };
             pop(@nodeparts);
             my $updir=join("\/",@nodeparts);
