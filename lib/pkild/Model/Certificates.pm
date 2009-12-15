@@ -44,7 +44,7 @@ sub tree{
     }
     # now dereference the children to their actual structs.
     foreach my $key (reverse(sort(keys(%{ $tree })))){
-        if(defined( $tree->{$key}->{'children'})){
+        if(defined( $tree->{$key}->{'children'} && $key ne '')){
             for(my $childidx=0; $childidx<=$#{$tree->{$key}->{'children'} }; $childidx++){ 
                 if(defined( $tree->{$key}->{'children'}->[$childidx] )){
                     $tree->{$key}->{'children'}->[$childidx] = YAML::Load(YAML::Dump($tree->{ $tree->{$key}->{'children'}->[$childidx] }));
