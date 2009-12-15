@@ -71,8 +71,7 @@ sub default : Private {
     ############################################################################
         if( $c->request->arguments->[0] eq "jstree" ){
             my $tree = $c->model('Certificates')->tree();
-print STDERR Data::Dumper->Dump([$tree]);
-            #$c->res->body( to_json( $tree->[0] ) );
+            $c->res->body(Data::Dumper->Dump([$tree]));
         }
     }
 
