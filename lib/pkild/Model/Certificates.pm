@@ -54,7 +54,7 @@ sub tree{
             }
         }
     }
-    return $tree;
+    return YAML::Load(YAML::Dump($tree->{'children'}));
 }
 
 =head1 NAME

@@ -71,9 +71,7 @@ sub default : Private {
     ############################################################################
         if( $c->request->arguments->[0] eq "jstree" ){
             my $tree = $c->model('Certificates')->tree();
-            my $children=$tree->{'children'};
-            my $json_text = to_json( $children );
-            $c->res->body( $json_text );
+            $c->res->body( to_json( $tree ) );
         }
     }
 
