@@ -23,13 +23,19 @@ sub tree{
         $node=~s/$rootdir//g;
         $node=~s/^\///g;
         if(! defined $tree->{$node}){  
-             my @nodepart=split("\/",$node);
+             my @nodeparts=split("\/",$node);
              $tree->{$node} = { 
                                 'attributes' => { 'id' => $node },
-                                'data'       => $nodepart[$#nodepart],
+                                'data'       => $nodeparts[$#nodeparts],
                                 'state'      => 'closed',
                                 'children'   => []
                               };
+            while(my $name=pop(@nodeparts)){
+                my $updir=join("\/",@nodeparts):
+                unless(grep($node , @{ $tree->{$updir}->{'children'} })){
+                    push( @{ $tree->{$updir}->{'children'} }, $node );
+                }
+            }
         }
     }
     return $tree;
