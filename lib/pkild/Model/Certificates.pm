@@ -31,10 +31,10 @@ sub tree{
                                 'children'   => []
                               };
             while(my $name=pop(@nodeparts)){
-                my $updir=join("\/",@nodeparts):
-          #      unless(grep($node , @{ $tree->{$updir}->{'children'} })){
-          #          push( @{ $tree->{$updir}->{'children'} }, $node );
-          #      }
+                my $updir=join("\/",@nodeparts);
+                unless(grep($node , @{ $tree->{$updir}->{'children'} })){
+                    push( @{ $tree->{$updir}->{'children'} }, $node );
+                }
             }
         }
     }
