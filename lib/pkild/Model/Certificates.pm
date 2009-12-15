@@ -46,11 +46,11 @@ sub tree{
     foreach my $key (sort(keys(%{ $tree }))){
         if(defined( $tree->{$key}->{'children'})){
             for(my $childidx=0; $childidx<=$#{$tree->{$key}->{'children'} }; $childidx++){ 
-   #             if(defined( $tree->{$key}->{'children'}->[$childidx] ){
-   #                 $tree->{$key}->{'children'}->[$childidx]=$tree->{ $tree->{$key}->{'children'}->[$childidx] } 
-   #             }else{
-   #                  $tree->{$key}->{'children'}->[$childidx]=undef;
-   #             }
+                if(defined( $tree->{$key}->{'children'}->[$childidx] )){
+                    $tree->{$key}->{'children'}->[$childidx] = $tree->{ $tree->{$key}->{'children'}->[$childidx] };
+                }else{
+                    $tree->{$key}->{'children'}->[$childidx] = undef;
+                }
             }
         }
     }
