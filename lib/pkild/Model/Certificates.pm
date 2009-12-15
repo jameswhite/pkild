@@ -59,7 +59,8 @@ sub tree{
           @{ $tree->{''}->{'children'} }, 
           { 
             'attributes' => { 'id' =>  "NEW_ROOT_CA" }, 
-            'data' => { 'title' => 'Create New Root CA', 'icon' => 'createnew'}
+            'data' => { 'title' => 'Create New Root CA', 'icon' => 'createnew'},
+            'state' => 'closed'
           }
         );
     return $tree->{''}->{'children'};
