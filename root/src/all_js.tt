@@ -20,6 +20,14 @@
                                   return false;
                                 };
         function readyDocument(){
+                                  $("#application").splitter({
+                                                               type: 'v',
+                                                               outline: true,
+                                                               minLeft: 100, sizeLeft: 150, minRight: 100,
+                                                               resizeToWidth: true,
+                                                               cookie: "vsplitter",
+                                                               accessKey: 'I'
+                                                             }); 
                                    $(".menu > li").click( 
                                                           function(e){ 
                                                                        active_tab = e.target.id;
@@ -30,22 +38,27 @@
                                    if(active_tab == "" ){ active_tab="Help"; }
                                    activate(active_tab);
                                  };
-        $().ready(function(){ 
-                              readyDocument();
-                              $("#application").splitter({
-                                                           type: 'v',
-                                                           outline: true,
-                                                           minLeft: 100, sizeLeft: 150, minRight: 100,
-                                                           resizeToWidth: true,
-                                                           cookie: "vsplitter",
-                                                           accessKey: 'I'
-                                                         }); 
-                            });
 
         $(function() {
-                       $("#certificate_tree").tree({ data: { type: "json",async: true, opts: { method: "GET", url:"jstree/" } }, ui: { theme_name: "classic"} } );
-                       $("#certificate_tree").tree({ callback: { onselect: function(node,tree_obj) { $('#right-pane').load('action/'+ node.id); readyDocument(); } } } );
+                       $("#certificate_tree").tree({ 
+                                                     data: { 
+                                                             type: "json",
+                                                             async: true, 
+                                                             opts: { method: "GET", url:"jstree/" } 
+                                                           }, 
+                                                     ui: { theme_name: "classic"} 
+                                                   });
+                       $("#certificate_tree").tree({ 
+                                                     callback: { 
+                                                                 onselect: function(node,tree_obj){ 
+                                                                   $('#right-pane').load('action/'+ node.id); 
+                                                                   readyDocument(); 
+                                                                   activate(active_tab);
+                                                                 } 
+                                                               } 
+                                                   });
                      }
          );
+        $().ready(function(){ readyDocument(); });
     -->
     </script>  
