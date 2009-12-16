@@ -61,7 +61,7 @@ sub default : Private {
 
         # send us home, so subsequent page refreshes won't post logout
         # FIXME this should redirect to the base path
-        print STDERR Data::Dumper->Dump([$c->request]);
+        print STDERR Data::Dumper->Dump([$c->request->headers->referer]);
         $c->res->redirect($c->request->headers->referer);
         $c->detach();
     }
