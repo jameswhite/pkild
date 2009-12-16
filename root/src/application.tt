@@ -38,8 +38,6 @@
     <script type="text/javascript" src="static/js/jquery.cookie.js"></script>  
     <script type="text/javascript"> 
     <!--
-        var menuItems = new Array();
-        [% FOREACH menu IN menunames %]menuItems.push("[% menu %]");[% END %]
         $().ready(function(){ $("#application").splitter({
                                                            type: 'v',
                                                            outline: true,
