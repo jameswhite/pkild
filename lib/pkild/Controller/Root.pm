@@ -74,14 +74,12 @@ sub default : Private {
         if( $c->request->arguments->[0] eq "action" ){
             # stash something
             # send the new actionbox
-            $c->stash->{menudata}=$c->session->{'menudata'}->{'Certificate'};
-print STDERR "\n::::::::::::::::".Data::Dumper->Dump([$c->session->{'menudata'}]).":::::::::::::::::\n";
             $c->res->body( $c->view('TT')->render(
                                                    $c,
                                                    'actionbox.tt',
                                                    { 
                                                      additional_template_paths => [ $c->config->{root} . '/src'],
-                                                     $c->session->{'menudata'}->{'Certificate'}
+                                                     $c->session->{'menudata'}
                                                    }
                                                  )
                          );
