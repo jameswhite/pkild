@@ -30,8 +30,9 @@
                                    if(active_tab == "" ){ active_tab="Help"; }
                                    activate(active_tab);
                                  };
-        $(document).ready( function() { readyDocument() } );
-        $().ready(function(){ $("#application").splitter({
+        $().ready(function(){ 
+                              readyDocument();
+                              $("#application").splitter({
                                                            type: 'v',
                                                            outline: true,
                                                            minLeft: 100, sizeLeft: 150, minRight: 100,
