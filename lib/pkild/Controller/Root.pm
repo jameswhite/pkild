@@ -79,7 +79,7 @@ sub default : Private {
                                                    'actionbox.tt',
                                                    { 
                                                      additional_template_paths => [ $c->config->{root} . '/src'],
-                                                     $c->session->{'menudata'}
+                                                     'menunames' => [ 'one', 'two', 'three' ]
                                                    }
                                                  )
                          );
