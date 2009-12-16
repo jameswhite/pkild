@@ -20,9 +20,8 @@
                                   }
                                   return false;
                                 }
-        $(document).ready( 
+        $(
                            function(){ 
-alert("three");
                                        $(".menu > li").click( 
                                                               function(e){ 
                                                                            active_tab=e.target.id;
@@ -32,8 +31,7 @@ alert("three");
                                                             );
                                      }
                          );
-        $().ready(function(){ $("#application").splitter({
-alert("two");
+        $(function(){ $("#application").splitter({
                                                            type: 'v',
                                                            outline: true,
                                                            minLeft: 100, sizeLeft: 150, minRight: 100,
