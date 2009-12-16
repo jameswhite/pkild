@@ -118,10 +118,10 @@ forms:
         type: submit
         value: Logout
   Help: 
+    comments: This is the help for this page.  yo.
     legend: Help
     fields:
       - name: Help
         prompt: ~
         type: submit
         value: Help
-    comments: This is the help for this page.  yo.
