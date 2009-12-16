@@ -120,4 +120,7 @@ forms:
         value: Logout
   Help: 
     legend: Help
-    comments: These are the help comments
+    comments: |
+      These are the help comments
+      These are the help comments
+      These are the help comments
