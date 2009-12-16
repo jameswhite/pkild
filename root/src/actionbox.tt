@@ -51,7 +51,7 @@
                                                             ); 
                                      }
                          );
-        activate("Help");
+        activate("[% default_tab %]");
     -->
     </script>
 
