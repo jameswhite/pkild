@@ -110,14 +110,14 @@ forms:
         prompt: ~
         type: submit
         value: Revoke
-  Help: 
-    legend: Help
+  Logout: 
+    legend: Logout
     fields:
-      - name: Help
+      - name: logout
         prompt: ~
         type: submit
-        value: Help
-  Logout: 
+        value: Logout
+  Help: 
     legend: Logout
     fields:
       - name: logout
