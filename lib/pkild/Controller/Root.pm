@@ -75,7 +75,7 @@ sub default : Private {
             # stash something
             # send the new actionbox
             $c->stash->{menudata}=$c->session->{'menudata'};
-            $c->res->body( $c->view->('TT')->render($c,'actionbox.tt', {additional_template_paths => [ $c->config->{root} . '/email_templates'],mail_tmpl_param1 => 'foo' }) );
+            print STDERR $c->view->('TT')->render($c,'actionbox.tt');
         }
     }
 
