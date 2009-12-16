@@ -20,7 +20,7 @@
                                   }
                                   return false;
                                 }
-        $(function(){ 
+        function set() { 
                       $(".menu > li").click( 
                                              function(e){ 
                                                           active_tab=e.target.id;
@@ -54,7 +54,7 @@
                                                                } 
                                                    });
                      }
-         );
+        $( set(); );
     activate(active_tab);
     -->
     </script>  
