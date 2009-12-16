@@ -8,6 +8,7 @@ order:
     - Sign
     - Revoke
     - Logout
+    - Help
   user:
     - Sign
     - Logout
@@ -116,3 +117,5 @@ forms:
         prompt: ~
         type: submit
         value: Logout
+  Help: 
+    legend: Help
