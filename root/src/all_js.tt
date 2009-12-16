@@ -32,7 +32,6 @@
                                                                           }
                                                             );
                                      }
-                           activate("[% default_tab %]");
                          );
         $().ready(function(){ $("#application").splitter({
                                                            type: 'v',
@@ -49,5 +48,6 @@
                        $("#certificate_tree").tree({ callback: { onselect: function(node,tree_obj) { $('#right-pane').load('action/'+ node.id); activate(active_tab); } } } );
                      }
          );
+    activate(active_tab);
     -->
     </script>  
