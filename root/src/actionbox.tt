@@ -1,7 +1,7 @@
     <div id="container">  
         <ul class="menu">  
             [% FOREACH name IN menunames %] 
-            <li id="[% name %]">[% name %]</li>  
+            <li id="[% name %]">[% name %]</li> 
             [% END %]
         </ul>  
         <span class="clear"></span>  
