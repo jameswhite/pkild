@@ -56,6 +56,6 @@
                                                                            } 
                                                                });
                                  };
-        //$().ready(function(){ readyDocument(); });
+        $().ready(function(){ readyDocument(); });
     -->
     </script>  
