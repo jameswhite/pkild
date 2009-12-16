@@ -55,29 +55,6 @@
                        $("#certificate_tree").tree({ callback: { onselect: function(node,tree_obj) { $('#right-pane').load('action/'+ node.id); activate("Help"); } } } );
                      }
          );
-        function activate(name) {
-                                  for(var idx=0; idx<=menuItems.length; idx++){
-                                      if(menuItems[idx] == name){
-                                          $( "#" + menuItems[idx] ).addClass("active");
-                                          $( "div." + menuItems[idx] ).fadeIn();
-                                      }else{
-                                          $( "#" + menuItems[idx] ).removeClass("active");
-                                          $( "div." + menuItems[idx] ).css("display", "none");
-                                      }
-                                  }
-                                  return false;
-                                }
-        $(document).ready(
-                           function(){ 
-                                       $(".menu > li").click( 
-                                                              function(e){ 
-                                                                           jQuery.get("?change_tab=" + e.target.id, '', '', '');
-                                                                           return activate(e.target.id); 
-                                                                          }
-                                                            ); 
-                                     }
-                         );
-        activate("[% default_tab %]");
     -->
     </script>  
 </body>  
