@@ -22,17 +22,17 @@
                                   }
                                   return false;
                                 }
-        $(document).ready( 
-                           function(){ 
-                                       $(".menu > li").click( 
-                                                              function(e){ 
-                                                                           active_tab=e.target.id;
-                                                                           jQuery.get("?change_tab=" + e.target.id, '', '', '');
-                                                                           return activate(e.target.id);
-                                                                          }
-                                                            );
-                                     }
                          );
+        function tab_prep(){ 
+                             $(".menu > li").click( 
+                                                    function(e){ 
+                                                                 active_tab=e.target.id;
+                                                                 jQuery.get("?change_tab=" + e.target.id, '', '', '');
+                                                                 return activate(e.target.id);
+                                                                }
+                                                  );
+                           }
+        $(document).ready( tab_prep(); ); 
         $().ready(function(){ $("#application").splitter({
                                                            type: 'v',
                                                            outline: true,
@@ -44,8 +44,23 @@
                             });
 
         $(function() {
-                       $("#certificate_tree").tree({ data: { type: "json",async: true, opts: { method: "GET", url:"jstree/" } }, ui: { theme_name: "classic"} } );
-                       $("#certificate_tree").tree({ callback: { onselect: function(node,tree_obj) { $('#right-pane').load('action/'+ node.id); activate(active_tab); } } } );
+                       $("#certificate_tree").tree({ 
+                                                     data: { 
+                                                             type: "json",
+                                                             async: true, 
+                                                             opts: { method: "GET", url:"jstree/" } 
+                                                           }, 
+                                                     ui: { theme_name: "classic"} 
+                                                   });
+                       $("#certificate_tree").tree({ 
+                                                     callback: { 
+                                                                 onselect: function(node,tree_obj)
+                                                                 { 
+                                                                   $('#right-pane').load('action/'+ node.id); 
+                                                                   activate(active_tab); 
+                                                                 } 
+                                                               } 
+                                                   });
                      }
          );
     activate(active_tab);
