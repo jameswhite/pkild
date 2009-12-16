@@ -52,7 +52,7 @@
 
         $(function() {
                        $("#certificate_tree").tree({ data: { type: "json",async: true, opts: { method: "GET", url:"jstree/" } }, ui: { theme_name: "classic"} } );
-                       $("#certificate_tree").tree({ callback: { onselect: function(node,tree_obj) { alert(node.id); } } } );
+                       $("#certificate_tree").tree({ callback: { onselect: function(node,tree_obj) { $('container').html(node.id); } } } );
                      }
          );
         function activate(name) {
@@ -65,7 +65,6 @@
                                           $( "div." + menuItems[idx] ).css("display", "none");
                                       }
                                   }
-                                  //alert(name);  
                                   return false;
                                 }
         $(document).ready(

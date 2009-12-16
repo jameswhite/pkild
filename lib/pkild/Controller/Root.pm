@@ -72,18 +72,14 @@ sub default : Private {
             $c->res->body(to_json($c->model('Certificates')->tree(), {'pretty' => 1}));
         }
         if( $c->request->arguments->[0] eq "action" ){
-            # stash something
             # send the new actionbox
-print STDERR "\n\n\n";
-print STDERR Data::Dumper->Dump([$c->session->{'menunames'}]);
-print STDERR "\n\n\n";
             $c->res->body( $c->view('TT')->render(
                                                    $c,
                                                    'actionbox.tt',
                                                    { 
                                                      additional_template_paths => [ $c->config->{root} . '/src'],
-                                                     'menunames' => $c->session->{'menunames'},
-                                                     'menudata' => $c->session->{'menudata'}
+                                                     'menunames'               => $c->session->{'menunames'},
+                                                     'menudata'                => $c->session->{'menudata'}
                                                    }
                                                  )
                          );
