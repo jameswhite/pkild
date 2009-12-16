@@ -74,6 +74,9 @@ sub default : Private {
         if( $c->request->arguments->[0] eq "action" ){
             # stash something
             # send the new actionbox
+print STDERR "\n\n\n";
+print STDERR Data::Dumper->Dump([$c->session->{menudata}]);
+print STDERR "\n\n\n";
             $c->res->body( $c->view('TT')->render(
                                                    $c,
                                                    'actionbox.tt',
