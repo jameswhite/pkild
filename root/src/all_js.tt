@@ -42,6 +42,7 @@
                             });
 
         $(function() {
+alert("one");
                        $("#certificate_tree").tree({ 
                                                      data: { 
                                                              type: "json",
