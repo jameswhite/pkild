@@ -75,7 +75,7 @@ sub default : Private {
             # stash something
             # send the new actionbox
             $c->stash->{menudata}=$c->session->{'menudata'};
-            $c->res->body( $c->view('TT')->render($c,'actionbox.tt');
+            $c->res->body( $c->view('TT')->render($c,'actionbox.tt'));
         }
     }
 
