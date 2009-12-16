@@ -49,7 +49,14 @@
                                                                  onselect: function(node,tree_obj)
                                                                  { 
                                                                    $('#right-pane').load('action/'+ node.id); 
-                                                                   activate(active_tab); 
+                                                                   $(".menu > li").click( 
+                                                                                          function(e)
+                                                                                          { 
+                                                                                       active_tab=e.target.id;
+                                                                                       jQuery.get("?change_tab=" + e.target.id, '', '', '');
+                                                                                       return activate(e.target.id);
+                                                                                          }
+                                                                                        );
                                                                  } 
                                                                } 
                                                    });
