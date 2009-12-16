@@ -111,7 +111,6 @@ forms:
         type: submit
         value: Revoke
   Help: 
-    comments: This is the help for this page.  yo.
     legend: Help
     fields:
       - name: Help
