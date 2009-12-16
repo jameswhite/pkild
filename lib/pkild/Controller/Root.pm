@@ -79,7 +79,7 @@ sub default : Private {
                                                    { 
                                                      additional_template_paths => [ $c->config->{root} . '/src'],
                                                      'menunames'               => $c->session->{'menunames'},
-                                                     'menudata'                => $c->session->{'menudata'}
+                                                     'menudata'                => $c->session->{'menudata'},
                                                      'default_tab'             => $c->session->{'default_tab'}
                                                    }
                                                  )
