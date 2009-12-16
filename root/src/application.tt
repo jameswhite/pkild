@@ -38,6 +38,7 @@
     <script type="text/javascript" src="static/js/jquery.cookie.js"></script>  
     <script type="text/javascript"> 
     <!--
+        var active_tab;
         var menuItems = new Array();
         [% FOREACH menu IN menunames %]menuItems.push("[% menu %]");[% END %]
         function activate(name) { 
@@ -56,6 +57,7 @@
                            function(){ 
                                        $(".menu > li").click( 
                                                               function(e){ 
+                                                                           active_tab=e.target.id;
                                                                            jQuery.get("?change_tab=" + e.target.id, '', '', '');
                                                                            return activate(e.target.id);
                                                                           }
@@ -75,7 +77,7 @@
 
         $(function() {
                        $("#certificate_tree").tree({ data: { type: "json",async: true, opts: { method: "GET", url:"jstree/" } }, ui: { theme_name: "classic"} } );
-                       $("#certificate_tree").tree({ callback: { onselect: function(node,tree_obj) { $('#right-pane').load('action/'+ node.id); } } } );
+                       $("#certificate_tree").tree({ callback: { onselect: function(node,tree_obj) { $('#right-pane').load('action/'+ node.id); activate(active_tab); } } } );
                      }
          );
     -->
