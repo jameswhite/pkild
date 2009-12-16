@@ -38,6 +38,31 @@
     <script type="text/javascript" src="static/js/jquery.cookie.js"></script>  
     <script type="text/javascript"> 
     <!--
+        var menuItems = new Array();
+        [% FOREACH menu IN menunames %]menuItems.push("[% menu %]");[% END %]
+        function activate(name) { 
+                                  for(var idx=0; idx<=menuItems.length; idx++){
+                                      if(menuItems[idx] == name){
+                                          $( "#" + menuItems[idx] ).addClass("active");
+                                          $( "div." + menuItems[idx] ).fadeIn();
+                                      }else{
+                                          $( "#" + menuItems[idx] ).removeClass("active");
+                                          $( "div." + menuItems[idx] ).css("display", "none");
+                                      }
+                                  }
+                                  return false;
+                                }
+        $(document).ready( 
+                           function(){ 
+                                       $(".menu > li").click( 
+                                                              function(e){ 
+                                                                           jQuery.get("?change_tab=" + e.target.id, '', '', '');
+                                                                           return activate(e.target.id);
+                                                                          }
+                                                            );
+                                     }
+                         );
+        activate("[% default_tab %]");
         $().ready(function(){ $("#application").splitter({
                                                            type: 'v',
                                                            outline: true,
