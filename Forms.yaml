@@ -98,7 +98,7 @@ forms:
       - name: csr
         prompt: Certificate Signing Request
         type: file
-        size: 30
+        size: 20
       - name: sign
         prompt: ~
         type: submit
@@ -119,4 +119,7 @@ forms:
         value: Logout
   Help: 
     legend: Help
+        prompt: ~
+        type: submit
+        value: Help
     comments: This is the help for this page.  yo.
