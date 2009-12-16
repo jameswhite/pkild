@@ -121,6 +121,6 @@ forms:
   Help: 
     legend: Help
     comments: |
-      These are the help comments
-      These are the help comments
-      These are the help comments
+      These are the help comments<br>
+      These are the help comments<br>
+      These are the help comments<br>
