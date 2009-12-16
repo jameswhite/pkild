@@ -29,9 +29,7 @@
                                                                            return activate(e.target.id);
                                                                           }
                                                             );
-                                     }
-                         );
-        $(function(){ $("#application").splitter({
+                      $("#application").splitter({
                                                            type: 'v',
                                                            outline: true,
                                                            minLeft: 100, sizeLeft: 150, minRight: 100,
@@ -39,10 +37,7 @@
                                                            cookie: "vsplitter",
                                                            accessKey: 'I'
                                                          }); 
-                            });
 
-        $(function() {
-alert("one");
                        $("#certificate_tree").tree({ 
                                                      data: { 
                                                              type: "json",
