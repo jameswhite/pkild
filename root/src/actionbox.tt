@@ -54,4 +54,3 @@
         activate("[% default_tab %]");
     -->
     </script>
-
