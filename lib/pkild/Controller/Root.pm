@@ -75,7 +75,7 @@ sub default : Private {
             # stash something
             # send the new actionbox
 print STDERR "\n\n\n";
-print STDERR Data::Dumper->Dump([$c->session->{menudata}]);
+print STDERR Data::Dumper->Dump([$c->session]);
 print STDERR "\n\n\n";
             $c->res->body( $c->view('TT')->render(
                                                    $c,
