@@ -32,8 +32,8 @@
                                                                           }
                                                             );
                                      }
+                           activate("[% default_tab %]");
                          );
-        activate("[% default_tab %]");
         $().ready(function(){ $("#application").splitter({
                                                            type: 'v',
                                                            outline: true,
