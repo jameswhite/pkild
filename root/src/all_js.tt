@@ -7,8 +7,8 @@
         var active_tab = "[% default_tab %]";
         if(active_tab == ""){ active_tab = "Help"; }
         var menuItems = new Array();
+        [% FOREACH menu IN menunames %]menuItems.push("[% menu %]");[% END %]
         function activate(name) { 
-                                  [% FOREACH menu IN menunames %]menuItems.push("[% menu %]");[% END %]
                                   for(var idx=0; idx<=menuItems.length; idx++){
                                       if(menuItems[idx] == name){
                                         $( "#" + menuItems[idx] ).addClass("active");
