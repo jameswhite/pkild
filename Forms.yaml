@@ -73,11 +73,11 @@ forms:
       - name: ca-crt
         prompt: Certificate Authority:
         type: text
-        size: 40
+        size: 30
       - name: ca-crl
         prompt: Certificate Revocation List:
         type: text
-        size: 40
+        size: 30
       - name: update_cert_paths
         prompt: ~
         type: submit
