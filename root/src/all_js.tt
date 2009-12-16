@@ -5,7 +5,6 @@
     <script type="text/javascript"> 
     <!--
         var active_tab='[% default_tab %]';
-        if(active_tab == undefined ){ active_tab="Help"; }
         var menuItems = new Array();
         [% FOREACH menu IN menunames %]menuItems.push("[% menu %]");[% END %]
         function activate(name) { 
@@ -46,6 +45,7 @@
                        $("#certificate_tree").tree({ callback: { onselect: function(node,tree_obj) { $('#right-pane').load('action/'+ node.id); activate(active_tab); } } } );
                      }
          );
+        if(active_tab == "" ){ active_tab="Help"; }
         activate(active_tab);
     -->
     </script>  
