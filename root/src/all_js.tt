@@ -5,7 +5,7 @@
     <script type="text/javascript"> 
     <!--
         var active_tab;
-        if(active_tab == ''){ active_tab="Help"; }
+        if(active_tab == undefined ){ active_tab="Help"; }
         var menuItems = new Array();
         [% FOREACH menu IN menunames %]menuItems.push("[% menu %]");[% END %]
         function activate(name) { 
