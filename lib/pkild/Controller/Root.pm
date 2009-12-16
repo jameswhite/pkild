@@ -60,6 +60,8 @@ sub default : Private {
         $c->delete_session("logout");
 
         # send us home, so subsequent page refreshes won't post logout
+        # FIXME this should redirect to the base path
+        print STDERR Data::Dumper->Dump($c->request);
         $c->res->redirect("/pkild/");
         $c->detach();
     }
