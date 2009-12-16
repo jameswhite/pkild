@@ -60,7 +60,7 @@ sub default : Private {
         $c->delete_session("logout");
 
         # send us home, so subsequent page refreshes won't post logout
-        $c->res->redirect("");
+        $c->res->redirect("/pkild/");
         $c->detach();
     }
 
