@@ -75,7 +75,7 @@ sub default : Private {
             # stash something
             # send the new actionbox
             $c->stash->{menudata}=$c->session->{'menudata'};
-print STDERR "\n::::::::::::::::".$c->config->{root}.":::::::::::::::::\n";
+print STDERR "\n::::::::::::::::".Data::Dumper->Dump([$c->session->{'menudata'}]).":::::::::::::::::\n";
             $c->res->body( $c->view('TT')->render(
                                                    $c,
                                                    'actionbox.tt',
