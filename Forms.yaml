@@ -12,6 +12,7 @@ order:
   user:
     - Sign
     - Logout
+    - Help
 forms:
   Domain:
     legend: Domain Name
@@ -118,9 +119,5 @@ forms:
         type: submit
         value: Logout
   Help: 
-    legend: Logout
-    fields:
-      - name: logout
-        prompt: ~
-        type: submit
-        value: Logout
+    legend: Help
+    comments: These are the help comments
