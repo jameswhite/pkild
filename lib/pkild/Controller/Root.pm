@@ -82,7 +82,8 @@ print STDERR "\n\n\n";
                                                    'actionbox.tt',
                                                    { 
                                                      additional_template_paths => [ $c->config->{root} . '/src'],
-                                                     'menunames' => [ 'one', 'two', 'three' ]
+                                                     'menunames' => $c->session->{'menunames'},
+                                                     'menudata' => $c->session->{'menudata'}
                                                    }
                                                  )
                          );
@@ -116,13 +117,14 @@ print STDERR "\n\n\n";
         $c->stash->{template}="login.tt";
     }else{
         if($c->check_user_roles( "certificate_administrators" )){
-            $c->stash->{menunames}=$form_data->{'order'}->{'administrator'};
+            $c->session->{menunames}=$form_data->{'order'}->{'administrator'};
         }else{
             my $form_data = $c->config->{'layout'};
-            $c->stash->{menunames}=$form_data->{'order'}->{'user'};
+            $c->session->{menunames}=$form_data->{'order'}->{'user'};
         }
         $c->session->{'default_tab'}=$c->stash->{menunames}->[0] unless defined $c->session->{'default_tab'};
         $c->stash->{'default_tab'} = $c->session->{'default_tab'};
+        $c->stash->{menunames}=$c->session->{'menunames'};
         $c->stash->{menudata}=$c->session->{'menudata'};
         $c->stash->{template}="application.tt";
     }
