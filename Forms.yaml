@@ -110,13 +110,6 @@ forms:
         prompt: ~
         type: submit
         value: Revoke
-  Logout: 
-    legend: Logout
-    fields:
-      - name: logout
-        prompt: ~
-        type: submit
-        value: Logout
   Help: 
     comments: This is the help for this page.  yo.
     legend: Help
@@ -125,3 +118,10 @@ forms:
         prompt: ~
         type: submit
         value: Help
+  Logout: 
+    legend: Logout
+    fields:
+      - name: logout
+        prompt: ~
+        type: submit
+        value: Logout
