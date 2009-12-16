@@ -18,6 +18,7 @@
                         </tr>
                     [% END %]
                     </table>
+                    [% menudata.$name.comments %]
                 </fieldset>
             </form>
         </div>  

@@ -119,3 +119,6 @@ forms:
         value: Logout
   Help: 
     legend: Help
+    Comments: |
+This is the help for this page.
+yo.
