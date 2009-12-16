@@ -54,7 +54,7 @@
                                                                } 
                                                    });
                      }
-        $( set(); );
+        $( function() { set(); } );
     activate(active_tab);
     -->
     </script>  
