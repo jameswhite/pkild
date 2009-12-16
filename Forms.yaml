@@ -119,6 +119,8 @@ forms:
         value: Logout
   Help: 
     legend: Help
+    fields:
+      - name: Help
         prompt: ~
         type: submit
         value: Help
