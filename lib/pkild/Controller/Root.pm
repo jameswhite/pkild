@@ -82,8 +82,7 @@ print STDERR "\n\n\n";
                                                    'actionbox.tt',
                                                    { 
                                                      additional_template_paths => [ $c->config->{root} . '/src'],
-                                                     'menunames' => $c->session->{'menunames'},
-                                                     'menudata' => $c->session->{'menudata'}
+                                                     $c->session,
                                                    }
                                                  )
                          );
