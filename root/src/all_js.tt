@@ -30,8 +30,7 @@
                                                                           }
                                                             );
                                      }
-                         );
-        $().ready(function(){ $("#application").splitter({
+                  function(){ $("#application").splitter({
                                                            type: 'v',
                                                            outline: true,
                                                            minLeft: 100, sizeLeft: 150, minRight: 100,
