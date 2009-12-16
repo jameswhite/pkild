@@ -22,6 +22,7 @@
                                 }
         $(document).ready( 
                            function(){ 
+alert("three");
                                        $(".menu > li").click( 
                                                               function(e){ 
                                                                            active_tab=e.target.id;
@@ -32,6 +33,7 @@
                                      }
                          );
         $().ready(function(){ $("#application").splitter({
+alert("two");
                                                            type: 'v',
                                                            outline: true,
                                                            minLeft: 100, sizeLeft: 150, minRight: 100,
