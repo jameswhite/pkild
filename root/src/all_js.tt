@@ -30,6 +30,15 @@
                                                            accessKey: 'I'
                                                          }); 
                              }
+        function tabs() { 
+                          $(".menu > li").click( 
+                                                 function(e){ 
+                                                              active_tab=e.target.id;
+                                                              jQuery.get("?change_tab=" + e.target.id, '', '', '');
+                                                               activate(e.target.id);
+                                                            }
+                                               );
+                        }
         function tree() { 
                           $("#certificate_tree").tree({ 
                                                         data: { 
@@ -48,15 +57,6 @@
                                                                     } 
                                                                   } 
                                                       });
-        function tabs() { 
-                          $(".menu > li").click( 
-                                                 function(e){ 
-                                                              active_tab=e.target.id;
-                                                              jQuery.get("?change_tab=" + e.target.id, '', '', '');
-                                                               activate(e.target.id);
-                                                            }
-                                               );
-                        }
         $( function() { splitter (); tree(); tabs(); } );
     activate(active_tab);
     -->
