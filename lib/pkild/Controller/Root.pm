@@ -64,7 +64,7 @@ sub default : Private {
         $c->detach();
     }
 
-    if( $c->request->arguments){
+    if( $c->request->arguments->[0]){
     ############################################################################
     # Forward me to the certificate controller instead of this:
     ############################################################################
