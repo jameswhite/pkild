@@ -75,6 +75,9 @@ sub default : Private {
             # send the new actionbox
             if( $c->request->arguments->[1] eq "NEW_ROOT_CA" ){
                 $c->session->{'menunames'}=[ 'Domain', 'Help' ];
+                $c->session->{'menudata'}->{'Help'}->{'comments'} = "Create a new root Certificate Authority.";
+
+         
             }
             $c->res->body( $c->view('TT')->render(
                                                    $c,
