@@ -20,7 +20,7 @@
                                   }
                                   return false;
                                 }
-        function set() { 
+        function tabs() {
                       $(".menu > li").click( 
                                              function(e){ 
                                                           active_tab=e.target.id;
@@ -28,6 +28,8 @@
                                                           return activate(e.target.id);
                                                         }
                                            );
+                       }
+        function set() { 
                       $("#application").splitter({
                                                    type: 'v',
                                                    outline: true,
@@ -54,7 +56,7 @@
                                                                } 
                                                    });
                      }
-        $( function() { set(); } );
+        $( function() { tabs(); set(); } );
     activate(active_tab);
     -->
     </script>  
