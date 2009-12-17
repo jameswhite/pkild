@@ -73,6 +73,9 @@ sub default : Private {
         }
         if( $c->request->arguments->[0] eq "action" ){
             # send the new actionbox
+            if( $c->request->arguments->[1] eq "NEW_ROOT_CA" ){
+                $c->session->{'menunames'}=[ 'Domain' ];
+            }
             $c->res->body( $c->view('TT')->render(
                                                    $c,
                                                    'actionbox.tt',
