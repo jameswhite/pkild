@@ -52,7 +52,7 @@
                                                                                                             $('#right-pane').html(data);
                                                                                                             activate(active_tab);
                                                                                                           }
-                                                                                 }
+                                                                                 });
                                                                         } 
                                                                       } 
                                                           });
