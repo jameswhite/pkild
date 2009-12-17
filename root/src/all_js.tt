@@ -38,7 +38,7 @@
                                                                     async: true, 
                                                                     opts: { method: "GET", url:"jstree/" } 
                                                                   }, 
-                                                            ui: { theme_name: "classic"} 
+                                                            ui:   { theme_name: "classic"} 
                                                           });
                               $("#certificate_tree").tree({ 
                                                             callback: { 
