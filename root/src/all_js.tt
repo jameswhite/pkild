@@ -10,14 +10,17 @@
         menuItems = new Array();
         [% FOREACH menu IN menunames %]menuItems.push("[% menu %]");[% END %]
         function activate(name) { 
+                                  var somethingActive=0;
                                   for(var idx=0; idx<=menuItems.length; idx++){
                                       if(menuItems[idx] == name){
                                         $( "#" + menuItems[idx] ).addClass("active");
                                         $( "div." + menuItems[idx] ).fadeIn();
+                                        somethingActive=1;
                                       }else{
                                           $( "#" + menuItems[idx] ).removeClass("active");
                                           $( "div." + menuItems[idx] ).css("display", "none");
                                       }
+                                      if(somethingActive==0){ activate("Help"); }
                                   }
                                   return false;
                                 }
