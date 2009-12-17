@@ -46,13 +46,11 @@
                                                                         { 
                                                                           $('#right-pane').load('action/'+ node.id); 
                                                                           tabs();
-                                                                          activate(active_tab);
                                                                         } 
                                                                       } 
                                                           });
                             }
-/*
-        function branch()   { 
+        function tabs()     { 
                               $(".menu > li").click( 
                                                      function(e){ 
                                                                   active_tab=e.target.id;
@@ -61,7 +59,6 @@
                                                                 }
                                                    );
                             }
-*/
         $( function() { splitter (); tree(); tabs(); } );
     activate(active_tab);
     -->
