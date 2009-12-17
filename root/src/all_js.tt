@@ -8,6 +8,7 @@
         if(active_tab == ""){ active_tab = "Help"; }
         var menuItems;
         function activate(name) { 
+ alert(name);
                                   menuItems = new Array();
                                   [% FOREACH menu IN menunames %]menuItems.push("[% menu %]");[% END %]
                                   for(var idx=0; idx<=menuItems.length; idx++){
@@ -44,7 +45,7 @@
                                                             callback: { 
                                                                         onselect: function(node,tree_obj)
                                                                         { 
-                                                                          $('#right-pane').load('action/'+ node.id,'',activate(active_tab) );
+                                                                          $('#right-pane').load('action/','node_id',activate(active_tab) );
                                                                         } 
                                                                       } 
                                                           });
