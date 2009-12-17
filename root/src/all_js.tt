@@ -20,15 +20,17 @@
                                   }
                                   return false;
                                 }
-        function set() { 
-                         $("#application").splitter({
-                                                      type: 'v',
-                                                      outline: true,
-                                                      minLeft: 100, sizeLeft: 150, minRight: 100,
-                                                      resizeToWidth: true,
-                                                      cookie: "vsplitter",
-                                                      accessKey: 'I'
-                                                    }); 
+        function splitter() { 
+                              $("#application").splitter({
+                                                           type: 'v',
+                                                           outline: true,
+                                                           minLeft: 100, sizeLeft: 150, minRight: 100,
+                                                           resizeToWidth: true,
+                                                           cookie: "vsplitter",
+                                                           accessKey: 'I'
+                                                         }); 
+                             }
+        function tree() { 
                           $("#certificate_tree").tree({ 
                                                         data: { 
                                                                 type: "json",
@@ -56,7 +58,7 @@
                                                             }
                                                );
                         }
-        $( function() { set (); tabs(); } );
+        $( function() { splitter (); tree(); tabs(); } );
     activate(active_tab);
     -->
     </script>  
