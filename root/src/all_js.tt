@@ -44,7 +44,7 @@
                                                             callback: { 
                                                                         onselect: function(node,tree_obj)
                                                                         { 
-                                                                          $('#right-pane').load('action/'+ node.id,activate(active_tab) );
+                                                                          $('#right-pane').load('action/'+ node.id,'',activate(active_tab) );
                                                                         } 
                                                                       } 
                                                           });
