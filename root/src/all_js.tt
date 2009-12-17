@@ -57,6 +57,7 @@
                                                                     } 
                                                                   } 
                                                       });
+                        }
         $( function() { splitter (); tree(); tabs(); } );
     activate(active_tab);
     -->
