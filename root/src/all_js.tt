@@ -50,6 +50,7 @@
                                                                                    dataType: "html",
                                                                                    success: function(data){
                                                                                                             $('#right-pane').html(data);
+                                                                                                            tabs();
                                                                                                             activate(active_tab);
                                                                                                           }
                                                                                  });
