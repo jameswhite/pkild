@@ -56,7 +56,9 @@
                                                                   active_tab=e.target.id;
                                                                   // Set the active tab in the catalyst session
                                                                   jQuery.get("?change_tab=" + e.target.id, '', '', '');
+                                                                  alert ("e.target.id = " + e.target.id);
                                                                   active_tab=e.target.id; 
+                                                                  alert ("active_tab = " + active_tab);
                                                                   activate(active_tab);
                                                                 }
                                                    );
