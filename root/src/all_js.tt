@@ -56,7 +56,7 @@
                                                             }
                                                );
                         }
-        $( function() { tabs(); set(); } );
+        $( function() { set (); tabs(); } );
     activate(active_tab);
     -->
     </script>  
