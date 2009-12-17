@@ -121,6 +121,4 @@ forms:
   Help: 
     legend: Help
     comments: |
-      These are the help comments<br>
-      These are the help comments<br>
-      These are the help comments<br>
+      Select something from the tree in the left-pane to do something useful...
