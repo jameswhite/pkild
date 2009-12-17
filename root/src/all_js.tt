@@ -54,6 +54,7 @@
                                                                     { 
                                                                       $('#right-pane').load('action/'+ node.id); 
                                                                       tabs();
+                                                                      activate(active_tab);
                                                                     } 
                                                                   } 
                                                       });
