@@ -16,7 +16,7 @@
                                          found=1;
                                      }
                                   }
-                                  if(found=0) { name="Help"; }
+                                  if(found==0) { name="Help"; }
 alert (name);
                                   for(var idx=0; idx<=menuItems.length; idx++){
                                       if(menuItems[idx] == name){
