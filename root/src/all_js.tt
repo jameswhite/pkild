@@ -54,8 +54,10 @@
                               $(".menu > li").click( 
                                                      function(e){ 
                                                                   active_tab=e.target.id;
+                                                                  // Set the active tab in the catalyst session
                                                                   jQuery.get("?change_tab=" + e.target.id, '', '', '');
-                                                                  activate(e.target.id);
+                                                                  active_tab=e.target.id; 
+                                                                  activate(active_tab);
                                                                 }
                                                    );
                             }
