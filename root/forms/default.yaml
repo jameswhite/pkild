@@ -1,14 +1,7 @@
 order:
   administrator:
-    - Domain
-    - Certificate
-    - URIs
-    - Unlock
-    - Create
-    - Sign
-    - Revoke
-    - Logout
     - Help
+    - Logout
   user:
     - Sign
     - Logout
