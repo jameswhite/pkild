@@ -95,6 +95,15 @@ sub default : Private {
                 }elsif($c->request->arguments->[2] eq "open" ){
                     # add the tab node_id to the default open tabs
                     push (@{ $c->session->{'opened_tabs'} },$c->request->arguments->[3]);
+                    $c->res->body( $c->view('TT')->render(
+                                                           $c,
+                                                           'open_tabs.tt',
+                                                           { 
+                                                             additional_template_paths => [ $c->config->{root} . '/src'],
+                                                             'open_tabs'               => $c->session->{'open_tabs'},
+                                                           }
+                                                         )
+                                 );
                 }elsif($c->request->arguments->[2] eq "close" ){
                     # remove the tab node_id from the default open tabs
                     while (my $item = shift @{ $c->session->{'opened_tabs'} }){

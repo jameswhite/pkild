@@ -1,0 +1,1 @@
+[ [% FOREACH item IN open_tabs %] "[% item %]", [% END %] ]
