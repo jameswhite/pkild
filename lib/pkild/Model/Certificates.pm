@@ -14,7 +14,7 @@ sub tree{
     my ($self, $c)=@_;
     my $tree;
     my @file_names=$self->list(mode => 'both', recurse =>1);
-    my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
+    my $rootdir=join("::",@{ $self->{'root_dir'}->{'dirs'} });
     $rootdir=~s/^\///;
     @file_names=sort(@file_names);
     my $previous_node='';
