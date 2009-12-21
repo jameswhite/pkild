@@ -56,7 +56,7 @@
                                                                         onselect: function(node,tree_obj)
                                                                         { 
                                                                           $.ajax({ 
-                                                                                   url: 'action/' + node.id ,
+                                                                                   url: 'action/select/' + node.id ,
                                                                                    dataType: "html",
                                                                                    success: function(data){
                                                                                                             $('#right-pane').html(data);
@@ -67,7 +67,23 @@
                                                                         },
                                                                         onopen: function(node,tree_obj)
                                                                         { 
-                                                                           opened_branches.push(node);
+                                                                          $.ajax({ 
+                                                                                   url: 'action/open/' + node.id ,
+                                                                                   dataType: "html",
+                                                                                   success: function(data){
+                                                                                                            opened_objects = data;
+                                                                                                          }
+                                                                                 });
+                                                                        }
+                                                                        onclose: function(node,tree_obj)
+                                                                        { 
+                                                                          $.ajax({ 
+                                                                                   url: 'action/close/' + node.id ,
+                                                                                   dataType: "html",
+                                                                                   success: function(data){
+                                                                                                            opened_objects = data;
+                                                                                                          }
+                                                                                 });
                                                                         }
                                                                       } 
                                                           });
