@@ -41,6 +41,7 @@
         function tree()     { 
                               $("#certificate_tree").tree({ 
                                                             selected: "NEW_ROOT_CA",
+                                                            opened : [],
                                                             data: { 
                                                                     type: "json",
                                                                     async: true, 
