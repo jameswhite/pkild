@@ -93,7 +93,7 @@ print STDERR "\n\n\nACTION\n\n\n";
                 }elsif($c->request->arguments->[1] eq "open" ){
                     shift @{ $c->request->arguments };
                     shift @{ $c->request->arguments };
-                    my $path=join ("/",@{ $c->request->arguments );
+                    my $path=join ("/",@{ $c->request->arguments });
                     # add the tab node_id to the default open tabs
                     push (@{ $c->session->{'opened_tabs'} }, $path );
                     print STDERR to_json($c->session->{'opened_tabs'}, {'pretty' => 1});
@@ -101,7 +101,7 @@ print STDERR "\n\n\nACTION\n\n\n";
                 }elsif($c->request->arguments->[1] eq "close" ){
                     shift @{ $c->request->arguments };
                     shift @{ $c->request->arguments };
-                    my $path=join ("/",@{ $c->request->arguments );
+                    my $path=join ("/",@{ $c->request->arguments });
                     # remove the tab node_id from the default open tabs
                     while (my $item = shift @{ $c->session->{'opened_tabs'} }){
                         push(@{ $c->session->{'opened_tabs'} },$item) unless ($item eq $path);
