@@ -66,7 +66,7 @@ sub default : Private {
 
     if( $c->request->arguments->[0]){
     ############################################################################
-    # Forward me to the certificate controller instead of this:
+    # 
     ############################################################################
         if( $c->request->arguments->[0] eq "jstree" ){
             $c->res->body(to_json($c->model('Certificates')->tree(), {'pretty' => 1}));

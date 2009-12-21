@@ -1,0 +1,16 @@
+#!/bin/bash
+################################################################################
+# prompt for commit message push from working copy, pull to production, loop
+################################################################################
+if [ -z "${REPO}" ]; then export REPO=pkild ;fi
+if [ -z "${STAGEHOST}" ]; then export STAGEHOST=localhost ;fi
+while [ 1 ] ; do 
+    clear; 
+    echo -n "Commit msg: "; read NEWCOMMITMSG; 
+    if [ ! -z "${NEWCOMMITMSG}" ];then 
+        export COMMITMSG="${NEWCOMMITMSG}";
+    fi
+    ( cd dev/git/${REPO}; git commit -a -m "$COMMITMSG"; git push); 
+    #sudo bash -c "(cd /var/cache/git/${REPO};git pull; /etc/init.d/apache2 restart)"; 
+    ssh root@${STAGEHOST} "(cd /var/cache/git/${REPO};git pull; /etc/init.d/apache2 restart)"; 
+done
