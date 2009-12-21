@@ -58,7 +58,7 @@
                                                                                    url: 'action/open/' + node.id ,
                                                                                    dataType: "html",
                                                                                    success: function(data){
-                                                                                                            alert(data);
+                                                                                                            open_branches = data;
                                                                                                           }
                                                                                  });
                                                                         },
@@ -68,7 +68,7 @@
                                                                                    url: 'action/close/' + node.id ,
                                                                                    dataType: "html",
                                                                                    success: function(data){
-                                                                                                            alert(data);
+                                                                                                            open_branches = data;
                                                                                                           }
                                                                                  });
                                                                         },
