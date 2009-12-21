@@ -56,20 +56,14 @@
                                                                         { 
                                                                           $.ajax({ 
                                                                                    url: 'action/open/' + node.id ,
-                                                                                   dataType: "html",
-                                                                                   success: function(data){
-                                                                                                            open_branches = data;
-                                                                                                          }
+                                                                                   dataType: "json",
                                                                                  });
                                                                         },
                                                                         onclose: function(node,tree_obj)
                                                                         { 
                                                                           $.ajax({ 
                                                                                    url: 'action/close/' + node.id ,
-                                                                                   dataType: "html",
-                                                                                   success: function(data){
-                                                                                                            open_branches = data;
-                                                                                                          }
+                                                                                   dataType: "json",
                                                                                  });
                                                                         },
                                                                         onselect: function(node,tree_obj)
