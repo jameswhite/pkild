@@ -53,18 +53,6 @@
                                                           });
                               $("#certificate_tree").tree({ 
                                                             callback: { 
-                                                                        onselect: function(node,tree_obj)
-                                                                        { 
-                                                                          $.ajax({ 
-                                                                                   url: 'action/select/' + node.id ,
-                                                                                   dataType: "html",
-                                                                                   success: function(data){
-                                                                                                            $('#right-pane').html(data);
-                                                                                                            tabs();
-                                                                                                            activate(active_tab);
-                                                                                                          }
-                                                                                 });
-                                                                        },
                                                                         onopen: function(node,tree_obj)
                                                                         { 
                                                                           $.ajax({ 
@@ -84,7 +72,19 @@
                                                                                                             opened_objects = data;
                                                                                                           }
                                                                                  });
-                                                                        }
+                                                                        },
+                                                                        onselect: function(node,tree_obj)
+                                                                        { 
+                                                                          $.ajax({ 
+                                                                                   url: 'action/select/' + node.id ,
+                                                                                   dataType: "html",
+                                                                                   success: function(data){
+                                                                                                            $('#right-pane').html(data);
+                                                                                                            tabs();
+                                                                                                            activate(active_tab);
+                                                                                                          }
+                                                                                 });
+                                                                        },
                                                                       } 
                                                           });
                             }
