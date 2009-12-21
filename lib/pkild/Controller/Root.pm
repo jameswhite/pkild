@@ -75,9 +75,9 @@ print STDERR "\n\n\nACTION\n\n\n";
             # send the new actionbox
             if( $c->request->arguments->[1]){
                 
-                if( $c->request->arguments->[2] eq "selected" ){
+                if( $c->request->arguments->[1] eq "selected" ){
 
-                    if( $c->request->arguments->[3] eq "NEW_ROOT_CA" ){
+                    if( $c->request->arguments->[2] eq "NEW_ROOT_CA" ){
                         $c->session->{'menunames'}=[ 'Domain', 'Help' ];
                         $c->session->{'menudata'}->{'Help'}->{'comments'} = "Create a new root Certificate Authority.";
                     }
@@ -92,15 +92,15 @@ print STDERR "\n\n\nACTION\n\n\n";
                                                            }
                                                          )
                                  );
-                }elsif($c->request->arguments->[2] eq "open" ){
+                }elsif($c->request->arguments->[1] eq "open" ){
                     # add the tab node_id to the default open tabs
-                    push (@{ $c->session->{'opened_tabs'} },$c->request->arguments->[3]);
+                    push (@{ $c->session->{'opened_tabs'} },$c->request->arguments->[2]);
                     print STDERR to_json($c->session->{'opened_tabs'}, {'pretty' => 1});
                     $c->res->body(to_json($c->session->{'opened_tabs'}, {'pretty' => 1}));
-                }elsif($c->request->arguments->[2] eq "close" ){
+                }elsif($c->request->arguments->[1] eq "close" ){
                     # remove the tab node_id from the default open tabs
                     while (my $item = shift @{ $c->session->{'opened_tabs'} }){
-                        push(@{ $c->session->{'opened_tabs'} },$item) unless ($item eq $c->request->arguments->[3]);
+                        push(@{ $c->session->{'opened_tabs'} },$item) unless ($item eq $c->request->arguments->[2]);
                     }
                     print STDERR to_json($c->session->{'opened_tabs'}, {'pretty' => 1});
                     $c->res->body(to_json($c->session->{'opened_tabs'}, {'pretty' => 1}));
