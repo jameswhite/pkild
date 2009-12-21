@@ -70,8 +70,8 @@ sub default : Private {
     ############################################################################
         if( $c->request->arguments->[0] eq "jstree" ){
             $c->res->body(to_json($c->model('Certificates')->tree(), {'pretty' => 1}));
-        }
-        if( $c->request->arguments->[0] eq "action" ){
+        }elsif( $c->request->arguments->[0] eq "action" ){
+print STDERR "\n\n\nACTION\n\n\n";
             # send the new actionbox
             if( $c->request->arguments->[1]){
                 
