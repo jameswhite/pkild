@@ -71,7 +71,6 @@ sub default : Private {
         if( $c->request->arguments->[0] eq "jstree" ){
             $c->res->body(to_json($c->model('Certificates')->tree(), {'pretty' => 1}));
         }elsif( $c->request->arguments->[0] eq "action" ){
-print STDERR "\n\n\nACTION\n\n\n";
             # send the new actionbox
             if( $c->request->arguments->[1]){
                 if( $c->request->arguments->[1] eq "selected" ){
@@ -149,6 +148,7 @@ print STDERR "\n\n\nACTION\n\n\n";
         $c->stash->{'default_tab'} = $c->session->{'default_tab'};
         $c->stash->{menunames}=$c->session->{'menunames'};
         $c->stash->{menudata}=$c->session->{'menudata'};
+        $c->stash->{open_branches}=$c->session->{'open_branches'};
         $c->stash->{template}="application.tt";
     }
 }
