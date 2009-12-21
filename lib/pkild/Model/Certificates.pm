@@ -31,7 +31,7 @@ sub tree{
                                'data'       => $nodeparts[$#nodeparts],
                              };
             pop(@nodeparts);
-            my $updir=join("\/",@nodeparts);
+            my $updir=join("::",@nodeparts);
             if(!defined( $tree->{ $updir }->{'children'} )){
                push( @{ $tree->{ $updir }->{'children'} }, $node );
             }else{
