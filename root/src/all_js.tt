@@ -64,10 +64,11 @@
                                                                                                             activate(active_tab);
                                                                                                           }
                                                                                  });
-                                                                        } 
-                                                                        onopen: function(node,tree_obj){ 
-                                                                                                         opened_branches.push("node");
-                                                                                                       }
+                                                                        },
+                                                                        onopen: function(node,tree_obj)
+                                                                        { 
+                                                                           opened_branches.push(node);
+                                                                        }
                                                                       } 
                                                           });
                             }
