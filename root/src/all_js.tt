@@ -39,10 +39,8 @@
                                                          }); 
                             }
         function tree()     { 
-                              $("#certificate_tree").tree.init({ 
-                                                                        selected: "NEW_ROOT_CA"
-                                                                   });
                               $("#certificate_tree").tree({ 
+                                                            selected: "NEW_ROOT_CA",
                                                             data: { 
                                                                     type: "json",
                                                                     async: true, 
