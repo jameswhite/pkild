@@ -95,8 +95,7 @@ sub default : Private {
                     my $path=join ("/",@{ $c->request->arguments });
                     # add the tab node_id to the default open tabs
                     push (@{ $c->session->{'open_branches'} }, $path );
-                    print STDERR to_json($c->session->{'open_branches'}, {'pretty' => 1});
-                    $c->res->body(to_json($c->session->{'open_branches'}, {'pretty' => 1}));
+                    $c->res->body(to_json($c->session->{'open_branches'}, {'pretty' => 0}));
                 }elsif($c->request->arguments->[1] eq "close" ){
                     shift @{ $c->request->arguments };
                     shift @{ $c->request->arguments };
@@ -105,8 +104,7 @@ sub default : Private {
                     while (my $item = shift @{ $c->session->{'open_branches'} }){
                         push(@{ $c->session->{'open_branches'} },$item) unless ($item eq $path);
                     }
-                    print STDERR to_json($c->session->{'open_branches'}, {'pretty' => 1});
-                    $c->res->body(to_json($c->session->{'open_branches'}, {'pretty' => 1}));
+                    $c->res->body(to_json($c->session->{'open_branches'}, {'pretty' => 0}));
                 }
             }
         }
