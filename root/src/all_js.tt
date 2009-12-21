@@ -39,10 +39,10 @@
                                                          }); 
                             }
         function tree()     { 
-                              $("#certificate_tree").tree({ 
-                                                            defaults: {
+                              $("#certificate_tree").tree.defaults({ 
                                                                         selected: "NEW_ROOT_CA"
-                                                                      },
+                                                                   });
+                              $("#certificate_tree").tree({ 
                                                             data: { 
                                                                     type: "json",
                                                                     async: true, 
