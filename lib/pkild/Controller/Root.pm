@@ -73,23 +73,37 @@ sub default : Private {
         }
         if( $c->request->arguments->[0] eq "action" ){
             # send the new actionbox
-            if( $c->request->arguments->[1] eq "NEW_ROOT_CA" ){
-                $c->session->{'menunames'}=[ 'Domain', 'Help' ];
-                $c->session->{'menudata'}->{'Help'}->{'comments'} = "Create a new root Certificate Authority.";
+            if( $c->request->arguments->[1]){
+                
+                if( $c->request->arguments->[2] eq "selected" ){
 
-         
+                    if( $c->request->arguments->[3] eq "NEW_ROOT_CA" ){
+                        $c->session->{'menunames'}=[ 'Domain', 'Help' ];
+                        $c->session->{'menudata'}->{'Help'}->{'comments'} = "Create a new root Certificate Authority.";
+                    }
+                    $c->res->body( $c->view('TT')->render(
+                                                           $c,
+                                                           'actionbox.tt',
+                                                           { 
+                                                             additional_template_paths => [ $c->config->{root} . '/src'],
+                                                             'menunames'               => $c->session->{'menunames'},
+                                                             'menudata'                => $c->session->{'menudata'},
+                                                             'default_tab'             => $c->session->{'default_tab'}
+                                                           }
+                                                         )
+                                 );
+                }elsif($c->request->arguments->[2] eq "open" ){
+                    # add the tab node_id to the default open tabs
+                    push ($c->session->{'opened_tabs'},$c->request->arguments->[3]);
+                    $c->res->body("[ ". join("\",\"",$c->session('opened_tabs'}. " ]");
+                }elsif($c->request->arguments->[2] eq "close" ){
+                    # remove the tab node_id from the default open tabs
+                    while (my $item=shift @{ $session->{'opened_tabs'}){
+                        push(@{ $c->session->{'opened_tabs'} },$item) unless ($item eq $c->request->arguments->[3]);
+                        $c->res->body("[ ". join("\",\"",$c->session('opened_tabs'}. " ]");
+                    }
+                }
             }
-            $c->res->body( $c->view('TT')->render(
-                                                   $c,
-                                                   'actionbox.tt',
-                                                   { 
-                                                     additional_template_paths => [ $c->config->{root} . '/src'],
-                                                     'menunames'               => $c->session->{'menunames'},
-                                                     'menudata'                => $c->session->{'menudata'},
-                                                     'default_tab'             => $c->session->{'default_tab'}
-                                                   }
-                                                 )
-                         );
         }
     }
 
