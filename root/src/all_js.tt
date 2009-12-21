@@ -42,8 +42,8 @@
                             }
         function tree()     { 
                               $("#certificate_tree").tree({ 
-                                                            selected: "NEW_ROOT_CA",
-                                                            opened : [],
+                                                            selected: selected_branch,
+                                                            opened : opened_branches,
                                                             data: { 
                                                                     type: "json",
                                                                     async: true, 
@@ -65,6 +65,9 @@
                                                                                                           }
                                                                                  });
                                                                         } 
+                                                                        onopen: function(node,tree_obj){ 
+                                                                                                         opened_branches.push("node");
+                                                                                                       }
                                                                       } 
                                                           });
                             }
