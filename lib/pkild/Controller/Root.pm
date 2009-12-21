@@ -95,12 +95,11 @@ sub default : Private {
                 }elsif($c->request->arguments->[2] eq "open" ){
                     # add the tab node_id to the default open tabs
                     push (@{ $c->session->{'opened_tabs'} },$c->request->arguments->[3]);
-                    $c->res->body("[ ". join("\",\"",$c->session('opened_tabs'}. " ]");
                 }elsif($c->request->arguments->[2] eq "close" ){
                     # remove the tab node_id from the default open tabs
-                    while (my $item=shift @{ $c->session->{'opened_tabs'}){
+                    while (my $item=shift @{ $c->session->{'opened_tabs'} }){
                         push(@{ $c->session->{'opened_tabs'} },$item) unless ($item eq $c->request->arguments->[3]);
-                        $c->res->body("[ ". join("\",\"",$c->session('opened_tabs'}. " ]");
+                        $c->res->body("[ ". join("\",\"",$c->session{'opened_tabs'}). " ]");
                     }
                 }
             }
