@@ -103,7 +103,7 @@ sub default : Private {
                     # remove the tab node_id from the default open tabs
                     my $max_shifts = $#{ $c->session->{'open_branches'} };
                     my $sum_shifts = 0;
-                    while ((my $item = shift @{ $c->session->{'open_branches'} })&& ($sum_shifts++ <= $max_shifts)){
+                    while ((my $item = shift @{ $c->session->{'open_branches'} }) && ($sum_shifts++ <= $max_shifts)){
                         push(@{ $c->session->{'open_branches'} },$item) unless ($item eq $path);
                     }
                     $c->res->body(to_json($c->session->{'open_branches'}, {'pretty' => 0}));

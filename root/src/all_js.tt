@@ -57,6 +57,9 @@
                                                                           $.ajax({ 
                                                                                    url: 'action/open/' + node.id ,
                                                                                    dataType: "json",
+                                                                                   success: function(data){
+                                                                                                            opened_branches = data;
+                                                                                                          }
                                                                                  });
                                                                         },
                                                                         onclose: function(node,tree_obj)
@@ -64,6 +67,9 @@
                                                                           $.ajax({ 
                                                                                    url: 'action/close/' + node.id ,
                                                                                    dataType: "json",
+                                                                                   success: function(data){
+                                                                                                            opened_branches = data;
+                                                                                                          }
                                                                                  });
                                                                         },
                                                                         onselect: function(node,tree_obj)
