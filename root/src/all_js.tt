@@ -59,7 +59,7 @@
                                                                                    url: 'action/open/' + node.id ,
                                                                                    dataType: "html",
                                                                                    success: function(data){
-                                                                                                            opened_objects = data;
+                                                                                                            alert(data);
                                                                                                           }
                                                                                  });
                                                                         },
@@ -69,7 +69,7 @@
                                                                                    url: 'action/close/' + node.id ,
                                                                                    dataType: "html",
                                                                                    success: function(data){
-                                                                                                            opened_objects = data;
+                                                                                                            alert(data);
                                                                                                           }
                                                                                  });
                                                                         },
