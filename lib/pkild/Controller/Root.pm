@@ -100,7 +100,7 @@ sub default : Private {
                     while (my $item = shift @{ $c->session->{'opened_tabs'} }){
                         push(@{ $c->session->{'opened_tabs'} },$item) unless ($item eq $c->request->arguments->[3]);
                     }
-                    $c->res->body("[ \"". join("\","",$c->session->{'opened_tabs'}). "\" ]");
+                    $c->res->body("[ \"". join("\",\"",$c->session->{'opened_tabs'}). "\" ]");
                 }
             }
         }
