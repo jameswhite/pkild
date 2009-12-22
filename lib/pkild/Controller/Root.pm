@@ -113,7 +113,7 @@ sub default : Private {
                         $sum_shifts++;
                     }
                     print STDERR "\n\nOpened: ". join(",", @{ $c->session->{'open_branches'} })."\n";
-                    print STDERR "\n\nSelected: ". $c->session->{'selected'}."\n";
+                    print STDERR "nSelected: ". $c->session->{'selected'}."\n\n";
                     $c->res->body(to_json($c->session->{'open_branches'}, {'pretty' => 0}));
                 }
             }
