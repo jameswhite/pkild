@@ -69,6 +69,7 @@ sub default : Private {
     # 
     ############################################################################
         if( $c->request->arguments->[0] eq "jstree" ){
+            if(! defined($c->session->{'selected'})){ $c->session->{'selected'} = "NEW_ROOT_CA"; }
             $c->res->body(to_json($c->model('Certificates')->tree(), {'pretty' => 1}));
         }elsif( $c->request->arguments->[0] eq "action" ){
             # send the new actionbox
@@ -109,7 +110,7 @@ sub default : Private {
                         push(@{ $c->session->{'open_branches'} },$item) unless ($item eq $path);
                         $sum_shifts++;
                     }
-                    print STDERR "\n\nOpen: ". join(",", @{ $c->session->{'open_branches'} })."\n";
+                    print STDERR "\n\nOpened: ". join(",", @{ $c->session->{'open_branches'} })."\n";
                     print STDERR "\n\nSelected: ". $c->session->{'selected'}."\n";
                     $c->res->body(to_json($c->session->{'open_branches'}, {'pretty' => 0}));
                 }
