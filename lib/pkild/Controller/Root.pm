@@ -77,7 +77,7 @@ sub default : Private {
                     # seledt the template from the template pool based on what
                     # was selected and render it.
                     ############################################################
-                    $c->res->body( $c->view('TT')->render( $c, $c->request->arguments->[2]'.tt',
+                    $c->res->body( $c->view('TT')->render( $c, $c->request->arguments->[2].'.tt',
                                                            { 
                                                              additional_template_paths => [ $c->config->{root} . '/src'],
                                                              'form'                    => $c->{'session'}->${ $c->session->{'current_form'} }->{'data'}
