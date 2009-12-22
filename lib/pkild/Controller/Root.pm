@@ -64,10 +64,6 @@ sub default : Private {
         $c->detach();
     }
 
-    if(! defined($c->session->{'selected'})){ 
-        $c->session->{'selected'} = "NEW_ROOT_CA"; 
-        $c->stash->{'selected'} = $c->session->{'selected'};
-    }
 
     if( $c->request->arguments->[0]){
     ############################################################################
@@ -146,6 +142,11 @@ sub default : Private {
     ############################################################################
     # If we're logged in, send us to the application, othewise the login page.
     ############################################################################
+    if(! defined($c->session->{'selected'})){ 
+        $c->session->{'selected'} = "NEW_ROOT_CA"; 
+        $c->stash->{'selected'} = $c->session->{'selected'};
+    }
+
     if(!defined $c->session->{'user'}){
         $c->stash->{template}="login.tt";
     }else{
