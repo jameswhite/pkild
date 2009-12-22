@@ -157,8 +157,6 @@ sub default : Private {
         $c->stash->{menudata}=$c->session->{'menudata'};
         $c->stash->{open_branches}=$c->session->{'open_branches'};
         $c->stash->{'selected'} = $c->session->{'selected'};
-                    print STDERR "\n\nOpened: ". join(",", @{ $c->session->{'open_branches'} })."\n";
-                    print STDERR "nSelected: ". $c->session->{'selected'}."\n\n";
         $c->stash->{template}="application.tt";
     }
 }
