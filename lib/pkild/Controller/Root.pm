@@ -105,13 +105,12 @@ sub default : Private {
                     shift @{ $c->request->arguments };
                     shift @{ $c->request->arguments };
                     my $path=join ("/",@{ $c->request->arguments });
-                    # remove the tab node_id from the default open tabs
-                    my $max_shifts = $#{ $c->session->{'open_branches'} };
-                    my $sum_shifts = -1;
-                    while ((my $item = shift @{ $c->session->{'open_branches'} }) && ($sum_shifts <= $max_shifts)){
-                        push(@{ $c->session->{'open_branches'} },$item) unless ($item eq $path);
-                        $sum_shifts++;
+                    my @tmplist=();
+                    while (@{ $c->session->{'open_branches'} }){
+                        my $tmp=shift(@{ $c->session->{'open_branches'} });
+                        push(@tmplist,$tmp) unless ($tmp eq $path);
                     }
+                    @{ $c->session->{'open_branches'} }=@tmplist;
                     print STDERR "\n\nOpened: ". join(",", @{ $c->session->{'open_branches'} })."\n";
                     print STDERR "nSelected: ". $c->session->{'selected'}."\n\n";
                     $c->res->body(to_json($c->session->{'open_branches'}, {'pretty' => 0}));
