@@ -74,7 +74,7 @@ sub default : Private {
         }elsif( $c->request->arguments->[0] eq "action" ){
             # send the new actionbox
             if( $c->request->arguments->[1]){
-                if( $c->request->arguments->[1] eq "selected" ){
+                if( $c->request->arguments->[1] eq "select" ){
                     if( $c->request->arguments->[2] eq "NEW_ROOT_CA" ){
                         $c->session->{'menunames'}=[ 'Domain', 'Help' ];
                         $c->session->{'menudata'}->{'Help'}->{'comments'} = "Create a new root Certificate Authority.";
