@@ -26,13 +26,13 @@ sub tree{
         $node=~s/^\///g;
         if(! defined $tree->{$node}){  
             my @nodeparts=split("\/",$node);
-            $node=~s/\//::/g;
+            $node=~s/\//-/g;
             $tree->{$node} = { 
                                'attributes' => { 'id' => $node },
                                'data'       => $nodeparts[$#nodeparts],
                              };
             pop(@nodeparts);
-            my $updir=join("::",@nodeparts);
+            my $updir=join("-",@nodeparts);
             if(!defined( $tree->{ $updir }->{'children'} )){
                push( @{ $tree->{ $updir }->{'children'} }, $node );
             }else{
