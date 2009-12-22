@@ -41,7 +41,7 @@
                             }
         function tree()     { 
                               $("#certificate_tree").tree({ 
-                                                            selected: [% selected %],
+                                                            selected: "[% selected %]",
                                                             opened : [ 
                                                                          [% FOREACH open_branch IN open_branches %] "[% open_branch %]", [% END %]
                                                                      ],
