@@ -46,7 +46,6 @@ sub default : Private {
             $c->stash->{'ERROR'}="Authentication Failed."; 
         }
     }
-
     ############################################################################
     # Log us out if ?logout=1 was sent
     ############################################################################
@@ -63,8 +62,6 @@ sub default : Private {
         $c->res->redirect($c->request->headers->referer);
         $c->detach();
     }
-
-
     if( $c->request->arguments->[0]){
     ############################################################################
     # 
@@ -75,20 +72,15 @@ sub default : Private {
             # send the new actionbox
             if( $c->request->arguments->[1]){
                 if( $c->request->arguments->[1] eq "select" ){
-                   
                     $c->session->{'selected'} = $c->request->arguments->[2] if $c->request->arguments->[2];
-                    if( $c->request->arguments->[2] eq "NEW_ROOT_CA" ){
-                        $c->session->{'menunames'}=[ 'Domain', 'Help', 'Logout' ];
-                        $c->session->{'menudata'}->{'Help'}->{'comments'} = "Create a new root Certificate Authority.";
-                    }
-                    $c->res->body( $c->view('TT')->render(
-                                                           $c,
-                                                           'actionbox.tt',
+                    ############################################################
+                    # seledt the template from the template pool based on what
+                    # was selected and render it.
+                    ############################################################
+                    $c->res->body( $c->view('TT')->render( $c, $c->request->arguments->[2]'.tt',
                                                            { 
                                                              additional_template_paths => [ $c->config->{root} . '/src'],
-                                                             'menunames'               => $c->session->{'menunames'},
-                                                             'menudata'                => $c->session->{'menudata'},
-                                                             'default_tab'             => $c->session->{'default_tab'}
+                                                             'form'                    => $c->{'session'}->${ $c->session->{'current_form'} }->{'data'}
                                                            }
                                                          )
                                  );
