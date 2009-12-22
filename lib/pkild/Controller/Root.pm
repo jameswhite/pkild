@@ -157,7 +157,7 @@ sub default : Private {
         $c->stash->{menudata}=$c->session->{'menudata'};
         $c->stash->{open_branches}=$c->session->{'open_branches'};
         $c->stash->{'selected'} = $c->session->{'selected'};
-        $c->stash->{'selected'} =~s/\./\\\\./g'
+        $c->stash->{'selected'} =~s/\./\\\\./g;
 
         $c->stash->{template}="application.tt";
     }
