@@ -64,12 +64,12 @@ sub default : Private {
         $c->detach();
     }
 
+    if(! defined($c->session->{'selected'})){ $c->session->{'selected'} = "NEW_ROOT_CA"; }
     if( $c->request->arguments->[0]){
     ############################################################################
     # 
     ############################################################################
         if( $c->request->arguments->[0] eq "jstree" ){
-            if(! defined($c->session->{'selected'})){ $c->session->{'selected'} = "NEW_ROOT_CA"; }
             $c->res->body(to_json($c->model('Certificates')->tree(), {'pretty' => 1}));
         }elsif( $c->request->arguments->[0] eq "action" ){
             # send the new actionbox
