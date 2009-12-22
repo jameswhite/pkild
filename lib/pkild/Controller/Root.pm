@@ -94,7 +94,9 @@ sub default : Private {
                     shift @{ $c->request->arguments };
                     my $path=join ("/",@{ $c->request->arguments });
                     # add the tab node_id to the default open tabs
-                    push (@{ $c->session->{'open_branches'} }, $path );
+                    my $found=0;
+                    foreach my $item (@{ $c->session->{'open_branches'} }){ if($item eq $path){ $found=1; }  }
+                    push (@{ $c->session->{'open_branches'} }, $path ) unless ($found == 1);
                     $c->res->body(to_json($c->session->{'open_branches'}, {'pretty' => 0}));
                 }elsif($c->request->arguments->[1] eq "close" ){
                     shift @{ $c->request->arguments };
