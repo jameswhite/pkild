@@ -7,7 +7,7 @@
         var active_tab = "[% default_tab %]";
         var selected_branch = "[% selected_branch %]"
         var opened_branches = new Array;
-        [% FOREACH open_branch IN open_branches %] opened_branches.push('[% open_branch %]'); alert('[% open_branch %]'); [% END %]
+        [% FOREACH open_branch IN open_branches %] opened_branches.push('[% open_branch %]'); [% END %]
         if(active_tab == ""){ active_tab = "Help"; }
         var menuItems;
         menuItems = new Array();
