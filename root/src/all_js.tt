@@ -44,7 +44,7 @@
                               $("#certificate_tree").tree({ 
                                                             selected: selected_branch,
                                                             opened : [ 
-                                                                         [% FOREACH open_branch IN open_branches %] [% open_branch %] [% END %]
+                                                                         [% FOREACH open_branch IN open_branches %] "[% open_branch %]", [% END %]
                                                                      ],
                                                             data: { 
                                                                     type: "json",
