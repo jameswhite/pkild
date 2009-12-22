@@ -100,8 +100,6 @@ sub default : Private {
                     my $found=0;
                     foreach my $item (@{ $c->session->{'open_branches'} }){ if($item eq $path){ $found=1; }  }
                     push (@{ $c->session->{'open_branches'} }, $path ) unless ($found == 1);
-                    print STDERR "\n\nOpened: ". join(",", @{ $c->session->{'open_branches'} })."\n";
-                    print STDERR "\n\nSelected: ". $c->session->{'selected'}."\n";
                     $c->res->body(to_json($c->session->{'open_branches'}, {'pretty' => 0}));
                 }elsif($c->request->arguments->[1] eq "close" ){
                     shift @{ $c->request->arguments };
@@ -113,8 +111,6 @@ sub default : Private {
                         push(@tmplist,$tmp) unless ($tmp eq $path);
                     }
                     @{ $c->session->{'open_branches'} }=@tmplist;
-                    print STDERR "\n\nOpened: ". join(",", @{ $c->session->{'open_branches'} })."\n";
-                    print STDERR "nSelected: ". $c->session->{'selected'}."\n\n";
                     $c->res->body(to_json($c->session->{'open_branches'}, {'pretty' => 0}));
                 }
             }
@@ -161,6 +157,8 @@ sub default : Private {
         $c->stash->{menudata}=$c->session->{'menudata'};
         $c->stash->{open_branches}=$c->session->{'open_branches'};
         $c->stash->{'selected'} = $c->session->{'selected'};
+                    print STDERR "\n\nOpened: ". join(",", @{ $c->session->{'open_branches'} })."\n";
+                    print STDERR "nSelected: ". $c->session->{'selected'}."\n\n";
         $c->stash->{template}="application.tt";
     }
 }
