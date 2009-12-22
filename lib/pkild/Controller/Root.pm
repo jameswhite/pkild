@@ -98,6 +98,8 @@ sub default : Private {
                     my $found=0;
                     foreach my $item (@{ $c->session->{'open_branches'} }){ if($item eq $path){ $found=1; }  }
                     push (@{ $c->session->{'open_branches'} }, $path ) unless ($found == 1);
+                    print STDERR "\n\nOpened: ". join(",", @{ $c->session->{'open_branches'} })."\n";
+                    print STDERR "\n\nSelected: ". $c->session->{'selected'}."\n";
                     $c->res->body(to_json($c->session->{'open_branches'}, {'pretty' => 0}));
                 }elsif($c->request->arguments->[1] eq "close" ){
                     shift @{ $c->request->arguments };
