@@ -142,7 +142,7 @@ sub default : Private {
     ############################################################################
     # If we're logged in, send us to the application, othewise the login page.
     ############################################################################
-    if(! defined($c->session->{'selected'})){ 
+    if(! defined($c->session->{'selected'}) ){ 
         $c->session->{'selected'} = "NEW_ROOT_CA"; 
         $c->stash->{'selected'} = $c->session->{'selected'};
     }
@@ -161,6 +161,7 @@ sub default : Private {
         $c->stash->{menunames}=$c->session->{'menunames'};
         $c->stash->{menudata}=$c->session->{'menudata'};
         $c->stash->{open_branches}=$c->session->{'open_branches'};
+        $c->stash->{'selected'} = "ffffuuuuuccck";
         $c->stash->{template}="application.tt";
     }
 }
