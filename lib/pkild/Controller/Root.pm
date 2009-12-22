@@ -78,7 +78,7 @@ sub default : Private {
                    
                     $c->session->{'selected'} = $c->request->arguments->[2] if $c->request->arguments->[2];
                     if( $c->request->arguments->[2] eq "NEW_ROOT_CA" ){
-                        $c->session->{'menunames'}=[ 'Domain', 'Help' ];
+                        $c->session->{'menunames'}=[ 'Domain', 'Help', 'Logout' ];
                         $c->session->{'menudata'}->{'Help'}->{'comments'} = "Create a new root Certificate Authority.";
                     }
                     $c->res->body( $c->view('TT')->render(
