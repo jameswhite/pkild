@@ -7,7 +7,6 @@
         var active_tab = "[% default_tab %]";
         var selected_branch = "[% selected_branch %]"
         var opened_branches = new Array;
-        [% FOREACH open_branch IN open_branches %] opened_branches.push('[% open_branch %]'); [% END %]
         if(active_tab == ""){ active_tab = "Help"; }
         var menuItems;
         menuItems = new Array();
@@ -44,7 +43,9 @@
         function tree()     { 
                               $("#certificate_tree").tree({ 
                                                             selected: selected_branch,
-                                                            opened : opened_branches,
+                                                            opened : [ 
+                                                                         [% FOREACH open_branch IN open_branches %] [% open_branch %] [% END %]
+                                                                     ],
                                                             data: { 
                                                                     type: "json",
                                                                     async: true, 
