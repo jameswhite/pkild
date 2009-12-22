@@ -106,10 +106,11 @@ sub default : Private {
                     my $max_shifts = $#{ $c->session->{'open_branches'} };
                     my $sum_shifts = -1;
                     while ((my $item = shift @{ $c->session->{'open_branches'} }) && ($sum_shifts <= $max_shifts)){
-print STDERR "$path == $item?\n";
                         push(@{ $c->session->{'open_branches'} },$item) unless ($item eq $path);
                         $sum_shifts++;
                     }
+                    print STDERR "\n\nOpen: ". join("," $c->session->{'open_branches'})."\n";
+                    print STDERR "\n\nSelected: ". $c->session->{'selected'}."\n";
                     $c->res->body(to_json($c->session->{'open_branches'}, {'pretty' => 0}));
                 }
             }
