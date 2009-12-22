@@ -64,7 +64,10 @@ sub default : Private {
         $c->detach();
     }
 
-    if(! defined($c->session->{'selected'})){ $c->session->{'selected'} = "NEW_ROOT_CA"; }
+    if(! defined($c->session->{'selected'})){ 
+        $c->session->{'selected'} = "NEW_ROOT_CA"; 
+        $c->stash->{'selected'} = $c->session->{'selected'};
+     }
     if( $c->request->arguments->[0]){
     ############################################################################
     # 
