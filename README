@@ -1,3 +1,5 @@
+[ -d /var/cache/git ] || mkdir -p /var/cache/git
+(cd /var/cache/git; git-clone git://github.com/fapestniegd/pkild.git)
 ################################################################################
 # Prerequisites: (debian lenny)
     apt-get install -y dh-make-perl                                            \
@@ -7,14 +9,16 @@
                        libconvert-asn1-perl libmoose-perl
      
 # The following assume you're ${CWD} is the top-level pkild app...
+cd /var/cache/git/pkild
 
 # Catalyst-Plugin-Authentication-Store-LDAP (for authentication/authorization against LDAP)
     bin/cpan2deb http://search.cpan.org/CPAN/authors/id/K/KA/KARMAN/Net-LDAP-Server-Test-0.08.tar.gz
     dpkg -i /opt/local/src/CPAN/libnet-ldap-server-test-perl_0.08-1_all.deb
-    bin/cpan2deb http://search.cpan.org/CPAN/authors/id/K/KA/KARMAN/Catalyst-Authentication-Store-LDAP-0.1005.tar.gz
-    dpkg -i /opt/local/src/CPAN/libcatalyst-authentication-store-ldap-perl_0.1005-1_all.deb
+    bin/cpan2deb http://cpan.mirrors.hoobly.com/authors/id/K/KA/KARMAN/Catalyst-Authentication-Store-LDAP-1.006.tar.gz
+    dpkg -i /opt/local/src/CPAN/libcatalyst-authentication-store-ldap-perl_0.1006-1_all.deb
     bin/cpan2deb http://search.cpan.org/CPAN/authors/id/A/AG/AGRUNDMA/Catalyst-Plugin-RequireSSL-0.06.tar.gz
     dpkg -i /opt/local/src/CPAN/libcatalyst-plugin-requiressl-perl_0.06-1_all.deb
+    # (you should really push these to your custom apt repo)
 
 # Catalyst::Model::File (to access the certificates)
     bin/cpan2deb http://search.cpan.org/CPAN/authors/id/G/GR/GRODITI/Catalyst-Component-InstancePerContext-0.001001.tar.gz

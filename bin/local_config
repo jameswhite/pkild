@@ -1,0 +1,52 @@
+#!/usr/bin/perl -wT
+use Cwd;
+use FileHandle;
+use YAML;
+my $var;
+if(-f "/etc/ldap/ldap.conf"){
+    $fh = FileHandle->new;
+    if($fh->open("< /etc/ldap/ldap.conf")) {
+        while(my $line=<$fh>){
+            $line=~s/#.*//g;
+            if($line=~m/uri\s+(.*)/){ $var->{'LDAP_URI'}=$1; }
+            if($var->{'LDAP_URI'}=~m/,/){$var->{'LDAP_URI'}=[ split(", +",$var->{'LDAP_URI'}) ];}
+            if($line=~m/binddn\s+(.*)/){$var->{'LDAP_BINDDN'}=$1;}
+            if($line=~m/bindpw\s+(.*)/){$var->{'LDAP_BINDPW'}=$1;}
+            if($line=~m/base\s+(.*)/){$var->{'LDAP_BASEDN'}=$1;}
+        }
+        $fh->close;
+    }
+}
+my $ready=1;
+my @variables=('LDAP_URI','LDAP_BASEDN','LDAP_BINDDN','LDAP_BINDPW');
+foreach my $vitem (@variables){
+    if(!defined($var->{$vitem})){
+        if(!defined($ENV{$var})){
+            $ready=0;
+            print "Please define \$$vitem in the environment.\n";
+        }else{
+            $var->{$vitem}=$ENV{$vitem};
+        }
+    }
+}
+exit unless $ready;
+my $bin=$0;
+my $dir=getcwd;
+my $config="$dir/$bin";
+$config=~s/local_config/..\/Config.yaml.template/;
+my $template;
+if(-f "$config"){
+    $template=YAML::LoadFile($config);
+}
+foreach my $key (keys(%{ $template->{'realms'}->{'ldap'}->{'store'} })){
+    if($template->{'realms'}->{'ldap'}->{'store'}->{$key}=~m/\[\% (.*) \%\]/){ 
+        my $replacement=$1;
+        $template->{'realms'}->{'ldap'}->{'store'}->{$key}=~s/\[\%.*\%\]/$var->{$replacement}/;
+    }
+}
+$template->{'realms'}->{'ldap'}->{'store'}->{'ldap_server'}=$var->{'LDAP_URI'};
+if($config=~m/(.*)/){
+    my $newconfig=$1;
+    $newconfig=~s/\.template//;
+    YAML::DumpFile($newconfig,$template);
+}
