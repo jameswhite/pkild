@@ -27,7 +27,6 @@
                     [% INCLUDE treebox.tt %]
                 </div>
                 <div id='right-pane'>
-                    [% INCLUDE form.tt %]
                 </div>
             </div>
         </div>
