@@ -22,22 +22,14 @@
         <span class="clear"></span>
         [% FOREACH name IN menunames %]
         <div class="content [% name %]" style="display:none" >
-        <!-- 
-            <form action="" method="post">
-                <fieldset>
-                    <legend>[% menudata.$name.legend %]</legend>
-                    <table>
-                    [% FOREACH field IN menudata.$name.fields %]
-                        <tr>
-                            <td align='right'><label for="[% field.name %]"<nobr>[% field.prompt %]</nobr></label></td>
-                            <td align='left'><input type="[% field.type %]" name="[% field.name %]" size="[% field.size %]" value="[% field.value %]"></td>
-                        </tr>
-                    [% END %]
-                    </table>
-                    [% menudata.$name.comments %]
-                </fieldset>
-            </form>
-        -->
+            <div id="application">
+                <div id='left-pane'>
+                    [% INCLUDE treebox.tt %]
+                </div>
+                <div id='right-pane'>
+                    [% INCLUDE actionbox.tt %]
+                </div>
+            </div>
         </div>
         [% END %]
     </div>
