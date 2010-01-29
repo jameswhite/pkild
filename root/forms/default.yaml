@@ -2,6 +2,7 @@ order:
   administrator:
     - Help
     - Logout
+    - Sign
   user:
     - Sign
     - Logout
