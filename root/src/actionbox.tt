@@ -1,9 +1,3 @@
-  <script type="text/javascript"> 
-  <!--
-       menuItems = new Array();
-       [% FOREACH menu IN menunames %]menuItems.push("[% menu %]");[% END %]
-  -->
-  </script>
     <div id="container">  
         <ul class="menu">  
             [% FOREACH name IN menunames %] 
