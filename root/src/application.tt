@@ -46,25 +46,71 @@
         #pkild_app .vsplitbar.active { background: #dde7f0 url(static/images/vgrabber.gif) no-repeat center; opacity: 0.7; }
     </style>
     <script type="text/javascript">
-        $().ready( 
-                   function() {
-                                styleResize();
-                                $("#pkild_app").splitter({
-                                                            type: "v",
-                                                            outline: true,
-                                                            minLeft: 100, sizeLeft: 150, minRight: 100,
-                                                            resizeToWidth: true,
-                                                            cookie: "vsplitter",
-                                                            accessKey: 'I'
-                                                          });
-                              }
-                 );
-
+       function splitter() {
+                              $("#pkild_app").splitter({ 
+                                                         type: 'v',
+                                                         outline: true,
+                                                         minLeft: 100, sizeLeft: 150, minRight: 100,
+                                                         resizeToWidth: true,
+                                                         cookie: "vsplitter",
+                                                         accessKey: 'I'
+                                                       });
+                            }
     </script>
     <!-- end jquery vertical splitter -->
     <!-- begin jquery tree -->
     <script type="text/javascript" src="static/js/jquery.tree.min.js"></script>
+    <script type="text/javascript">
+    function tree()     {
+                          $("#certificate_tree").tree({
+                                                        selected: "[% selected %]",
+                                                        opened : [   
+                                                                     [% FOREACH open_branch IN open_branches %] "[% open_branch %]", [% END %]
+                                                                 ],
+                                                        data: { 
+                                                                type: "json",
+                                                                async: true,
+                                                                opts: { method: "GET", url:"jstree/" }
+                                                              },
+                                                        ui:   { theme_name: "classic"},
+                                                        callback: {
+                                                                    onopen: function(node,tree_obj)
+                                                                    {
+                                                                      $.ajax({
+                                                                               url: 'action/open/' + node.id ,
+                                                                               dataType: "json",
+                                                                             });
+                                                                    },
+                                                                    onclose: function(node,tree_obj)
+                                                                    {
+                                                                      $.ajax({
+                                                                               url: 'action/close/' + node.id ,
+                                                                               dataType: "json",
+                                                                             });
+                                                                    },
+                                                                    onselect: function(node,tree_obj)
+                                                                    {
+                                                                      $.ajax({
+                                                                               url: 'action/select/' + node.id ,
+                                                                               dataType: "html",
+                                                                               success: function(data){
+                                                                                                        $('#right-pane').html(data);
+                                                                                                        tabs();
+                                                                                                        activate(active_tab);
+                                                                                                      }
+                                                                             });
+                                                                    },
+                                                                  }
+                                                      });
+                        }
+    </script>
     <!-- end jquery tree -->
+    <script type="text/javascript">
+    <!-- begin init -->
+    $( function() { splitter (); tree(); });
+    <!-- end init -->
+    </script>
+
 </head>  
 <body onload="styleResize()" onresize="styleResize();">  
     <a id="logo" title="pkild" href="http://github.com/fapestniegd/pkild"><img src="static/images/logo.jpg" alt="[PKILD LOGO]" /></a>  
