@@ -58,7 +58,8 @@
         var newAppHeight = browserHeight - 100;
         var newAppHeightStr = newAppHeight + "px";
         document.getElementById("pkild_app").style.height = newAppHeightStr;
-        $(".vsplitbar").height = newAppHeightStr;
+        $('vsplitbar').height = newAppHeightStr;
+        $('vsplitbar.active').height = newAppHeightStr;
     }
     </script>
     <!-- end resizing app -->
