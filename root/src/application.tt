@@ -40,21 +40,22 @@
     <!-- begin resizing app -->
     <script>
     function styleResize(){
-        var myWidth = 0, myHeight = 0;
+        var browserWidth = 0, browserHeight = 0;
         if( typeof( window.innerWidth ) == 'number' ) {
             //Non-IE
-            myWidth = window.innerWidth;
-            myHeight = window.innerHeight;
+            browserWidth = window.innerWidth;
+            browserHeight = window.innerHeight;
         } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
             //IE 6+ in 'standards compliant mode'
-              myWidth = document.documentElement.clientWidth;
-              myHeight = document.documentElement.clientHeight;
+              browserWidth = document.documentElement.clientWidth;
+              browserHeight = document.documentElement.clientHeight;
         } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
               //IE 4 compatible
-              myWidth = document.body.clientWidth;
-              myHeight = document.body.clientHeight;
+              browserWidth = document.body.clientWidth;
+              browserHeight = document.body.clientHeight;
         }
-        $("#pkild_app").style.height = myHeight - 100;
+        var newAppHeight=browserHeight - 10;
+        $("#pkild_app").height = newAppHeight + "px";
     }
     </script>
     <!-- end resizing app -->
