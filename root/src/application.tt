@@ -22,7 +22,7 @@
     <script type="text/javascript">
         $().ready( 
                    function() {
-                                $("#MySplitter").splitter({
+                                $("#pkild_app").splitter({
                                                             type: "v",
                                                             outline: true,
                                                             minLeft: 100, sizeLeft: 150, minRight: 100,
