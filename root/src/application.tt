@@ -107,7 +107,7 @@
     <!-- end jquery tree -->
     <script type="text/javascript">
     <!-- begin init -->
-    $( function() { splitter (); tree(); });
+    $( function() { styleResize(); splitter (); tree(); });
     <!-- end init -->
     </script>
 
