@@ -78,13 +78,14 @@ sub default : Private {
                     # was selected and render it. 
                     ############################################################
 print STDERR "-=[ ".$c->request->arguments->[2]." ]=-\n";
-                    $c->res->body( $c->view('TT')->render( $c, $c->request->arguments->[2].'.tt',
-                                                           { 
-                                                             additional_template_paths => [ $c->config->{root} . '/src'],
-                                                             #'form'                    => $c->{'session'}->${ $c->session->{'current_form'} }->{'data'}
-                                                           }
-                                                         )
-                                 );
+#                    $c->res->body( $c->view('TT')->render( $c, $c->request->arguments->[2].'.tt',
+#                                                           { 
+#                                                             additional_template_paths => [ $c->config->{root} . '/src'],
+#                                                             #'form'                    => $c->{'session'}->${ $c->session->{'current_form'} }->{'data'}
+#                                                           }
+#                                                         )
+#                                 );
+                    $c->res->body("Oh Hai.");
                 }elsif($c->request->arguments->[1] eq "open" ){
                     shift @{ $c->request->arguments };
                     shift @{ $c->request->arguments };
