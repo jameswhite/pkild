@@ -71,11 +71,11 @@
     <div id="pkild_app">
 
     <div id="left-pane">
-        <p>we're gonna put our tree over here.</p>
+        [% include treebox.tt %]
     </div>
     
     <div id="right-pane">
-        <p> we're gonna put our form to populate here. </p>
+        <p> we're gonna put our form to populate here based on what's selected in the tree. </p>
     </div>
 
 </div>
