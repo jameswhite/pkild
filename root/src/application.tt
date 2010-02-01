@@ -22,7 +22,7 @@
 </head>  
 <body>  
     <a id="logo" title="pkild" href="http://github.com/fapestniegd/pkild"><img src="static/images/logo.jpg" alt="[PKILD LOGO]" /></a>  
-    <div id="pkild-app">
+    <div id="pkild_app">
 
 	<div id="left-pane">
 		<p>This is the left side of the vertical splitter. Typically you might use this side for a navigational display of some data that is related to the right side.</p>
