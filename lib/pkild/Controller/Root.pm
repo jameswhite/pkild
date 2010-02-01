@@ -71,7 +71,7 @@ sub default : Private {
         }elsif( $c->request->arguments->[0] eq "action" ){
             # send the new actionbox
             if( $c->request->arguments->[1]){
-print STDERR "-=[ ".$c->request->arguments->[2]." ]=-\n";
+print STDERR "-=[ ".$c->request->arguments->[1]." ]=-\n";
                 if( $c->request->arguments->[1] eq "select" ){
 #                    $c->session->{'selected'} = $c->request->arguments->[2] if $c->request->arguments->[2];
                     ############################################################
