@@ -6,27 +6,19 @@
     [% INCLUDE all_css.tt %]
 </head>  
 <body>  
-    <script type="text/javascript">
-    <!-- 
-         tabItems = new Array();
-         [% FOREACH tab IN tabnames %]tabItems.push("[% tab %]");[% END %]
-    -->
-    </script>
     <a id="logo" title="pkild" href="http://github.com/fapestniegd/pkild"><img src="static/images/logo.jpg" alt="[PKILD LOGO]" /></a>  
-    <div id="container">
-        <ul class="menu">
-            [% FOREACH name IN menunames %]
-            <li id="[% name %]">[% name %]</li>
-            [% END %]
-        </ul>
-        <span class="clear"></span>
+    <ul class="menu">
         [% FOREACH name IN menunames %]
-        <div class="content [% name %]" style="display:none" >
-            <div id="application">
-            </div>
-        </div>
+        <li id="[% name %]">[% name %]</li>
         [% END %]
+    </ul>
+    <span class="clear"></span>
+    [% FOREACH name IN menunames %]
+    <div class="content [% name %]" style="display:none" >
+        <div id="application">
+        </div>
     </div>
+    [% END %]
     [% INCLUDE all_js.tt %]
 </body>  
 </html>  
