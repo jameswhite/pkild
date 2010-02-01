@@ -84,7 +84,7 @@ sub default : Private {
 #                                                           }
 #                                                         )
 #                                 );
-                    $c->res->body("Oh Hai!");
+                    $c->res->body("Oh Hai! I can haz root CA?");
                 }elsif($c->request->arguments->[1] eq "open" ){
                     shift @{ $c->request->arguments };
                     shift @{ $c->request->arguments };
