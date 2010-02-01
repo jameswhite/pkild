@@ -3,9 +3,39 @@
 <head>  
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />  
     <title>pkild -- ldap authenticated pki utility</title>  
-    [% INCLUDE all_css.tt %]
+    <script type="text/javascript" src="static/js/jquery-1.3.2.min.js"></script>
+    <script type="text/javascript" src="static/js/jquery.tree.min.js"></script>
+    <script type="text/javascript" src="static/js/splitter.js"></script>
+    <link rel="stylesheet" href="static/css/general.css" type="text/css" media="screen" />
+    <!--[if IE 6]>
+        <link rel="stylesheet" href="static/css/ie6.css" type="text/css" media="screen," />
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" media="all" href="static/js/themes/default/style.css">
+    <style type="text/css" media="all">
+        body { padding: 10px; }
+        #pkild_app { height: 400px; margin: 1em 3em; border: 4px solid #dde7f0; /* No padding allowed */ }
+        #left-pane { background: #fff; overflow: auto; /* No margin or border allowed */ }
+        #right-pane { background: #fff; overflow: auto; /* No margin or border allowed */ }
+        #pkild_app .vsplitbar { width: 3px; background: #dde7f0 url(img/vgrabber.gif) no-repeat center; }
+        #pkild_app .vsplitbar.active { background: #dde7f0 url(img/vgrabber.gif) no-repeat center; opacity: 0.7; }
+    </style>
 </head>  
 <body>  
     <a id="logo" title="pkild" href="http://github.com/fapestniegd/pkild"><img src="static/images/logo.jpg" alt="[PKILD LOGO]" /></a>  
+    <div id="pkild-app">
+
+	<div id="left-pane">
+		<p>This is the left side of the vertical splitter. Typically you might use this side for a navigational display of some data that is related to the right side.</p>
+		<p>Using CSS styles you can control the look of the splitter, such as its color, width, and appearance when selected. Or, you can specify most options when you call the plugin to create the splitter.</p>
+	</div>
+	
+	<div id="right-pane">
+		<p>This is the right side of the vertical splitter. Usually this side will be wider than the left side, but that's up to you. The left pane of this demo was set to be 150 pixels wide in the stylesheet, which is why the right pane is initially larger. If you don't specify a width for either panes when the splitter is created, the two panes will be equal width.</p>
+
+		<p>The splitter plugin supports the use of the keyboard to move the splitbar via the browser's accessKey feature. To move the splitbar in IE or Firefox, press <kbd>Alt-Shift-I</kbd>, then press the arrow keys. To unfocus the splitbar, press <kbd>Tab</kbd>. In Opera, press <kbd>Shift-Esc</kbd> and then the letter <kbd>I</kbd>; remove focus with <kbd>Esc</kbd>.</p>
+	</div>
+
+</div>
+
 </body>  
 </html>  
