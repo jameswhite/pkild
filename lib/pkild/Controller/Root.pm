@@ -68,47 +68,45 @@ sub default : Private {
     ############################################################################
         if( $c->request->arguments->[0] eq "jstree" ){
             $c->res->body(to_json($c->model('Certificates')->tree(), {'pretty' => 1}));
-#        }elsif( $c->request->arguments->[0] eq "action" ){
-#            # send the new actionbox
-#            if( $c->request->arguments->[1]){
-#                if( $c->request->arguments->[1] eq "select" ){
-##                    $c->session->{'selected'} = $c->request->arguments->[2] if $c->request->arguments->[2];
-#                    ############################################################
-#                    # select the template from the template pool based on what
-#                    # was selected and render it. 
-#                    ############################################################
-##                    $c->res->body( $c->view('TT')->render( $c, $c->request->arguments->[2].'.tt',
-##                                                           { 
-##                                                             additional_template_paths => [ $c->config->{root} . '/src'],
-##                                                             #'form'                    => $c->{'session'}->${ $c->session->{'current_form'} }->{'data'}
-##                                                           }
-##                                                         )
-##                                 );
-#                }elsif($c->request->arguments->[1] eq "open" ){
-#                    shift @{ $c->request->arguments };
-#                    shift @{ $c->request->arguments };
-#                    my $path=join ("/",@{ $c->request->arguments });
-#                    # add the tab node_id to the default open tabs
-#                    my $found=0;
-#                    foreach my $item (@{ $c->session->{'open_branches'} }){ if($item eq $path){ $found=1; }  }
-#                    push (@{ $c->session->{'open_branches'} }, $path ) unless ($found == 1);
-#                    $c->res->body(to_json($c->session->{'open_branches'}, {'pretty' => 0}));
-#                }elsif($c->request->arguments->[1] eq "close" ){
-#                    shift @{ $c->request->arguments };
-#                    shift @{ $c->request->arguments };
-#                    my $path=join ("/",@{ $c->request->arguments });
-#                    my @tmplist=();
-#                    while (@{ $c->session->{'open_branches'} }){
-#                        my $tmp=shift(@{ $c->session->{'open_branches'} });
-#                        push(@tmplist,$tmp) unless ($tmp eq $path);
-#                    }
-#                    @{ $c->session->{'open_branches'} }=@tmplist;
-#                    $c->res->body(to_json($c->session->{'open_branches'}, {'pretty' => 0}));
-#                }
-#            }
-#        }
-    }else{
-        $c->res->body('Oh Hai');
+        }elsif( $c->request->arguments->[0] eq "action" ){
+            # send the new actionbox
+            if( $c->request->arguments->[1]){
+                if( $c->request->arguments->[1] eq "select" ){
+#                    $c->session->{'selected'} = $c->request->arguments->[2] if $c->request->arguments->[2];
+                    ############################################################
+                    # select the template from the template pool based on what
+                    # was selected and render it. 
+                    ############################################################
+#                    $c->res->body( $c->view('TT')->render( $c, $c->request->arguments->[2].'.tt',
+#                                                           { 
+#                                                             additional_template_paths => [ $c->config->{root} . '/src'],
+#                                                             #'form'                    => $c->{'session'}->${ $c->session->{'current_form'} }->{'data'}
+#                                                           }
+#                                                         )
+#                                 );
+                }elsif($c->request->arguments->[1] eq "open" ){
+                    shift @{ $c->request->arguments };
+                    shift @{ $c->request->arguments };
+                    my $path=join ("/",@{ $c->request->arguments });
+                    # add the tab node_id to the default open tabs
+                    my $found=0;
+                    foreach my $item (@{ $c->session->{'open_branches'} }){ if($item eq $path){ $found=1; }  }
+                    push (@{ $c->session->{'open_branches'} }, $path ) unless ($found == 1);
+                    $c->res->body(to_json($c->session->{'open_branches'}, {'pretty' => 0}));
+                }elsif($c->request->arguments->[1] eq "close" ){
+                    shift @{ $c->request->arguments };
+                    shift @{ $c->request->arguments };
+                    my $path=join ("/",@{ $c->request->arguments });
+                    my @tmplist=();
+                    while (@{ $c->session->{'open_branches'} }){
+                        my $tmp=shift(@{ $c->session->{'open_branches'} });
+                        push(@tmplist,$tmp) unless ($tmp eq $path);
+                    }
+                    @{ $c->session->{'open_branches'} }=@tmplist;
+                    $c->res->body(to_json($c->session->{'open_branches'}, {'pretty' => 0}));
+                }
+            }
+        }
     }
 
     ############################################################################
