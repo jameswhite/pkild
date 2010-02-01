@@ -38,6 +38,7 @@
     </script>
     <!-- end jquery vertical splitter -->
     <!-- begin resizing app -->
+    <script>
     function styleResize(){
         var myWidth = 0, myHeight = 0;
         if( typeof( window.innerWidth ) == 'number' ) {
@@ -55,6 +56,7 @@
         }
         pkild_app.height=myHeight - 100;
     }
+    </script>
     <!-- end resizing app -->
     <!-- begin jquery tree -->
     <script type="text/javascript" src="static/js/jquery.tree.min.js"></script>
