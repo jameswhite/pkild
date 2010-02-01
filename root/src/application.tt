@@ -7,18 +7,5 @@
 </head>  
 <body>  
     <a id="logo" title="pkild" href="http://github.com/fapestniegd/pkild"><img src="static/images/logo.jpg" alt="[PKILD LOGO]" /></a>  
-    <ul class="menu">
-        [% FOREACH name IN menunames %]
-        <li id="[% name %]">[% name %]</li>
-        [% END %]
-    </ul>
-    <span class="clear"></span>
-    [% FOREACH name IN menunames %]
-    <div class="content [% name %]" style="display:none" >
-        <div id="application">
-        </div>
-    </div>
-    [% END %]
-    [% INCLUDE all_js.tt %]
 </body>  
 </html>  
