@@ -55,7 +55,8 @@
               browserHeight = document.body.clientHeight;
         }
         var newAppHeight=browserHeight - 10;
-        $("#pkild_app").height = newAppHeight + "px";
+        var newAppHeight=browserHeightStr = newAppHeight + "px";
+        document.getElementById("pkild_app").style.width = newAppHeightStr;
     }
     </script>
     <!-- end resizing app -->
