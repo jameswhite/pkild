@@ -19,21 +19,37 @@
         #pkild_app .vsplitbar { width: 3px; background: #dde7f0 url(img/vgrabber.gif) no-repeat center; }
         #pkild_app .vsplitbar.active { background: #dde7f0 url(img/vgrabber.gif) no-repeat center; opacity: 0.7; }
     </style>
+    <script type="text/javascript">
+        $().ready( 
+                   function() {
+                                $("#MySplitter").splitter({
+                                                            type: "v",
+                                                            outline: true,
+                                                            minLeft: 100, sizeLeft: 150, minRight: 100,
+                                                            resizeToWidth: true,
+                                                            cookie: "vsplitter",
+                                                            accessKey: 'I'
+                                                          });
+                              }
+                 );
+
+</script>
+
 </head>  
 <body>  
     <a id="logo" title="pkild" href="http://github.com/fapestniegd/pkild"><img src="static/images/logo.jpg" alt="[PKILD LOGO]" /></a>  
     <div id="pkild_app">
 
-	<div id="left-pane">
-		<p>This is the left side of the vertical splitter. Typically you might use this side for a navigational display of some data that is related to the right side.</p>
-		<p>Using CSS styles you can control the look of the splitter, such as its color, width, and appearance when selected. Or, you can specify most options when you call the plugin to create the splitter.</p>
-	</div>
-	
-	<div id="right-pane">
-		<p>This is the right side of the vertical splitter. Usually this side will be wider than the left side, but that's up to you. The left pane of this demo was set to be 150 pixels wide in the stylesheet, which is why the right pane is initially larger. If you don't specify a width for either panes when the splitter is created, the two panes will be equal width.</p>
+    <div id="left-pane">
+        <p>This is the left side of the vertical splitter. Typically you might use this side for a navigational display of some data that is related to the right side.</p>
+        <p>Using CSS styles you can control the look of the splitter, such as its color, width, and appearance when selected. Or, you can specify most options when you call the plugin to create the splitter.</p>
+    </div>
+    
+    <div id="right-pane">
+        <p>This is the right side of the vertical splitter. Usually this side will be wider than the left side, but that's up to you. The left pane of this demo was set to be 150 pixels wide in the stylesheet, which is why the right pane is initially larger. If you don't specify a width for either panes when the splitter is created, the two panes will be equal width.</p>
 
-		<p>The splitter plugin supports the use of the keyboard to move the splitbar via the browser's accessKey feature. To move the splitbar in IE or Firefox, press <kbd>Alt-Shift-I</kbd>, then press the arrow keys. To unfocus the splitbar, press <kbd>Tab</kbd>. In Opera, press <kbd>Shift-Esc</kbd> and then the letter <kbd>I</kbd>; remove focus with <kbd>Esc</kbd>.</p>
-	</div>
+        <p>The splitter plugin supports the use of the keyboard to move the splitbar via the browser's accessKey feature. To move the splitbar in IE or Firefox, press <kbd>Alt-Shift-I</kbd>, then press the arrow keys. To unfocus the splitbar, press <kbd>Tab</kbd>. In Opera, press <kbd>Shift-Esc</kbd> and then the letter <kbd>I</kbd>; remove focus with <kbd>Esc</kbd>.</p>
+    </div>
 
 </div>
 
