@@ -73,7 +73,7 @@ sub default : Private {
             if( $c->request->arguments->[1]){
 print STDERR "-=[ ".$c->request->arguments->[2]." ]=-\n";
                 if( $c->request->arguments->[1] eq "select" ){
-                    $c->session->{'selected'} = $c->request->arguments->[2] if $c->request->arguments->[2];
+#                    $c->session->{'selected'} = $c->request->arguments->[2] if $c->request->arguments->[2];
                     ############################################################
                     # select the template from the template pool based on what
                     # was selected and render it. 
