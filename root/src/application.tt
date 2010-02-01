@@ -54,7 +54,7 @@
               myWidth = document.body.clientWidth;
               myHeight = document.body.clientHeight;
         }
-        pkild_app.height=myHeight - 100;
+        $("#pkild_app".height) = myHeight - 100;
     }
     </script>
     <!-- end resizing app -->
