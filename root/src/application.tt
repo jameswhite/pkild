@@ -37,11 +37,30 @@
 
     </script>
     <!-- end jquery vertical splitter -->
+    <!-- begin resizing app -->
+    function styleResize(){
+        var myWidth = 0, myHeight = 0;
+        if( typeof( window.innerWidth ) == 'number' ) {
+            //Non-IE
+            myWidth = window.innerWidth;
+            myHeight = window.innerHeight;
+        } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+            //IE 6+ in 'standards compliant mode'
+              myWidth = document.documentElement.clientWidth;
+              myHeight = document.documentElement.clientHeight;
+        } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+              //IE 4 compatible
+              myWidth = document.body.clientWidth;
+              myHeight = document.body.clientHeight;
+        }
+        pkild_app.height=myHeight - 100;
+    }
+    <!-- end resizing app -->
     <!-- begin jquery tree -->
     <script type="text/javascript" src="static/js/jquery.tree.min.js"></script>
     <!-- end jquery tree -->
 </head>  
-<body>  
+<body onload="styleResize()" onresize="styleResize();">  
     <a id="logo" title="pkild" href="http://github.com/fapestniegd/pkild"><img src="static/images/logo.jpg" alt="[PKILD LOGO]" /></a>  
     <div id="pkild_app">
 
