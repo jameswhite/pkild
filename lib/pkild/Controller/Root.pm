@@ -80,7 +80,7 @@ sub default : Private {
                     $c->res->body( $c->view('TT')->render( $c, $c->request->arguments->[2].'.tt',
                                                            { 
                                                              additional_template_paths => [ $c->config->{root} . '/src'],
-                                                             'form'                    => $c->{'session'}->${ $c->session->{'current_form'} }->{'data'}
+                                                             #'form'                    => $c->{'session'}->${ $c->session->{'current_form'} }->{'data'}
                                                            }
                                                          )
                                  );
