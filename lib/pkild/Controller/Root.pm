@@ -72,7 +72,7 @@ sub default : Private {
             # send the new actionbox
             if( $c->request->arguments->[1]){
                 if( $c->request->arguments->[1] eq "select" ){
-#                    $c->session->{'selected'} = $c->request->arguments->[2] if $c->request->arguments->[2];
+                    $c->session->{'selected'} = $c->request->arguments->[2] if $c->request->arguments->[2];
                     ############################################################
                     # select the template from the template pool based on what
                     # was selected and render it. 
@@ -84,6 +84,7 @@ sub default : Private {
 #                                                           }
 #                                                         )
 #                                 );
+                    $c->res->body("Oh Hai!");
                 }elsif($c->request->arguments->[1] eq "open" ){
                     shift @{ $c->request->arguments };
                     shift @{ $c->request->arguments };
