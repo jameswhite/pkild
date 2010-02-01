@@ -57,7 +57,7 @@
         // why are these conversions necessary?
         var newAppHeight = browserHeight - 10;
         var newAppHeightStr = newAppHeight + "px";
-        document.getElementById("pkild_app").style.width = newAppHeightStr;
+        document.getElementById("pkild_app").style.height = newAppHeightStr;
     }
     </script>
     <!-- end resizing app -->
