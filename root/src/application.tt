@@ -12,11 +12,11 @@
             //Non-IE
             browserWidth = window.innerWidth;
             browserHeight = window.innerHeight;
-        } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+        }else if(document.documentElement&&(document.documentElement.clientWidth||document.documentElement.clientHeight)){
             //IE 6+ in 'standards compliant mode'
               browserWidth = document.documentElement.clientWidth;
               browserHeight = document.documentElement.clientHeight;
-        } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+        }else if(document.body&&(document.body.clientWidth||document.body.clientHeight)){
               //IE 4 compatible
               browserWidth = document.body.clientWidth;
               browserHeight = document.body.clientHeight;
@@ -26,7 +26,6 @@
         var newAppHeightStr = newAppHeight + "px";
         document.getElementById("pkild_app").style.height = newAppHeightStr;
         $('vsplitbar').height = newAppHeightStr;
-        $('vsplitbar.active').attr('height',newAppHeightStr);
     }
     </script>
     <!-- end resizing app -->
@@ -48,8 +47,8 @@
     </style>
     <script type="text/javascript">
         $().ready( 
-                   styleResize();
                    function() {
+                                styleResize();
                                 $("#pkild_app").splitter({
                                                             type: "v",
                                                             outline: true,
