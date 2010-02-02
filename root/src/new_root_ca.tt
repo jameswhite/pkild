@@ -1,15 +1,12 @@
 <style type="text/css">
   div.formcontainer {top: 0; left: 0; width: 100%; height: 100%; position: relativ; display: table; }
-  form {display: table-cell; vertical-align: middle}
-  form {align: center}
-  table {display: table-cell; vertical-align: middle}
-  table {align: center}
+  table.displayed {display: table-cell; vertical-align: middle}
+  table.displayed {align: center}
 </style>
 
 <div class=formcontainer>
     <form action="" method="post">
         <legend>Please Login</legend>  
-<center>
         <table class='displayed'>
             <tr>
                 <td align="right"><label for="username">Username: </label></td>
@@ -24,6 +21,5 @@
             <tr>
             </tr>
         </table>
-</center>
     </form>
 </div>
