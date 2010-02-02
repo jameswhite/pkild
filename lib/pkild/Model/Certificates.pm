@@ -57,18 +57,18 @@ sub tree{
             }
         }
     }
-    push(
-          @{ $tree->{''}->{'children'} }, 
-          { 
-            'attributes' => { 'id' =>  "NEW_ROOT_CA" }, 
-            'data' => { 'title' => 'Create New Root CA', 'icon' => 'createnew'},
-          }
-        );
     unshift(
           @{ $tree->{''}->{'children'} }, 
           { 
             'attributes' => { 'id' =>  "logout" }, 
             'data' => { 'title' => 'Logout', 'icon' => 'forbidden'},
+          }
+        );
+    push(
+          @{ $tree->{''}->{'children'} }, 
+          { 
+            'attributes' => { 'id' =>  "NEW_ROOT_CA" }, 
+            'data' => { 'title' => 'Create New Root CA', 'icon' => 'createnew'},
           }
         );
     return $tree->{''}->{'children'};
