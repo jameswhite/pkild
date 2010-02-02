@@ -184,7 +184,7 @@ sub drawform : Local {
     # select the template from the template pool based on what
     # was selected and render it. 
     ############################################################
-    print STDERR Data::Dumper->Dump([$c->{'session'}->{menudata}]);
+    print STDERR Data::Dumper->Dump([$c->{'session'}]);
     $c->res->body( $c->view('TT')->render($c , 'form.tt', { 
                                                             additional_template_paths => [ $c->config->{root} . '/src'],
                                                             'form'=> $c->{'session'}->{menudata}->{'Domain'}
