@@ -3,7 +3,6 @@
   center.middle {display: table-cell; vertical-align: middle}
 </style>
 
-<div class=formcontainer>
 <center class='middle'>
     <form action="" method="post">
         <legend>Please Login</legend>  
@@ -23,4 +22,3 @@
         </table>
     </form>
 </center>
-</div>
