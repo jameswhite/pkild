@@ -59,6 +59,7 @@
     </script>
     <!-- end jquery vertical splitter -->
     <!-- begin jquery tree -->
+    <link rel="stylesheet" type="text/css" href="static/js/themes/default/style.css">
     <script type="text/javascript" src="static/js/jquery.tree.min.js"></script>
     <script type="text/javascript">
     function tree()     {
