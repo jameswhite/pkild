@@ -186,7 +186,7 @@ sub drawform : Local {
     ############################################################
     $c->res->body( $c->view('TT')->render($c , 'form.tt', { 
                                                             additional_template_paths => [ $c->config->{root} . '/src'],
-                                                            'form'=> $c->{'session'}->{menudata}->{'data'}->{'Domain'}
+                                                            'form'=> $c->{'session'}->{menudata}->{'Domain'}
                                                           }
                                          )
                  );
