@@ -74,6 +74,22 @@
                                                                 opts: { method: "GET", url:"jstree/" }
                                                               },
                                                         ui:   { theme_name: "default"},
+                                                        types: {
+                                                                 "directory" : {
+                                                                               clickable      : true,
+                                                                               renameable     : false
+                                                                               deletable      : false,
+                                                                               creatable      : false,
+                                                                               draggable      : false,
+                                                                               max_children   : -1,
+                                                                               max_depth      : -1,
+                                                                               valid_children : "all",
+                                                                               icon           : {
+                                                                                                  image    : false,
+                                                                                                  position : false
+                                                                                                }
+                                                                             }
+                                                               },
                                                         callback: {
                                                                     onopen: function(node,tree_obj)
                                                                     {
