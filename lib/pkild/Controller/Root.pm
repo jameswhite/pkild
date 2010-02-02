@@ -50,6 +50,7 @@ sub default : Private {
     # Log us out if ?logout=1 was sent
     ############################################################################
     if(defined($c->req->param("logout"))){ 
+        # Forward to the logout action/method in this controller
         $c->forward('logout');
     }
     if( $c->request->arguments->[0]){
@@ -57,32 +58,12 @@ sub default : Private {
     # 
     ############################################################################
         if( $c->request->arguments->[0] eq "jstree" ){
-            my $certificate_tree=$c->model('Certificates')->tree();
-            push( @{ $certificate_tree },
-                  { 
-                    'attributes' => { 'id' =>  "new_root_ca" },
-                    'data' => { 'title' => 'Create New Root CA', 'icon' => 'createnew'},
-                  }
-                );
-            push( @{ $certificate_tree },
-                  { 
-                    'attributes' => { 'id' =>  "logout" },
-                    'data' => { 'title' => 'Logout', 'icon' => 'forbidden'},
-                  }
-                );
-            $c->res->body(to_json($certificate_tree, {'pretty' => 1}));
+            $c->forward('jstree');
         }elsif( $c->request->arguments->[0] eq "action" ){
             # send the new actionbox
             if( $c->request->arguments->[1]){
                 if( $c->request->arguments->[1] eq "select" ){
                     $c->session->{'selected'} = $c->request->arguments->[2] if $c->request->arguments->[2];
-                    if($c->session->{'selected'} eq "logout") {
-                        delete $c->session->{'user'};
-                        delete $c->session->{'username'};
-                        $c->delete_session("logout");
-                        $c->res->redirect($c->request->headers->referer);
-                        $c->detach();
-                    }
                     ############################################################
                     # select the template from the template pool based on what
                     # was selected and render it. 
@@ -188,6 +169,23 @@ sub logout : Global {
     $c->detach();
 }
 
+sub jstree : Local {
+    my ( $self, $c ) = @_;
+    my $certificate_tree=$c->model('Certificates')->tree();
+    push( @{ $certificate_tree },
+          { 
+            'attributes' => { 'id' =>  "new_root_ca" },
+            'data' => { 'title' => 'Create New Root CA', 'icon' => 'createnew'},
+          }
+        );
+    push( @{ $certificate_tree },
+          { 
+            'attributes' => { 'id' =>  "logout" },
+            'data' => { 'title' => 'Logout', 'icon' => 'forbidden'},
+          }
+        );
+    $c->res->body(to_json($certificate_tree, {'pretty' => 1}));
+}
 =head2 end
 
 Attempt to render a view, if needed.
