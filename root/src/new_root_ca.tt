@@ -1,16 +1,11 @@
 <style type="text/css">
-  /* Vertical centering: make div as large as viewport and use table layout */
-  div.container333 {top: 0; left: 0; width: 100%; height: 100%; position: relativ; display: table; }
+  div.formcontainer {top: 0; left: 0; width: 100%; height: 100%; position: relativ; display: table; }
   p {display: table-cell; vertical-align: middle}
   img.displayed {display: block; margin: 1em auto}
   p {text-align: center}
 </style>
 
-<div class=container333>
-  <p>This is vertically &amp; horizontally centered.
-  <img class=displayed src="../../Woolly/woolly-lc.png"
-    alt="[image of a sheep]">
-  See <a href="center.html"><cite>"centering
-  things."</cite></a>
+<div class=formcontainer>
+  <p>This is vertically &amp; horizontally centered.</p>
 </div>
 
