@@ -1,24 +1,12 @@
 <style type="text/css">
-  div.formcontainer {top: 0; left: 0; width: 100%; height: 100%; position: relativ; display: table; }
+  div.middlecontainer {top: 0; left: 0; width: 100%; height: 100%; position: relativ; display: table; }
   center.middle {display: table-cell; vertical-align: middle}
 </style>
-
+<div class='centermiddle'>
 <center class='middle'>
-    <form action="" method="post">
-        <legend>Please Login</legend>  
-        <table class='displayed'>
-            <tr>
-                <td align="right"><label for="username">Username: </label></td>
-                <td align="left"><input type="text" name="username" size="20"></td>
-            </tr>
-                <td align="right"><label for="username">Password: </label></td>
-                <td align="left"><input type="password" name="password" size="20"></td>
-            <tr>
-            </tr>
-                <td align="right">&nbsp;</td>
-                <td align="right"><input type="submit" name="login" value="Submit"></td>
-            <tr>
-            </tr>
-        </table>
-    </form>
+
+Oh Hai.
+
+
 </center>
+</div>
