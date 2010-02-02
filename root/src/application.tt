@@ -68,6 +68,7 @@
                                                         types : {
                                                                   // all node types inherit the "default" node type
                                                                   "default" : {
+                                                                                draggable : false,
                                                                                 deletable : false,
                                                                                 renameable : false
                                                                                },
