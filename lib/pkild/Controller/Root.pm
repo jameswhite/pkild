@@ -70,7 +70,7 @@ sub default : Private {
             my $certificate_tree=$c->model('Certificates')->tree();
             push( @{ $certificate_tree },
                   { 
-                    'attributes' => { 'id' =>  "NEW_ROOT_CA" },
+                    'attributes' => { 'id' =>  "new_root_ca" },
                     'data' => { 'title' => 'Create New Root CA', 'icon' => 'createnew'},
                   }
                 );
