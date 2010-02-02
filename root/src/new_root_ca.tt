@@ -1,8 +1,11 @@
 <style type="text/css">
   div.formcontainer {top: 0; left: 0; width: 100%; height: 100%; position: relativ; display: table; }
   p {display: table-cell; vertical-align: middle}
-  table.displayed {display: block; margin: 1em auto}
   p {text-align: center}
+  form {display: table-cell; vertical-align: middle}
+  form {text-align: center}
+  table {display: table-cell; vertical-align: middle}
+  table {text-align: center}
 </style>
 
 <div class=formcontainer>
