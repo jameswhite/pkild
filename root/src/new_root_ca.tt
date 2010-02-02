@@ -6,9 +6,7 @@
 </style>
 
 <div class=formcontainer>
-  <p> 
-<form action="" method="post">
-<fieldset>  
+    <form action="" method="post">
 <legend>Please Login</legend>  
 <table class='displayed'>
     <tr>
@@ -24,9 +22,5 @@
     <tr>
     </tr>
 </table>
-</fieldset>
 </form>
-
-</p>
 </div>
-
