@@ -65,7 +65,6 @@ sub default : Private {
             if( $c->request->arguments->[1]){
                 # if we've selected a tree item, populate the form as per our forms yaml
                 if( $c->request->arguments->[1] eq "select" ){
-    print STDERR Data::Dumper->Dump([$c->{'session'}]);
                     $c->forward('drawform');
                 }elsif($c->request->arguments->[1] eq "open" ){
                     shift @{ $c->request->arguments };
@@ -101,6 +100,7 @@ sub default : Private {
     }
    
     my $form_data=$c->config->{'layout'};
+    print STDERR Data::Dumper->Dump([$form_data]);
     if(! defined $c->session->{menudata}){
         $c->session->{menudata}=$form_data->{'forms'};
     }
