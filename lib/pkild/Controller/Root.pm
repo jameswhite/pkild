@@ -50,6 +50,7 @@ sub default : Private {
     # Log us out if ?logout=1 was sent
     ############################################################################
     if(defined($c->req->param("logout"))){ 
+        $c->controller->('Root')->logout();
 
         # remove all user handles
         delete $c->session->{'user'};
