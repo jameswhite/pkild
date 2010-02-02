@@ -51,17 +51,6 @@ sub default : Private {
     ############################################################################
     if(defined($c->req->param("logout"))){ 
         $c->controller->('Root')->logout();
-
-        # remove all user handles
-        delete $c->session->{'user'};
-        delete $c->session->{'username'};
-
-        # expire our session
-        $c->delete_session("logout");
-
-        # send us home, so subsequent page refreshes won't post logout
-        $c->res->redirect($c->request->headers->referer);
-        $c->detach();
     }
     if( $c->request->arguments->[0]){
     ############################################################################
@@ -187,7 +176,16 @@ sub login : Global {
 
 sub logout : Global {
     my ( $self, $c ) = @_;
-   
+    # remove all user handles
+    delete $c->session->{'user'};
+    delete $c->session->{'username'};
+
+    # expire our session
+    $c->delete_session("logout");
+
+    # send us home, so subsequent page refreshes won't post logout
+    $c->res->redirect($c->request->headers->referer);
+    $c->detach();
 }
 
 =head2 end
