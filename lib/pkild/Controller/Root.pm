@@ -53,15 +53,16 @@ sub default : Private {
         # Forward to the logout action/method in this controller
         $c->forward('logout');
     }
+    ############################################################################
+    #
+    ############################################################################
     if( $c->request->arguments->[0]){
-    ############################################################################
-    # 
-    ############################################################################
         if( $c->request->arguments->[0] eq "jstree" ){
-            $c->forward('jstree');
+            $c->forward('jstreemenu');
         }elsif( $c->request->arguments->[0] eq "action" ){
             # send the new actionbox
             if( $c->request->arguments->[1]){
+                # if we've selected a tree item, populate the form as per our forms yaml
                 if( $c->request->arguments->[1] eq "select" ){
                     $c->session->{'selected'} = $c->request->arguments->[2] if $c->request->arguments->[2];
                     ############################################################
@@ -169,10 +170,10 @@ sub logout : Global {
     $c->detach();
 }
 
-sub jstree : Local {
+sub jstreemenu : Local {
     my ( $self, $c ) = @_;
     my $certificate_tree=$c->model('Certificates')->tree();
-    push( @{ $certificate_tree },
+    unshift( @{ $certificate_tree },
           { 
             'attributes' => { 'id' =>  "new_root_ca" },
             'data' => { 'title' => 'Create New Root CA', 'icon' => 'createnew'},
