@@ -68,7 +68,7 @@ sub tree{
           @{ $tree->{''}->{'children'} }, 
           { 
             'attributes' => { 'id' =>  "logout" }, 
-            'data' => { 'title' => 'Logout', 'icon' => 'createnew'},
+            'data' => { 'title' => 'Logout', 'icon' => 'forbidden'},
           }
         );
     return $tree->{''}->{'children'};
