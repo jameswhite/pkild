@@ -1,3 +1,5 @@
-<div style="position: relative; width: 0px; margin: auto; display: table-cell; vertical-align: middle }"> 
+<div style="display: table-cell; vertical-align: middle; }"> 
+    <div style="position: relative; width: 0px; margin: auto;">
 test.
+    </div>
 </div>
