@@ -179,16 +179,17 @@ sub jstreemenu : Local {
 
 sub drawform : Local {
     my ( $self, $c ) = @_;
-    my $form_data=$c->config->{'layout'};
-    print STDERR Data::Dumper->Dump([$form_data]);
-    $c->session->{'selected'} = $c->request->arguments->[2] if $c->request->arguments->[2];
+    if($c->request->arguments->[2]){
+        $c->stash->{'menudata'} = $c->config->{'layout'}->{'forms'}->{$c->request->arguments->[2]};
+    }
     ############################################################
     # select the template from the template pool based on what
     # was selected and render it. 
     ############################################################
+    print STDERR Data::Dumper->Dump([$c->stash->{'menudata'}]);
     $c->res->body( $c->view('TT')->render($c , 'form.tt', { 
                                                             additional_template_paths => [ $c->config->{root} . '/src'],
-                                                            'form'=> $c->{'session'}->{menudata}->{'Domain'}
+                                                            'menudata' => $c->stash->{'menudata'};
                                                           }
                                          )
                  );
