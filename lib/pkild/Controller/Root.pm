@@ -100,7 +100,6 @@ sub default : Private {
     }
    
     my $form_data=$c->config->{'layout'};
-    print STDERR Data::Dumper->Dump([$form_data]);
     if(! defined $c->session->{menudata}){
         $c->session->{menudata}=$form_data->{'forms'};
     }
@@ -180,6 +179,8 @@ sub jstreemenu : Local {
 
 sub drawform : Local {
     my ( $self, $c ) = @_;
+    my $form_data=$c->config->{'layout'};
+    print STDERR Data::Dumper->Dump([$form_data]);
     $c->session->{'selected'} = $c->request->arguments->[2] if $c->request->arguments->[2];
     ############################################################
     # select the template from the template pool based on what
