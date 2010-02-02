@@ -100,7 +100,7 @@ sub default : Private {
                         $c->res->body( $c->view('TT')->render( $c, 'form.tt',
                                                                { 
                                                                  additional_template_paths => [ $c->config->{root} . '/src'],
-                                                                 'form'=> $c->{'session'}->${ $c->session->{'selected'} }->{'data'}
+                                                                 'form'=> $c->{'session'}->${ "$c->session->{'selected'}" }->{'data'}
                                                                }
                                                              )
                                  );
