@@ -9,6 +9,7 @@
 <div class=formcontainer>
     <form action="" method="post">
         <legend>Please Login</legend>  
+<center>
         <table class='displayed'>
             <tr>
                 <td align="right"><label for="username">Username: </label></td>
@@ -23,5 +24,6 @@
             <tr>
             </tr>
         </table>
+</center>
     </form>
 </div>
