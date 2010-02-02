@@ -65,6 +65,12 @@
     function tree()     {
                           $("#certificate_tree").tree({
                                                         selected: "[% selected %]",
+                                                        types : {
+                                                                  // all node types inherit the "default" node type
+                                                                  "default" : {
+                                                                      deletable : false,
+                                                                      renameable : false
+                                                                  },
                                                         opened : [   
                                                                      [% FOREACH open_branch IN open_branches %] "[% open_branch %]", [% END %]
                                                                  ],
