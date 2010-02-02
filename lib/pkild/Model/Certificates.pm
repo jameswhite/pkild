@@ -57,7 +57,7 @@ sub tree{
             }
         }
     }
-    unshift(
+    push(
           @{ $tree->{''}->{'children'} }, 
           { 
             'attributes' => { 'id' =>  "logout" }, 
