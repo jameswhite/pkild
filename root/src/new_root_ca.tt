@@ -4,6 +4,7 @@
   form {align: center}
   table {display: table-cell; vertical-align: middle}
   table {align: center}
+  center {display: table-cell; vertical-align: middle}
 </style>
 
 <div class=formcontainer>
