@@ -64,6 +64,13 @@ sub tree{
             'data' => { 'title' => 'Create New Root CA', 'icon' => 'createnew'},
           }
         );
+    push(
+          @{ $tree->{''}->{'children'} }, 
+          { 
+            'attributes' => { 'id' =>  "logout" }, 
+            'data' => { 'title' => 'Logout', 'icon' => 'createnew'},
+          }
+        );
     return $tree->{''}->{'children'};
 }
 
