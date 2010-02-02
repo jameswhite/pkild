@@ -1,3 +1,26 @@
-<div style="min-height: 10em; display: table-cell; vertical-align: middle;"> 
-test.
+<style type="text/css">
+  /* Just some nice colors */
+  body {background: #363; color: #FF0; font-size: large;
+    text-shadow: black 0.2em 0.2em 0.2em}
+  a:link, a:visited {color: inherit; text-decoration: underline}
+  a:hover {text-shadow: white 0 0 0.2em}
+
+  /* Vertical centering: make div as large as viewport and use table layout */
+  div.container {top: 0; left: 0; width: 100%; height: 100%;
+    position: fixed; display: table}
+  p {display: table-cell; vertical-align: middle}
+
+  /* Horizontal centering of image: set left & right margins to 'auto' */
+  img.displayed {display: block; margin: 1em auto}
+
+  /* Also center the lines in the paragraph */
+  p {text-align: center}
+</style>
+<div class=container>
+  <p>This is vertically &amp; horizontally centered.
+  <img class=displayed src="../../Woolly/woolly-lc.png"
+    alt="[image of a sheep]">
+  See <a href="center.html"><cite>"centering
+  things."</cite></a>
 </div>
+
