@@ -189,7 +189,7 @@ sub drawform : Local {
     print STDERR Data::Dumper->Dump([$c->stash->{'menudata'}]);
     $c->res->body( $c->view('TT')->render($c , 'form.tt', { 
                                                             additional_template_paths => [ $c->config->{root} . '/src'],
-                                                            'menudata' => $c->stash->{'menudata'};
+                                                            'menudata' => $c->stash->{'menudata'}
                                                           }
                                          )
                  );
