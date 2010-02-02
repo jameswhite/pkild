@@ -46,6 +46,7 @@ sub default : Private {
             $c->stash->{'ERROR'}="Authentication Failed."; 
         }
     }
+
     ############################################################################
     # Log us out if ?logout=1 was sent
     ############################################################################
@@ -54,7 +55,7 @@ sub default : Private {
         $c->forward('logout');
     }
     ############################################################################
-    #
+    # Ajax request handlers
     ############################################################################
     if( $c->request->arguments->[0]){
         if( $c->request->arguments->[0] eq "jstree" ){
@@ -64,18 +65,7 @@ sub default : Private {
             if( $c->request->arguments->[1]){
                 # if we've selected a tree item, populate the form as per our forms yaml
                 if( $c->request->arguments->[1] eq "select" ){
-                    $c->session->{'selected'} = $c->request->arguments->[2] if $c->request->arguments->[2];
-                    ############################################################
-                    # select the template from the template pool based on what
-                    # was selected and render it. 
-                    ############################################################
-                        $c->res->body( $c->view('TT')->render( $c, 'form.tt',
-                                                               { 
-                                                                 additional_template_paths => [ $c->config->{root} . '/src'],
-                                                                 #'form'=> $c->{'session'}->${ "$c->session->{'selected'}" }->{'data'}
-                                                               }
-                                                             )
-                                 );
+                    $c->forward('drawform');
                 }elsif($c->request->arguments->[1] eq "open" ){
                     shift @{ $c->request->arguments };
                     shift @{ $c->request->arguments };
@@ -102,7 +92,7 @@ sub default : Private {
     }
 
     ############################################################################
-    # Update the default tab in the session if changed
+    # Update the default tab in the session if changed *deprecated*
     ############################################################################
     if(defined($c->req->param("change_tab"))){ 
         $c->session->{'default_tab'} = $c->req->param("change_tab"); 
@@ -142,7 +132,6 @@ sub default : Private {
         $c->stash->{open_branches}=$c->session->{'open_branches'};
         $c->stash->{'selected'} = $c->session->{'selected'};
         $c->stash->{'selected'} =~s/\./\\\\./g;
-
         $c->stash->{template}="application.tt";
     }
 }
@@ -186,6 +175,21 @@ sub jstreemenu : Local {
           }
         );
     $c->res->body(to_json($certificate_tree, {'pretty' => 1}));
+}
+
+sub drawform : Local {
+    my ( $self, $c ) = @_;
+    $c->session->{'selected'} = $c->request->arguments->[2] if $c->request->arguments->[2];
+    ############################################################
+    # select the template from the template pool based on what
+    # was selected and render it. 
+    ############################################################
+    $c->res->body( $c->view('TT')->render($c , 'form.tt', { 
+                                                            additional_template_paths => [ $c->config->{root} . '/src'],
+                                                            'form'=> $c->{'session'}->${menudata}->{'data'}->{'Domain'}
+                                                          }
+                                         )
+                 );
 }
 =head2 end
 
