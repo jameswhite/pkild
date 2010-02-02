@@ -86,7 +86,7 @@ sub default : Private {
                                                              )
                                  );
                     }else{
-                        $c->res->body("template for ".$c->request->arguments->[2].".tt not found.");
+                        $c->res->body("template for ".$c->request->arguments->[2]." (".$c->request->arguments->[2]." not found.");
                     }
                 }elsif($c->request->arguments->[1] eq "open" ){
                     shift @{ $c->request->arguments };
