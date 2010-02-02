@@ -76,18 +76,18 @@
                                                         ui:   { theme_name: "default"},
                                                         types: {
                                                                  "default" : {
-                                                                               clickable: true,
-                                                                               renameable: false
-                                                                               deletable: false,
-                                                                               creatable: false,
-                                                                               draggable: false,
-                                                                               max_children: -1,
-                                                                               max_depth: -1,
-                                                                               valid_children: "all",
-                                                                               icon : {
-                                                                                        image :false,
-                                                                                        position :false
-                                                                                      }
+                                                                               clickable      : true,
+                                                                               renameable     : false
+                                                                               deletable      : false,
+                                                                               creatable      : false,
+                                                                               draggable      : false,
+                                                                               max_children   : -1,
+                                                                               max_depth      : -1,
+                                                                               valid_children : "all",
+                                                                               icon           : {
+                                                                                                  image    : false,
+                                                                                                  position : false
+                                                                                                }
                                                                              }
                                                                },
                                                         callback: {
