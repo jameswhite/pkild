@@ -67,7 +67,6 @@ sub default : Private {
     # 
     ############################################################################
         if( $c->request->arguments->[0] eq "jstree" ){
-            print STDERR Data::Dumper->Dump([$c->model('Certificates')->tree()]);
             $c->res->body(to_json($c->model('Certificates')->tree(), {'pretty' => 1}));
         }elsif( $c->request->arguments->[0] eq "action" ){
             # send the new actionbox
