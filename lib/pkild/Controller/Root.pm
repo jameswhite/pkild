@@ -87,18 +87,11 @@ sub default : Private {
                 if( $c->request->arguments->[1] eq "select" ){
                     $c->session->{'selected'} = $c->request->arguments->[2] if $c->request->arguments->[2];
                     if($c->session->{'selected'} eq "logout") {
-
-
-
-        delete $c->session->{'user'};
-        delete $c->session->{'username'};
-        $c->delete_session("logout");
-        $c->res->redirect($c->request->headers->referer);
-        $c->detach();
-
-
-
-
+                        delete $c->session->{'user'};
+                        delete $c->session->{'username'};
+                        $c->delete_session("logout");
+                        $c->res->redirect($c->request->headers->referer);
+                        $c->detach();
                     }
                     ############################################################
                     # select the template from the template pool based on what
@@ -107,7 +100,7 @@ sub default : Private {
                         $c->res->body( $c->view('TT')->render( $c, 'form.tt',
                                                                { 
                                                                  additional_template_paths => [ $c->config->{root} . '/src'],
-                                                                # 'form'=> $c->{'session'}->${ $c->session->{'current_form'} }->{'data'}
+                                                                 'form'=> $c->{'session'}->${ $c->session->{'selected'} }->{'data'}
                                                                }
                                                              )
                                  );
