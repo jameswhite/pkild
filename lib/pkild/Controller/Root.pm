@@ -77,18 +77,13 @@ sub default : Private {
                     # select the template from the template pool based on what
                     # was selected and render it. 
                     ############################################################
-                    my $form_template=$c->request->arguments->[2].".tt";
-                    $form_template=~tr/A-Z/a-z/;
-                    if( -f $c->config->{root}."/src/".$form_template){ 
-                        $c->res->body( $c->view('TT')->render( $c, $form_template,
-                                                               { 
-                                                                 additional_template_paths => [ $c->config->{root} . '/src'],
-                                                                # 'form'=> $c->{'session'}->${ $c->session->{'current_form'} }->{'data'}
-                                                               }
-                                                             )
-                                 );
-                    }else{
-                        $c->res->body("template for ".$c->request->arguments->[2]." (".$form_template.") not found.");
+                    $c->res->body( $c->view('TT')->render( $c, 'form.tt',
+                                                           { 
+                                                             additional_template_paths => [ $c->config->{root} . '/src'],
+                                                            # 'form'=> $c->{'session'}->${ $c->session->{'current_form'} }->{'data'}
+                                                           }
+                                                         )
+                             );
                     }
                 }elsif($c->request->arguments->[1] eq "open" ){
                     shift @{ $c->request->arguments };
