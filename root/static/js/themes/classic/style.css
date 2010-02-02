@@ -26,7 +26,6 @@
 
 /* CONTEXT MENU */
 .tree-classic-context a ins { background-image:url("icons.png"); background-repeat:no-repeat; background-position:-64px -64px; }
-.tree-classic-context a ins.createnew { background-position:0 -16px; }
 .tree-classic-context a ins.create { background-position:0 -16px; }
 .tree-classic-context a ins.rename { background-position:-16px 0px; }
 .tree-classic-context a ins.remove { background-position:-32px -16px; }

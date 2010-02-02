@@ -73,7 +73,7 @@
                                                                 async: true,
                                                                 opts: { method: "GET", url:"jstree/" }
                                                               },
-                                                        ui:   { theme_name: "classic"},
+                                                        ui:   { theme_name: "default"},
                                                         callback: {
                                                                     onopen: function(node,tree_obj)
                                                                     {
