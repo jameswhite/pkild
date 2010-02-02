@@ -5,6 +5,7 @@
 </style>
 
 <div class=formcontainer>
+<center>
     <form action="" method="post">
         <legend>Please Login</legend>  
         <table class='displayed'>
@@ -22,4 +23,5 @@
             </tr>
         </table>
     </form>
+</center>
 </div>
