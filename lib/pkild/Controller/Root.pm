@@ -50,7 +50,7 @@ sub default : Private {
     # Log us out if ?logout=1 was sent
     ############################################################################
     if(defined($c->req->param("logout"))){ 
-        $c->forward->('logout');
+        $c->forward('logout');
     }
     if( $c->request->arguments->[0]){
     ############################################################################
