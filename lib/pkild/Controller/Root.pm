@@ -86,6 +86,20 @@ sub default : Private {
             if( $c->request->arguments->[1]){
                 if( $c->request->arguments->[1] eq "select" ){
                     $c->session->{'selected'} = $c->request->arguments->[2] if $c->request->arguments->[2];
+                    if($c->session->{'selected'} eq "logout") {
+
+
+
+        delete $c->session->{'user'};
+        delete $c->session->{'username'};
+        $c->delete_session("logout");
+        $c->res->redirect($c->request->headers->referer);
+        $c->detach();
+
+
+
+
+                    }
                     ############################################################
                     # select the template from the template pool based on what
                     # was selected and render it. 
