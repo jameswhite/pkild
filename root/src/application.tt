@@ -74,7 +74,7 @@
                                                                 opts: { method: "GET", url:"jstree/" }
                                                               },
                                                         ui:   { theme_name: "default"},
-                                                        types: {
+                                                        type: {
                                                                  "directory" : {
                                                                                clickable      : true,
                                                                                renameable     : false
