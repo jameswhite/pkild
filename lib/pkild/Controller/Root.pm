@@ -70,17 +70,17 @@ sub default : Private {
             my $certificate_tree=$c->model('Certificates')->tree();
             push( @{ $certificate_tree },
                   { 
-                    'attributes' => { 'id' =>  "logout" },
-                    'data' => { 'title' => 'Logout', 'icon' => 'forbidden'},
-                  }
-                );
-            push( @{ $certificate_tree },
-                  { 
                     'attributes' => { 'id' =>  "NEW_ROOT_CA" },
                     'data' => { 'title' => 'Create New Root CA', 'icon' => 'createnew'},
                   }
                 );
-            $c->res->body(to_json($certificate_tree)), {'pretty' => 1}));
+            push( @{ $certificate_tree },
+                  { 
+                    'attributes' => { 'id' =>  "logout" },
+                    'data' => { 'title' => 'Logout', 'icon' => 'forbidden'},
+                  }
+                );
+            $c->res->body(to_json($certificate_tree, {'pretty' => 1}));
         }elsif( $c->request->arguments->[0] eq "action" ){
             # send the new actionbox
             if( $c->request->arguments->[1]){
