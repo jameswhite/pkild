@@ -75,7 +75,7 @@
                                                               },
                                                         ui:   { theme_name: "default"},
                                                         type: {
-                                                                 "directory" : {
+                                                                 "foo" : {
                                                                                clickable      : true,
                                                                                renameable     : false
                                                                                deletable      : false,
