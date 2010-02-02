@@ -6,6 +6,27 @@
 </style>
 
 <div class=formcontainer>
-  <p>This is vertically &amp; horizontally centered.</p>
+  <p> 
+<form action="" method="post">
+<fieldset>  
+<legend>Please Login</legend>  
+<table>
+    <tr>
+        <td align="right"><label for="username">Username: </label></td>
+        <td align="left"><input type="text" name="username" size="20"></td>
+    </tr>
+        <td align="right"><label for="username">Password: </label></td>
+        <td align="left"><input type="password" name="password" size="20"></td>
+    <tr>
+    </tr>
+        <td align="right">&nbsp;</td>
+        <td align="right"><input type="submit" name="login" value="Submit"></td>
+    <tr>
+    </tr>
+</table>
+</fieldset>
+</form>
+
+</p>
 </div>
 
