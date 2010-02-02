@@ -99,6 +99,9 @@
                                                                     },
                                                                     onselect: function(node,tree_obj)
                                                                     {
+                                                                      if(node == "logout"({
+                                                                          location.href="?logout=1";
+                                                                      }else{
                                                                       $.ajax({
                                                                                url: 'action/select/' + node.id ,
                                                                                dataType: "html",
@@ -108,6 +111,7 @@
                                                                                                         //activate(active_tab);
                                                                                                       }
                                                                              });
+                                                                    }
                                                                     },
                                                                   }
                                                       });
