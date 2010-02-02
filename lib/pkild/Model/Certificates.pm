@@ -64,7 +64,7 @@ sub tree{
             'data' => { 'title' => 'Create New Root CA', 'icon' => 'createnew'},
           }
         );
-    push(
+    unshift(
           @{ $tree->{''}->{'children'} }, 
           { 
             'attributes' => { 'id' =>  "logout" }, 
