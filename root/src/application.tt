@@ -99,19 +99,19 @@
                                                                     },
                                                                     onselect: function(node,tree_obj)
                                                                     {
-                                                                      if(node == "logout"({
+                                                                      if(node == "logout"){
                                                                           location.href="?logout=1";
                                                                       }else{
-                                                                      $.ajax({
-                                                                               url: 'action/select/' + node.id ,
-                                                                               dataType: "html",
-                                                                               success: function(data){
-                                                                                                        $('#right-pane').html(data);
-                                                                                                        //tabs();
-                                                                                                        //activate(active_tab);
-                                                                                                      }
-                                                                             });
-                                                                    }
+                                                                          $.ajax({
+                                                                                   url: 'action/select/' + node.id ,
+                                                                                   dataType: "html",
+                                                                                   success: function(data){
+                                                                                                            $('#right-pane').html(data);
+                                                                                                            //tabs();
+                                                                                                            //activate(active_tab);
+                                                                                                          }
+                                                                                 });
+                                                                      }
                                                                     },
                                                                   }
                                                       });
