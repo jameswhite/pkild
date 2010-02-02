@@ -65,6 +65,7 @@ sub default : Private {
             if( $c->request->arguments->[1]){
                 # if we've selected a tree item, populate the form as per our forms yaml
                 if( $c->request->arguments->[1] eq "select" ){
+    print STDERR Data::Dumper->Dump([$c->{'session'}]);
                     $c->forward('drawform');
                 }elsif($c->request->arguments->[1] eq "open" ){
                     shift @{ $c->request->arguments };
@@ -184,7 +185,6 @@ sub drawform : Local {
     # select the template from the template pool based on what
     # was selected and render it. 
     ############################################################
-    print STDERR Data::Dumper->Dump([$c->{'session'}]);
     $c->res->body( $c->view('TT')->render($c , 'form.tt', { 
                                                             additional_template_paths => [ $c->config->{root} . '/src'],
                                                             'form'=> $c->{'session'}->{menudata}->{'Domain'}
