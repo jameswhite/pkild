@@ -168,6 +168,13 @@ sub jstreemenu : Local {
     my $certificate_tree=$c->model('Certificates')->tree();
     push( @{ $menu_tree },
           { 
+            'attributes' => { 'id' =>  "openssl_cnf_preferences", 'rel' => 'action' },
+            'data' => { 'title' => 'Certificate Authorities' },
+            'children' => $certificate_tree
+          }
+        );
+    push( @{ $menu_tree },
+          { 
             'attributes' => { 'id' =>  "new_root_ca" },
             'data' => { 'title' => 'Certificate Authorities', 'icon' => 'createnew'},
             'children' => $certificate_tree
