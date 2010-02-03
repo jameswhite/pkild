@@ -85,7 +85,7 @@ forms:
         type: text
         size: 20
       - name: cert-passphrase
-        prompt: Email:
+        prompt: Private Key Pass Phrase
         type: password
         size: 20
       - name: update_cert_info
