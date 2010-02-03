@@ -169,7 +169,7 @@ sub jstreemenu : Local {
     push( @{ $menu_tree },
           { 
             'attributes' => { 'id' =>  "new_root_ca" },
-            'data' => { 'title' => 'Root Certificate Authorities', 'icon' => 'createnew'},
+            'data' => { 'title' => 'Certificate Authorities', 'icon' => 'createnew'},
             'children' => $certificate_tree
           }
         );
