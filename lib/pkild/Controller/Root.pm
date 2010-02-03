@@ -203,6 +203,7 @@ sub jstreemenu : Local {
 
 sub drawform : Global {
     my ( $self, $c ) = @_;
+    print STDERR Data::Dumper->Dump([$c->session->{'menudata'}]);
     ############################################################
     # select the template from the template pool based on what
     # was selected and render it. 
