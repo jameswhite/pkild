@@ -74,7 +74,7 @@ sub ca_create{
     if($param->{'ca-nickname'}){
         if( ! -d "$rootdir/$param->{'ca-nickname'}" ){
             mkdir("$rootdir/$param->{'ca-nickname'}",0700); 
-            my $fh = FileHandle->new("> $rootdir/$param->{'ca-nickname'}/$param->{'ca-nickname'}.crt");
+            my $fh = FileHandle->new("> $rootdir/$param->{'ca-nickname'}/$param->{'ca-nickname'}.crt","0700");
             if (defined $fh) {
                print $fh Data::Dumper->Dump([$param]);
                $fh->close;
@@ -87,6 +87,7 @@ sub ca_create{
 
 sub node_type{
     my ($self, $node)=@_;
+    kkkk
     return undef;
 }
 =head1 NAME
