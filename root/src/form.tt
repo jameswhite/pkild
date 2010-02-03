@@ -6,7 +6,7 @@
     <center class='middle'>
     <form action="" method="post">
         <fieldset>
-            <legend>[% menudata.$name.legend %]</legend>
+            <legend>[% menudata.legend %]</legend>
             <table>
             [% FOREACH name IN menudata.fields %]
                 <tr>
