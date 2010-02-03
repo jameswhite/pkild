@@ -1,11 +1,3 @@
-order:
-  administrator:
-    - Help
-    - Logout
-  user:
-    - Sign
-    - Logout
-    - Help
 forms:
   new_root_ca:
     legend: Create New CA

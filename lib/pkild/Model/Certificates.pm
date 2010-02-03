@@ -67,7 +67,7 @@ sub tree{
 
 sub ca_create{
     use FileHandle;
-    my ($self, $param)=@_;
+    my ($self, $param,$session)=@_;
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     $rootdir=~s/^\///;
     my $time=time();

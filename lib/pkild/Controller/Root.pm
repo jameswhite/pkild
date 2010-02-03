@@ -133,10 +133,10 @@ sub default : Private {
         $c->stash->{template}="login.tt";
     }else{
         if($c->check_user_roles( "certificate_administrators" )){
-            $c->session->{menunames}=$form_data->{'order'}->{'administrator'};
+            $c->session->{'menunames'}=$form_data->{'order'}->{'administrator'};
         }else{
             my $form_data = $c->config->{'layout'};
-            $c->session->{menunames}=$form_data->{'order'}->{'user'};
+            $c->session->{'menunames'}=$form_data->{'order'}->{'user'};
         }
         $c->session->{'default_tab'}=$c->stash->{menunames}->[0] unless defined $c->session->{'default_tab'};
         $c->stash->{'default_tab'} = $c->session->{'default_tab'};
@@ -226,7 +226,7 @@ sub drawform : Global {
 sub do_form : Global {
     my ( $self, $c ) = @_;
     if($c->req->param('action_type') eq 'new_ca'){
-        $c->stash->{'result'} = $c->model('Certificates')->ca_create($c->req->params);
+        $c->stash->{'result'} = $c->model('Certificates')->ca_create($c->req->params,$c->session);
     }
     $c->stash->{'template'}="application.tt";
 }
