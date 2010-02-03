@@ -89,6 +89,11 @@ sub default : Private {
                     }
                     @{ $c->session->{'open_branches'} }=@tmplist;
                     $c->res->body(to_json($c->session->{'open_branches'}, {'pretty' => 0}));
+                }elsif( $c->request->arguments->[1] eq "update" ){
+                    if($c->request->arguments->[2]){
+                        my ($key,$value)=split(/=/,$c->request->arguments->[2]);
+                        $c->session->{'menudata'}->{'fields'}->{$key}=$value;
+                    }
                 }
             }
         }
@@ -103,8 +108,8 @@ sub default : Private {
     }
    
     my $form_data=$c->config->{'layout'};
-    if(! defined $c->session->{menudata}){
-        $c->session->{menudata}=$form_data->{'forms'};
+    if(! defined $c->session->{'menudata'}){
+        $c->session->{'menudata'}=$form_data->{'forms'};
     }
     # Remember what we set things to.
     foreach my $value ($c->req->param()){
@@ -117,7 +122,7 @@ sub default : Private {
     ############################################################################
     # If we're logged in, send us to the application, othewise the login page.
     ############################################################################
-    if(! defined($c->session->{'selected'}) ){ $c->session->{'selected'} = "NEW_ROOT_CA"; }
+    if(! defined($c->session->{'selected'}) ){ $c->session->{'selected'} = "new_root_ca"; }
 
     if(!defined $c->session->{'user'}){
         $c->stash->{template}="login.tt";
@@ -198,16 +203,13 @@ sub jstreemenu : Local {
 
 sub drawform : Local {
     my ( $self, $c ) = @_;
-    if($c->request->arguments->[2]){
-        $c->stash->{'menudata'} = $c->config->{'layout'}->{'forms'}->{$c->request->arguments->[2]};
-    }
     ############################################################
     # select the template from the template pool based on what
     # was selected and render it. 
     ############################################################
     $c->res->body( $c->view('TT')->render($c , 'form.tt', { 
                                                             additional_template_paths => [ $c->config->{root} . '/src'],
-                                                            'menudata' => $c->stash->{'menudata'}
+                                                            'menudata' => $c->session->{'menudata'}->{$c->request->arguments->[2]},
                                                           }
                                          )
                  );
