@@ -7,28 +7,6 @@ order:
     - Logout
     - Help
 forms:
-  Domain:
-    legend: Domain Name
-    fields:
-      - name: domain
-        prompt: Domain Name:
-        type: text
-        size: 20
-      - name: set_domain
-        prompt: ~
-        type: submit
-        value : Set
-  Unlock:
-    legend: Passphrase
-    fields:
-      - name: passphrase
-        prompt: Passprhase:
-        type: password
-        size: 20
-      - name: unlock_store
-        prompt: ~
-        type: submit
-        value : Unlock
   new_root_ca:
     legend: Create New CA
     fields:
@@ -119,3 +97,25 @@ forms:
     legend: Help
     comments: |
       Select something from the tree in the left-pane to do something useful...
+  Domain:
+    legend: Domain Name
+    fields:
+      - name: domain
+        prompt: Domain Name:
+        type: text
+        size: 20
+      - name: set_domain
+        prompt: ~
+        type: submit
+        value : Set
+  Unlock:
+    legend: Passphrase
+    fields:
+      - name: passphrase
+        prompt: Passprhase:
+        type: password
+        size: 20
+      - name: unlock_store
+        prompt: ~
+        type: submit
+        value : Unlock
