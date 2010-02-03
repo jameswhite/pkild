@@ -85,10 +85,12 @@ forms:
     legend: OpenSSL Preferences
     fields:
       - name: ca_default_days
-        prompt: CA Certificate lifetime (days)
+        prompt: CA Certificate Lifetime (days)
         type: text
         size: 20
+        value: 365
       - name: crl_days
         prompt: Certificate Revocation List Expires Every (days)
         type: text
         size: 20
+        value: 30

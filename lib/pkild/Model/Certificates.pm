@@ -85,6 +85,10 @@ sub ca_create{
     return "ERROR";
 }
 
+sub node_type{
+    my ($self, $node)=@_;
+    return undef;
+}
 =head1 NAME
 
 pkild::Model::Certificates - Catalyst File Model
