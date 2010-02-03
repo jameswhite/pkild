@@ -76,7 +76,7 @@
                                                                                  draggable : false,
                                                                                  valid_children : [ "cacert", "cert", "action" ],
                                                                                  icon : {
-                                                                                          image : "/demos/drive.png"
+                                                                                          image : "static/images/drive.png"
                                                                                         }
                                                                                 },
                                                                   "cert" :      {
@@ -85,7 +85,7 @@
                                                                                   max_children : 0,
                                                                                   max_depth : 0,
                                                                                   icon : {
-                                                                                           image : "/demos/drive.png"
+                                                                                           image : "static/images/file.png"
                                                                                          }
                                                                                  },
                                                         },
