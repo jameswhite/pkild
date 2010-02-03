@@ -19,19 +19,22 @@ sub tree{
     $rootdir=~s/^\///;
     @file_names=sort(@file_names);
     my $previous_node='';
+    my $type;
     for my $node (@file_names){
         next if $node eq '.';
         # skip directories containing key data
         next if $node=~m/_data$/;
         # We need to know if this is a file, or a directory
-        
+        $type="unknown";
+        if( -d $node){ $type="folder"; }
+        if( -f $node){ $type="file"; }
         $node=~s/$rootdir//g;
         $node=~s/^\///g;
         if(! defined $tree->{$node}){  
             my @nodeparts=split("\/",$node);
             $node=~s/\//$node_separator/g;
             $tree->{$node} = { 
-                               'attributes' => { 'id' => $node, 'rel' => "folder" },
+                               'attributes' => { 'id' => $node, 'rel' => $type },
                                'data'       => $nodeparts[$#nodeparts],
                              };
             pop(@nodeparts);
