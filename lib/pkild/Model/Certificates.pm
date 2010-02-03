@@ -74,12 +74,13 @@ sub ca_create{
     if($param->{'ca-nickname'}){
         if( ! -d "$rootdir/$param->{'ca-nickname'}" ){
             mkdir("$rootdir/$param->{'ca-nickname'}",0700); 
-            my $fh = FileHandle->new("> $rootdir/$param->{'ca-nickname'}/$param->{'ca-nickname'}.crt","0700");
+            my $fh = FileHandle->new("> $rootdir/$param->{'ca-nickname'}/$param->{'ca-nickname'}.crt");
             if (defined $fh) {
                print $fh Data::Dumper->Dump([$param]);
                $fh->close;
                return "SUCCESS";
             }
+            chmod("$rootdir/$param->{'ca-nickname'}/$param->{'ca-nickname'}.crt","0700");
         }
     }
     return "ERROR";
