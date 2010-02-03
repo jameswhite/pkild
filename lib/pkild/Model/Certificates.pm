@@ -65,6 +65,12 @@ sub tree{
     return $tree->{''}->{'children'};
 }
 
+sub ca_create{
+    my ($self, $c, $parameters)=@_;
+    print STDERR Data::Dumper->Dump([$parameters]);
+    return;
+}
+
 =head1 NAME
 
 pkild::Model::Certificates - Catalyst File Model
