@@ -90,9 +90,14 @@ sub default : Private {
                     @{ $c->session->{'open_branches'} }=@tmplist;
                     $c->res->body(to_json($c->session->{'open_branches'}, {'pretty' => 0}));
                 }elsif( $c->request->arguments->[1] eq "update" ){
+                    # loop through the fields and set the value in the session.
                     if($c->request->arguments->[2]){
                         my ($key,$value)=split(/=/,$c->request->arguments->[2]);
-                        $c->session->{'menudata'}->{'fields'}->{$key}=$value;
+                        for(my $idx=0; $idx<= $#{$c->session->{'menudata'}->{'new_root_ca'}}; $idx++){
+                            if( $c->session->{'menudata'}->{'new_root_ca'}->[$idx]->{'name'} eq $key){
+                                $c->session->{'menudata'}->{'new_root_ca'}->[$idx]->{'value'} = $value;
+                            }
+                        }
                     }
                 }
             }
