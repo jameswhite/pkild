@@ -173,7 +173,7 @@ sub jstreemenu : Local {
             'children' => $certificate_tree
           }
         );
-    push( @{ $meny_tree },
+    push( @{ $menu_tree },
           { 
             'attributes' => { 'id' =>  "logout" },
             'data' => { 'title' => 'Logout', 'icon' => 'forbidden'},
