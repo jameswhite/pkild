@@ -84,6 +84,10 @@ forms:
         prompt: Email:
         type: text
         size: 20
+      - name: cert-passphrase
+        prompt: Email:
+        type: password
+        size: 20
       - name: update_cert_info
         prompt: ~
         type: submit
