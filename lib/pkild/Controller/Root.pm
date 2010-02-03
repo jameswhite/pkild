@@ -179,7 +179,7 @@ sub jstreemenu : Local {
             'data' => { 'title' => 'Logout', 'icon' => 'forbidden'},
           }
         );
-    $c->res->body(to_json($certificate_tree, {'pretty' => 1}));
+    $c->res->body(to_json($menu_tree, {'pretty' => 1}));
 }
 
 sub drawform : Local {
