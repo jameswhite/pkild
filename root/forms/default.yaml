@@ -32,6 +32,10 @@ forms:
   new_root_ca:
     legend: Create New CA
     fields:
+      - name: ca-nickname
+        prompt: Name:
+        type: text
+        size: 20
       - name: ca-country
         prompt: Country:
         type: text
