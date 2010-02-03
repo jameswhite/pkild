@@ -87,7 +87,7 @@ sub ca_create{
 
 sub node_type{
     my ($self, $node)=@_;
-    kkkk
+    #
     return undef;
 }
 =head1 NAME
