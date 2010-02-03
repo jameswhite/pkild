@@ -145,10 +145,8 @@ sub default : Private {
         $c->stash->{'open_branches'}=$c->session->{'open_branches'};
         $c->stash->{'selected'} = $c->session->{'selected'};
         $c->stash->{'selected'} =~s/\./\\\\./g;
-        if($c->req->method && $c->req->param("form_name")){
-            if($c->req->method eq 'POST' && $c->req->param("form_name") ne "login"){
-                $c->forward('do_form');
-            }
+        if($c->req->method eq 'POST'){
+            $c->forward('do_form');
         }
         $c->stash->{'template'}="application.tt";
     }
@@ -229,7 +227,7 @@ sub drawform : Global {
 
 sub do_form : Global {
     my ( $self, $c ) = @_;
-    if($c->req->parameters eq 'new_ca'){
+    if($c->req->param('action_type') eq 'new_ca'){
         $c->stash->{'result'} = $c->model('Certificates')->ca_create($c->req->parameters);
     }
     $c->stash->{'template'}="application.tt";
