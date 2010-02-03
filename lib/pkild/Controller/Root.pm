@@ -116,10 +116,12 @@ sub default : Private {
         $c->session->{'menudata'}=$form_data->{'forms'};
     }
     # Remember what we set things to.
-    foreach my $value ($c->req->param()){
-        for(my $idx=0; $idx < $#{ $c->session->{'menudata'}->{ $c->session->{'default_tab'} }->{'fields'} }; $idx++){
-            if($value eq  $c->session->{'menudata'}->{ $c->session->{'default_tab'} }->{'fields'}->[$idx]->{'name'}){
-                $c->session->{'menudata'}->{ $c->session->{'default_tab'}}->{'fields'}->[$idx]->{'value'} = $c->req->param($value);
+    if( $c->req->param ){
+        foreach my $value ($c->req->param()){
+            for(my $idx=0; $idx < $#{ $c->session->{'menudata'}->{ $c->session->{'default_tab'} }->{'fields'} }; $idx++){
+                if($value eq  $c->session->{'menudata'}->{ $c->session->{'default_tab'} }->{'fields'}->[$idx]->{'name'}){
+                    $c->session->{'menudata'}->{ $c->session->{'default_tab'}}->{'fields'}->[$idx]->{'value'} = $c->req->param($value);
+                }
             }
         }
     }
@@ -143,8 +145,10 @@ sub default : Private {
         $c->stash->{'open_branches'}=$c->session->{'open_branches'};
         $c->stash->{'selected'} = $c->session->{'selected'};
         $c->stash->{'selected'} =~s/\./\\\\./g;
-        if($c->req->method eq 'POST' && $c->req->param("form_name") ne "login"){
-            $c->forward('do_form');
+        if($c->req->method && $c->req->param("form_name")){
+            if($c->req->method eq 'POST' && $c->req->param("form_name") ne "login"){
+                $c->forward('do_form');
+            }
         }
         $c->stash->{'template'}="application.tt";
     }
