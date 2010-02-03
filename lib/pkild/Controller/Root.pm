@@ -144,7 +144,9 @@ sub default : Private {
         $c->stash->{'open_branches'}=$c->session->{'open_branches'};
         $c->stash->{'selected'} = $c->session->{'selected'};
         $c->stash->{'selected'} =~s/\./\\\\./g;
-        barf();
+        if($c->req->method eq 'POST'){
+            barf();
+        }
         $c->stash->{'template'}="application.tt";
     }
 }
