@@ -94,9 +94,9 @@ sub default : Private {
                     # loop through the fields and set the value in the session.
                     if($c->request->arguments->[2]){
                         my ($key,$value)=split(/=/,$c->request->arguments->[2]);
-                        for(my $idx=0; $idx<= $#{$c->session->{'menudata'}->{'new_root_ca'}}; $idx++){
-                            if( $c->session->{'menudata'}->{'new_root_ca'}->[$idx]->{'name'} eq $key){
-                                $c->session->{'menudata'}->{'new_root_ca'}->[$idx]->{'value'} = $value;
+                        for(my $idx=0; $idx<= $#{$c->session->{'menudata'}->{'new_root_ca'}->{'fields'} }; $idx++){
+                            if( $c->session->{'menudata'}->{'new_root_ca'}->{'fields'} ->[$idx]->{'name'} eq $key){
+                                $c->session->{'menudata'}->{'new_root_ca'}->{'fields'} ->[$idx]->{'value'} = $value;
                             }
                         }
                     }
