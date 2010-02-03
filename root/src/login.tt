@@ -30,6 +30,7 @@ legend   {
     </tr>
         <td align="right">&nbsp;</td>
         <td align="right"><input type="submit" name="login" value="Submit"></td>
+        <input type="hidden" name="form_name" value="login"></td>
     <tr>
     </tr>
 </table>
