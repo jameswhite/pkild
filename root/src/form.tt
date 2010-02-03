@@ -15,6 +15,7 @@
                 </tr>
             [% END %]
             </table>
+            <input type="hidden" name="node_name" value="[% node %]"></td>
             [% menudata.$name.comments %]
         </fieldset>
     </form>

@@ -218,6 +218,7 @@ sub drawform : Global {
     $c->res->body( $c->view('TT')->render($c , 'form.tt', { 
                                                             additional_template_paths => [ $c->config->{root} . '/src'],
                                                             'menudata' => $c->session->{'menudata'}->{$c->request->arguments->[2]},
+                                                            'node' => $c->session->{'current_node'},
                                                           }
                                          )
                  );
