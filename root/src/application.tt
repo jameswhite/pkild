@@ -94,13 +94,6 @@
                                                                                           image : "static/images/file.png"
                                                                                         }
                                                                                 },
-                                                                  "unknown" :   {
-                                                                                 draggable : false,
-                                                                                 valid_children : none,
-                                                                                 icon : {
-                                                                                          image : "static/images/question-mark.gif"
-                                                                                        }
-                                                                               },
                                                                 },
                                                         opened : [   
                                                                      [% FOREACH open_branch IN open_branches %] "[% open_branch %]", [% END %]
