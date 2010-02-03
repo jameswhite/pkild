@@ -14,30 +14,37 @@ forms:
         prompt: Name:
         type: text
         size: 20
+        value: example.org
       - name: ca-country
         prompt: Country:
         type: text
         size: 20
+        value: US
       - name: ca-state
         prompt: State:
         type: text
         size: 20
+        value: Tennessee
       - name: ca-localitiy
         prompt: Locality:
         type: text
         size: 20
+        value: Nashville
       - name: ca-org
         prompt: Organization:
         type: text
         size: 20
+        value: your company
       - name: ca-orgunit
         prompt: Organizational Unit:
         type: text
         size: 20
+        value: your department
       - name: ca-email
         prompt: Email:
         type: text
         size: 20
+        value: sysadmins@example.org
       - name: action_type
         prompt: ~
         type: hidden
