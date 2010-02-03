@@ -168,7 +168,7 @@ sub jstreemenu : Local {
     my $certificate_tree=$c->model('Certificates')->tree();
     push( @{ $menu_tree },
           { 
-            'attributes' => { 'id' =>  "openssl_cnf_preferences", 'rel' => 'action' },
+            'attributes' => { 'id' =>  "openssl_cnf_prefs", 'rel' => 'action' },
             'data' => { 'title' => 'OpenSSL Preferences' },
             'children' => $certificate_tree
           }
@@ -198,7 +198,6 @@ sub drawform : Local {
     # select the template from the template pool based on what
     # was selected and render it. 
     ############################################################
-    print STDERR Data::Dumper->Dump([$c->stash->{'menudata'}]);
     $c->res->body( $c->view('TT')->render($c , 'form.tt', { 
                                                             additional_template_paths => [ $c->config->{root} . '/src'],
                                                             'menudata' => $c->stash->{'menudata'}

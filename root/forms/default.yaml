@@ -42,7 +42,7 @@ forms:
         prompt: ~
         type: submit
         value : Update
-openssl_cnf_prefs: 
+  openssl_cnf_prefs: 
     legend: OpenSSL Preferences
     fields:
       - name: ca_default_days
