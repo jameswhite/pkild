@@ -201,7 +201,7 @@ sub jstreemenu : Local {
     $c->res->body(to_json($menu_tree, {'pretty' => 1}));
 }
 
-sub drawform : Local {
+sub drawform : Global {
     my ( $self, $c ) = @_;
     ############################################################
     # select the template from the template pool based on what
