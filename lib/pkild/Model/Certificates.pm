@@ -80,7 +80,7 @@ sub ca_create{
                $fh->close;
                return "SUCCESS";
             }
-            chmod("$rootdir/$param->{'ca-nickname'}/$param->{'ca-nickname'}.crt","0700");
+            chmod(0700, "$rootdir/$param->{'ca-nickname'}/$param->{'ca-nickname'}.crt");
         }
     }
     return "ERROR";
