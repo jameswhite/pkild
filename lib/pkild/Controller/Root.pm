@@ -113,9 +113,9 @@ sub default : Private {
     }
     # Remember what we set things to.
     foreach my $value ($c->req->param()){
-        for(my $idx=0; $idx < $#{ $c->session->{menudata}->{ $c->session->{'default_tab'} }->{'fields'} }; $idx++){
-            if($value eq  $c->session->{menudata}->{ $c->session->{'default_tab'} }->{'fields'}->[$idx]->{'name'}){
-                $c->session->{menudata}->{ $c->session->{'default_tab'}}->{'fields'}->[$idx]->{'value'} = $c->req->param($value);
+        for(my $idx=0; $idx < $#{ $c->session->{'menudata'}->{ $c->session->{'default_tab'} }->{'fields'} }; $idx++){
+            if($value eq  $c->session->{'menudata'}->{ $c->session->{'default_tab'} }->{'fields'}->[$idx]->{'name'}){
+                $c->session->{'menudata'}->{ $c->session->{'default_tab'}}->{'fields'}->[$idx]->{'value'} = $c->req->param($value);
             }
         }
     }
@@ -135,12 +135,12 @@ sub default : Private {
         }
         $c->session->{'default_tab'}=$c->stash->{menunames}->[0] unless defined $c->session->{'default_tab'};
         $c->stash->{'default_tab'} = $c->session->{'default_tab'};
-        $c->stash->{menunames}=$c->session->{'menunames'};
-        $c->stash->{menudata}=$c->session->{'menudata'};
-        $c->stash->{open_branches}=$c->session->{'open_branches'};
+        $c->stash->{'menunames'}=$c->session->{'menunames'};
+        $c->stash->{'menudata'}=$c->session->{'menudata'};
+        $c->stash->{'open_branches'}=$c->session->{'open_branches'};
         $c->stash->{'selected'} = $c->session->{'selected'};
         $c->stash->{'selected'} =~s/\./\\\\./g;
-        $c->stash->{template}="application.tt";
+        $c->stash->{'template'}="application.tt";
     }
 }
 
