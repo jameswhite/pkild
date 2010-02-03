@@ -67,6 +67,9 @@ sub default : Private {
                 if( $c->request->arguments->[1] eq "select" ){
                     $c->forward('drawform');
                 }elsif($c->request->arguments->[1] eq "open" ){
+                    ############################################################
+                    # Remember the state of the tree for subsequent page reloads
+                    ############################################################
                     shift @{ $c->request->arguments };
                     shift @{ $c->request->arguments };
                     my $path=join ("/",@{ $c->request->arguments });
@@ -164,7 +167,7 @@ sub jstreemenu : Local {
     my $certificate_tree=$c->model('Certificates')->tree();
     unshift( @{ $certificate_tree },
           { 
-            'attributes' => { 'id' =>  "new_root_ca" },
+            'attributes' => { 'id' =>  "new_root_ca", 'rel' => 'action' },
             'data' => { 'title' => 'Create New Root CA', 'icon' => 'createnew'},
           }
         );
