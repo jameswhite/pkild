@@ -89,7 +89,6 @@
                                                                                          }
                                                                                  },
                                                         },
-                                                        },
                                                         opened : [   
                                                                      [% FOREACH open_branch IN open_branches %] "[% open_branch %]", [% END %]
                                                                  ],
