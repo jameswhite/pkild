@@ -8,7 +8,7 @@
         <fieldset>
             <legend>[% menudata.legend %]</legend>
             <table>
-            [% FOREACH name IN menudata.fields %]
+            [% FOREACH field IN menudata.fields %]
                 <tr>
                     <td align='right'><label for="[% field.name %]"<nobr>[% field.prompt %]</nobr></label></td>
                     <td align='left'><input type="[% field.type %]" name="[% field.name %]" size="[% field.size %]" value="[% field.value %]"></td>

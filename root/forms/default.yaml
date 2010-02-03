@@ -30,7 +30,7 @@ forms:
         type: submit
         value : Unlock
   new_root_ca:
-    legend: Certificate
+    legend: Create New CA
     fields:
       - name: ca-country
         prompt: Country:
