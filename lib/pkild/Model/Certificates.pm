@@ -23,13 +23,15 @@ sub tree{
         next if $node eq '.';
         # skip directories containing key data
         next if $node=~m/_data$/;
+        # We need to know if this is a file, or a directory
+        
         $node=~s/$rootdir//g;
         $node=~s/^\///g;
         if(! defined $tree->{$node}){  
             my @nodeparts=split("\/",$node);
             $node=~s/\//$node_separator/g;
             $tree->{$node} = { 
-                               'attributes' => { 'id' => $node, 'rel' => "cert" },
+                               'attributes' => { 'id' => $node, 'rel' => "folder" },
                                'data'       => $nodeparts[$#nodeparts],
                              };
             pop(@nodeparts);

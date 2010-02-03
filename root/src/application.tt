@@ -81,14 +81,11 @@
                                                                                           image : "static/images/drive.png"
                                                                                         }
                                                                                },
-                                                                  "cacert" :   {
+                                                                  "folder" :   {
                                                                                  draggable : false,
-                                                                                 valid_children : [ "cacert", "cert", "action" ],
-                                                                                 icon : {
-                                                                                          image : "static/images/drive.png"
-                                                                                        }
+                                                                                 valid_children : [ "folder", "file", "action" ],
                                                                                },
-                                                                  "cert" :     {
+                                                                  "file" :     {
                                                                                  draggable : false,
                                                                                  valid_children : "none",
                                                                                  max_children : 0,
