@@ -38,6 +38,10 @@ forms:
         prompt: Email:
         type: text
         size: 20
+      - name: action_type
+        prompt: ~
+        type: hidden
+        value : new_ca
       - name: update_cert_info
         prompt: ~
         type: submit
