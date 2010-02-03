@@ -169,7 +169,7 @@ sub jstreemenu : Local {
     push( @{ $menu_tree },
           { 
             'attributes' => { 'id' =>  "openssl_cnf_preferences", 'rel' => 'action' },
-            'data' => { 'title' => 'Certificate Authorities' },
+            'data' => { 'title' => 'OpenSSL Preferences' },
             'children' => $certificate_tree
           }
         );
