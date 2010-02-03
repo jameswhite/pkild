@@ -29,7 +29,7 @@ sub tree{
             my @nodeparts=split("\/",$node);
             $node=~s/\//$node_separator/g;
             $tree->{$node} = { 
-                               'attributes' => { 'id' => $node },
+                               'attributes' => { 'id' => $node, 'rel' => "cert" },
                                'data'       => $nodeparts[$#nodeparts],
                              };
             pop(@nodeparts);
