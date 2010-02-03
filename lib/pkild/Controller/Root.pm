@@ -168,7 +168,7 @@ sub jstreemenu : Local {
     unshift( @{ $certificate_tree },
           { 
             'attributes' => { 'id' =>  "new_root_ca", 'rel' => 'action' },
-            'data' => { 'title' => 'Create New Root CA', 'icon' => 'createnew'},
+            'data' => { 'title' => 'Create New Root CA'},
           }
         );
     push( @{ $certificate_tree },
