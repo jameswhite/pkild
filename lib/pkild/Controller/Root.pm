@@ -179,13 +179,13 @@ sub jstreemenu : Local {
             'data' => { 'title' => 'Certificate Authorities', 'icon' => 'createnew'},
             'children' => $certificate_tree
           }
+        );
     push( @{ $menu_tree },
           { 
             'attributes' => { 'id' =>  "new_cert" },
             'data' => { 'title' => 'Certificates', 'icon' => 'createnew'},
             'children' => $certificate_tree
           }
-        );
         );
     push( @{ $menu_tree },
           { 
