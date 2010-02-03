@@ -73,6 +73,7 @@ sub ca_create{
     my $time=time();
     if($param->{'ca-nickname'}){
         if( ! -d "$rootdir/$param->{'ca-nickname'}" ){
+            umask(0077);
             mkdir("$rootdir/$param->{'ca-nickname'}",0700); 
             my $fh = FileHandle->new("> $rootdir/$param->{'ca-nickname'}/$param->{'ca-nickname'}.crt");
             if (defined $fh) {
