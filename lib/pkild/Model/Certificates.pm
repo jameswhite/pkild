@@ -13,7 +13,7 @@ __PACKAGE__->config(
 sub tree{
     my ($self, $c)=@_;
     my $tree;
-    my $node_separator="-";
+    my $node_separator="---";
     my @file_names=$self->list(mode => 'both', recurse =>1);
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     $rootdir=~s/^\///;
