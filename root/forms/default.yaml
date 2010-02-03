@@ -90,6 +90,7 @@ forms:
         prompt: Email:
         type: text
         size: 20
+        value : youremail@example.org
       - name: cert-passphrase
         prompt: Private Key Pass Phrase
         type: password
