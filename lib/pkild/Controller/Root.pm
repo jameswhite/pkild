@@ -226,6 +226,7 @@ sub drawform : Global {
 sub do_form : Global {
     my ( $self, $c ) = @_;
     if($c->req->param('action_type') eq 'new_ca'){
+        
         $c->stash->{'result'} = $c->model('Certificates')->ca_create($c->req->params);
     }
     $c->stash->{'template'}="application.tt";

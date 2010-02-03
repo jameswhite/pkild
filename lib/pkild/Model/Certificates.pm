@@ -67,14 +67,13 @@ sub tree{
 
 sub ca_create{
     use FileHandle;
-    my ($self, $c, $parameters)=@_;
-    print STDERR Data::Dumper->Dump([$parameters]);
+    my ($self, $c, $params)=@_;
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     $rootdir=~s/^\///;
     my $time=time();
     my $fh = FileHandle->new("> $rootdir/$time");
     if (defined $fh) {
-       print $fh Data::Dumper->Dump([$parameters]);
+       print $fh Data::Dumper->Dump([$params]);
        $fh->close;
        return "SUCCESS";
     }
