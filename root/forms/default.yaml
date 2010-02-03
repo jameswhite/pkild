@@ -42,6 +42,41 @@ forms:
         prompt: ~
         type: submit
         value : Update
+  new_cert:
+    legend: Create New Certificate
+    fields:
+      - name: cert-nickname
+        prompt: Name:
+        type: text
+        size: 20
+      - name: cert-country
+        prompt: Country:
+        type: text
+        size: 20
+      - name: cert-state
+        prompt: State:
+        type: text
+        size: 20
+      - name: cert-localitiy
+        prompt: Locality:
+        type: text
+        size: 20
+      - name: cert-org
+        prompt: Organization:
+        type: text
+        size: 20
+      - name: cert-orgunit
+        prompt: Organizational Unit:
+        type: text
+        size: 20
+      - name: cert-email
+        prompt: Email:
+        type: text
+        size: 20
+      - name: update_cert_info
+        prompt: ~
+        type: submit
+        value : Update
   openssl_cnf_prefs: 
     legend: OpenSSL Preferences
     fields:
