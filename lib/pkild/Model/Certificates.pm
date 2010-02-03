@@ -74,7 +74,7 @@ print STDERR Data::Dumper->Dump([$c->req->params]);
     my $time=time();
     my $fh = FileHandle->new("> $rootdir/$time");
     if (defined $fh) {
-       print $fh Data::Dumper->Dump([$params]);
+       print $fh Data::Dumper->Dump([$c->req->params]);
        $fh->close;
        return "SUCCESS";
     }
