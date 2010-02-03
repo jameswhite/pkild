@@ -90,6 +90,7 @@ sub default : Private {
                     @{ $c->session->{'open_branches'} }=@tmplist;
                     $c->res->body(to_json($c->session->{'open_branches'}, {'pretty' => 0}));
                 }elsif( $c->request->arguments->[1] eq "update" ){
+    print STDERR Data::Dumper->Dump([$c->session->{'menudata'}]);
                     # loop through the fields and set the value in the session.
                     if($c->request->arguments->[2]){
                         my ($key,$value)=split(/=/,$c->request->arguments->[2]);
