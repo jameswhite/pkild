@@ -29,7 +29,7 @@ forms:
         prompt: ~
         type: submit
         value : Unlock
-  Certificate:
+  new_root_ca:
     legend: Certificate
     fields:
       - name: ca-country
