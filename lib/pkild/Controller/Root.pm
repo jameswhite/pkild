@@ -90,13 +90,12 @@ sub default : Private {
                     @{ $c->session->{'open_branches'} }=@tmplist;
                     $c->res->body(to_json($c->session->{'open_branches'}, {'pretty' => 0}));
                 }elsif( $c->request->arguments->[1] eq "update" ){
-    print STDERR Data::Dumper->Dump([$c->session->{'menudata'}]);
                     # loop through the fields and set the value in the session.
                     if($c->request->arguments->[2]){
                         my ($key,$value)=split(/=/,$c->request->arguments->[2]);
-                        for(my $idx=0; $idx<= $#{$c->session->{'menudata'}->{'new_root_ca'}->{'fields'} }; $idx++){
-                            if( $c->session->{'menudata'}->{'new_root_ca'}->{'fields'} ->[$idx]->{'name'} eq $key){
-                                $c->session->{'menudata'}->{'new_root_ca'}->{'fields'} ->[$idx]->{'value'} = $value;
+                        for(my $idx=0; $idx<= $#{$c->session->{'menudata'}->{ $c->session->{'current_node'} }->{'fields'} }; $idx++){
+                            if( $c->session->{'menudata'}->{ $c->session->{'current_node'} }->{'fields'} ->[$idx]->{'name'} eq $key){
+                                $c->session->{'menudata'}->{ $c->session->{'current_node'} }->{'fields'} ->[$idx]->{'value'} = $value;
                             }
                         }
                     }
@@ -209,7 +208,7 @@ sub jstreemenu : Local {
 
 sub drawform : Global {
     my ( $self, $c ) = @_;
-    print STDERR Data::Dumper->Dump([$c->session->{'menudata'}]);
+    $c->session->{'current_node'} = $c->request->arguments->[2];
     ############################################################
     # select the template from the template pool based on what
     # was selected and render it. 
