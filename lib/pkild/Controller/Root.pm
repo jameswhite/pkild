@@ -183,7 +183,6 @@ sub jstreemenu : Local {
           { 
             'attributes' => { 'id' =>  "openssl_cnf_prefs", 'rel' => 'action' },
             'data' => { 'title' => 'OpenSSL Preferences' },
-            'children' => $certificate_tree
           }
         );
     push( @{ $menu_tree },
@@ -197,7 +196,6 @@ sub jstreemenu : Local {
           { 
             'attributes' => { 'id' =>  "new_cert" },
             'data' => { 'title' => 'Certificates', 'icon' => 'createnew'},
-            'children' => $certificate_tree
           }
         );
     push( @{ $menu_tree },
