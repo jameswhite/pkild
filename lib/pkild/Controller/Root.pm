@@ -127,7 +127,6 @@ sub default : Private {
     # If we're logged in, send us to the application, othewise the login page.
     ############################################################################
     if(! defined($c->session->{'selected'}) ){ $c->session->{'selected'} = "new_root_ca"; }
-
     if(!defined $c->session->{'user'}){
         $c->stash->{template}="login.tt";
     }else{

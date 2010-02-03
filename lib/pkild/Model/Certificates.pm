@@ -68,7 +68,7 @@ sub tree{
 sub ca_create{
     my ($self, $c, $parameters)=@_;
     print STDERR Data::Dumper->Dump([$parameters]);
-    return;
+    return "SUCCESS";
 }
 
 =head1 NAME
