@@ -72,6 +72,23 @@
                                                                                 deletable : false,
                                                                                 renameable : false
                                                                                },
+                                                                  "cacert" :   {
+                                                                                 draggable : false,
+                                                                                 valid_children : [ "cacert", "cert", "action" ],
+                                                                                 icon : {
+                                                                                          image : "/demos/drive.png"
+                                                                                        }
+                                                                                },
+                                                                  "cert" :      {
+                                                                                  draggable : false,
+                                                                                  valid_children : "none",
+                                                                                  max_children : 0,
+                                                                                  max_depth : 0,
+                                                                                  icon : {
+                                                                                           image : "/demos/drive.png"
+                                                                                         }
+                                                                                 },
+                                                        },
                                                         },
                                                         opened : [   
                                                                      [% FOREACH open_branch IN open_branches %] "[% open_branch %]", [% END %]
