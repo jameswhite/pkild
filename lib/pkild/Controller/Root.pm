@@ -144,6 +144,7 @@ sub default : Private {
         $c->stash->{'open_branches'}=$c->session->{'open_branches'};
         $c->stash->{'selected'} = $c->session->{'selected'};
         $c->stash->{'selected'} =~s/\./\\\\./g;
+print STDERR Data::Dumper->Dump([$c->req]);
         $c->stash->{'template'}="application.tt";
     }
 }
