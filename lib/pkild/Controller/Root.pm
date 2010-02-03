@@ -164,14 +164,16 @@ sub logout : Global {
 
 sub jstreemenu : Local {
     my ( $self, $c ) = @_;
+    my $menu_tree;
     my $certificate_tree=$c->model('Certificates')->tree();
-    unshift( @{ $certificate_tree },
+    push( @{ $menu_tree },
           { 
             'attributes' => { 'id' =>  "new_root_ca" },
-            'data' => { 'title' => 'Create New Root CA', 'icon' => 'createnew'},
+            'data' => { 'title' => 'Root Certificate Authorities', 'icon' => 'createnew'},
+            'children' => $certificate_tree
           }
         );
-    push( @{ $certificate_tree },
+    push( @{ $meny_tree },
           { 
             'attributes' => { 'id' =>  "logout" },
             'data' => { 'title' => 'Logout', 'icon' => 'forbidden'},
