@@ -116,7 +116,7 @@ sub default : Private {
         $c->session->{'menudata'}=$form_data->{'forms'};
     }
     # Remember what we set things to.
-    if( $c->req->param ){
+    if($c->session->{'default_tab'}){
         foreach my $value ($c->req->param()){
             for(my $idx=0; $idx < $#{ $c->session->{'menudata'}->{ $c->session->{'default_tab'} }->{'fields'} }; $idx++){
                 if($value eq  $c->session->{'menudata'}->{ $c->session->{'default_tab'} }->{'fields'}->[$idx]->{'name'}){
