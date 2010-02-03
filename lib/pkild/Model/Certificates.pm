@@ -76,10 +76,11 @@ sub ca_create{
             mkdir("$rootdir/$param->{'ca-nickname'}",0700); 
             my $fh = FileHandle->new("> $rootdir/$param->{'ca-nickname'}/$param->{'ca-nickname'}.crt");
             if (defined $fh) {
-               print $fh Data::Dumper->Dump([$params]);
+               print $fh Data::Dumper->Dump([$param]);
                $fh->close;
                return "SUCCESS";
             }
+        }
     }
     return "ERROR";
 }
