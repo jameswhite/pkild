@@ -55,6 +55,7 @@ forms:
         value : Create
   new_cert:
     legend: Create New Certificate
+    comments: "It's really best to do this on a local machine, and submit the CSR to pkild, but this will do in a pinch."
     fields:
       - name: cert-nickname
         prompt: Name:
