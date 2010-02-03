@@ -60,26 +60,32 @@ forms:
         prompt: Name:
         type: text
         size: 20
+        value : some_distingushed_name
       - name: cert-country
         prompt: Country:
         type: text
         size: 20
+        value : US
       - name: cert-state
         prompt: State:
         type: text
         size: 20
+        value : Tennessee
       - name: cert-localitiy
         prompt: Locality:
         type: text
         size: 20
+        value : Nashville
       - name: cert-org
         prompt: Organization:
         type: text
         size: 20
+        value : Some Company
       - name: cert-orgunit
         prompt: Organizational Unit:
         type: text
         size: 20
+        value : Some Department
       - name: cert-email
         prompt: Email:
         type: text
