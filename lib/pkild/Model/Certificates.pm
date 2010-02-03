@@ -71,10 +71,10 @@ sub ca_create{
     print STDERR Data::Dumper->Dump([$parameters]);
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     $rootdir=~s/^\///;
-    my $time=localtime();
+    my $time=time();
     my $fh = FileHandle->new("> $rootdir/$time");
     if (defined $fh) {
-       print $fh "\n";
+       print $fh Data::Dumper->Dump([$parameters]);
        $fh->close;
        return "SUCCESS";
     }
