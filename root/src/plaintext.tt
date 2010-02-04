@@ -1,1 +1,1 @@
-<div style='plaintext'><table border='0'><tr><td align='left'><pre style='font-size : 14px'><font face='Courier'>[% plaintext %]<font></pre></td></tr></table></div>
+<div style='plaintext'><table border='0'><tr><td align='left'><pre style='font-size : 10px'>[% plaintext %]</pre></td></tr></table></div>
