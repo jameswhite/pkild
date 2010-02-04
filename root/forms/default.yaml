@@ -114,7 +114,7 @@ forms:
         prompt: Paste CSR
         type: textarea
         rows: 10
-        cols: 62
+        cols: 63
       - name: sign_csr
         prompt: ~
         type: submit
