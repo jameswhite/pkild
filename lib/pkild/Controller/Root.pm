@@ -229,10 +229,14 @@ sub drawform : Global {
 
 sub renderfile : Global {
     my ( $self, $c ) = @_;
-    my $plaintext = $c->model('Certificates')->contents($c->request->arguments->[2]);
-print STDERR "$plaintext\n"
-    $c->stash->{'plaintext'} = $plaintext;
-    $c->stash->{'template'}="plaintext.tt";
+print STDERR "$plaintext\n":
+    $c->res->body( $c->view('TT')->render($c , 'plaintext.tt', 
+                                          { 
+                                            additional_template_paths => [ $c->config->{root} . '/src'],
+                                            'plaintext'=>$c->model('Certificates')->contents($c->request->arguments->[2]);
+                                          }
+                                         )
+                 );
 }
 
 sub do_form : Global {
