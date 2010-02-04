@@ -196,12 +196,12 @@ sub jstreemenu : Local {
             'children' => $certificate_tree
           }
         );
-    push( @{ $menu_tree },
-          { 
-            'attributes' => { 'id' =>  "new_cert" },
-            'data' => { 'title' => 'Certificates', 'icon' => 'createnew'},
-          }
-        );
+#    push( @{ $menu_tree },
+#          { 
+#            'attributes' => { 'id' =>  "new_cert" },
+#            'data' => { 'title' => 'Certificates', 'icon' => 'createnew'},
+#          }
+#        );
     push( @{ $menu_tree },
           { 
             'attributes' => { 'id' =>  "logout" },
