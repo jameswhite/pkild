@@ -3,40 +3,40 @@ forms:
     legend: Create New CA
     fields:
       - name: ca_domain
-        prompt: Common Name: CN=
+        prompt: Common Name:
         type: text
         width: 20
         value: example.org
-      - name: ca_country
-        prompt: Country: C=
-        type: text
-        width: 20
-        value: US
-      - name: ca_state
-        prompt: State: ST=
-        type: text
-        width: 20
-        value: Tennessee
-      - name: ca_localitiy
-        prompt: Locality: L=
-        type: text
-        width: 20
-        value: Nashville
-      - name: ca_org
-        prompt: Organization: O=
-        type: text
-        width: 20
-        value: your company
-      - name: ca_orgunit
-        prompt: Organizational Unit: OU=
-        type: text
-        width: 20
-        value: your department
       - name: ca_email
         prompt: Email:
         type: text
         width: 20
         value: sysadmins@example.org
+      - name: ca_orgunit
+        prompt: Organizational Unit:
+        type: text
+        width: 20
+        value: your department
+      - name: ca_org
+        prompt: Organization:
+        type: text
+        width: 20
+        value: your company
+      - name: ca_localitiy
+        prompt: Locality:
+        type: text
+        width: 20
+        value: Nashville
+      - name: ca_state
+        prompt: State:
+        type: text
+        width: 20
+        value: Tennessee
+      - name: ca_country
+        prompt: Country:
+        type: text
+        width: 20
+        value: US
       - name: ca_default_days
         prompt: CA Certificate Lifetime (days)
         type: text
@@ -51,7 +51,7 @@ forms:
         prompt: Certificate Revocation List Location
         type: text
         width: 40
-        value: "http://pki.example.org/example.org/example.org.crl"
+        value: "http://pki.example.org/example.org.crl"
       - name: action_type
         prompt: ~
         type: hidden
