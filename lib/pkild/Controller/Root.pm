@@ -97,9 +97,9 @@ sub default : Private {
                     # loop through the fields and set the value in the session.
                     if($c->request->arguments->[2]){
                         my @arg_list = @{$c->request->arguments};
-                        shift @arg_list;
-                        shift @arg_list;
-                        my ($key,$value)=split(/=/,@arg_list);
+                        shift @arg_list; shift @arg_list;
+                        my $arg_list=join("/",@arg_list);
+                        my ($key,$value)=split(/=/,$arg_list);
                         print STDERR "-=[".$value."]=-\n";
                         for(my $idx=0;$idx<=$#{$c->session->{'menudata'}->{$c->session->{'current_node'}}->{'fields'}};$idx++){
                             if($c->session->{'menudata'}->{$c->session->{'current_node'} }->{'fields'}->[$idx]->{'name'} eq $key){
