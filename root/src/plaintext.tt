@@ -1,5 +1,7 @@
 <div style='plaintext'>
-<pre>
-[% plaintext %]
-</pre>
+<table border='0'>
+    <tr>
+    <td>[% plaintext %]</td>
+    </tr>
+</table>
 </div>
