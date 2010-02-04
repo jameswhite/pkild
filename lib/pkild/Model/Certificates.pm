@@ -106,6 +106,7 @@ sub ca_create{
 sub node_type{
     my ($self, $node)=@_;
     $node =~s/::/\//g;
+print STDERR "\n\n-=[$rootdir/$node]=-\n\n";
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     $rootdir=~s/^\///;
     if(-f "$rootdir/$node"){ return "file"; }
