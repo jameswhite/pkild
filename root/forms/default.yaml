@@ -5,52 +5,52 @@ forms:
       - name: ca_domain
         prompt: Domain Name:
         type: text
-        size: 20
+        width: 20
         value: example.org
       - name: ca_country
         prompt: Country:
         type: text
-        size: 20
+        width: 20
         value: US
       - name: ca_state
         prompt: State:
         type: text
-        size: 20
+        width: 20
         value: Tennessee
       - name: ca_localitiy
         prompt: Locality:
         type: text
-        size: 20
+        width: 20
         value: Nashville
       - name: ca_org
         prompt: Organization:
         type: text
-        size: 20
+        width: 20
         value: your company
       - name: ca_orgunit
         prompt: Organizational Unit:
         type: text
-        size: 20
+        width: 20
         value: your department
       - name: ca_email
         prompt: Email:
         type: text
-        size: 20
+        width: 20
         value: sysadmins@example.org
       - name: ca_default_days
         prompt: CA Certificate Lifetime (days)
         type: text
-        size: 20
+        width: 20
         value: 365
       - name: crl_days
         prompt: Certificate Revocation List Expires Every (days)
         type: text
-        size: 20
+        width: 20
         value: 30
       - name: crl_path
         prompt: Certificate Revocation List Location
         type: text
-        size: 40
+        width: 40
         value: "http://pki.example.org/example.org/example.org.crl"
       - name: action_type
         prompt: ~
@@ -67,42 +67,42 @@ forms:
       - name: cert_fqdn
         prompt: Fully Qualified Domain Name (FQDN):
         type: text
-        size: 20
+        width: 20
         value : some_distingushed_name
       - name: cert_country
         prompt: Country:
         type: text
-        size: 20
+        width: 20
         value : US
       - name: cert_state
         prompt: State:
         type: text
-        size: 20
+        width: 20
         value : Tennessee
       - name: cert_localitiy
         prompt: Locality:
         type: text
-        size: 20
+        width: 20
         value : Nashville
       - name: cert_org
         prompt: Organization:
         type: text
-        size: 20
+        width: 20
         value : Some Company
       - name: cert_orgunit
         prompt: Organizational Unit:
         type: text
-        size: 20
+        width: 20
         value : Some Department
       - name: cert_email
         prompt: Email:
         type: text
-        size: 20
+        width: 20
         value : youremail@example.org
       - name: cert_passphrase
         prompt: Private Key Pass Phrase
         type: password
-        size: 20
+        width: 20
       - name: update_cert_info
         prompt: ~
         type: submit
