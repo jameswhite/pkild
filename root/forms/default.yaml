@@ -37,14 +37,6 @@ forms:
         type: text
         size: 20
         value: sysadmins@example.org
-      - name: action_type
-        prompt: ~
-        type: hidden
-        value : new_ca
-      - name: update_cert_info
-        prompt: ~
-        type: submit
-        value : Create
       - name: ca_default_days
         prompt: CA Certificate Lifetime (days)
         type: text
@@ -60,6 +52,14 @@ forms:
         type: text
         size: 40
         value: "http://pki.example.org/example.org/example.org.crl"
+      - name: action_type
+        prompt: ~
+        type: hidden
+        value : new_ca
+      - name: update_cert_info
+        prompt: ~
+        type: submit
+        value : Create
   new_cert:
     legend: Create New Certificate
     comments: "It's really best to do this on a local machine, and submit the CSR to pkild, but this will do in a pinch."
