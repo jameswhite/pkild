@@ -107,9 +107,9 @@ sub node_type{
 sub openssl_cnf_template{
     my ($self)=shift;
     my $the_template = <<_END_TEMPLATE_;
-HOME = [% cert-home-dir %]
+HOME = [\% cert-home-dir \%]
 RANDFILE = \$HOME/.rnd
-ca-domain = [% ca-domain %]
+ca-domain = [\% ca-domain \%]
  
 [ ca ]
 default_ca = CA_default # The default ca section
@@ -119,17 +119,17 @@ certs = \$dir/certs
 crl_dir = \$dir/crl
 database = \$dir/index.txt
 new_certs_dir = \$dir/newcerts
-certificate = \$dir/[% ca-domain %].pem
+certificate = \$dir/[\% ca-domain \%].pem
 serial = \$dir/serial
 crlnumber = \$dir/crlnumber
-crl = \$dir/crl.[% ca-domain %].pem
-private_key = \$dir/private/[% ca-domain %].key
+crl = \$dir/crl.[\% ca-domain \%].pem
+private_key = \$dir/private/[\% ca-domain \%].key
 RANDFILE = \$dir/private/.rand
 x509_extensions = usr_cert
 name_opt = ca_default
 cert_opt = ca_default
-default_days = [% ca_default_days %]
-default_crl_days= [% crl_days %]
+default_days = [\% ca_default_days \%]
+default_crl_days= [\% crl_days \%]
 default_md = sha1
 preserve = no
 policy = policy_match
@@ -153,30 +153,30 @@ emailAddress = optional
  
 [ req ]
 default_bits = 1024
-default_keyfile = [% ca-domain %].pem
+default_keyfile = [\% ca-domain \%].pem
 distinguished_name = req_distinguished_name
 attributes = req_attributes
 x509_extensions = v3_ca
  
 [ req_distinguished_name ]
 countryName = Country Name (2 letter code)
-countryName_default = [% ca-country %]
+countryName_default = [\% ca-country \%]
 countryName_min = 2
 countryName_max = 2
 stateOrProvinceName = State or Province Name (full name)
-stateOrProvinceName_default = [% ca-state %]
+stateOrProvinceName_default = [\% ca-state \%]
 localityName = Locality Name (eg, city)
-localityName_default = [% ca-localitiy %]
+localityName_default = [\% ca-localitiy \%]
 0.organizationName = Organization Name (eg, company)
-0.organizationName_default = [% ca-org %]
+0.organizationName_default = [\% ca-org \%]
 organizationalUnitName = Organizational Unit Name (eg, section)
-organizationalUnitName_default = [% ca-orgunit %]
+organizationalUnitName_default = [\% ca-orgunit \%]
 commonName = Common Name (eg, YOUR name)
 commonName_max = 64
-commonName_default = [% ca-domain %]
+commonName_default = [\% ca-domain \%]
 emailAddress = Email Address
 emailAddress_max = 64
-emailAddress_default = [% ca-email %]
+emailAddress_default = [\% ca-email \%]
  
 [ req_attributes ]
 challengePassword = A challenge password
@@ -188,18 +188,18 @@ basicConstraints=CA:FALSE
 nsComment = "OpenSSL Generated Certificate"
 subjectKeyIdentifier=hash
 authorityKeyIdentifier=keyid,issuer
-nsCaRevocationUrl = [% crl_path %]
+nsCaRevocationUrl = [\% crl_path \%]
  
 [ v3_req ]
 basicConstraints = CA:FALSE
 keyUsage = nonRepudiation, digitalSignature, keyEncipherment
-nsCaRevocationUrl = [% crl_path %]
+nsCaRevocationUrl = [\% crl_path \%]
  
 [ v3_ca ]
 subjectKeyIdentifier=hash
 authorityKeyIdentifier=keyid:always,issuer:always
 basicConstraints = CA:true
-nsCaRevocationUrl = [% crl_path %]
+nsCaRevocationUrl = [\% crl_path \%]
 _END_TEMPLATE_
 
     return $the_template;
