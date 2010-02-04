@@ -229,7 +229,6 @@ sub drawform : Global {
 
 sub renderfile : Global {
     my ( $self, $c ) = @_;
-print STDERR "$plaintext\n":
     $c->res->body( $c->view('TT')->render($c , 'plaintext.tt', 
                                           { 
                                             additional_template_paths => [ $c->config->{root} . '/src'],
