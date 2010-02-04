@@ -112,10 +112,9 @@ forms:
     fields:
       - name: csr_input
         prompt: 
-        type: input
-        size: 20
-        value: example.org
+        type: textarea
       - name: sign_cert
         prompt: ~
         type: submit
         value : Sign
+    comments: "Paste the Certificate Signing Re
