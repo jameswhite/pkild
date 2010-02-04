@@ -45,7 +45,7 @@ forms:
       - name: crl_path
         prompt: Certificate Revocation List URI
         type: text
-        width: 30
+        width: 40
         value: "http://pki.example.org/example.org.crl"
       - name: crl_days
         prompt: Certificate Revocation List Expires Every (days)
