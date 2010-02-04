@@ -115,8 +115,7 @@ forms:
         type: textarea
         rows: 23
         cols: 80
-        size: ~
-      - name: sign_cert
+      - name: sign_csr
         prompt: ~
         type: submit
         value : Sign
