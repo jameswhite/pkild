@@ -37,6 +37,10 @@ forms:
         type: text
         size: 20
         value: sysadmins@example.org
+      - name: ca-passphrase
+        prompt: Private Key Pass Phrase
+        type: password
+        size: 20
       - name: action_type
         prompt: ~
         type: hidden
