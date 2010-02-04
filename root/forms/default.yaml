@@ -117,4 +117,4 @@ forms:
         prompt: ~
         type: submit
         value : Sign
-    comments: "Paste the Certificate Signing Re
+    comments: "Paste the Certificate Signing Request into the box and click [Sign]"
