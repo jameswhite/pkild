@@ -24,7 +24,7 @@ sub tree{
         next if $node eq '.';
         # skip directories containing key data
         next if $node=~m/_data$/;
-        next if $node=~m/^private$/;
+        next if $node=~m/private$/;
         # We need to know if this is a file, or a directory
         $type="unknown";
         if( -d $node){ $type="folder"; }
