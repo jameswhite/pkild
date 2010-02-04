@@ -254,6 +254,8 @@ sub do_form : Global {
     my ( $self, $c ) = @_;
     if($c->req->param('action_type') eq 'new_ca'){
         $c->stash->{'result'} = $c->model('Certificates')->ca_create($c->req->params,$c->session);
+    }elsif($c->req->param('action_type') eq 'sign_cert'){
+        $c->stash->{'result'} = $c->model('Certificates')->sign_certificate($c->req->params,$c->session);
     }
     $c->stash->{'template'}="application.tt";
 }

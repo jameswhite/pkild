@@ -67,6 +67,14 @@ sub tree{
     return $tree->{''}->{'children'};
 }
 
+sub sign_certificate{
+    use Template;
+    my ($self, $param,$session)=@_;
+
+    return "SUCCESS";
+    return "ERROR";
+}
+
 sub ca_create{
     use FileHandle;
     use Template;
