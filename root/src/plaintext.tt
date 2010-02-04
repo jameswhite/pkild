@@ -1,11 +1,1 @@
-<div style='plaintext'>
-<table border='0'>
-    <tr>
-        <td align='left'> 
-            <pre>
-                [% plaintext %]
-            </pre>
-       </td>
-    </tr>
-</table>
-</div>
+<div style='plaintext'><table border='0'><tr><td align='left'><pre>[% plaintext %]</pre></td></tr></table></div>
