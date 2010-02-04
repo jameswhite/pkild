@@ -113,8 +113,8 @@ forms:
       - name: csr_input
         prompt: Paste CSR
         type: textarea
-        rows: 15
-        cols: 65
+        rows: 10
+        cols: 62
       - name: sign_csr
         prompt: ~
         type: submit

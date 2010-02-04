@@ -18,8 +18,7 @@
                                [% IF field.rows %]  rows="[% field.rows %]"   [% END %] 
                                [% IF field.cols %]  cols="[% field.cols %]"   [% END %] 
                                [% IF field.value %] value="[% field.value %]" [% END %] 
-                               onBlur="$.ajax({ url: 'action/update/[% field.name %]=' + value, dataType: 'json', });" >
-                       [% IF field.type == 'textarea' %] </textarea> [% END %]
+                               onBlur="$.ajax({ url: 'action/update/[% field.name %]=' + value, dataType: 'json', });" >[% IF field.type == 'textarea' %]</textarea>[% END %]
                 </tr>
             [% END %]
             </table>
