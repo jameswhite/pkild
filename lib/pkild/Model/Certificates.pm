@@ -71,17 +71,17 @@ sub ca_create{
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     $rootdir=~s/^\///;
     my $time=time();
-    if($param->{'ca-nickname'}){
-        if( ! -d "$rootdir/$param->{'ca-nickname'}" ){
+    if($param->{'ca-domain'}){
+        if( ! -d "$rootdir/$param->{'ca-domain'}" ){
             umask(0077);
-            mkdir("$rootdir/$param->{'ca-nickname'}",0700); 
-            my $fh = FileHandle->new("> $rootdir/$param->{'ca-nickname'}/$param->{'ca-nickname'}.crt");
+            mkdir("$rootdir/$param->{'ca-domain'}",0700); 
+            my $fh = FileHandle->new("> $rootdir/$param->{'ca-domain'}/$param->{'ca-domain'}.crt");
             if (defined $fh) {
                print $fh Data::Dumper->Dump([$param]);
                $fh->close;
                return "SUCCESS";
             }
-            chmod(0700, "$rootdir/$param->{'ca-nickname'}/$param->{'ca-nickname'}.crt");
+            chmod(0700, "$rootdir/$param->{'ca-domain'}/$param->{'ca-domain'}.crt");
         }
     }
     return "ERROR";
