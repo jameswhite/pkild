@@ -232,7 +232,7 @@ sub renderfile : Global {
     $c->res->body( $c->view('TT')->render($c , 'plaintext.tt', 
                                           { 
                                             additional_template_paths => [ $c->config->{root} . '/src'],
-                                            'plaintext'=>$c->model('Certificates')->contents($c->request->arguments->[2]);
+                                            'plaintext'=>$c->model('Certificates')->contents($c->request->arguments->[2])
                                           }
                                          )
                  );
