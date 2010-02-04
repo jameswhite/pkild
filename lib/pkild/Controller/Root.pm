@@ -229,7 +229,9 @@ sub drawform : Global {
 
 sub renderfile : Global {
     my ( $self, $c ) = @_;
-    $c->stash->{'plaintext'} = $c->model('Certificates')->contents($c->request->arguments->[2]);
+    my $plaintext = $c->model('Certificates')->contents($c->request->arguments->[2]);
+print STDERR "$plaintext\n"
+    $c->stash->{'plaintext'} = $plaintext;
     $c->stash->{'template'}="plaintext.tt";
 }
 

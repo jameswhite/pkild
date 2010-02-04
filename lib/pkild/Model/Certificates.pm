@@ -125,7 +125,6 @@ sub contents{
                 $contents.=$line;
             }
             $fh->close;
-print STDERR "\n\n-=[$contents]=-\n\n";
             return $contents;
         }
     }
