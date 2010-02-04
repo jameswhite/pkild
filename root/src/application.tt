@@ -68,11 +68,9 @@
                                                         types : {
                                                                   // all node types inherit the "default" node type
                                                                   "default" : {
-                                                                                 draggable : false,
-                                                                                 deletable : false,
-                                                                                 renameable : false
-                                                                                 max_children : 0,
-                                                                                 max_depth : 0,
+                                                                                draggable : false,
+                                                                                deletable : false,
+                                                                                renameable : false
                                                                                },
                                                                   "action" :   {
                                                                                  draggable : false,
@@ -84,7 +82,7 @@
                                                                                         }
                                                                                },
                                                                   "folder" :   {
-                                                                                 draggable : true,
+                                                                                 draggable : false,
                                                                                  valid_children : [ "folder", "file", "action" ],
                                                                                },
                                                                   "file" :     {
