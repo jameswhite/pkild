@@ -65,12 +65,17 @@
     function tree()     {
                           $("#certificate_tree").tree({
                                                         selected: "[% selected %]",
+                                                        rules : {
+                                                                  drag_copy: false,
+                                                                },
                                                         types : {
                                                                   // all node types inherit the "default" node type
                                                                   "default" : {
-                                                                                draggable : false,
-                                                                                deletable : false,
-                                                                                renameable : false
+                                                                                 draggable : false,
+                                                                                 deletable : false,
+                                                                                 renameable : false
+                                                                                 max_children : 0,
+                                                                                 max_depth : 0,
                                                                                },
                                                                   "action" :   {
                                                                                  draggable : false,
