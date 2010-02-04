@@ -228,6 +228,14 @@ sub drawform : Global {
                                                           }
                                          )
                  );
+    }else{
+    $c->res->body( $c->view('TT')->render($c , 'plaintext.tt', 
+                                          { 
+                                            additional_template_paths => [ $c->config->{root} . '/src'],
+                                            'plaintext'=>''
+                                          }
+                                         )
+                 );
     }
 }
 
