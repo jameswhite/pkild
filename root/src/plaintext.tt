@@ -1,7 +1,11 @@
 <div style='plaintext'>
 <table border='0'>
     <tr>
-    <td>[% plaintext %]</td>
+        <td> 
+            <pre>
+                [% plaintext %]
+            </pre>
+       </td>
     </tr>
 </table>
 </div>
