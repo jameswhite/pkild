@@ -100,11 +100,11 @@ sub default : Private {
                         shift @arg_list;
                         shift @arg_list;
                         my ($key,$value)=split(/=/,@arg_list);
+                        print STDERR "-=[".$value."]=-\n";
                         for(my $idx=0;$idx<=$#{$c->session->{'menudata'}->{$c->session->{'current_node'}}->{'fields'}};$idx++){
                             if($c->session->{'menudata'}->{$c->session->{'current_node'} }->{'fields'}->[$idx]->{'name'} eq $key){
                                 $c->session->{'menudata'}->{ $c->session->{'current_node'} }->{'fields'}->[$idx]->{'value'}=$value;
                                 print STDERR $c->session->{'menudata'}->{ $c->session->{'current_node'} }->{'fields'}->[$idx]->{'value'}."\n";
-                                print STDERR $value."\n";
                             }
                         }
                     }
