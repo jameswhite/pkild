@@ -73,10 +73,10 @@ sub ca_create{
     my $template=Template->new();
     $rootdir=~s/^\///;
     my $tpldata;
-    if($param->{'ca-domain'}){
-        if( ! -d "$rootdir/$param->{'ca-domain'}" ){
+    if($param->{'ca_domain'}){
+        if( ! -d "$rootdir/$param->{'ca_domain'}" ){
             umask(0077);
-            mkdir("$rootdir/$param->{'ca-domain'}",0700); 
+            mkdir("$rootdir/$param->{'ca_domain'}",0700); 
             foreach my $key (keys(%{ $param } )){
                 $tpldata->{$key} = $param->{$key};
             }
@@ -84,16 +84,16 @@ sub ca_create{
                 $tpldata->{$prefs->{'name'}} = $prefs->{'value'};
             }
             my $text=$self->openssl_cnf_template(); 
-            $tpldata->{'cert-home-dir'}="$rootdir/$param->{'ca-domain'}";
-            $template->process(\$text,$tpldata,"$rootdir/$param->{'ca-domain'}/openssl.cnf");
-            my $fh = FileHandle->new("> $rootdir/$param->{'ca-domain'}/$param->{'ca-domain'}.crt");
+            $tpldata->{'cert_home_dir'}="/$rootdir/$param->{'ca_domain'}";
+            $template->process(\$text,$tpldata,"/$rootdir/$param->{'ca_domain'}/openssl.cnf");
+            my $fh = FileHandle->new("> /$rootdir/$param->{'ca_domain'}/$param->{'ca_domain'}.crt");
             if (defined $fh) {
                print $fh Data::Dumper->Dump([$tpldata]);
                print $fh $text;
                $fh->close;
                return "SUCCESS";
             }
-            chmod(0700, "$rootdir/$param->{'ca-domain'}/$param->{'ca-domain'}.crt");
+            chmod(0700, "/$rootdir/$param->{'ca_domain'}/$param->{'ca_domain'}.crt");
         }
     }
     return "ERROR";
@@ -108,9 +108,9 @@ sub node_type{
 sub openssl_cnf_template{
     my ($self)=shift;
     my $the_template = <<_END_TEMPLATE_;
-HOME = [\% cert-home-dir \%]
+HOME = [\% cert_home_dir \%]
 RANDFILE = \$HOME/.rnd
-ca-domain = [\% ca-domain \%]
+ca-domain = [\% ca_domain \%]
  
 [ ca ]
 default_ca = CA_default # The default ca section
@@ -120,11 +120,11 @@ certs = \$dir/certs
 crl_dir = \$dir/crl
 database = \$dir/index.txt
 new_certs_dir = \$dir/newcerts
-certificate = \$dir/[\% ca-domain \%].pem
+certificate = \$dir/[\% ca_domain \%].pem
 serial = \$dir/serial
 crlnumber = \$dir/crlnumber
-crl = \$dir/crl.[\% ca-domain \%].pem
-private_key = \$dir/private/[\% ca-domain \%].key
+crl = \$dir/crl.[\% ca_domain \%].pem
+private_key = \$dir/private/[\% ca_domain \%].key
 RANDFILE = \$dir/private/.rand
 x509_extensions = usr_cert
 name_opt = ca_default
@@ -154,30 +154,30 @@ emailAddress = optional
  
 [ req ]
 default_bits = 1024
-default_keyfile = [\% ca-domain \%].pem
+default_keyfile = [\% ca_domain \%].pem
 distinguished_name = req_distinguished_name
 attributes = req_attributes
 x509_extensions = v3_ca
  
 [ req_distinguished_name ]
 countryName = Country Name (2 letter code)
-countryName_default = [\% ca-country \%]
+countryName_default = [\% ca_country \%]
 countryName_min = 2
 countryName_max = 2
 stateOrProvinceName = State or Province Name (full name)
-stateOrProvinceName_default = [\% ca-state \%]
+stateOrProvinceName_default = [\% ca_state \%]
 localityName = Locality Name (eg, city)
-localityName_default = [\% ca-localitiy \%]
+localityName_default = [\% ca_localitiy \%]
 0.organizationName = Organization Name (eg, company)
-0.organizationName_default = [\% ca-org \%]
+0.organizationName_default = [\% ca_org \%]
 organizationalUnitName = Organizational Unit Name (eg, section)
-organizationalUnitName_default = [\% ca-orgunit \%]
+organizationalUnitName_default = [\% ca_orgunit \%]
 commonName = Common Name (eg, YOUR name)
 commonName_max = 64
-commonName_default = [\% ca-domain \%]
+commonName_default = [\% ca_domain \%]
 emailAddress = Email Address
 emailAddress_max = 64
-emailAddress_default = [\% ca-email \%]
+emailAddress_default = [\% ca_email \%]
  
 [ req_attributes ]
 challengePassword = A challenge password

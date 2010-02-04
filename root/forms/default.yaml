@@ -2,37 +2,37 @@ forms:
   new_root_ca:
     legend: Create New CA
     fields:
-      - name: ca-domain
+      - name: ca_domain
         prompt: Domain Name:
         type: text
         size: 20
         value: example.org
-      - name: ca-country
+      - name: ca_country
         prompt: Country:
         type: text
         size: 20
         value: US
-      - name: ca-state
+      - name: ca_state
         prompt: State:
         type: text
         size: 20
         value: Tennessee
-      - name: ca-localitiy
+      - name: ca_localitiy
         prompt: Locality:
         type: text
         size: 20
         value: Nashville
-      - name: ca-org
+      - name: ca_org
         prompt: Organization:
         type: text
         size: 20
         value: your company
-      - name: ca-orgunit
+      - name: ca_orgunit
         prompt: Organizational Unit:
         type: text
         size: 20
         value: your department
-      - name: ca-email
+      - name: ca_email
         prompt: Email:
         type: text
         size: 20
@@ -49,42 +49,42 @@ forms:
     legend: Create New Certificate
     comments: "It's really best to do this on a local machine, and submit the CSR to pkild, but this will do in a pinch."
     fields:
-      - name: cert-fqdn
+      - name: cert_fqdn
         prompt: Fully Qualified Domain Name (FQDN):
         type: text
         size: 20
         value : some_distingushed_name
-      - name: cert-country
+      - name: cert_country
         prompt: Country:
         type: text
         size: 20
         value : US
-      - name: cert-state
+      - name: cert_state
         prompt: State:
         type: text
         size: 20
         value : Tennessee
-      - name: cert-localitiy
+      - name: cert_localitiy
         prompt: Locality:
         type: text
         size: 20
         value : Nashville
-      - name: cert-org
+      - name: cert_org
         prompt: Organization:
         type: text
         size: 20
         value : Some Company
-      - name: cert-orgunit
+      - name: cert_orgunit
         prompt: Organizational Unit:
         type: text
         size: 20
         value : Some Department
-      - name: cert-email
+      - name: cert_email
         prompt: Email:
         type: text
         size: 20
         value : youremail@example.org
-      - name: cert-passphrase
+      - name: cert_passphrase
         prompt: Private Key Pass Phrase
         type: password
         size: 20
