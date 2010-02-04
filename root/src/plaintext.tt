@@ -1,7 +1,7 @@
 <div style='plaintext'>
 <table border='0'>
     <tr>
-        <td> 
+        <td align='left'> 
             <pre>
                 [% plaintext %]
             </pre>
