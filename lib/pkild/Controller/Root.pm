@@ -219,6 +219,8 @@ sub drawform : Global {
     # was selected and render it. 
     ############################################################
     my $menu = $c->request->arguments->[2];
+print STDERR Data::Dumper->Dump([$c->request->arguments->[2]]);
+print STDERR Data::Dumper->Dump([$c->session->{'menudata'}->{$menu}]);
     if(! defined $c->session->{'menudata'}->{$menu}) { $menu='sign'; }
     $c->res->body( $c->view('TT')->render($c , 'form.tt', { 
                                                             additional_template_paths => [ $c->config->{root} . '/src'],
