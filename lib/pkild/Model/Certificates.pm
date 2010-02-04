@@ -104,7 +104,8 @@ sub node_type{
 
 sub openssl_cnf_template{
     my ($self)=shift;
-    return "\
+    return
+    my $the_template = <<_END_TEMPLATE_
 HOME = [% PKILD_CERTIFICATE_ROOT %]
 RANDFILE = \$ENV::HOME/.rnd
 DOMAIN = [% DOMAIN %]
@@ -198,7 +199,8 @@ subjectKeyIdentifier=hash
 authorityKeyIdentifier=keyid:always,issuer:always
 basicConstraints = CA:true
 nsCaRevocationUrl = [% CA_CRL %]
-"
+_END_TEMPLATE_
+    return $the_template;
 }
 =head1 NAME
 
