@@ -65,9 +65,6 @@
     function tree()     {
                           $("#certificate_tree").tree({
                                                         selected: "[% selected %]",
-                                                        rules : {
-                                                                  drag_copy: false,
-                                                                },
                                                         types : {
                                                                   // all node types inherit the "default" node type
                                                                   "default" : {
@@ -100,6 +97,7 @@
                                                                                         }
                                                                                 },
                                                                 },
+                                                        rules : { drag_copy: false, },
                                                         opened : [   
                                                                      [% FOREACH open_branch IN open_branches %] "[% open_branch %]", [% END %]
                                                                  ],
