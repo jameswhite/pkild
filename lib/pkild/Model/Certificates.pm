@@ -92,6 +92,7 @@ sub ca_create{
             $template->process(\$text,$tpldata,"/$rootdir/$param->{'ca_domain'}/openssl.cnf");
             system("/usr/bin/openssl genrsa -out /$rootdir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key");
             system("/usr/bin/openssl req -new -x509 -nodes -sha1 -days $tpldata->{'ca_default_days'} -key /$rootdir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key  -out /$rootdir/$param->{'ca_domain'}/$param->{'ca_domain'}.pem -config /$rootdir/$param->{'ca_domain'}/openssl.cnf -batch");
+            system("/usr/bin/openssl req -new -sha1 -days $tpldata->{'ca_default_days'} -key /$rootdir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key  -out /$rootdir/$param->{'ca_domain'}/$param->{'ca_domain'}.csr -config /$rootdir/$param->{'ca_domain'}/openssl.cnf -batch");
             #my $fh = FileHandle->new("> /$rootdir/$param->{'ca_domain'}/$param->{'ca_domain'}.crt");
             #if (defined $fh) {
             #   print $fh Data::Dumper->Dump([$tpldata]);
