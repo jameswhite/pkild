@@ -14,10 +14,12 @@
                     <td align='left'>
                         <input type="[% field.type %]" 
                                name="[% field.name %]" 
+                               [% IF field.size %]  size="[% field.size %]"   [% END %]
                                [% IF field.rows %]  rows="[% field.rows %]"   [% END %] 
                                [% IF field.cols %]  cols="[% field.cols %]"   [% END %] 
                                [% IF field.value %] value="[% field.value %]" [% END %] 
                                onBlur="$.ajax({ url: 'action/update/[% field.name %]=' + value, dataType: 'json', });" >
+                       [% IF field.value eq 'textarea' %] </textarea> [% END %]
                 </tr>
             [% END %]
             </table>
