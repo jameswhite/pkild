@@ -80,6 +80,7 @@ sub ca_create{
             umask(0077);
             mkdir("$rootdir/$param->{'ca_domain'}",0700); 
             mkdir("$rootdir/$param->{'ca_domain'}/private",0700); 
+            mkdir("$rootdir/$param->{'ca_domain'}/certs",0700); 
             foreach my $key (keys(%{ $param } )){
                 $tpldata->{$key} = $param->{$key};
             }

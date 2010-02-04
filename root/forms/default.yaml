@@ -45,6 +45,21 @@ forms:
         prompt: ~
         type: submit
         value : Create
+      - name: ca_default_days
+        prompt: CA Certificate Lifetime (days)
+        type: text
+        size: 20
+        value: 365
+      - name: crl_days
+        prompt: Certificate Revocation List Expires Every (days)
+        type: text
+        size: 20
+        value: 30
+      - name: crl_path
+        prompt: Certificate Revocation List Location
+        type: text
+        size: 40
+        value: "http://pki.example.org/example.org/example.org.crl"
   new_cert:
     legend: Create New Certificate
     comments: "It's really best to do this on a local machine, and submit the CSR to pkild, but this will do in a pinch."
@@ -92,21 +107,3 @@ forms:
         prompt: ~
         type: submit
         value : Create
-  openssl_cnf_prefs: 
-    legend: OpenSSL Preferences
-    fields:
-      - name: ca_default_days
-        prompt: CA Certificate Lifetime (days)
-        type: text
-        size: 20
-        value: 365
-      - name: crl_days
-        prompt: Certificate Revocation List Expires Every (days)
-        type: text
-        size: 20
-        value: 30
-      - name: crl_path
-        prompt: Certificate Revocation List Location
-        type: text
-        size: 40
-        value: "http://pki.example.org/example.org/example.org.crl"

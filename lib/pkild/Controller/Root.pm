@@ -183,12 +183,12 @@ sub jstreemenu : Local {
     my ( $self, $c ) = @_;
     my $menu_tree;
     my $certificate_tree=$c->model('Certificates')->tree();
-    push( @{ $menu_tree },
-          { 
-            'attributes' => { 'id' =>  "openssl_cnf_prefs", 'rel' => 'action' },
-            'data' => { 'title' => 'OpenSSL Preferences' },
-          }
-        );
+#    push( @{ $menu_tree },
+#          { 
+#            'attributes' => { 'id' =>  "openssl_cnf_prefs", 'rel' => 'action' },
+#            'data' => { 'title' => 'OpenSSL Preferences' },
+#          }
+#        );
     push( @{ $menu_tree },
           { 
             'attributes' => { 'id' =>  "new_root_ca" },
