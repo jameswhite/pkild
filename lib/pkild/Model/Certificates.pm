@@ -24,6 +24,7 @@ sub tree{
         next if $node eq '.';
         # skip directories containing key data
         next if $node=~m/_data$/;
+        next if $node=~m/^private$/;
         # We need to know if this is a file, or a directory
         $type="unknown";
         if( -d $node){ $type="folder"; }
@@ -104,7 +105,27 @@ sub ca_create{
 
 sub node_type{
     my ($self, $node)=@_;
-    #
+    $node =~s/::/\//g;
+    if(-f "$rootdir/$node"){ return "file"; }
+    if(-d "$rootdir/$node"){ return "directory"; }
+    return undef;
+}
+
+sub contents{
+    use FileHandle;
+    my ($self, $node)=@_;
+    $node =~s/::/\//g;
+    my $contents='';
+    if(-f "$rootdir/$node"){ 
+        my $fh = FileHandle->new;
+        if ($fh->open("< $rootdir/$node")) {
+            while(my $line=<$fh>){
+                $contents.=$line;
+            }
+            $fh->close;
+            return $contents;
+        }
+    }
     return undef;
 }
 

@@ -65,7 +65,11 @@ sub default : Private {
             if( $c->request->arguments->[1]){
                 # if we've selected a tree item, populate the form as per our forms yaml
                 if( $c->request->arguments->[1] eq "select" ){
-                    $c->forward('drawform');
+                    if($c->model('Certificates')->node_type("$c->request->arguments->[2]") eq "file"){
+                        $c->forward('renderfile');
+                    }else{
+                        $c->forward('drawform');
+                    }
                 }elsif($c->request->arguments->[1] eq "open" ){
                     ############################################################
                     # Remember the state of the tree for subsequent page reloads
@@ -221,6 +225,12 @@ sub drawform : Global {
                                                           }
                                          )
                  );
+}
+
+sub renderfile : Global {
+    my ( $self, $c ) = @_;
+    $c->stash->{'plaintext'} = $c->model('Certificates')->contents("$c->request->arguments->[2]");
+    $c->stash->{'template'}="plaintext.tt";
 }
 
 sub do_form : Global {
