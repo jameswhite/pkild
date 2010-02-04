@@ -89,8 +89,8 @@ sub ca_create{
             my $text=$self->openssl_cnf_template(); 
             $tpldata->{'cert_home_dir'}="/$rootdir/$param->{'ca_domain'}";
             $template->process(\$text,$tpldata,"/$rootdir/$param->{'ca_domain'}/openssl.cnf");
-            system("/usr/bin/openssl genrsa -out /$rootdir/$param->{'ca_domain'}/private/example.org.key");
-            system("/usr/bin/openssl req -new -x509 -nodes -sha1 -days $tpldata->{'ca_default_days'} -key /$rootdir/$param->{'ca_domain'}/private/example.org.key  -out /$rootdir/$param->{'ca_domain'}/example.org.pem -config /$rootdir/$param->{'ca_domain'}/openssl.cnf -batch");
+            system("/usr/bin/openssl genrsa -out /$rootdir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key");
+            system("/usr/bin/openssl req -new -x509 -nodes -sha1 -days $tpldata->{'ca_default_days'} -key /$rootdir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key  -out /$rootdir/$param->{'ca_domain'}/$param->{'ca_domain'}.pem -config /$rootdir/$param->{'ca_domain'}/openssl.cnf -batch");
             #my $fh = FileHandle->new("> /$rootdir/$param->{'ca_domain'}/$param->{'ca_domain'}.crt");
             #if (defined $fh) {
             #   print $fh Data::Dumper->Dump([$tpldata]);
