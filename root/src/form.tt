@@ -10,7 +10,7 @@
             <table>
             [% FOREACH field IN menudata.fields %]
                 <tr>
-                    <td align='right'><label for="[% field.name %]"<nobr>[% field.prompt %]</nobr></label></td>
+                    <td align='right' valign='middle'><label for="[% field.name %]"<nobr>[% field.prompt %]</nobr></label></td>
                     <td align='left'>
                        [% IF field.type == 'textarea' %] <textarea [% ELSE %] <input type="[% field.type %]" [% END %]
                                name="[% field.name %]" 
