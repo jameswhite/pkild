@@ -113,6 +113,8 @@ forms:
       - name: csr_input
         prompt: 
         type: textarea
+        rows: 23
+        cols: 80
       - name: sign_cert
         prompt: ~
         type: submit
