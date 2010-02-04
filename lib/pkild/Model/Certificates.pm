@@ -106,7 +106,7 @@ sub ca_create{
 sub node_type{
     my ($self, $node)=@_;
     $node =~s/::/\//g;
-    my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
+    my $rootdir="/".join("/",@{ $self->{'root_dir'}->{'dirs'} });
     $rootdir=~s/^\///;
 print STDERR "\n\n-=[$rootdir/$node]=-\n\n";
     if(-f "$rootdir/$node"){ return "file"; }
@@ -118,7 +118,7 @@ sub contents{
     use FileHandle;
     my ($self, $node)=@_;
     $node =~s/::/\//g;
-    my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
+    my $rootdir="/".join("/",@{ $self->{'root_dir'}->{'dirs'} });
     $rootdir=~s/^\///;
     my $contents='';
     if(-f "$rootdir/$node"){ 
