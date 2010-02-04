@@ -104,7 +104,6 @@ sub node_type{
 
 sub openssl_cnf_template{
     my ($self)=shift;
-    return
     my $the_template = <<_END_TEMPLATE_
 HOME = [% PKILD_CERTIFICATE_ROOT %]
 RANDFILE = \$ENV::HOME/.rnd
