@@ -1,3 +1,5 @@
+<div style='plaintext'>
 <pre>
 [% plaintext %]
 </pre>
+</div>
