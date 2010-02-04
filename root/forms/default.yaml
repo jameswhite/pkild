@@ -111,12 +111,13 @@ forms:
     legend: Sign Certificate
     fields:
       - name: csr_input
-        prompt: 
+        prompt: Certificate Signing Request
         type: textarea
         rows: 23
         cols: 80
+        size: ~
       - name: sign_cert
         prompt: ~
         type: submit
         value : Sign
-    comments: "Paste the Certificate Signing Request into the box and click [Sign]"
+    comments: "Paste the CSR into the box and click [Sign]"
