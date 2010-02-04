@@ -23,7 +23,7 @@ sub tree{
     for my $node (@file_names){
         next if $node eq '.';
         # skip directories containing key data
-        next if $node=~m/_data$/;
+        next if $node=~m/\.ca$/;
         next if $node=~m/private$/;
         next if $node=~m/openssl.cnf$/;
         # We need to know if this is a file, or a directory
@@ -98,7 +98,7 @@ sub ca_create{
                print $fh "";
                $fh->close;
             }
-            chmod(0700, "/$rootdir/$param->{'ca_domain'}/$param->{'ca_domain'}.crt");
+            chmod(0700, "/$rootdir/$param->{'ca_domain'}/.ca");
             return "SUCCESS";
         }
     }
