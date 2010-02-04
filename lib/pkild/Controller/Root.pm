@@ -65,7 +65,7 @@ sub default : Private {
             if( $c->request->arguments->[1]){
                 # if we've selected a tree item, populate the form as per our forms yaml
                 if( $c->request->arguments->[1] eq "select" ){
-                    if($c->model('Certificates')->node_type("$c->request->arguments->[2]") eq "file"){
+                    if($c->model('Certificates')->node_type($c->request->arguments->[2]) eq "file"){
                         $c->forward('renderfile');
                     }else{
                         $c->forward('drawform');
