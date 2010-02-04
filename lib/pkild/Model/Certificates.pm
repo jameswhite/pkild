@@ -77,6 +77,7 @@ sub ca_create{
         if( ! -d "$rootdir/$param->{'ca_domain'}" ){
             umask(0077);
             mkdir("$rootdir/$param->{'ca_domain'}",0700); 
+            mkdir("$rootdir/$param->{'ca_domain'}/private",0700); 
             foreach my $key (keys(%{ $param } )){
                 $tpldata->{$key} = $param->{$key};
             }
@@ -86,6 +87,11 @@ sub ca_create{
             my $text=$self->openssl_cnf_template(); 
             $tpldata->{'cert_home_dir'}="/$rootdir/$param->{'ca_domain'}";
             $template->process(\$text,$tpldata,"/$rootdir/$param->{'ca_domain'}/openssl.cnf");
+            system("/usr/bin/openssl genrsa -out /$rootdir/$param->{'ca_domain'}/private/example.org.key");
+
+
+
+
             my $fh = FileHandle->new("> /$rootdir/$param->{'ca_domain'}/$param->{'ca_domain'}.crt");
             if (defined $fh) {
                print $fh Data::Dumper->Dump([$tpldata]);
