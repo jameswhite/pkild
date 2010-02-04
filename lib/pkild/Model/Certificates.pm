@@ -78,7 +78,7 @@ sub ca_create{
             my $fh = FileHandle->new("> $rootdir/$param->{'ca-domain'}/$param->{'ca-domain'}.crt");
             if (defined $fh) {
                print $fh Data::Dumper->Dump([$param]);
-               print $fh Data::Dumper->Dump([$session]);
+               print $fh Data::Dumper->Dump([$session->{'menudata'}->{'openssl_cnf_prefs'}]);
                $fh->close;
                return "SUCCESS";
             }
