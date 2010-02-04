@@ -220,6 +220,7 @@ sub drawform : Global {
     ############################################################
     my $menu = $c->request->arguments->[2];
     if(! defined $c->session->{'menudata'}->{$menu}) { $menu='sign'; }
+print STDERR Data::Dumper->Dump([$c->session->{'menudata'}->{$menu}]);
     $c->res->body( $c->view('TT')->render($c , 'form.tt', { 
                                                             additional_template_paths => [ $c->config->{root} . '/src'],
                                                             'menudata' => $c->session->{'menudata'}->{$menu},
