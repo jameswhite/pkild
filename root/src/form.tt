@@ -11,7 +11,14 @@
             [% FOREACH field IN menudata.fields %]
                 <tr>
                     <td align='right'><label for="[% field.name %]"<nobr>[% field.prompt %]</nobr></label></td>
-                    <td align='left'><input type="[% field.type %]" name="[% field.name %]" onBlur="$.ajax({ url: 'action/update/[% field.name %]=' + value, dataType: 'json', });" [% IF field.size %] size="[% field.size %]" [% END %][% IF field.rows %] rows="[% field.rows %]" [% END %] [% IF field.cols %] cols="[% field.cols %]" [% END %] value="[% field.value %]"></td>
+                    <td align='left'>
+                        <input type="[% field.type %]" 
+                               name="[% field.name %]" 
+                               [% IF field.size %]  size="[% field.size %]"   [% END %]
+                               [% IF field.rows %]  rows="[% field.rows %]"   [% END %] 
+                               [% IF field.cols %]  cols="[% field.cols %]"   [% END %] 
+                               [% IF field.value %] value="[% field.value %]" [% END %] 
+                               onBlur="$.ajax({ url: 'action/update/[% field.name %]=' + value, dataType: 'json', });" >
                 </tr>
             [% END %]
             </table>
