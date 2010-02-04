@@ -2,8 +2,8 @@ forms:
   new_root_ca:
     legend: Create New CA
     fields:
-      - name: ca-nickname
-        prompt: Name:
+      - name: ca-domain
+        prompt: Domain Name:
         type: text
         size: 20
         value: example.org
@@ -37,10 +37,6 @@ forms:
         type: text
         size: 20
         value: sysadmins@example.org
-      - name: ca-passphrase
-        prompt: Private Key Pass Phrase
-        type: password
-        size: 20
       - name: action_type
         prompt: ~
         type: hidden
@@ -53,8 +49,8 @@ forms:
     legend: Create New Certificate
     comments: "It's really best to do this on a local machine, and submit the CSR to pkild, but this will do in a pinch."
     fields:
-      - name: cert-nickname
-        prompt: Name:
+      - name: cert-fqdn
+        prompt: Fully Qualified Domain Name (FQDN):
         type: text
         size: 20
         value : some_distingushed_name
