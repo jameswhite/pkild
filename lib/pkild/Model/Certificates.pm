@@ -107,8 +107,7 @@ sub node_type{
     my ($self, $node)=@_;
     $node =~s/::/\//g;
     my $rootdir="/".join("/",@{ $self->{'root_dir'}->{'dirs'} });
-    $rootdir=~s/^\///;
-print STDERR "\n\n-=[$rootdir/$node]=-\n\n";
+print STDERR "\n\n.oO($rootdir/$node)Oo.\n\n";
     if(-f "$rootdir/$node"){ return "file"; }
     if(-d "$rootdir/$node"){ return "directory"; }
     return undef;
@@ -119,7 +118,7 @@ sub contents{
     my ($self, $node)=@_;
     $node =~s/::/\//g;
     my $rootdir="/".join("/",@{ $self->{'root_dir'}->{'dirs'} });
-    $rootdir=~s/^\///;
+print STDERR "\n\n-=[$rootdir/$node]=-\n\n";
     my $contents='';
     if(-f "$rootdir/$node"){ 
         my $fh = FileHandle->new;
