@@ -43,15 +43,15 @@ forms:
         width: 20
         value: 365
       - name: crl_path
-        prompt: Certificate Revocation List Location
+        prompt: Certificate Revocation List URI
         type: text
-        width: 40
+        width: 30
         value: "http://pki.example.org/example.org.crl"
       - name: crl_days
         prompt: Certificate Revocation List Expires Every (days)
         type: text
         width: 20
-        value: 25
+        value: 30
       - name: action_type
         prompt: ~
         type: hidden

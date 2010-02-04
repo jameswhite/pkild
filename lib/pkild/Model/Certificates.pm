@@ -68,11 +68,18 @@ sub tree{
 }
 
 sub sign_certificate{
-    use Template;
+    use FileHandle;
     my ($self, $param,$session)=@_;
-
+    # $param->{'node_name'};
+    # $param->{'csr_input'};
+    # write out the csr to a temp file
+    # get the CN with openssl req -in $temp_file -noout -text | grep "Subject:" | sed -e 's/.*CN=//g' -e 's/\/.*//g'
+    # delete the temp file
+    # create the $root/$param->{'node_name'};/$cn  directory
+    # write out the csr to ${cn}.csr in the node directory
+    # sign the csr with "openssl ca -extensions v3_ca -days ${lifetime} -passin fd:0 -out mid-ca.${DOMAIN}.crt -in mid-ca.${DOMAIN}.csr -config root-openssl.cnf -batch
+    # write it out as a ${cn}.crt int the node directory
     return "SUCCESS";
-    return "ERROR";
 }
 
 sub ca_create{

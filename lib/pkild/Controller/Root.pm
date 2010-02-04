@@ -97,6 +97,7 @@ sub default : Private {
                     # loop through the fields and set the value in the session.
                     if($c->request->arguments->[2]){
                         my ($key,$value)=split(/=/,$c->request->arguments->[2]);
+print STDERR "\n\n$value\n\n";
                         for(my $idx=0;$idx<=$#{$c->session->{'menudata'}->{$c->session->{'current_node'}}->{'fields'}};$idx++){
                             if($c->session->{'menudata'}->{$c->session->{'current_node'} }->{'fields'}->[$idx]->{'name'} eq $key){
                                 $c->session->{'menudata'}->{ $c->session->{'current_node'} }->{'fields'}->[$idx]->{'value'}=$value;
