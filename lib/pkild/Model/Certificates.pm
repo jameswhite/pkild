@@ -70,15 +70,20 @@ sub ca_create{
     my ($self, $param,$session)=@_;
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     $rootdir=~s/^\///;
-    my $time=time();
+    my $tpldata;
     if($param->{'ca-domain'}){
         if( ! -d "$rootdir/$param->{'ca-domain'}" ){
             umask(0077);
             mkdir("$rootdir/$param->{'ca-domain'}",0700); 
+            foreach my $key (keys(%{ $param } )){
+                $tpldata->{$key} = $param->{$key};
+            }
+            foreach my $prefs (@{ $session->{'menudata'}->{'openssl_cnf_prefs'}->{'fields'} }){
+                $tpldata->{$prefs->name} = $prefs->{'value'};
+            }
             my $fh = FileHandle->new("> $rootdir/$param->{'ca-domain'}/$param->{'ca-domain'}.crt");
             if (defined $fh) {
-               print $fh Data::Dumper->Dump([$param]);
-               print $fh Data::Dumper->Dump([$session->{'menudata'}->{'openssl_cnf_prefs'}]);
+               print $fh Data::Dumper->Dump([$tpldata]);
                $fh->close;
                return "SUCCESS";
             }
