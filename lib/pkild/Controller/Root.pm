@@ -218,9 +218,11 @@ sub drawform : Global {
     # select the template from the template pool based on what
     # was selected and render it. 
     ############################################################
+    my $menu = $c->request->arguments->[2];
+    if(! defined $c->session->{'menudata'}->{$menu}) { $menu='sign'; }
     $c->res->body( $c->view('TT')->render($c , 'form.tt', { 
                                                             additional_template_paths => [ $c->config->{root} . '/src'],
-                                                            'menudata' => $c->session->{'menudata'}->{$c->request->arguments->[2]},
+                                                            'menudata' => $c->session->{'menudata'}->{$menu},
                                                             'node' => $c->session->{'current_node'},
                                                           }
                                          )
