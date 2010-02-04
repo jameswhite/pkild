@@ -88,7 +88,6 @@ sub ca_create{
             my $fh = FileHandle->new("> $rootdir/$param->{'ca-domain'}/$param->{'ca-domain'}.crt");
             if (defined $fh) {
                print $fh Data::Dumper->Dump([$tpldata]);
-               print $fh $self->openssl_cnf_template();
                $fh->close;
                return "SUCCESS";
             }
@@ -109,7 +108,7 @@ sub openssl_cnf_template{
     my $the_template = <<_END_TEMPLATE_;
 HOME = [% PKILD_CERTIFICATE_ROOT %]
 RANDFILE = \$ENV::HOME/.rnd
-DOMAIN = [% DOMAIN %]
+ca-domain = [% ca-domain %]
  
 [ ca ]
 default_ca = CA_default # The default ca section
@@ -119,11 +118,11 @@ certs = \$dir/certs
 crl_dir = \$dir/crl
 database = \$dir/index.txt
 new_certs_dir = \$dir/newcerts
-certificate = \$dir/~LEVEL~.[% DOMAIN %].pem
+certificate = \$dir/~LEVEL~.[% ca-domain %].pem
 serial = \$dir/serial
 crlnumber = \$dir/crlnumber
-crl = \$dir/crl.[% DOMAIN %].pem
-private_key = \$dir/private/~LEVEL~.[% DOMAIN %].key
+crl = \$dir/crl.[% ca-domain %].pem
+private_key = \$dir/private/~LEVEL~.[% ca-domain %].key
 RANDFILE = \$dir/private/.rand
 x509_extensions = usr_cert
 name_opt = ca_default
@@ -153,7 +152,7 @@ emailAddress = optional
  
 [ req ]
 default_bits = 1024
-default_keyfile = [% DOMAIN %].pem
+default_keyfile = [% ca-domain %].pem
 distinguished_name = req_distinguished_name
 attributes = req_attributes
 x509_extensions = v3_ca
@@ -168,12 +167,12 @@ stateOrProvinceName_default = [% CA_STATE %]
 localityName = Locality Name (eg, city)
 localityName_default = [% CA_LOCALITY %]
 0.organizationName = Organization Name (eg, company)
-0.organizationName_default = [% CA_ORG %]
+0.organizationName_default = [% ca-org %]
 organizationalUnitName = Organizational Unit Name (eg, section)
 organizationalUnitName_default = ~TEXTLEVEL~
 commonName = Common Name (eg, YOUR name)
 commonName_max = 64
-commonName_default = ~LEVEL~.[% DOMAIN %]
+commonName_default = ~LEVEL~.[% ca-domain %]
 emailAddress = Email Address
 emailAddress_max = 64
 emailAddress_default = ~EMAIL~

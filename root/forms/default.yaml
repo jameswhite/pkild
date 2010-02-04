@@ -105,3 +105,8 @@ forms:
         type: text
         size: 20
         value: 30
+      - name: crl_path
+        prompt: Certificate Revocation List Location
+        type: text
+        size: 40
+        value: "http://pki.example.org/example.org/example.org.crl"
