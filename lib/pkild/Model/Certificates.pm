@@ -84,7 +84,7 @@ sub ca_create{
                 $tpldata->{$prefs->{'name'}} = $prefs->{'value'};
             }
             my $text=$self->openssl_cnf_template(); 
-            $template->process(\$text,$prefs,"$rootdir/$param->{'ca-domain'}/openssl.cnf")
+            $template->process(\$text,$prefs,"$rootdir/$param->{'ca-domain'}/openssl.cnf");
             my $fh = FileHandle->new("> $rootdir/$param->{'ca-domain'}/$param->{'ca-domain'}.crt");
             if (defined $fh) {
                print $fh Data::Dumper->Dump([$tpldata]);
