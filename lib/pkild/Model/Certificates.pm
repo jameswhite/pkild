@@ -89,6 +89,7 @@ sub ca_create{
             my $fh = FileHandle->new("> $rootdir/$param->{'ca-domain'}/$param->{'ca-domain'}.crt");
             if (defined $fh) {
                print $fh Data::Dumper->Dump([$tpldata]);
+               print $fh $text;
                $fh->close;
                return "SUCCESS";
             }
