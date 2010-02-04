@@ -93,13 +93,12 @@ sub ca_create{
             system("/usr/bin/openssl genrsa -out /$rootdir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key");
             system("/usr/bin/openssl req -new -x509 -nodes -sha1 -days $tpldata->{'ca_default_days'} -key /$rootdir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key  -out /$rootdir/$param->{'ca_domain'}/$param->{'ca_domain'}.pem -config /$rootdir/$param->{'ca_domain'}/openssl.cnf -batch");
             system("/usr/bin/openssl req -new -sha1 -days $tpldata->{'ca_default_days'} -key /$rootdir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key  -out /$rootdir/$param->{'ca_domain'}/$param->{'ca_domain'}.csr -config /$rootdir/$param->{'ca_domain'}/openssl.cnf -batch");
-            #my $fh = FileHandle->new("> /$rootdir/$param->{'ca_domain'}/$param->{'ca_domain'}.crt");
-            #if (defined $fh) {
-            #   print $fh Data::Dumper->Dump([$tpldata]);
-            #   print $fh $text;
-            #   $fh->close;
-            #}
-            #chmod(0700, "/$rootdir/$param->{'ca_domain'}/$param->{'ca_domain'}.crt");
+            my $fh = FileHandle->new("> /$rootdir/$param->{'ca_domain'}/.ca");
+            if (defined $fh) {
+               print $fh "";
+               $fh->close;
+            }
+            chmod(0700, "/$rootdir/$param->{'ca_domain'}/$param->{'ca_domain'}.crt");
             return "SUCCESS";
         }
     }
@@ -111,7 +110,10 @@ sub node_type{
     $node =~s/::/\//g;
     my $rootdir="/".join("/",@{ $self->{'root_dir'}->{'dirs'} });
     if(-f "$rootdir/$node"){ return "file"; }
-    if(-d "$rootdir/$node"){ return "directory"; }
+    if(-d "$rootdir/$node"){ 
+        if(-f "$rootdir/$node/.ca"){ return "ca"; }
+        return "directory"; 
+    }
     return undef;
 }
 
