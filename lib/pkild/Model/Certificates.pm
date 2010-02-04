@@ -70,9 +70,9 @@ sub ca_create{
     use Template;
     my ($self, $param,$session)=@_;
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
+    my $template=Template->new();
     $rootdir=~s/^\///;
     my $tpldata;
-    my $template=Template->new( INCLUDE_PATH => ['root/src']);
     if($param->{'ca-domain'}){
         if( ! -d "$rootdir/$param->{'ca-domain'}" ){
             umask(0077);
@@ -83,6 +83,8 @@ sub ca_create{
             foreach my $prefs (@{ $session->{'menudata'}->{'openssl_cnf_prefs'}->{'fields'} }){
                 $tpldata->{$prefs->{'name'}} = $prefs->{'value'};
             }
+            my $text=$self->openssl_cnf_template(); 
+            $template->process(\$text,$prefs,"$rootdir/$param->{'ca-domain'}/openssl.cnf")
             my $fh = FileHandle->new("> $rootdir/$param->{'ca-domain'}/$param->{'ca-domain'}.crt");
             if (defined $fh) {
                print $fh Data::Dumper->Dump([$tpldata]);
