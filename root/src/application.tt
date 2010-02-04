@@ -82,7 +82,7 @@
                                                                                         }
                                                                                },
                                                                   "folder" :   {
-                                                                                 draggable : false,
+                                                                                 draggable : true,
                                                                                  valid_children : [ "folder", "file", "action" ],
                                                                                },
                                                                   "file" :     {
