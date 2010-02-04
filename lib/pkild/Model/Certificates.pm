@@ -79,7 +79,7 @@ sub ca_create{
                 $tpldata->{$key} = $param->{$key};
             }
             foreach my $prefs (@{ $session->{'menudata'}->{'openssl_cnf_prefs'}->{'fields'} }){
-                $tpldata->{$prefs->name} = $prefs->{'value'};
+                $tpldata->{$prefs->{'name'}} = $prefs->{'value'};
             }
             my $fh = FileHandle->new("> $rootdir/$param->{'ca-domain'}/$param->{'ca-domain'}.crt");
             if (defined $fh) {
