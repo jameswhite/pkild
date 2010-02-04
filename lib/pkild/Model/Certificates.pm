@@ -71,8 +71,8 @@ sub ca_create{
     use Template;
     my ($self, $param,$session)=@_;
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
-    my $template=Template->new();
     $rootdir=~s/^\///;
+    my $template=Template->new();
     my $tpldata;
     if($param->{'ca_domain'}){
         if( ! -d "$rootdir/$param->{'ca_domain'}" ){
@@ -106,6 +106,8 @@ sub ca_create{
 sub node_type{
     my ($self, $node)=@_;
     $node =~s/::/\//g;
+    my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
+    $rootdir=~s/^\///;
     if(-f "$rootdir/$node"){ return "file"; }
     if(-d "$rootdir/$node"){ return "directory"; }
     return undef;
@@ -115,6 +117,8 @@ sub contents{
     use FileHandle;
     my ($self, $node)=@_;
     $node =~s/::/\//g;
+    my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
+    $rootdir=~s/^\///;
     my $contents='';
     if(-f "$rootdir/$node"){ 
         my $fh = FileHandle->new;
