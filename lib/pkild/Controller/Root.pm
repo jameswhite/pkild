@@ -220,6 +220,7 @@ sub drawform : Global {
     ############################################################
     my $menu = $c->session->{'current_node'};
     if($c->model('Certificates')->node_type($menu) eq "ca"){ $menu='sign'; }
+    if( defined $c->session->{'menudata'}->{$menu}){
     $c->res->body( $c->view('TT')->render($c , 'form.tt', { 
                                                             additional_template_paths => [ $c->config->{root} . '/src'],
                                                             'menudata' => $c->session->{'menudata'}->{$menu},
@@ -227,6 +228,7 @@ sub drawform : Global {
                                                           }
                                          )
                  );
+    }
 }
 
 sub renderfile : Global {
