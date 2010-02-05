@@ -181,3 +181,15 @@ forms:
         type: hidden
         value : sign_cert
     comments: "Paste the Certificate Signing Request into the box and click [Sign]"
+  revoke:
+    legend: Revoke Certificate
+    fields:
+      - name: revoke_cert
+        prompt: ~
+        type: submit
+        value : Revoke
+      - name: action_type
+        prompt: ~
+        type: hidden
+        value : revoke_cert
+    comments: "Revoking this Certificate will render it unuseable."

@@ -235,7 +235,7 @@ print STDERR "\n\n\n\n\n\n\n\n";
             system("/usr/bin/openssl ca -gencrl -keyfile $node_dir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key -cert $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.pem -config $node_dir/$param->{'ca_domain'}/openssl.cnf -out $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.crl");
 print STDERR "\n\n\n\n\n\n\n\n";
             # To Revoke: (run this and then regenerate the CRL with the command above, copy it to it's URI)
-            #system("/usr/bin/openssl ca -revoke <PATH/TO/BAD_CERT> -keyfile $node_dir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key -cert $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.pem");
+            #system("/usr/bin/openssl ca -revoke <PATH/TO/BAD_CERT> -keyfile $node_dir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key -cert $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.pem -config $node_dir/$param->{'ca_domain'}/openssl.cnf");
             return "SUCCESS";
         }
     }
@@ -245,6 +245,7 @@ print STDERR "\n\n\n\n\n\n\n\n";
 # by convention, all CAs have a subdir named "certs" and others don't
 sub node_type{
     my ($self, $node)=@_;
+    my @nodepart=split(/::/, $node);
     $node =~s/::/\//g;
     my $rootdir="/".join("/",@{ $self->{'root_dir'}->{'dirs'} });
     if(-f "$rootdir/$node"){ return "file"; }
@@ -253,6 +254,7 @@ sub node_type{
         my $isacertbucket="$rootdir/$node";
         $isacertbucket=~s/.*\///;
         if($isacertbucket eq "certs") { return "certs"; }
+        if($nodepart[$#nodepart - 1]  eq "certs"){ return "certificate" };
         return "directory"; 
     }
     return undef;
