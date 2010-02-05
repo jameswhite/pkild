@@ -23,8 +23,9 @@ sub tree{
     for my $node (@file_names){
         next if $node eq '.';
         # skip directories containing key data
-        next if $node=~m/private$/;
-        next if $node=~m/openssl.cnf$/;
+        next if $node=~m/\/private$/;
+        next if $node=~m/\/.rnd$/;
+        next if $node=~m/\/openssl.cnf$/;
         # We need to know if this is a file, or a directory
         $type="unknown";
         if( -d $node){ $type="folder"; }
@@ -153,6 +154,7 @@ sub ca_create{
                 system("/usr/bin/openssl req -new -sha1 -days $tpldata->{'ca_default_days'} -key $node_dir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key  -out $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.csr -config $node_dir/$param->{'ca_domain'}/openssl.cnf -batch");
 
                 # Have the parent sign the CSR
+                print STDERR "\n\n\n\n\n/usr/bin/openssl ca -extensions v3_ca -days $tpldata->{'ca_default_days'} -out $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.crt -in $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.csr -config $node_dir/openssl.cnf -batch\n\n\n\n\n";
                 system("/usr/bin/openssl ca -extensions v3_ca -days $tpldata->{'ca_default_days'} -out $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.crt -in $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.csr -config $node_dir/openssl.cnf -batch");
 
                 # Clean up the CSR
