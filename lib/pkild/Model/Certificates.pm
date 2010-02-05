@@ -22,10 +22,15 @@ sub tree{
     my $type;
     for my $node (@file_names){
         next if $node eq '.';
-        # skip directories containing key data
+        # skip directories containing key data and used for work.
         next if $node=~m/\/private$/;
         next if $node=~m/\/.rnd$/;
         next if $node=~m/\/openssl.cnf$/;
+        next if $node=~m/\/index.txt$/;
+        next if $node=~m/\/serial$/;
+        next if $node=~m/\/serial.old$/;
+        next if $node=~m/\/newcerts$/;
+        next if $node=~m/\/crl$/;
         # We need to know if this is a file, or a directory
         $type="unknown";
         if( -d $node){ $type="folder"; }
