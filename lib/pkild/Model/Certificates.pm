@@ -137,7 +137,7 @@ sub ca_create{
             mkdir("$node_dir/$param->{'ca_domain'}/newcerts",0700); 
             mkdir("$node_dir/$param->{'ca_domain'}/crl",0700); 
             # echo "01" > ${ROOT_CA}/serial
-            if(! -f $node_dir/$param->{'ca_domain'}/serial){
+            if(! -f "$node_dir/$param->{'ca_domain'}/serial"){
                 my $fh = FileHandle->new("> $node_dir/$param->{'ca_domain'}/serial");
                 if (defined $fh) {
                     print $fh "01\n";
@@ -145,7 +145,7 @@ sub ca_create{
                 }
             }
             # cp /dev/null ${ROOT_CA}/index.txt
-            if(! -f $node_dir/$param->{'ca_domain'}/serial){
+            if(! -f "$node_dir/$param->{'ca_domain'}/index.txt"){
                 my $fh = FileHandle->new("> $node_dir/$param->{'ca_domain'}/index.txt");
                 if (defined $fh) {
                     print $fh '';
