@@ -75,7 +75,7 @@ sub sign_certificate{
     
     # convert the :: delimited node names into a path
     my $node_dir = $param->{'node_name'};
-    $node_dir=~s/\:\:/\/g;
+    $node_dir=~s/::/\//g;
     $node_dir=~s/certs$//g;
     $node_dir="$root_dir/$node_dir";
 print STDERR "\n\n-=[$node_dir]=--\n\n";
