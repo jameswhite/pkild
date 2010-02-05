@@ -74,11 +74,21 @@ sub tree{
     return $tree->{''}->{'children'};
 }
 
+sub create_certificate{
+    my ($self, $param,$session)=@_;
+    # create openssl.cnf
+    # create password-protected private key
+    # create csr
+    # ship the key to the user for saving locally.
+    # add an option for pkcs12
+    return $self;  
+}
+
 sub sign_certificate{
     use FileHandle;
     use File::Temp qw/ tempfile tempdir /;
     my ($self, $param,$session)=@_;
-    my $rootdir="/".join("/",@{ $self->{'root_dir'}->{'dirs'} });
+    my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     
     # convert the :: delimited node names into a path
     my $node_dir = $param->{'node_name'};
@@ -111,12 +121,8 @@ sub sign_certificate{
         print $csrfh $param->{'csr_input'};
         $csrfh->close;
     }
-    # sign the csr 
-    #system("openssl ca -extensions v3_ca -days ${lifetime}  
-    #                   -out mid-ca.${DOMAIN}.crt 
-    #                   -in mid-ca.${DOMAIN}.csr 
-    #                   -config root-openssl.cnf -batch
-    # write it out as a ${cn}.crt int the node directory
+    # sign the csr and write it out as a ${cn}.crt int the node directory
+    system("/usr/bin/openssl -config $node_dir/openssl.cnf -policy policy_anything -out $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.crt -batch -infiles $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.csr");
     return "SUCCESS";
 }
 

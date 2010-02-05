@@ -122,36 +122,36 @@ forms:
         type: text
         width: 20
         value : some_distingushed_name
-      - name: cert_country
-        prompt: Country:
-        type: text
-        width: 20
-        value : US
-      - name: cert_state
-        prompt: State:
-        type: text
-        width: 20
-        value : Tennessee
-      - name: cert_localitiy
-        prompt: Locality:
-        type: text
-        width: 20
-        value : Nashville
-      - name: cert_org
-        prompt: Organization:
-        type: text
-        width: 20
-        value : Some Company
-      - name: cert_orgunit
-        prompt: Organizational Unit:
-        type: text
-        width: 20
-        value : Some Department
       - name: cert_email
         prompt: Email:
         type: text
         width: 20
         value : youremail@example.org
+      - name: cert_orgunit
+        prompt: Organizational Unit:
+        type: text
+        width: 20
+        value : Some Department
+      - name: cert_org
+        prompt: Organization:
+        type: text
+        width: 20
+        value : Some Company
+      - name: cert_localitiy
+        prompt: Locality:
+        type: text
+        width: 20
+        value : Nashville
+      - name: cert_state
+        prompt: State:
+        type: text
+        width: 20
+        value : Tennessee
+      - name: cert_country
+        prompt: Country:
+        type: text
+        width: 20
+        value : US
       - name: cert_passphrase
         prompt: Private Key Pass Phrase
         type: password
