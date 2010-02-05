@@ -96,7 +96,7 @@ sub revoke_certificate{
     my @nodepart=split(/::/, $node_dir);
     my $node_name=pop(@nodepart); pop(@nodepart);
     my $parent_name=$nodepart[$#nodepart];
-    my $parent_dir="$rootdir/".join("/",$nodepart);
+    my $parent_dir="$rootdir/".join("/",@nodepart);
     $node_dir=~s/::/\//g;
     $node_dir="$rootdir/$node_dir";
 
