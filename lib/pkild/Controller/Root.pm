@@ -178,7 +178,7 @@ sub logout : Global {
     $c->delete_session("logout");
 
     # send us home, so subsequent page refreshes won't post logout
-    $c->res->redirect("/pkild/");
+    #$c->res->redirect("/pkild/");
     $c->detach();
 }
 
