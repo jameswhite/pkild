@@ -80,15 +80,26 @@ sub sign_certificate{
     my $tmpdir = tempdir( 'CLEANUP' => 1 );
     my ($fh, $filename) = tempfile( 'DIR' => $tmpdir );
     print $fh $param->{'csr_input'};
+    my $common_name;
     open(GETCN, "/usr/bin/openssl req -in $filename -noout -text | ");
     while(my $line=<GETCN>){
-        print STDERR $line;
+        if($line=~m/Subject:/){
+            $line=~s/.*CN=//g;
+            $line=~s/\/.*//g;
+            $common_name=$line;
+        }
     }
-#grep "Subject:" | sed -e 's/.*CN=//g' -e 's/\/.*//g'|");
-    # get the CN with openssl req -in $temp_file -noout -text | grep "Subject:" | sed -e 's/.*CN=//g' -e 's/\/.*//g'
     # delete the temp file
     # create the $root/$param->{'node_name'};/$cn  directory
+    if(! -d "$rootdir/$param->{'node_name'}/certs/$common_name"){
+        mkdir("$rootdir/$param->{'node_name'}/certs/$common_name",0700);
+    }
+    $csrfh = FileHandle->new("> $rootdir/$param->{'node_name'}/certs/$common_name/$common_name.csr");
     # write out the csr to ${cn}.csr in the node directory
+    if (defined $fh) {
+        print $fh $param->{'csr_input'};
+        $fh->close;
+    }
     # sign the csr with "openssl ca -extensions v3_ca -days ${lifetime} -passin fd:0 -out mid-ca.${DOMAIN}.crt -in mid-ca.${DOMAIN}.csr -config root-openssl.cnf -batch
     # write it out as a ${cn}.crt int the node directory
     return "SUCCESS";
