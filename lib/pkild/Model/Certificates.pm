@@ -104,7 +104,7 @@ sub remove_certificate{
         print STDERR "\n\n\nunlink($rootdir/$node_dir/$file\n\n\n";
     }
     closedir $dh;
-    rmdir "$rootdir/$node_dir"
+    rmdir "$rootdir/$node_dir";
     print STDERR "\n\n\nrmdir $rootdir/$node_dir\n\n\n";
 }
 
