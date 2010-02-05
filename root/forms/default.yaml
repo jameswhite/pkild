@@ -156,10 +156,14 @@ forms:
         prompt: Private Key Pass Phrase
         type: password
         width: 20
-      - name: update_cert_info
+      - name: create_certificate
         prompt: ~
         type: submit
         value : Create
+      - name: action_type
+        prompt: ~
+        type: hidden
+        value : create_cert
   sign:
     legend: Sign Certificate
     fields:
