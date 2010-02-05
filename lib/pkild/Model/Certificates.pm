@@ -86,6 +86,7 @@ sub sign_certificate{
         if($line=~m/Subject:/){
             $line=~s/.*CN=//g;
             $line=~s/\/.*//g;
+            $line=~s/\s+//g;
             $common_name=$line;
         }
     }
