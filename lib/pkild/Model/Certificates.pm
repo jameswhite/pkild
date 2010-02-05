@@ -283,7 +283,12 @@ sub node_type{
         my $isacertbucket="$rootdir/$node";
         $isacertbucket=~s/.*\///;
         if($isacertbucket eq "certs") { return "certs"; }
-        if($nodepart[$#nodepart - 1]  eq "certs"){ return "certificate" };
+        if($nodepart[$#nodepart - 1]  eq "certs"){ 
+            if(-f "$rootdir/$node/$nodepart[$#nodepart].revoked"){
+                return "revoked_certificate" ;
+            }
+            return "certificate" 
+        };
         return "directory"; 
     }
     return undef;

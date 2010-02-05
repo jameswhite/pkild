@@ -228,6 +228,7 @@ sub drawform : Global {
     my $menu = $c->session->{'current_node'};
     if($c->model('Certificates')->node_type($menu) eq "certs"){ $menu='sign'; }
     if($c->model('Certificates')->node_type($menu) eq "certificate"){ $menu='revoke'; }
+    if($c->model('Certificates')->node_type($menu) eq "revoked_certificate"){ $menu='remove'; }
     if($c->model('Certificates')->node_type($menu) eq "ca"){ 
         $menu='new_mid_ca'; 
         # load the new_mid_ca form data with the parent node's values if the mid-ca form has not defined them yet

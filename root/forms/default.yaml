@@ -193,3 +193,15 @@ forms:
         type: hidden
         value : revoke_cert
     comments: "Revoking this Certificate will render it unuseable."
+  remove:
+    legend: Remove Certificate
+    fields:
+      - name: remove_cert
+        prompt: ~
+        type: submit
+        value : Remove
+      - name: action_type
+        prompt: ~
+        type: hidden
+        value : remove_cert
+    comments: "This will delete the certificate files from the system."
