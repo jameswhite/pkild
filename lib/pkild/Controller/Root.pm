@@ -225,7 +225,17 @@ sub drawform : Global {
     if($c->model('Certificates')->node_type($menu) eq "certs"){ $menu='sign'; }
     if($c->model('Certificates')->node_type($menu) eq "ca"){ 
         $menu='new_mid_ca'; 
-        # load the new_mid_ca form data with the parent node's values
+        # load the new_mid_ca form data with the parent node's values if the mid-ca form has not defined them yet
+        foreach my $root_field (@{ $c->session->{'menudata'}->{'new_root_ca'}->{'fields'} }){
+            for(my $midx=0;$midx<=$#{ $c->session->{'menudata'}->{'new_mid_ca'}->{'fields'} };$midx++){
+                if($root_field->{'name'} eq $c->session->{'menudata'}->{'new_mid_ca'}->{'fields'}->[$midx]->{'name'}){
+                    if(! defined($c->session->{'menudata'}->{'new_mid_ca'}->{'fields'}[$midx]->{'value'})){
+                        $c->session->{'menudata'}->{'new_mid_ca'}->{'fields'}[$midx]->{'value'} = $root_field->{'value'};
+                    }
+                }
+            }
+        }
+        
     }
     if( defined $c->session->{'menudata'}->{$menu}){
     $c->res->body( $c->view('TT')->render($c , 'form.tt', { 
