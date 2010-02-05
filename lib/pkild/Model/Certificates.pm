@@ -69,7 +69,7 @@ sub tree{
 
 sub sign_certificate{
     use FileHandle;
-    use File::Temp qq( tempfile tempdir );
+    use File::Temp qw/ tempfile tempdir /;
     my ($self, $param,$session)=@_;
     my $rootdir="/".join("/",@{ $self->{'root_dir'}->{'dirs'} });
     
