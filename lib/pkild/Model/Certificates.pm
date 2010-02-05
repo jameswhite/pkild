@@ -147,18 +147,25 @@ sub ca_create{
             system("/usr/bin/openssl genrsa -out $node_dir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key 4096");
 
             if( -d "$node_dir/certs"){
-
                 # only the top-level dir will not have a certs dir , so this is a mid_ca (of some arbitrary level)
-
-                # Create a cert in .pem format
-                system("/usr/bin/openssl req -new -sha1 -days $tpldata->{'ca_default_days'} -key $node_dir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key  -out /$node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.csr -config /$node_dir/$param->{'ca_domain'}/openssl.cnf -batch");
-
+                
                 # Create a CSR to be signed by our parent
+                system("/usr/bin/openssl req -new -sha1 -days $tpldata->{'ca_default_days'} -key $node_dir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key  -out $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.csr -config $node_dir/$param->{'ca_domain'}/openssl.cnf -batch");
 
                 # Have the parent sign the CSR
+                system("/usr/bin/openssl ca -extensions v3_ca -days $tpldata->{'ca_default_days'} -out $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.crt -in $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.csr -config $node_dir/openssl.cnf -batch")
+
+                # Clean up the CSR
+                if(-f "$node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.crt"){
+                    unlink("$node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.csr");
+                }
+                # Determine the name of our parent CA
+                my $parent_name=$node_dir;
+                $parent_name=~s/.*\///;
 
                 # Write out the trust_chain
-
+                # cat mid-ca.${DOMAIN}.crt root-ca.${DOMAIN}.pem > ca_trust_chain.crt
+ 
             }else{
                 # only the top-level node_type is directory, so this is a root ca
                 # Create a self-signed cert in .pem format
