@@ -187,19 +187,32 @@ sub ca_create{
                 system("/usr/bin/openssl req -new -sha1 -days $tpldata->{'ca_default_days'} -key $node_dir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key  -out $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.csr -config $node_dir/$param->{'ca_domain'}/openssl.cnf -batch");
 
                 # Have the parent sign the CSR
-print STDERR "\n\n\n\n\n\n\n\n\n\n\n\n\n";
                 system("/usr/bin/openssl ca -extensions v3_ca -days $tpldata->{'ca_default_days'} -out $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.crt -in $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.csr -config $node_dir/openssl.cnf -batch");
-
-print STDERR "\n\n\n\n\n\n\n\n\n\n\n\n\n";
                 # Clean up the CSR
                 if(-f "$node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.crt"){
                     unlink("$node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.csr");
                 }
+
+                # Write out the PEM part to the .pem file
+                my $write=0;
+                my $rfh = FileHandle->new;
+                if ($rfh->open("< $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.crt")) {
+                    my $wfh = FileHandle->new("> $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.pem");
+                    if (defined $wfh) {
+                        while(my $line=<$rfh>){
+                            if($line=~m/-----BEGIN CERTIFICATE-----/){ $write=1; }
+                            if($write == 1){ print $wfh $line;}
+                            if($line=~m/-----END CERTIFICATE-----/){ $write=0; }
+                        }
+                         $wfh->close;
+                      
+                    }
+                    $rfh->close;
+                }
+
                 # Determine the name of our parent CA
                 my $parent_name=$node_dir;
                 $parent_name=~s/.*\///;
-
-                # Write out the PEM part to the .pem file
 
                 # Write out the trust_chain
                 # cat mid-ca.${DOMAIN}.crt root-ca.${DOMAIN}.pem > ca_trust_chain.crt
