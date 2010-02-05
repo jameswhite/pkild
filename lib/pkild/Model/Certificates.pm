@@ -197,6 +197,9 @@ sub ca_create{
                 my $parent_name=$node_dir;
                 $parent_name=~s/.*\///;
 
+                # Write out the PEM part to the .pem file
+               
+
                 # Write out the trust_chain
                 # cat mid-ca.${DOMAIN}.crt root-ca.${DOMAIN}.pem > ca_trust_chain.crt
  
