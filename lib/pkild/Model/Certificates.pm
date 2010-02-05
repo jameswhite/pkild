@@ -27,6 +27,8 @@ sub tree{
         next if $node=~m/\/.rnd$/;
         next if $node=~m/\/openssl.cnf$/;
         next if $node=~m/\/index.txt$/;
+        next if $node=~m/\/index.txt.old$/;
+        next if $node=~m/\/index.txt.attr$/;
         next if $node=~m/\/serial$/;
         next if $node=~m/\/serial.old$/;
         next if $node=~m/\/newcerts$/;
