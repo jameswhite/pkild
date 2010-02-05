@@ -116,13 +116,14 @@ sub ca_create{
     use FileHandle;
     use Template;
     my ($self, $param,$session)=@_;
-    my $rootdir="/".join("/",@{ $self->{'root_dir'}->{'dirs'} });
+    my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
 
     # convert the :: delimited node names into a path
     my $node_dir = $param->{'node_name'};
+    $node_dir=~s/new_root_ca/\//g; # get rid of the top node and make our root node_dir ""
     $node_dir=~s/::/\//g;
-    $node_dir=~s/\/[^\/]+$//g;
     $node_dir="$rootdir/$node_dir";
+
 print STDERR "\n\n-=[$node_dir]=-\n\n";
 
     my $template=Template->new();
