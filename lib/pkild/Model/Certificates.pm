@@ -121,7 +121,9 @@ sub ca_create{
     # convert the :: delimited node names into a path
     my $node_dir = $param->{'node_name'};
     $node_dir=~s/::/\//g;
+    $node_dir=~s/\/[^\/]+$//g;
     $node_dir="$rootdir/$node_dir";
+print STDERR "\n\n-=[$node_dir]=-\n\n";
 
     my $template=Template->new();
     my $tpldata;
