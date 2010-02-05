@@ -86,6 +86,26 @@ sub create_certificate{
     return $self;  
 }
 
+sub remove_certificate{
+    my ($self, $param,$session)=@_;
+    my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
+    # convert the :: delimited node names into a path
+    my $node_dir = $param->{'node_name'};
+    my @nodepart=split(/::/, $node_dir);
+    my $node_name=pop(@nodepart); pop(@nodepart);
+    my $parent_name=$nodepart[$#nodepart];
+    my $parent_dir="$rootdir/".join("/",@nodepart);
+    $node_dir=~s/::/\//g;
+    $node_dir="$rootdir/$node_dir";
+    opendir(my $dh, "$rootdir/$node_dir");
+    my @files = readdir($dh);
+    foreach my $file (@files){
+        unlink("$rootdir/$node_dir/$file");
+    }
+    closedir $dh;
+    rmdir "$rootdir/$node_dir"
+}
+
 sub revoke_certificate{
     my ($self, $param,$session)=@_;
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });

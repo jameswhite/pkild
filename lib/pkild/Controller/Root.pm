@@ -283,6 +283,8 @@ sub do_form : Global {
         $c->stash->{'result'} = $c->model('Certificates')->create_certificate($c->req->params,$c->session);
     }elsif($c->req->param('action_type') eq 'revoke_cert'){
         $c->stash->{'result'} = $c->model('Certificates')->revoke_certificate($c->req->params,$c->session);
+    }elsif($c->req->param('action_type') eq 'remove_cert'){
+        $c->stash->{'result'} = $c->model('Certificates')->remove_certificate($c->req->params,$c->session);
     }
     $c->stash->{'template'}="application.tt";
 }
