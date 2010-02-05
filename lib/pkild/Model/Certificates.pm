@@ -128,10 +128,30 @@ sub ca_create{
     my $tpldata;
     if($param->{'ca_domain'}){
         if( ! -d "$node_dir/$param->{'ca_domain'}" ){
+        
+            # Create our working environment
             umask(0077);
             mkdir("$node_dir/$param->{'ca_domain'}",0700); 
             mkdir("$node_dir/$param->{'ca_domain'}/private",0700); 
             mkdir("$node_dir/$param->{'ca_domain'}/certs",0700); 
+            mkdir("$node_dir/$param->{'ca_domain'}/newcerts",0700); 
+            mkdir("$node_dir/$param->{'ca_domain'}/crl",0700); 
+            # echo "01" > ${ROOT_CA}/serial
+            if(! -f $node_dir/$param->{'ca_domain'}/serial){
+                my $fh = FileHandle->new("> $node_dir/$param->{'ca_domain'}/serial");
+                if (defined $fh) {
+                    print $fh "01\n";
+                    $fh->close;
+                }
+            }
+            # cp /dev/null ${ROOT_CA}/index.txt
+            if(! -f $node_dir/$param->{'ca_domain'}/serial){
+                my $fh = FileHandle->new("> $node_dir/$param->{'ca_domain'}/index.txt");
+                if (defined $fh) {
+                    print $fh '';
+                    $fh->close;
+                }
+            }
             foreach my $key (keys(%{ $param } )){
                 $tpldata->{$key} = $param->{$key};
             }
