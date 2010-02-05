@@ -1,6 +1,6 @@
 forms:
   new_root_ca:
-    legend: Create New CA
+    legend: Create New Root Certificate Authority
     fields:
       - name: ca_domain
         prompt: Common Name:
@@ -41,12 +41,65 @@ forms:
         prompt: CA Certificate Lifetime (days)
         type: text
         width: 20
-        value: 365
+        value: 3650
       - name: crl_path
         prompt: Certificate Revocation List URI
         type: text
         width: 40
         value: "http://pki.example.org/example.org.crl"
+      - name: crl_days
+        prompt: Certificate Revocation List Expires Every (days)
+        type: text
+        width: 20
+        value: 30
+      - name: action_type
+        prompt: ~
+        type: hidden
+        value : new_ca
+      - name: update_cert_info
+        prompt: ~
+        type: submit
+        value : Create
+  new_mid_ca:
+    legend: Create New Intermediate Certificate Authority
+    fields:
+      - name: ca_domain
+        prompt: Common Name:
+        type: text
+        width: 20
+      - name: ca_email
+        prompt: Email:
+        type: text
+        width: 20
+      - name: ca_orgunit
+        prompt: Organizational Unit:
+        type: text
+        width: 20
+      - name: ca_org
+        prompt: Organization:
+        type: text
+        width: 20
+      - name: ca_localitiy
+        prompt: Locality:
+        type: text
+        width: 20
+      - name: ca_state
+        prompt: State:
+        type: text
+        width: 20
+      - name: ca_country
+        prompt: Country:
+        type: text
+        width: 20
+      - name: ca_default_days
+        prompt: CA Certificate Lifetime (days)
+        type: text
+        width: 20
+        value: 365
+      - name: crl_path
+        prompt: Certificate Revocation List URI
+        type: text
+        width: 40
       - name: crl_days
         prompt: Certificate Revocation List Expires Every (days)
         type: text
