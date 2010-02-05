@@ -23,7 +23,6 @@ sub tree{
     for my $node (@file_names){
         next if $node eq '.';
         # skip directories containing key data
-        next if $node=~m/\.ca$/;
         next if $node=~m/private$/;
         next if $node=~m/openssl.cnf$/;
         # We need to know if this is a file, or a directory
@@ -78,7 +77,6 @@ sub sign_certificate{
     $node_dir=~s/::/\//g;
     $node_dir=~s/certs$//g;
     $node_dir="$rootdir/$node_dir";
-print STDERR "\n\n-=[$node_dir]=--\n\n";
 
     # write out the csr to a temp file
     my $tmpdir = tempdir( 'CLEANUP' => 1 );
@@ -118,8 +116,7 @@ sub ca_create{
     use FileHandle;
     use Template;
     my ($self, $param,$session)=@_;
-    my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
-    $rootdir=~s/^\///;
+    my $rootdir="/".join("/",@{ $self->{'root_dir'}->{'dirs'} });
     my $template=Template->new();
     my $tpldata;
     if($param->{'ca_domain'}){
@@ -139,13 +136,8 @@ sub ca_create{
             $template->process(\$text,$tpldata,"/$rootdir/$param->{'ca_domain'}/openssl.cnf");
             system("/usr/bin/openssl genrsa -out /$rootdir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key");
             system("/usr/bin/openssl req -new -x509 -nodes -sha1 -days $tpldata->{'ca_default_days'} -key /$rootdir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key  -out /$rootdir/$param->{'ca_domain'}/$param->{'ca_domain'}.pem -config /$rootdir/$param->{'ca_domain'}/openssl.cnf -batch");
-            system("/usr/bin/openssl req -new -sha1 -days $tpldata->{'ca_default_days'} -key /$rootdir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key  -out /$rootdir/$param->{'ca_domain'}/$param->{'ca_domain'}.csr -config /$rootdir/$param->{'ca_domain'}/openssl.cnf -batch");
-            my $fh = FileHandle->new("> /$rootdir/$param->{'ca_domain'}/.ca");
-            if (defined $fh) {
-               print $fh "";
-               $fh->close;
-            }
-            chmod(0700, "/$rootdir/$param->{'ca_domain'}/.ca");
+            system("/usr/bin/openssl x509 -in $rootdir/$param->{'ca_domain'}/$param->{'ca_domain'}.pem -text -out $rootdir/$param->{'ca_domain'}/$param->{'ca_domain'}.crt");
+            #system("/usr/bin/openssl req -new -sha1 -days $tpldata->{'ca_default_days'} -key /$rootdir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key  -out /$rootdir/$param->{'ca_domain'}/$param->{'ca_domain'}.csr -config /$rootdir/$param->{'ca_domain'}/openssl.cnf -batch");
             return "SUCCESS";
         }
     }
