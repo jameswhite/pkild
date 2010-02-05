@@ -40,13 +40,14 @@ sub default : Private {
                            id       => $c->req->param("username"), 
                            password => $c->req->param("password") 
                          });
-        if(defined($c->user)){
-        $c->session->{'user'}=$c->user;
-        }else{
-            $c->stash->{'ERROR'}="Authentication Failed."; 
-            $c->forward('logout');
-        }
+    #    if(defined($c->user)){
+    #        $c->session->{'user'}=$c->user;
+    #    }else{
+    #        $c->stash->{'ERROR'}="Authentication Failed."; 
+    #        $c->forward('logout');
+    #    }
     }
+
     if(! defined($c->session->{'user')){
         $c->stash->{'ERROR'}="Please log in."; 
         $c->forward('logout');
