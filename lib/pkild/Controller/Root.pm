@@ -47,10 +47,10 @@ sub default : Private {
 #            $c->forward('logout');
 #        }
     }
-    if(! defined($c->session->{'user')){
-        $c->stash->{'ERROR'}="Please log in."; 
-        $c->forward('logout');
-    }
+#    if(! defined($c->session->{'user')){
+#        $c->stash->{'ERROR'}="Please log in."; 
+#        $c->forward('logout');
+#    }
     ############################################################################
     # Log us out if ?logout=1 was sent
     ############################################################################
