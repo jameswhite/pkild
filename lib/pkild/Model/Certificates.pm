@@ -117,27 +117,55 @@ sub ca_create{
     use Template;
     my ($self, $param,$session)=@_;
     my $rootdir="/".join("/",@{ $self->{'root_dir'}->{'dirs'} });
+
+    # convert the :: delimited node names into a path
+    my $node_dir = $param->{'node_name'};
+    $node_dir=~s/::/\//g;
+    $node_dir="$rootdir/$node_dir";
+
     my $template=Template->new();
     my $tpldata;
     if($param->{'ca_domain'}){
-        if( ! -d "$rootdir/$param->{'ca_domain'}" ){
+        if( ! -d "$node_dir/$param->{'ca_domain'}" ){
             umask(0077);
-            mkdir("$rootdir/$param->{'ca_domain'}",0700); 
-            mkdir("$rootdir/$param->{'ca_domain'}/private",0700); 
-            mkdir("$rootdir/$param->{'ca_domain'}/certs",0700); 
+            mkdir("$node_dir/$param->{'ca_domain'}",0700); 
+            mkdir("$node_dir/$param->{'ca_domain'}/private",0700); 
+            mkdir("$node_dir/$param->{'ca_domain'}/certs",0700); 
             foreach my $key (keys(%{ $param } )){
                 $tpldata->{$key} = $param->{$key};
             }
             foreach my $prefs (@{ $session->{'menudata'}->{'openssl_cnf_prefs'}->{'fields'} }){
                 $tpldata->{$prefs->{'name'}} = $prefs->{'value'};
             }
+          
+            # Create a new openssl.cnf for this CA
             my $text=$self->openssl_cnf_template(); 
-            $tpldata->{'cert_home_dir'}="/$rootdir/$param->{'ca_domain'}";
-            $template->process(\$text,$tpldata,"/$rootdir/$param->{'ca_domain'}/openssl.cnf");
-            system("/usr/bin/openssl genrsa -out /$rootdir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key");
-            system("/usr/bin/openssl req -new -x509 -nodes -sha1 -days $tpldata->{'ca_default_days'} -key /$rootdir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key  -out /$rootdir/$param->{'ca_domain'}/$param->{'ca_domain'}.pem -config /$rootdir/$param->{'ca_domain'}/openssl.cnf -batch");
-            system("/usr/bin/openssl x509 -in $rootdir/$param->{'ca_domain'}/$param->{'ca_domain'}.pem -text -out $rootdir/$param->{'ca_domain'}/$param->{'ca_domain'}.crt");
-            #system("/usr/bin/openssl req -new -sha1 -days $tpldata->{'ca_default_days'} -key /$rootdir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key  -out /$rootdir/$param->{'ca_domain'}/$param->{'ca_domain'}.csr -config /$rootdir/$param->{'ca_domain'}/openssl.cnf -batch");
+            $tpldata->{'cert_home_dir'}="$node_dir/$param->{'ca_domain'}";
+            $template->process(\$text,$tpldata,"$node_dir/$param->{'ca_domain'}/openssl.cnf");
+
+            # Create the private key
+            system("/usr/bin/openssl genrsa -out $node_dir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key 4096");
+
+            if($self->node_type($node_dir) eq "ca"){
+                # only the top-level node_type is directory, so this is a mid_ca (of some arbitrary level)
+
+                # Create a cert in .pem format
+                system("/usr/bin/openssl req -new -sha1 -days $tpldata->{'ca_default_days'} -key $node_dir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key  -out /$node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.csr -config /$node_dir/$param->{'ca_domain'}/openssl.cnf -batch");
+
+                # Create a CSR to be signed by our parent
+
+                # Have the parent sign the CSR
+
+                # Write out the trust_chain
+
+            }else{
+                # only the top-level node_type is directory, so this is a root ca
+                # Create a self-signed cert in .pem format
+                system("/usr/bin/openssl req -new -x509 -nodes -sha1 -days $tpldata->{'ca_default_days'} -key $node_dir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key  -out /$node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.pem -config /$node_dir/$param->{'ca_domain'}/openssl.cnf -batch");
+
+            # Write out the cert in x509 
+            system("/usr/bin/openssl x509 -in $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.pem -text -out $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.crt");
+            #system("/usr/bin/openssl req -new -sha1 -days $tpldata->{'ca_default_days'} -key /$node_dir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key  -out /$node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.csr -config /$node_dir/$param->{'ca_domain'}/openssl.cnf -batch");
             return "SUCCESS";
         }
     }
