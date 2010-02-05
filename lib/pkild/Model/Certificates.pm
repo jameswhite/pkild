@@ -231,8 +231,9 @@ sub ca_create{
             }
             
             # In any event, create the empty certificate revocation list
+print STDERR "\n\n\n\n\n\n\n\n";
             system("/usr/bin/openssl ca -gencrl -keyfile $node_dir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key -cert $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.pem -out $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.crl");
-
+print STDERR "\n\n\n\n\n\n\n\n";
             # To Revoke: (run this and then regenerate the CRL with the command above, copy it to it's URI)
             #system("/usr/bin/openssl ca -revoke <PATH/TO/BAD_CERT> -keyfile $node_dir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key -cert $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.pem");
             return "SUCCESS";
