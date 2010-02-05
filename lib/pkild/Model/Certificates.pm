@@ -122,7 +122,7 @@ sub sign_certificate{
         $csrfh->close;
     }
     # sign the csr and write it out as a ${cn}.crt int the node directory
-    system("/usr/bin/openssl -config $node_dir/openssl.cnf -policy policy_anything -out $node_dir/certs/$param->{'ca_domain'}/$param->{'ca_domain'}.crt -batch -infiles $node_dir/certs/$param->{'ca_domain'}/$param->{'ca_domain'}.csr");
+    system("/usr/bin/openssl ca -config $node_dir/openssl.cnf -policy policy_anything -out $node_dir/certs/$param->{'ca_domain'}/$param->{'ca_domain'}.crt -batch -infiles $node_dir/certs/$param->{'ca_domain'}/$param->{'ca_domain'}.csr");
     return "SUCCESS";
 }
 
