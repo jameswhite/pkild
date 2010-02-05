@@ -198,20 +198,19 @@ sub ca_create{
                 $parent_name=~s/.*\///;
 
                 # Write out the PEM part to the .pem file
-               
 
                 # Write out the trust_chain
                 # cat mid-ca.${DOMAIN}.crt root-ca.${DOMAIN}.pem > ca_trust_chain.crt
  
             }else{
                 # only the top-level node_type is directory, so this is a root ca
+
                 # Create a self-signed cert in .pem format
                 system("/usr/bin/openssl req -new -x509 -nodes -sha1 -days $tpldata->{'ca_default_days'} -key $node_dir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key  -out /$node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.pem -config /$node_dir/$param->{'ca_domain'}/openssl.cnf -batch");
 
+                # Write out the cert in x509 
+                system("/usr/bin/openssl x509 -in $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.pem -text -out $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.crt");
             }
-            # Write out the cert in x509 
-            system("/usr/bin/openssl x509 -in $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.pem -text -out $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.crt");
-            #system("/usr/bin/openssl req -new -sha1 -days $tpldata->{'ca_default_days'} -key /$node_dir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key  -out /$node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.csr -config /$node_dir/$param->{'ca_domain'}/openssl.cnf -batch");
             return "SUCCESS";
         }
     }
