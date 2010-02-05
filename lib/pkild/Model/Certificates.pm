@@ -74,11 +74,11 @@ sub sign_certificate{
     my $rootdir="/".join("/",@{ $self->{'root_dir'}->{'dirs'} });
     
     # convert the :: delimited node names into a path
-    my $node="$param->{'node_name'}";
-    my $node_dir=$node;
-    $node_dir=~s/::/\/g;
+    my $node_dir = $param->{'node_name'};
+    $node_dir=~s/\:\:/\/g;
     $node_dir=~s/certs$//g;
     $node_dir="$root_dir/$node_dir";
+print STDERR "\n\n-=[$node_dir]=--\n\n";
 
     # write out the csr to a temp file
     my $tmpdir = tempdir( 'CLEANUP' => 1 );
