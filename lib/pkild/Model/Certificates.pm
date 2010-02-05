@@ -29,10 +29,13 @@ sub tree{
         next if $node=~m/\/index.txt$/;
         next if $node=~m/\/index.txt.old$/;
         next if $node=~m/\/index.txt.attr$/;
+        next if $node=~m/\/index.txt.attr.old$/;
         next if $node=~m/\/serial$/;
         next if $node=~m/\/serial.old$/;
         next if $node=~m/\/newcerts$/;
         next if $node=~m/\/crl$/;
+        next if $node=~m/\.pem$/;
+        next if $node=~m/\.csr$/;
         # We need to know if this is a file, or a directory
         $type="unknown";
         if( -d $node){ $type="folder"; }
