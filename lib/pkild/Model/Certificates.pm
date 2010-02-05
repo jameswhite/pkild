@@ -89,10 +89,11 @@ sub create_certificate{
 
 sub revoke_certificate{
     my ($self, $param,$session)=@_;
+    my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
 
     # convert the :: delimited node names into a path
     my $node_dir = $param->{'node_name'};
-    my @nodepart=split(/::/, $node);
+    my @nodepart=split(/::/, $node_dir);
     my $node_name=pop(@nodepart); pop(@nodepart);
     my $parent_name=$nodepart[$#nodepart];
     my $parent_dir="$rootdir/".join("/",$nodepart);
