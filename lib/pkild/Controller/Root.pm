@@ -44,6 +44,7 @@ sub default : Private {
             $c->session->{'user'}=$c->user;
         }else{
             $c->stash->{'ERROR'}="Authentication Failed."; 
+            $c->forward('logout');
         }
     }
 
@@ -178,7 +179,7 @@ sub logout : Global {
     $c->delete_session("logout");
 
     # send us home, so subsequent page refreshes won't post logout
-    $c->res->redirect($c->request->headers->referer);
+    $c->res->redirect("/pkild/");
     $c->detach();
 }
 
