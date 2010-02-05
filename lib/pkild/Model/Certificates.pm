@@ -228,7 +228,7 @@ ca-domain = [\% ca_domain \%]
 [ ca ]
 default_ca = CA_default # The default ca section
 [ CA_default ]
-dir = .
+dir = \${HOME}
 certs = \$dir/certs
 crl_dir = \$dir/crl
 database = \$dir/index.txt
