@@ -123,9 +123,6 @@ sub ca_create{
     $node_dir=~s/new_root_ca/\//g; # get rid of the top node and make our root node_dir ""
     $node_dir=~s/::/\//g;
     $node_dir="$rootdir/$node_dir";
-
-print STDERR "\n\n-=[$node_dir]=-\n\n";
-
     my $template=Template->new();
     my $tpldata;
     if($param->{'ca_domain'}){
@@ -149,8 +146,9 @@ print STDERR "\n\n-=[$node_dir]=-\n\n";
             # Create the private key
             system("/usr/bin/openssl genrsa -out $node_dir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key 4096");
 
-            if($self->node_type($node_dir) eq "ca"){
-                # only the top-level node_type is directory, so this is a mid_ca (of some arbitrary level)
+            if( -d "$node_dir/certs"){
+
+                # only the top-level dir will not have a certs dir , so this is a mid_ca (of some arbitrary level)
 
                 # Create a cert in .pem format
                 system("/usr/bin/openssl req -new -sha1 -days $tpldata->{'ca_default_days'} -key $node_dir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key  -out /$node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.csr -config /$node_dir/$param->{'ca_domain'}/openssl.cnf -batch");
