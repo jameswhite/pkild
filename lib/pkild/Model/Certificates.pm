@@ -97,15 +97,15 @@ sub remove_certificate{
     my $parent_dir="$rootdir/".join("/",@nodepart);
     $node_dir=~s/::/\//g;
     $node_dir="$rootdir/$node_dir";
-    opendir(my $dh, "$rootdir/$node_dir");
+    opendir(my $dh, "$node_dir");
     my @files = readdir($dh);
     foreach my $file (@files){
-        unlink("$rootdir/$node_dir/$file");
-        print STDERR "\n\n\nunlink($rootdir/$node_dir/$file\n\n\n";
+        unlink("$node_dir/$file");
+        print STDERR "\n\n\nunlink($node_dir/$file\n\n\n";
     }
     closedir $dh;
-    rmdir "$rootdir/$node_dir";
-    print STDERR "\n\n\nrmdir $rootdir/$node_dir\n\n\n";
+    rmdir "$node_dir";
+    print STDERR "\n\n\nrmdir $node_dir\n\n\n";
 }
 
 sub revoke_certificate{
