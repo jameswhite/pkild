@@ -101,7 +101,11 @@ sub sign_certificate{
         print $csrfh $param->{'csr_input'};
         $csrfh->close;
     }
-    # sign the csr with "openssl ca -extensions v3_ca -days ${lifetime} -passin fd:0 -out mid-ca.${DOMAIN}.crt -in mid-ca.${DOMAIN}.csr -config root-openssl.cnf -batch
+    # sign the csr 
+    #system("openssl ca -extensions v3_ca -days ${lifetime}  
+    #                   -out mid-ca.${DOMAIN}.crt 
+    #                   -in mid-ca.${DOMAIN}.csr 
+    #                   -config root-openssl.cnf -batch
     # write it out as a ${cn}.crt int the node directory
     return "SUCCESS";
 }
@@ -144,13 +148,17 @@ sub ca_create{
     return "ERROR";
 }
 
+# by convention, all CAs have a subdir named "certs" and others don't
 sub node_type{
     my ($self, $node)=@_;
     $node =~s/::/\//g;
     my $rootdir="/".join("/",@{ $self->{'root_dir'}->{'dirs'} });
     if(-f "$rootdir/$node"){ return "file"; }
     if(-d "$rootdir/$node"){ 
-        if(-f "$rootdir/$node/.ca"){ return "ca"; }
+        if(-d "$rootdir/$node/certs"){ return "ca"; }
+        my $isacertbucket="$rootdir/$node";
+        $isacertbucket=~s/.*\///;
+        if($isacertbucket eq "certs") { return "certs"; }
         return "directory"; 
     }
     return undef;
