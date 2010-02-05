@@ -101,11 +101,9 @@ sub remove_certificate{
     my @files = readdir($dh);
     foreach my $file (@files){
         unlink("$node_dir/$file");
-        print STDERR "\n\n\nunlink($node_dir/$file\n\n\n";
     }
     closedir $dh;
     rmdir "$node_dir";
-    print STDERR "\n\n\nrmdir $node_dir\n\n\n";
 }
 
 sub revoke_certificate{
