@@ -229,6 +229,12 @@ sub ca_create{
                 # Write out the cert in x509 
                 system("/usr/bin/openssl x509 -in $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.pem -text -out $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.crt");
             }
+            
+            # In any event, create the empty certificate revocation list
+            system("/usr/bin/openssl ca -gencrl -keyfile $node_dir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key -cert $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.pem -out $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.crl");
+
+            # To Revoke: (run this and then regenerate the CRL with the command above, copy it to it's URI)
+            #system("/usr/bin/openssl ca -revoke <PATH/TO/BAD_CERT> -keyfile $node_dir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key -cert $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.pem");
             return "SUCCESS";
         }
     }
