@@ -94,11 +94,11 @@ sub sign_certificate{
     if(! -d "$rootdir/$param->{'node_name'}/certs/$common_name"){
         mkdir("$rootdir/$param->{'node_name'}/certs/$common_name",0700);
     }
-    $csrfh = FileHandle->new("> $rootdir/$param->{'node_name'}/certs/$common_name/$common_name.csr");
+    my $csrfh = FileHandle->new("> $rootdir/$param->{'node_name'}/certs/$common_name/$common_name.csr");
     # write out the csr to ${cn}.csr in the node directory
-    if (defined $fh) {
-        print $fh $param->{'csr_input'};
-        $fh->close;
+    if (defined $csrfh) {
+        print $csrfh $param->{'csr_input'};
+        $csrfh->close;
     }
     # sign the csr with "openssl ca -extensions v3_ca -days ${lifetime} -passin fd:0 -out mid-ca.${DOMAIN}.crt -in mid-ca.${DOMAIN}.csr -config root-openssl.cnf -batch
     # write it out as a ${cn}.crt int the node directory
