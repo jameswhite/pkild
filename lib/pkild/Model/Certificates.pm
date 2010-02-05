@@ -27,11 +27,10 @@ sub tree{
         next if $node=~m/\/.rnd$/;
         next if $node=~m/\/openssl.cnf$/;
         next if $node=~m/\/index.txt$/;
-        next if $node=~m/\/index.txt.old$/;
-        next if $node=~m/\/index.txt.attr$/;
-        next if $node=~m/\/index.txt.attr.old$/;
         next if $node=~m/\/serial$/;
-        next if $node=~m/\/serial.old$/;
+        next if $node=~m/\/crlnumber$/;
+        next if $node=~m/\.old$/;
+        next if $node=~m/\.attr$/;
         next if $node=~m/\/newcerts$/;
         next if $node=~m/\/crl$/;
         next if $node=~m/\.pem$/;
@@ -181,6 +180,14 @@ sub ca_create{
             # echo "01" > ${ROOT_CA}/serial
             if(! -f "$node_dir/$param->{'ca_domain'}/serial"){
                 my $fh = FileHandle->new("> $node_dir/$param->{'ca_domain'}/serial");
+                if (defined $fh) {
+                    print $fh "01\n";
+                    $fh->close;
+                }
+            }
+            # echo "01" > ${ROOT_CA}/crlnumber
+            if(! -f "$node_dir/$param->{'ca_domain'}/crlnumber"){
+                my $fh = FileHandle->new("> $node_dir/$param->{'ca_domain'}/crlnumber");
                 if (defined $fh) {
                     print $fh "01\n";
                     $fh->close;
