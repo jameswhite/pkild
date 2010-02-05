@@ -99,16 +99,14 @@ sub revoke_certificate{
     $node_dir=~s/::/\//g;
     $node_dir="$rootdir/$node_dir";
 
-print STDERR "\n\n\n\n\n\n\n\n";
     # Revoke the Certificate (updates the Index)
     system("/usr/bin/openssl ca -revoke $node_dir/$node_name.crt -keyfile $parent_dir/private/$parent_name.key -cert $parent_dir/$parent_name.pem -config $parent_dir/openssl.cnf");
-    print STDERR "/usr/bin/openssl ca -revoke $node_dir/$node_name.crt -keyfile $parent_dir/private/$parent_name.key -cert $parent_dir/$parent_name.pem -config $parent_dir/openssl.cnf";
-    
-print STDERR "\n\n\n\n\n\n\n\n";
 
+    # update the Certificate Revocation list
     system("/usr/bin/openssl ca -gencrl -keyfile $parent_dir/private/$parent_name.key -cert $parent_dir/$parent_name.pem -config $parent_dir/openssl.cnf -out $parent_dir/$parent_name.crl");
-     print STDERR "/usr/bin/openssl ca -gencrl -keyfile $parent_dir/private/$parent_name.key -cert $parent_dir/$parent_name.pem -config $parent_dir/openssl.cnf -out $parent_dir/$parent_name.crl";
-print STDERR "\n\n\n\n\n\n\n\n";
+
+    # Rename the cert to indicate it has been revoked
+    rename("$node_dir/$node_name.crt","$node_dir/$node_name.revoked");
     return $self;  
 }
 
