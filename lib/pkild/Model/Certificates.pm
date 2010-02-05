@@ -73,8 +73,12 @@ sub sign_certificate{
     my ($self, $param,$session)=@_;
     my $rootdir="/".join("/",@{ $self->{'root_dir'}->{'dirs'} });
     
-    # $param->{'node_name'};
-    # $param->{'csr_input'};
+    # convert the :: delimited node names into a path
+    my $node="$param->{'node_name'}";
+    my $node_dir=$node;
+    $node_dir=~s/::/\/g;
+    $node_dir=~s/certs$//g;
+    $node_dir="$root_dir/$node_dir";
 
     # write out the csr to a temp file
     my $tmpdir = tempdir( 'CLEANUP' => 1 );
@@ -92,10 +96,10 @@ sub sign_certificate{
     }
     # delete the temp file
     # create the $root/$param->{'node_name'};/$cn  directory
-    if(! -d "$rootdir/$param->{'node_name'}/certs/$common_name"){
-        mkdir("$rootdir/$param->{'node_name'}/certs/$common_name",0700);
+    if(! -d "$node_dir/certs/$common_name"){
+        mkdir("$node_dir/certs/$common_name",0700);
     }
-    my $csrfh = FileHandle->new("> $rootdir/$param->{'node_name'}/certs/$common_name/$common_name.csr");
+    my $csrfh = FileHandle->new("> $node_dir/certs/$common_name/$common_name.csr");
     # write out the csr to ${cn}.csr in the node directory
     if (defined $csrfh) {
         print $csrfh $param->{'csr_input'};

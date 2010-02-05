@@ -95,7 +95,7 @@ forms:
         prompt: CA Certificate Lifetime (days)
         type: text
         width: 20
-        value: 365
+        value: 1825
       - name: crl_path
         prompt: Certificate Revocation List URI
         type: text
