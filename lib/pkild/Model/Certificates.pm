@@ -69,10 +69,22 @@ sub tree{
 
 sub sign_certificate{
     use FileHandle;
+    use File::Temp qq( tempfile tempdir );
     my ($self, $param,$session)=@_;
+    my $rootdir="/".join("/",@{ $self->{'root_dir'}->{'dirs'} });
+    
     # $param->{'node_name'};
     # $param->{'csr_input'};
+
     # write out the csr to a temp file
+    my $tmpdir = tempdir( 'CLEANUP' => 1 );
+    my ($fh, $filename) = tempfile( 'DIR' => $tmpdir );
+    print $fh $param->{'csr_input'};
+    open(GETCN, "/usr/bin/openssl req -in $filename -noout -text | ");
+    while(my $line=<GETCN>){
+        print STDERR $line;
+    }
+#grep "Subject:" | sed -e 's/.*CN=//g' -e 's/\/.*//g'|");
     # get the CN with openssl req -in $temp_file -noout -text | grep "Subject:" | sed -e 's/.*CN=//g' -e 's/\/.*//g'
     # delete the temp file
     # create the $root/$param->{'node_name'};/$cn  directory
