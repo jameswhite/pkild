@@ -122,8 +122,10 @@ sub sign_certificate{
         $csrfh->close;
     }
     # sign the csr and write it out as a ${cn}.crt int the node directory
-    print STDERR "\n\n\n\n\n\n\n\n\n/usr/bin/openssl ca -config $node_dir/openssl.cnf -policy policy_anything -out $node_dir/certs/$param->{'ca_domain'}/$param->{'ca_domain'}.crt -batch -infiles $node_dir/certs/$param->{'ca_domain'}/$param->{'ca_domain'}.csr\n\n\n\n\n\n\n\n\n\n\n";
-    system("/usr/bin/openssl ca -config $node_dir/openssl.cnf -policy policy_anything -out $node_dir/certs/$param->{'ca_domain'}/$param->{'ca_domain'}.crt -batch -infiles $node_dir/certs/$param->{'ca_domain'}/$param->{'ca_domain'}.csr");
+    print STDERR "\n\n\n\n\n\n\n\n\n";
+    print STDERR "/usr/bin/openssl ca -config $node_dir/openssl.cnf -policy policy_anything -out $node_dir/certs/$common_name/$common_name.crt -batch -infiles $node_dir/certs/$common_name/$common_name.csr";
+print STDERRR "\n\n\n\n\n\n\n\n\n\n\n";
+    system("/usr/bin/openssl ca -config $node_dir/openssl.cnf -policy policy_anything -out $node_dir/certs/$common_name/$common_name.crt -batch -infiles $node_dir/certs/$common_name/$common_name.csr");
     return "SUCCESS";
 }
 
