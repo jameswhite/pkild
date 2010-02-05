@@ -77,7 +77,7 @@ sub sign_certificate{
     my $node_dir = $param->{'node_name'};
     $node_dir=~s/::/\//g;
     $node_dir=~s/certs$//g;
-    $node_dir="$root_dir/$node_dir";
+    $node_dir="$rootdir/$node_dir";
 print STDERR "\n\n-=[$node_dir]=--\n\n";
 
     # write out the csr to a temp file
