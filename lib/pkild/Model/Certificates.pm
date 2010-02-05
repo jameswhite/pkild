@@ -87,6 +87,31 @@ sub create_certificate{
     return $self;  
 }
 
+sub revoke_certificate{
+    my ($self, $param,$session)=@_;
+
+    # convert the :: delimited node names into a path
+    my $node_dir = $param->{'node_name'};
+    my @nodepart=split(/::/, $node);
+    my $node_name=pop(@nodepart); pop(@nodepart);
+    my $parent_name=$nodepart[$#nodepart];
+    my $parent_dir="$rootdir/".join("/",$nodepart);
+    $node_dir=~s/::/\//g;
+    $node_dir="$rootdir/$node_dir";
+
+print STDERR "\n\n\n\n\n\n\n\n";
+    # Revoke the Certificate (updates the Index)
+    system("/usr/bin/openssl ca -revoke $node_dir/$node_name.crt -keyfile $parent_dir/private/$parent_name.key -cert $parent_dir/$parent_name.pem -config $parent_dir/openssl.cnf");
+    print STDERR "/usr/bin/openssl ca -revoke $node_dir/$node_name.crt -keyfile $parent_dir/private/$parent_name.key -cert $parent_dir/$parent_name.pem -config $parent_dir/openssl.cnf";
+    
+print STDERR "\n\n\n\n\n\n\n\n";
+
+    system("/usr/bin/openssl ca -gencrl -keyfile $parent_dir/private/$parent_name.key -cert $parent_dir/$parent_name.pem -config $parent_dir/openssl.cnf -out $parent_dir/$parent_name.crl");
+     print STDERR "/usr/bin/openssl ca -gencrl -keyfile $parent_dir/private/$parent_name.key -cert $parent_dir/$parent_name.pem -config $parent_dir/openssl.cnf -out $parent_dir/$parent_name.crl";
+print STDERR "\n\n\n\n\n\n\n\n";
+    return $self;  
+}
+
 sub sign_certificate{
     use FileHandle;
     use File::Temp qw/ tempfile tempdir /;
@@ -231,9 +256,7 @@ sub ca_create{
             }
             
             # In any event, create the empty certificate revocation list
-print STDERR "\n\n\n\n\n\n\n\n";
             system("/usr/bin/openssl ca -gencrl -keyfile $node_dir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key -cert $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.pem -config $node_dir/$param->{'ca_domain'}/openssl.cnf -out $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.crl");
-print STDERR "\n\n\n\n\n\n\n\n";
             # To Revoke: (run this and then regenerate the CRL with the command above, copy it to it's URI)
             #system("/usr/bin/openssl ca -revoke <PATH/TO/BAD_CERT> -keyfile $node_dir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key -cert $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.pem -config $node_dir/$param->{'ca_domain'}/openssl.cnf");
             return "SUCCESS";
