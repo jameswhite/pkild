@@ -306,6 +306,7 @@ print STDERR "entering node_type\n";
     $node =~s/$self->{'node_separator'}/\//g;
     my $rootdir="/".join("/",@{ $self->{'root_dir'}->{'dirs'} });
 print STDERR "-=[ $rootdir/$node ]=-\n";
+    if("node" eq "new_root_ca"){ print STDERR "node_type:: root\n"; return "root"; }
     if(-f "$rootdir/$node"){ print STDERR "node_type:: file\n"; return "file"; }
     if(-d "$rootdir/$node"){ 
         if(-d "$rootdir/$node/certs"){ print STDERR "node_type:: ca\n"; return "ca"; }

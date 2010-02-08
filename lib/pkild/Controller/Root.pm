@@ -225,7 +225,8 @@ sub drawform : Global {
     # select the template from the template pool based on what
     # was selected and render it. 
     ############################################################
-    my $menu = $c->session->{'current_node'};
+    my $menu = "new_root_ca";
+    if($c->model('Certificates')->node_type($menu) eq "root"){ $menu='new_root_ca'; }
     if($c->model('Certificates')->node_type($menu) eq "certs"){ $menu='sign'; }
     if($c->model('Certificates')->node_type($menu) eq "certificate"){ $menu='revoke'; }
     if($c->model('Certificates')->node_type($menu) eq "revoked_certificate"){ $menu='remove'; }
