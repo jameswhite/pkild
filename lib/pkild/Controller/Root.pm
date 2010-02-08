@@ -199,14 +199,14 @@ sub jstreemenu : Local {
 #        );
     push( @{ $menu_tree },
           { 
-            'attributes' => { 'id' =>  "new_root_ca" },
+            'attributes' => { 'id' =>  unpack("H*","new_root_ca") },
             'data' => { 'title' => 'Root Certificate Authorities', 'icon' => 'createnew'},
             'children' => $certificate_tree
           }
         );
     push( @{ $menu_tree },
           { 
-            'attributes' => { 'id' =>  "new_cert" },
+            'attributes' => { 'id' =>  unpack("H*","new_cert") },
             'data' => { 'title' => 'Certificates', 'icon' => 'createnew'},
           }
         );
