@@ -226,11 +226,11 @@ sub drawform : Global {
     # was selected and render it. 
     ############################################################
     my $menu = "new_root_ca";
-    if($c->model('Certificates')->node_type($menu) eq "root"){ $menu='new_root_ca'; }
-    if($c->model('Certificates')->node_type($menu) eq "certs"){ $menu='sign'; }
-    if($c->model('Certificates')->node_type($menu) eq "certificate"){ $menu='revoke'; }
-    if($c->model('Certificates')->node_type($menu) eq "revoked_certificate"){ $menu='remove'; }
-    if($c->model('Certificates')->node_type($menu) eq "ca"){ 
+    if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "root"){ $menu='new_root_ca'; }
+    if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "certs"){ $menu='sign'; }
+    if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "certificate"){ $menu='revoke'; }
+    if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "revoked_certificate"){ $menu='remove'; }
+    if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "ca"){ 
         $menu='new_mid_ca'; 
         # load the new_mid_ca form data with the parent node's values if the mid-ca form has not defined them yet
         foreach my $root_field (@{ $c->session->{'menudata'}->{'new_root_ca'}->{'fields'} }){
