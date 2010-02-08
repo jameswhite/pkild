@@ -284,16 +284,18 @@ sub renderfile : Global {
 
 sub do_form : Global {
     my ( $self, $c ) = @_;
-    if($c->req->param('action_type') eq 'new_ca'){
-        $c->stash->{'result'} = $c->model('Certificates')->ca_create($c->req->params,$c->session);
-    }elsif($c->req->param('action_type') eq 'sign_cert'){
-        $c->stash->{'result'} = $c->model('Certificates')->sign_certificate($c->req->params,$c->session);
-    }elsif($c->req->param('action_type') eq 'create_cert'){
-        $c->stash->{'result'} = $c->model('Certificates')->create_certificate($c->req->params,$c->session);
-    }elsif($c->req->param('action_type') eq 'revoke_cert'){
-        $c->stash->{'result'} = $c->model('Certificates')->revoke_certificate($c->req->params,$c->session);
-    }elsif($c->req->param('action_type') eq 'remove_cert'){
-        $c->stash->{'result'} = $c->model('Certificates')->remove_certificate($c->req->params,$c->session);
+    if($c->req->param('action_type')){
+        if($c->req->param('action_type') eq 'new_ca'){
+            $c->stash->{'result'} = $c->model('Certificates')->ca_create($c->req->params,$c->session);
+        }elsif($c->req->param('action_type') eq 'sign_cert'){
+            $c->stash->{'result'} = $c->model('Certificates')->sign_certificate($c->req->params,$c->session);
+        }elsif($c->req->param('action_type') eq 'create_cert'){
+            $c->stash->{'result'} = $c->model('Certificates')->create_certificate($c->req->params,$c->session);
+        }elsif($c->req->param('action_type') eq 'revoke_cert'){
+            $c->stash->{'result'} = $c->model('Certificates')->revoke_certificate($c->req->params,$c->session);
+        }elsif($c->req->param('action_type') eq 'remove_cert'){
+            $c->stash->{'result'} = $c->model('Certificates')->remove_certificate($c->req->params,$c->session);
+        }
     }
     $c->stash->{'template'}="application.tt";
 }
