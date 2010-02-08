@@ -206,7 +206,7 @@ sub jstreemenu : Local {
     push( @{ $menu_tree },
           { 
             'attributes' => { 'id' =>  unpack("H*","new_cert") },
-            'data' => { 'title' => 'Certificates', 'icon' => 'createnew'},
+            'data' => { 'title' => 'My Certificate', 'icon' => 'createnew'},
           }
         );
     push( @{ $menu_tree },
