@@ -306,6 +306,7 @@ sub node_type{
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     if($node eq "new_root_ca"){ return "new_root_ca"; }
     if($node eq "new_cert"){ return "new_cert"; }
+    if($node eq "logout"){ return "logout"; }
     if(-f "$rootdir/$node"){ return "file"; }
     if(-d "$rootdir/$node"){ 
         if(-d "$rootdir/$node/certs"){ return "ca"; }
