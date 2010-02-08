@@ -75,6 +75,8 @@ sub default : Private {
                         }else{
                             $c->forward('drawform');
                         }
+                    }else{
+                        $c->forward('drawform');
                     }
                 }elsif($c->request->arguments->[1] eq "open" ){
                     ############################################################
