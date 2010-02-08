@@ -89,13 +89,13 @@ sub create_certificate{
 sub remove_certificate{
     my ($self, $param,$session)=@_;
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
-    # convert the :: delimited node names into a path
+    # convert the $self->{'node_separator'} delimited node names into a path
     my $node_dir = $param->{'node_name'};
-    my @nodepart=split(/::/, $node_dir);
+    my @nodepart=split(/$self->{'node_separator'}/, $node_dir);
     my $node_name=pop(@nodepart); pop(@nodepart);
     my $parent_name=$nodepart[$#nodepart];
     my $parent_dir="$rootdir/".join("/",@nodepart);
-    $node_dir=~s/::/\//g;
+    $node_dir=~s/$self->{'node_separator'}/\//g;
     $node_dir="$rootdir/$node_dir";
     opendir(my $dh, "$node_dir");
     my @files = readdir($dh);
@@ -110,13 +110,13 @@ sub revoke_certificate{
     my ($self, $param,$session)=@_;
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
 
-    # convert the :: delimited node names into a path
+    # convert the $self->{'node_separator'} delimited node names into a path
     my $node_dir = $param->{'node_name'};
-    my @nodepart=split(/::/, $node_dir);
+    my @nodepart=split(/$self->{'node_separator'}/, $node_dir);
     my $node_name=pop(@nodepart); pop(@nodepart);
     my $parent_name=$nodepart[$#nodepart];
     my $parent_dir="$rootdir/".join("/",@nodepart);
-    $node_dir=~s/::/\//g;
+    $node_dir=~s/$self->{'node_separator'}/\//g;
     $node_dir="$rootdir/$node_dir";
 
     # Revoke the Certificate (updates the Index)
@@ -136,9 +136,9 @@ sub sign_certificate{
     my ($self, $param,$session)=@_;
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     
-    # convert the :: delimited node names into a path
+    # convert the $self->{'node_separator'} delimited node names into a path
     my $node_dir = $param->{'node_name'};
-    $node_dir=~s/::/\//g;
+    $node_dir=~s/$self->{'node_separator'}/\//g;
     $node_dir=~s/certs$//g;
     $node_dir="$rootdir/$node_dir";
 
@@ -178,10 +178,10 @@ sub ca_create{
     my ($self, $param,$session)=@_;
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
 
-    # convert the :: delimited node names into a path
+    # convert the $self->{'node_separator'} delimited node names into a path
     my $node_dir = $param->{'node_name'};
     $node_dir=~s/new_root_ca/\//g; # get rid of the top node and make our root node_dir ""
-    $node_dir=~s/::/\//g;
+    $node_dir=~s/$self->{'node_separator'}/\//g;
     $node_dir="$rootdir/$node_dir";
     my $template=Template->new();
     my $tpldata;
@@ -294,8 +294,8 @@ sub ca_create{
 # by convention, all CAs have a subdir named "certs" and others don't
 sub node_type{
     my ($self, $node)=@_;
-    my @nodepart=split(/::/, $node);
-    $node =~s/::/\//g;
+    my @nodepart=split(/$self->{'node_separator'}/, $node);
+    $node =~s/$self->{'node_separator'}/\//g;
     my $rootdir="/".join("/",@{ $self->{'root_dir'}->{'dirs'} });
     if(-f "$rootdir/$node"){ return "file"; }
     if(-d "$rootdir/$node"){ 
@@ -317,7 +317,7 @@ sub node_type{
 sub contents{
     use FileHandle;
     my ($self, $node)=@_;
-    $node =~s/::/\//g;
+    $node =~s/$self->{'node_separator'}/\//g;
     my $rootdir="/".join("/",@{ $self->{'root_dir'}->{'dirs'} });
     my $contents='';
     if(-f "$rootdir/$node"){ 
