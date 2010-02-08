@@ -220,8 +220,7 @@ sub jstreemenu : Local {
 
 sub drawform : Global {
     my ( $self, $c ) = @_;
-    $c->session->{'current_node'} = pack("H*",$c->request->arguments->[2]);
-print STDERR "\n\n\n".$c->session->{'current_node'}."-->".$c->request->arguments->[2]."\n\n\n";
+    $c->session->{'current_node'} = $c->request->arguments->[2];
     ############################################################
     # select the template from the template pool based on what
     # was selected and render it. 
