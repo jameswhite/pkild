@@ -45,7 +45,7 @@ sub tree{
             my @nodeparts=split("\/",$node);
             $node=~s/\//$self->{'node_separator'}/g;
             $tree->{$node} = { 
-                               'attributes' => { 'id' => $node, 'rel' => $type },
+                               'attributes' => { 'id' => unpack("H*",$node), 'rel' => $type },
                                'data'       => $nodeparts[$#nodeparts],
                              };
             pop(@nodeparts);
@@ -76,6 +76,12 @@ sub tree{
     return $tree->{''}->{'children'};
 }
 
+sub actual_node{
+    my $self=shift;
+    my $unpacked_node=shift;
+    return pack("H*",$unpacked_node);
+}
+
 sub create_certificate{
     my ($self, $param,$session)=@_;
     # create openssl.cnf
@@ -90,7 +96,7 @@ sub remove_certificate{
     my ($self, $param,$session)=@_;
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     # convert the $self->{'node_separator'} delimited node names into a path
-    my $node_dir = $param->{'node_name'};
+    my $node_dir = $self->actual_node($param->{'node_name'});
     my @nodepart=split(/$self->{'node_separator'}/, $node_dir);
     my $node_name=pop(@nodepart); pop(@nodepart);
     my $parent_name=$nodepart[$#nodepart];
@@ -111,7 +117,7 @@ sub revoke_certificate{
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
 
     # convert the $self->{'node_separator'} delimited node names into a path
-    my $node_dir = $param->{'node_name'};
+    my $node_dir = $self->actual_node($param->{'node_name'});
     my @nodepart=split(/$self->{'node_separator'}/, $node_dir);
     my $node_name=pop(@nodepart); pop(@nodepart);
     my $parent_name=$nodepart[$#nodepart];
@@ -137,7 +143,7 @@ sub sign_certificate{
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     
     # convert the $self->{'node_separator'} delimited node names into a path
-    my $node_dir = $param->{'node_name'};
+    my $node_dir = $self->actual_node($param->{'node_name'});
     $node_dir=~s/$self->{'node_separator'}/\//g;
     $node_dir=~s/certs$//g;
     $node_dir="$rootdir/$node_dir";
@@ -157,6 +163,7 @@ sub sign_certificate{
         }
     }
     # delete the temp file
+    # create the $root/$param->{'node_name'};/$cn  directory
     if(! -d "$node_dir/certs/$common_name"){
         mkdir("$node_dir/certs/$common_name",0700);
     }
@@ -176,9 +183,9 @@ sub ca_create{
     use Template;
     my ($self, $param,$session)=@_;
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
-    # convert the $self->{'node_separator'} delimited node names into a path
-    my $node_dir = $param->{'node_name'};
 
+    # convert the $self->{'node_separator'} delimited node names into a path
+    my $node_dir = $self->actual_node($param->{'node_name'});
     $node_dir=~s/new_root_ca/\//g; # get rid of the top node and make our root node_dir ""
     $node_dir=~s/$self->{'node_separator'}/\//g;
     $node_dir="$rootdir/$node_dir";
