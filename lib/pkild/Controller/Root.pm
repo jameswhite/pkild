@@ -231,6 +231,7 @@ sub drawform : Global {
     # was selected and render it. 
     ############################################################
     my $menu = "new_root_ca";
+print STDERR "current node:".$c->session->{'current_node'} ."\n";
     if($c->model('Certificates')->node_type( $c->session->{'current_node'} )){
         if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "new_root_ca"){ $menu='new_root_ca'; }
         if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "new_cert"){ $menu='new_cert'; }
@@ -252,7 +253,7 @@ sub drawform : Global {
             
         }
     }
-print STDERR $menu."\n";
+print STDERR "menu: ".$menu."\n";
     if( defined $c->session->{'menudata'}->{$menu}){
     $c->res->body( $c->view('TT')->render($c , 'form.tt', { 
                                                             additional_template_paths => [ $c->config->{root} . '/src'],
