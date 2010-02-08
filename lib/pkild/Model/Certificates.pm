@@ -299,7 +299,8 @@ sub ca_create{
 
 # by convention, all CAs have a subdir named "certs" and others don't
 sub node_type{
-    my ($self, $node)=@_;
+    my ($self, $unpacked_node)=@_;
+    my $node = $self->actual_node($unpacked_node); 
     my @nodepart=split(/$self->{'node_separator'}/, $node);
     $node =~s/$self->{'node_separator'}/\//g;
     my $rootdir="/".join("/",@{ $self->{'root_dir'}->{'dirs'} });
