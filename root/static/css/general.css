@@ -131,9 +131,10 @@ a{
 /******* /LINKS *******/  
 
 fieldset {  
-            width: 360px;
-            font-family:Verdana, Arial, Helvetica, sans-serif;
-            font-size:14px;
+           width: 360px;
+           font-family:Verdana, Arial, Helvetica, sans-serif;
+           white-space:nowrap;
+           font-size:14px;
          }
 legend   { 
            width:100px;
@@ -143,4 +144,5 @@ legend   {
            margin:1px;
            font-weight:bold;
            color:#0088FF;
+           white-space:nowrap;
          }
