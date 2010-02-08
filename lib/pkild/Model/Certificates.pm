@@ -322,6 +322,7 @@ print STDERR "entering node_type\n";
         print STDERR "node_type:: directory\n";
         return "directory"; 
     }
+    print STDERR "returning undef\n";
     return undef;
 }
 
