@@ -226,6 +226,7 @@ sub drawform : Global {
     # was selected and render it. 
     ############################################################
     my $menu = "new_root_ca";
+    if($c->model('Certificates')->node_type( $c->session->{'current_node'}){
     if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "root"){ $menu='new_root_ca'; }
     if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "certs"){ $menu='sign'; }
     if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "certificate"){ $menu='revoke'; }
@@ -243,6 +244,7 @@ sub drawform : Global {
             }
         }
         
+    }
     }
     if( defined $c->session->{'menudata'}->{$menu}){
     $c->res->body( $c->view('TT')->render($c , 'form.tt', { 
