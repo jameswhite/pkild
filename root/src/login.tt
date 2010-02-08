@@ -16,7 +16,7 @@ legend   {
 </style>  
 
 <font color="red">[% ERROR %]</font>
-<form action="/" method="post">
+<form action="/pkild/" method="post">
 <fieldset>  
 <legend>Please Login</legend>  
 <table>
