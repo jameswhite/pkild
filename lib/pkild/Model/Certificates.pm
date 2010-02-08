@@ -323,7 +323,8 @@ sub node_type{
 
 sub contents{
     use FileHandle;
-    my ($self, $node)=@_;
+    my ($self, $unpacked_node)=@_;
+    my $node = $self->actual_node($unpacked_node); 
     $node =~s/$self->{'node_separator'}/\//g;
     my $rootdir="/".join("/",@{ $self->{'root_dir'}->{'dirs'} });
     my $contents='';
