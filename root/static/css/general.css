@@ -137,7 +137,7 @@ fieldset {
            font-size:14px;
          }
 legend   { 
-           width:100px;
+           /*width:100px; why did we create a static width for this?*/
            text-align:center;
            background:#DDE7F0;
            border:solid 1px;

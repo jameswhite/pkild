@@ -160,9 +160,7 @@ sub default : Private {
         $c->stash->{'open_branches'}=$c->session->{'open_branches'};
         $c->stash->{'selected'} = $c->session->{'selected'};
         $c->stash->{'selected'} =~s/\./\\\\./g;
-        if($c->req->method eq 'POST'){
-            $c->forward('do_form');
-        }
+        if($c->req->method eq 'POST'){ $c->forward('do_form'); }
         $c->stash->{'template'}="application.tt";
     }
 }
@@ -194,19 +192,15 @@ sub jstreemenu : Local {
     my ( $self, $c ) = @_;
     my $menu_tree;
     my $certificate_tree=$c->model('Certificates')->tree();
-#    push( @{ $menu_tree },
-#          { 
-#            'attributes' => { 'id' =>  "openssl_cnf_prefs", 'rel' => 'action' },
-#            'data' => { 'title' => 'OpenSSL Preferences' },
-#          }
-#        );
-    push( @{ $menu_tree },
-          { 
-            'attributes' => { 'id' =>  unpack("H*","new_root_ca") },
-            'data' => { 'title' => 'Root Certificate Authorities', 'icon' => 'createnew'},
-            'children' => $certificate_tree
-          }
-        );
+    if($c->check_user_roles( "certificate_administrators" )){
+        push( @{ $menu_tree },
+              { 
+                'attributes' => { 'id' =>  unpack("H*","new_root_ca") },
+                'data' => { 'title' => 'Root Certificate Authorities', 'icon' => 'createnew'},
+                'children' => $certificate_tree
+              }
+            );
+    }
     push( @{ $menu_tree },
           { 
             'attributes' => { 'id' =>  unpack("H*","new_cert") },
