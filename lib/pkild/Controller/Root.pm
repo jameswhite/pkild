@@ -231,26 +231,27 @@ sub drawform : Global {
     # was selected and render it. 
     ############################################################
     my $menu = "new_root_ca";
-    if($c->model('Certificates')->node_type( $c->session->{'current_node'})){
-    if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "new_root_ca"){ $menu='new_root_ca'; }
-    if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "new_cert"){ $menu='new_cert'; }
-    if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "certs"){ $menu='sign'; }
-    if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "certificate"){ $menu='revoke'; }
-    if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "revoked_certificate"){ $menu='remove'; }
-    if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "ca"){ 
-        $menu='new_mid_ca'; 
-        # load the new_mid_ca form data with the parent node's values if the mid-ca form has not defined them yet
-        foreach my $root_field (@{ $c->session->{'menudata'}->{'new_root_ca'}->{'fields'} }){
-            for(my $midx=0;$midx<=$#{ $c->session->{'menudata'}->{'new_mid_ca'}->{'fields'} };$midx++){
-                if($root_field->{'name'} eq $c->session->{'menudata'}->{'new_mid_ca'}->{'fields'}->[$midx]->{'name'}){
-                    if(! defined($c->session->{'menudata'}->{'new_mid_ca'}->{'fields'}[$midx]->{'value'})){
-                        $c->session->{'menudata'}->{'new_mid_ca'}->{'fields'}[$midx]->{'value'} = $root_field->{'value'};
+print STDERR $c->session->{'current_node'} ."\n";
+    if($c->model('Certificates')->node_type( $c->session->{'current_node'} )){
+        if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "new_root_ca"){ $menu='new_root_ca'; }
+        if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "new_cert"){ $menu='new_cert'; }
+        if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "certs"){ $menu='sign'; }
+        if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "certificate"){ $menu='revoke'; }
+        if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "revoked_certificate"){ $menu='remove'; }
+        if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "ca"){ 
+            $menu='new_mid_ca'; 
+            # load the new_mid_ca form data with the parent node's values if the mid-ca form has not defined them yet
+            foreach my $root_field (@{ $c->session->{'menudata'}->{'new_root_ca'}->{'fields'} }){
+                for(my $midx=0;$midx<=$#{ $c->session->{'menudata'}->{'new_mid_ca'}->{'fields'} };$midx++){
+                    if($root_field->{'name'} eq $c->session->{'menudata'}->{'new_mid_ca'}->{'fields'}->[$midx]->{'name'}){
+                        if(! defined($c->session->{'menudata'}->{'new_mid_ca'}->{'fields'}[$midx]->{'value'})){
+                            $c->session->{'menudata'}->{'new_mid_ca'}->{'fields'}[$midx]->{'value'} = $root_field->{'value'};
+                        }
                     }
                 }
             }
+            
         }
-        
-    }
     }
     if( defined $c->session->{'menudata'}->{$menu}){
     $c->res->body( $c->view('TT')->render($c , 'form.tt', { 
