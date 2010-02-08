@@ -304,7 +304,8 @@ sub node_type{
     my @nodepart=split(/$self->{'node_separator'}/, $node);
     $node =~s/$self->{'node_separator'}/\//g;
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
-    if("node" eq "new_root_ca"){ return "root"; }
+    if("node" eq "new_root_ca"){ return "new_root_ca"; }
+    if("node" eq "new_cert"){ return "new_cert"; }
     if(-f "$rootdir/$node"){ return "file"; }
     if(-d "$rootdir/$node"){ 
         if(-d "$rootdir/$node/certs"){ return "ca"; }

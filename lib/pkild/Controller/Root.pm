@@ -232,7 +232,8 @@ sub drawform : Global {
     ############################################################
     my $menu = "new_root_ca";
     if($c->model('Certificates')->node_type( $c->session->{'current_node'})){
-    if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "root"){ $menu='new_root_ca'; }
+    if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "new_root_ca"){ $menu='new_root_ca'; }
+    if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "new_cert"){ $menu='new_cert'; }
     if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "certs"){ $menu='sign'; }
     if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "certificate"){ $menu='revoke'; }
     if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "revoked_certificate"){ $menu='remove'; }
