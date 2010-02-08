@@ -299,22 +299,26 @@ sub ca_create{
 
 # by convention, all CAs have a subdir named "certs" and others don't
 sub node_type{
-    my ($self, $node)=@_;
+    my ($self, $unpacked_node)=@_;
+    my $node = pack("H*",$unpacked_node);
     my @nodepart=split(/$self->{'node_separator'}/, $node);
     $node =~s/$self->{'node_separator'}/\//g;
     my $rootdir="/".join("/",@{ $self->{'root_dir'}->{'dirs'} });
-    if(-f "$rootdir/$node"){ return "file"; }
+    if(-f "$rootdir/$node"){ print STDERR "node_type:: file\n"; return "file"; }
     if(-d "$rootdir/$node"){ 
-        if(-d "$rootdir/$node/certs"){ return "ca"; }
+        if(-d "$rootdir/$node/certs"){ print STDERR "node_type:: ca\n"; return "ca"; }
         my $isacertbucket="$rootdir/$node";
         $isacertbucket=~s/.*\///;
-        if($isacertbucket eq "certs") { return "certs"; }
+        if($isacertbucket eq "certs") {print STDERR "node_type:: certs\n"; return "certs"; }
         if($nodepart[$#nodepart - 1]  eq "certs"){ 
             if(-f "$rootdir/$node/$nodepart[$#nodepart].revoked"){
+                print STDERR "node_type:: revoked_certificate\n";
                 return "revoked_certificate" ;
             }
+            print STDERR "node_type:: certificate\n";
             return "certificate" 
         };
+        print STDERR "node_type:: directory\n";
         return "directory"; 
     }
     return undef;
