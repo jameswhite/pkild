@@ -5,6 +5,7 @@ use base 'Catalyst::Model::File';
 
 __PACKAGE__->config(
     root_dir => '/var/tmp/certificate_authority',
+    node_separator => '::'
 );
 
 ################################################################################
@@ -13,7 +14,6 @@ __PACKAGE__->config(
 sub tree{
     my ($self, $c)=@_;
     my $tree;
-    my $node_separator="::";
     my @file_names=$self->list(mode => 'both', recurse =>1);
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     $rootdir=~s/^\///;
@@ -43,13 +43,13 @@ sub tree{
         $node=~s/^\///g;
         if(! defined $tree->{$node}){  
             my @nodeparts=split("\/",$node);
-            $node=~s/\//$node_separator/g;
+            $node=~s/\//$self->{'node_separator'}/g;
             $tree->{$node} = { 
                                'attributes' => { 'id' => $node, 'rel' => $type },
                                'data'       => $nodeparts[$#nodeparts],
                              };
             pop(@nodeparts);
-            my $updir=join("$node_separator",@nodeparts);
+            my $updir=join("$self->{'node_separator'}",@nodeparts);
             if(!defined( $tree->{ $updir }->{'children'} )){
                push( @{ $tree->{ $updir }->{'children'} }, $node );
             }else{

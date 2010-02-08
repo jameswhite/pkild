@@ -4,13 +4,13 @@
 ################################################################################
 if [ -z "${REPO}" ]; then export REPO=pkild ;fi
 if [ -z "${STAGEHOST}" ]; then export STAGEHOST=localhost ;fi
+if [ -z "${GITHOME}" ]; then export GITHOME="${HOME}/dev/git" ;fi
 while [ 1 ] ; do 
     clear; 
     echo -n "Commit msg: "; read NEWCOMMITMSG; 
     if [ ! -z "${NEWCOMMITMSG}" ];then 
         export COMMITMSG="${NEWCOMMITMSG}";
     fi
-    ( cd dev/git/${REPO}; git commit -a -m "$COMMITMSG"; git push); 
-    #sudo bash -c "(cd /var/cache/git/${REPO};git pull; /etc/init.d/apache2 restart)"; 
+    ( cd ${GITHOME}/${REPO}; git commit -a -m "$COMMITMSG"; git push); 
     ssh root@${STAGEHOST} "(cd /var/cache/git/${REPO};git pull; /etc/init.d/apache2 restart)"; 
 done
