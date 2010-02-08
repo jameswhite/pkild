@@ -5,7 +5,7 @@ use base 'Catalyst::Model::File';
 
 __PACKAGE__->config(
     root_dir => '/var/tmp/certificate_authority',
-    node_separator => '__'
+    node_separator => '::'
 );
 
 ################################################################################
@@ -45,7 +45,7 @@ sub tree{
             my @nodeparts=split("\/",$node);
             $node=~s/\//$self->{'node_separator'}/g;
             $tree->{$node} = { 
-                               'attributes' => { 'id' => $node, 'rel' => $type },
+                               'attributes' => { 'id' => unpack("H*",$node), 'rel' => $type },
                                'data'       => $nodeparts[$#nodeparts],
                              };
             pop(@nodeparts);
