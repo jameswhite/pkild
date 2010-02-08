@@ -85,7 +85,6 @@ sub default : Private {
                     my $found=0;
                     foreach my $item (@{ $c->session->{'open_branches'} }){ if($item eq $path){ $found=1; }  }
                     push (@{ $c->session->{'open_branches'} }, $path ) unless ($found == 1);
-print STDERR to_json($c->session->{'open_branches'}, {'pretty' => 0});
                     $c->res->body(to_json($c->session->{'open_branches'}, {'pretty' => 0}));
                 }elsif($c->request->arguments->[1] eq "close" ){
                     shift @{ $c->request->arguments };
@@ -221,6 +220,7 @@ sub jstreemenu : Local {
 
 sub drawform : Global {
     my ( $self, $c ) = @_;
+print STDERR "\n\n\n $c->session->{'current_node'} $c->request->arguments->[2] \n\n\n";
     $c->session->{'current_node'} = pack("H*",$c->request->arguments->[2]);
     ############################################################
     # select the template from the template pool based on what
