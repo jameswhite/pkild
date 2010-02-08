@@ -186,6 +186,9 @@ sub ca_create{
 
     # convert the $self->{'node_separator'} delimited node names into a path
     my $node_dir = $self->actual_node($param->{'node_name'});
+
+print STDERR "\n\n$param->{'node_name'} --> $node_dir\n\n\n";
+
     $node_dir=~s/new_root_ca/\//g; # get rid of the top node and make our root node_dir ""
     $node_dir=~s/$self->{'node_separator'}/\//g;
     $node_dir="$rootdir/$node_dir";
