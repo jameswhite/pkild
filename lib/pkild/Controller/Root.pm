@@ -143,13 +143,15 @@ sub default : Private {
     ############################################################################
     # If we're logged in, send us to the application, othewise the login page.
     ############################################################################
-    if(! defined($c->session->{'selected'}) ){ $c->session->{'selected'} = unpack("H*","new_root_ca"); }
+
     if(!defined $c->session->{'user'}){
         $c->stash->{template}="login.tt";
     }else{
         if($c->check_user_roles( "certificate_administrators" )){
+            if(! defined($c->session->{'selected'}) ){ $c->session->{'selected'} = unpack("H*","new_root_ca"); }
             $c->session->{'menunames'}=$form_data->{'order'}->{'administrator'};
         }else{
+            if(! defined($c->session->{'selected'}) ){ $c->session->{'selected'} = unpack("H*","new_cert"); }
             my $form_data = $c->config->{'layout'};
             $c->session->{'menunames'}=$form_data->{'order'}->{'user'};
         }
