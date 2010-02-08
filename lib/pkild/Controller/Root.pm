@@ -216,7 +216,7 @@ sub jstreemenu : Local {
         );
     push( @{ $menu_tree },
           { 
-            'attributes' => { 'id' =>  "logout" },
+            'attributes' => { 'id' =>  unpack("H*","logout") },
             'data' => { 'title' => 'Logout', 'icon' => 'forbidden'},
           }
         );

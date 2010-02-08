@@ -205,3 +205,15 @@ forms:
         type: hidden
         value : remove_cert
     comments: "This will delete the certificate files from the system."
+  Log out:
+    legend: Log Out
+    fields:
+      - name: revoke_cert
+        prompt: ~
+        type: submit
+        value : Log Out
+      - name: logout
+        prompt: ~
+        type: hidden
+        value : 1
+    comments: "Are you Sure?"
