@@ -48,7 +48,6 @@ sub default : Private {
         }
     }
     if(! defined( $c->session->{'user'} )){
-        $c->stash->{'ERROR'}="Please log in."; 
         $c->forward('logout');
     }
     ############################################################################
