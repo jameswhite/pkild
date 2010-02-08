@@ -206,6 +206,7 @@ forms:
         value : remove_cert
     comments: "This will delete the certificate files from the system."
   logout:
+    legend: Are you sure?
     fields:
       - name: revoke_cert
         prompt: ~
@@ -215,4 +216,3 @@ forms:
         prompt: ~
         type: hidden
         value : 1
-    comments: "Are you Sure?"

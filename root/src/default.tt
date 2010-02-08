@@ -18,7 +18,7 @@ legend   {
 <font color="red">[% ERROR %]</font>
 <form action="" method="post">
 <fieldset>  
-<legend>Please Login</legend>  
+<legend>Please log in</legend>  
 <table>
     <tr>
         <td align="right"><label for="username">Username: </label></td>
