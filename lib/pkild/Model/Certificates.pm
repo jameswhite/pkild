@@ -5,7 +5,7 @@ use base 'Catalyst::Model::File';
 
 __PACKAGE__->config(
     root_dir => '/var/tmp/certificate_authority',
-    node_separator => '--'
+    node_separator => '__'
 );
 
 ################################################################################
