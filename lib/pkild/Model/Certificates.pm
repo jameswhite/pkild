@@ -90,7 +90,7 @@ sub has_certificate{
 sub create_certificate{
     my ($self, $param, $session)=@_;
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
-    my $objectname=$c->session->{'user'}->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'};
+    my $objectname=$session->{'user'}->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'};
     my $domain=$objectname;
     my ($uniquepart,$orgunit,$domain);
     if($domain=~m/(.*)\s+,\s+[Oo][Uu]=([^,]+)\s+,\s+dc=(.*)/){
