@@ -82,6 +82,10 @@ sub actual_node{
     return pack("H*",$unpacked_node);
 }
 
+sub has_certificate{
+    my ($self, $object)=@_;
+    return undef;
+}
 sub create_certificate{
     my ($self, $param,$session)=@_;
     # create openssl.cnf

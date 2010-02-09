@@ -258,16 +258,27 @@ sub drawform : Global {
                                                  )
                          );
         }else{
-my $entry=$c->session->{'user'}->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'};
-print STDERR Data::Dumper->Dump([$entry]);
-            $c->res->body( $c->view('TT')->render($c , $c->session->{'menudata'}->{$menu}->{'template'}, { 
-                                                                    additional_template_paths => [ $c->config->{root} . '/src'],
-                                                                    'menudata' => $c->session->{'menudata'}->{$menu},
-                                                                    'node' => $c->session->{'current_node'},
-                                                                    'user'=> Data::Dumper->Dump([$entry])
-                                                                  }
-                                                 )
+            # Determine if the dn has an existing certificate
+            my $objectname=$c->session->{'user'}->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'};
+
+            # if they don't have a certificate, offer to make them one
+            if(!$c->model('Certificates')->has_certificate($objectname)){ 
+                $c->res->body( $c->view('TT')->render(
+                                                       $c, 
+                                                       $c->session->{'menudata'}->{$menu}->{'template'}, 
+                                                       { 
+                                                         'additional_template_paths' => [ $c->config->{root} . '/src'],
+                                                         'menudata'                  => $c->session->{'menudata'}->{$menu},
+                                                         'node'                      => $c->session->{'current_node'},
+                                                         'user'                      => $objectname,
+                                                       },
+                                                     )
                          );
+            # otherwise offer to revoke it if it exists, and to remove it if it's revoked, so they can create a new one.
+            }else{
+                print STDERR "we need a revoke if exists\n";
+                print STDERR "we need a remove if revoked here\n";
+            }
         }
     }else{
     $c->res->body( $c->view('TT')->render($c , 'plaintext.tt', 
