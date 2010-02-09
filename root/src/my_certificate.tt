@@ -3,6 +3,7 @@
   center.middle {display: table-cell; vertical-align: middle}
   .btn {  background-color: transparent; color:#0088FF; border: 0; padding: 0;}
 </style>
+<script src="static/js/jquery.validate.js" type="text/javascript"></script>
 <script type="text/javascript">
 $().ready(function() {
 $("#pkcs12form").validate({
