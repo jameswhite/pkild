@@ -1,1 +1,30 @@
-Oh, Hai.
+<style type="text/css">
+  div.centermiddle {top: 0; left: 0; width: 100%; height: 100%; position: relativ; display: table; }
+  center.middle {display: table-cell; vertical-align: middle}
+</style>
+<div class='centermiddle'>
+    <center class='middle'>
+    <form action="" method="post">
+        <fieldset>
+            <legend>[% menudata.legend %]</legend>
+            <table>
+            [% FOREACH field IN menudata.fields %]
+                <tr>
+                    <td align='right' valign='middle'><label for="[% field.name %]"<nobr>[% field.prompt %]</nobr></label></td>
+                    <td align='left'>
+                       [% IF field.type == 'textarea' %] <textarea [% ELSE %] <input type="[% field.type %]" [% END %]
+                               name="[% field.name %]" 
+                               [% IF field.width %]  size="[% field.width %]"   [% END %]
+                               [% IF field.rows %]  rows="[% field.rows %]"   [% END %] 
+                               [% IF field.cols %]  cols="[% field.cols %]"   [% END %] 
+                               [% IF field.value %] value="[% field.value %]" [% END %] 
+                               onBlur="$.ajax({ url: 'action/update/[% field.name %]=' + value, dataType: 'json', });" >[% IF field.type == 'textarea' %]</textarea>[% END %]
+                </tr>
+            [% END %]
+            </table>
+            <input type="hidden" name="node_name" value="[% node %]"></td>
+            [% menudata.comments %]
+        </fieldset>
+    </form>
+    </center>
+</div>

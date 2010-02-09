@@ -166,6 +166,21 @@ forms:
         value : create_cert
   my_cert:
     template: my_certificate.tt
+    legend: Sign Certificate Signing Request
+    fields:
+      - name: csr_input
+        prompt: Paste CSR
+        type: textarea
+        rows: 10
+        cols: 64
+      - name: sign_csr
+        prompt: ~
+        type: submit
+        value : Sign
+      - name: action_type
+        prompt: ~
+        type: hidden
+        value : sign_cert
   sign:
     legend: Sign Certificate
     fields:
