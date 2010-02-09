@@ -1,7 +1,7 @@
 <style type="text/css">
   div.centermiddle {top: 0; left: 0; width: 100%; height: 100%; position: relativ; display: table; }
   center.middle {display: table-cell; vertical-align: middle}
-  .btn {  background-color: transparent; color: #898989; border: 0; padding: 0;}
+  .btn {  background-color: transparent; color:#0088FF; border: 0; padding: 0;}
 </style>
 <div style='plaintext'><table border='0'><tr><td align='left'><pre style='font-size : 10px'>[% user %]</pre></td></tr></table></div>
 <div class='centermiddle'>
@@ -9,7 +9,7 @@
 
 
     <div id="option_create_pkcs12">
-         <input type='button' class='btn' value='[ I have a Certificate Signing Request instead. ]' onClick="$('#option_create_pkcs12').hide('normal'); $('#option_sign_csr').show('normal');";>
+         <input type='button' class='btn' value='[ I have a Certificate Signing Request instead... ]' onClick="$('#option_create_pkcs12').hide('normal'); $('#option_sign_csr').show('normal');";>
     </div>
     <div id="option_sign_csr">
     <form action="" method="post">
@@ -34,7 +34,7 @@
             [% menudata.comments %]
         </fieldset>
     </form>
-         <input type='button' class='btn' value='[ Generate me a pkcs#12 Certificate instead. ]' onClick="$('#option_create_pkcs12').show('normal'); $('#option_sign_csr').hide('normal');";>
+         <input type='button' class='btn' value='[ Generate me a pkcs#12 Certificate instead... ]' onClick="$('#option_create_pkcs12').show('normal'); $('#option_sign_csr').hide('normal');";>
     </div> 
   
     </center>
