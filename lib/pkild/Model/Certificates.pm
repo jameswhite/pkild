@@ -100,6 +100,7 @@ sub create_certificate{
        $domain=~s/,dc=/./g;
     }
     print STDERR "\n\n\n";
+    print STDERR "$objectname\n";
     print STDERR "$uniquepart :: $orgunit ::  $domain\n";
     print STDERR "\n\n\n";
 
