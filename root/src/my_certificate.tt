@@ -3,15 +3,28 @@
   center.middle {display: table-cell; vertical-align: middle}
   .btn {  background-color: transparent; color:#0088FF; border: 0; padding: 0;}
 </style>
-<div style='plaintext'><table border='0'><tr><td align='left'><pre style='font-size : 10px'>[% user %]</pre></td></tr></table></div>
 <div class='centermiddle'>
     <center class='middle'>
-
-
     <div id="option_create_pkcs12">
+
+    <div style='plaintext'><table border='0'><tr><td align='left'><pre style='font-size : 10px'>[% user %]</pre></td></tr></table></div>
+
+    <form action="" method="post">
+        <fieldset>
+            <legend>Create PKCS#12 Certificate</legend>
+            <table><tr><td>Create a PKCS#12 Certificate for [% user %]</td><td><input type='submit' name='submit' value='create'></td></tr></table>
+            <input type="hidden" name="node_name" value="pkcs12_cert"></td>
+        </fieldset>
+    </form>
+
+
+
          <input type='button' class='btn' value='[ I have a Certificate Signing Request instead... ]' onClick="$('#option_create_pkcs12').hide('normal'); $('#option_sign_csr').show('normal');";>
     </div>
     <div id="option_sign_csr">
+
+
+
     <form action="" method="post">
         <fieldset>
             <legend>[% menudata.legend %]</legend>
@@ -34,6 +47,10 @@
             [% menudata.comments %]
         </fieldset>
     </form>
+
+
+
+
          <input type='button' class='btn' value='[ Generate me a pkcs#12 Certificate instead... ]' onClick="$('#option_create_pkcs12').show('normal'); $('#option_sign_csr').hide('normal');";>
     </div> 
   
