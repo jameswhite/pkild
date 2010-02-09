@@ -164,6 +164,8 @@ forms:
         prompt: ~
         type: hidden
         value : create_cert
+  my_cert:
+    template: my_certificate.tt
   sign:
     legend: Sign Certificate
     fields:

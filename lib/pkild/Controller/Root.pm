@@ -249,13 +249,23 @@ sub drawform : Global {
         }
     }
     if( defined $c->session->{'menudata'}->{$menu}){
-    $c->res->body( $c->view('TT')->render($c , 'form.tt', { 
-                                                            additional_template_paths => [ $c->config->{root} . '/src'],
-                                                            'menudata' => $c->session->{'menudata'}->{$menu},
-                                                            'node' => $c->session->{'current_node'},
-                                                          }
-                                         )
-                 );
+        if( !defined($c->session->{'menudata'}->{$menu}->{'template'}){ 
+            $c->res->body( $c->view('TT')->render($c , 'form.tt', { 
+                                                                    additional_template_paths => [ $c->config->{root} . '/src'],
+                                                                    'menudata' => $c->session->{'menudata'}->{$menu},
+                                                                    'node' => $c->session->{'current_node'},
+                                                                  }
+                                                 )
+                         );
+        }else{
+            $c->res->body( $c->view('TT')->render($c , $c->session->{'menudata'}->{$menu}->{'template'}, { 
+                                                                    additional_template_paths => [ $c->config->{root} . '/src'],
+                                                                    'menudata' => $c->session->{'menudata'}->{$menu},
+                                                                    'node' => $c->session->{'current_node'},
+                                                                  }
+                                                 )
+                         );
+        }
     }else{
     $c->res->body( $c->view('TT')->render($c , 'plaintext.tt', 
                                           { 
