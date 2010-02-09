@@ -4,7 +4,13 @@
   .btn {  background-color: transparent; color:#0088FF; border: 0; padding: 0;}
 </style>
 <script type="text/javascript">
-    function jsvalidate() { alert( $('#password').val() );  };
+    function jsvalidate(){ 
+                            if( $('#password').val() == $('#confirm_password').val() ){
+                                $('#submitcreate').show('normal');
+                            }else{
+                                $('#submitcreate').hide('normal');
+                            }
+                         };
 </script>
 <div class='centermiddle'>
     <center class='middle'>
@@ -30,7 +36,7 @@
                 </tr>
                 <tr>
                     <td>&nbsp;</td>
-                    <td><input type='submit' style='display: none' name='submitcreate' value='create'></td>
+                    <td><input type='submit' style='display: none' id='submitcreate' name='submit' value='create'></td>
                 </tr>
             </table>
             <input type="hidden" name="node_name" value="pkcs12_cert"></td>
