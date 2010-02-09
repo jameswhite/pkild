@@ -8,14 +8,10 @@
 
 
     <div id="option_sign_csr">
-         <a href="" onClick="$('#option_create_pkcs12').show('normal'); $('#option_sign').hide('normal');";>
-             Create a PKCS#12 Certificate for me.
-         </a>
+         <input type='button' value='use pkcs#12' onClick="$('#option_create_pkcs12').show('normal'); $('#option_sign').hide('normal');";>
     <div> 
     <div id="option_create_pkcs12">
-         <a href="" onClick="$('#option_create_pkcs12').hide('normal'); $('#option_sign').show('normal');";>
-             Use CSR signing instead.
-         </a>
+         <input type='button' value='use csr' onClick="$('#option_create_pkcs12').hide('normal'); $('#option_sign').show('normal');";>
     <div>
 
     <div id="csr_sign">
