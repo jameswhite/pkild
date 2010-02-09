@@ -229,7 +229,7 @@ sub drawform : Global {
     if($c->model('Certificates')->node_type( $c->session->{'current_node'} )){
         if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "logout"){ $menu='logout'; }
         if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "new_root_ca"){ $menu='new_root_ca'; }
-        if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "new_cert"){ $menu='new_cert'; }
+        if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "new_cert"){ $menu='my_cert'; }
         if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "certs"){ $menu='sign'; }
         if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "certificate"){ $menu='revoke'; }
         if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "revoked_certificate"){ $menu='remove'; }
@@ -249,7 +249,7 @@ sub drawform : Global {
         }
     }
     if( defined $c->session->{'menudata'}->{$menu}){
-        if( !defined($c->session->{'menudata'}->{$menu}->{'template'}){ 
+        if( !defined($c->session->{'menudata'}->{$menu}->{'template'})){ 
             $c->res->body( $c->view('TT')->render($c , 'form.tt', { 
                                                                     additional_template_paths => [ $c->config->{root} . '/src'],
                                                                     'menudata' => $c->session->{'menudata'}->{$menu},
