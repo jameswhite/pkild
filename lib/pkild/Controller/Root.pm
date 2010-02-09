@@ -250,6 +250,7 @@ sub drawform : Global {
     }
     if( defined $c->session->{'menudata'}->{$menu}){
         if( !defined($c->session->{'menudata'}->{$menu}->{'template'})){ 
+print STDERR "\n\n\n-=[form.tt]=-\n\n\n";
             $c->res->body( $c->view('TT')->render($c , 'form.tt', { 
                                                                     additional_template_paths => [ $c->config->{root} . '/src'],
                                                                     'menudata' => $c->session->{'menudata'}->{$menu},
@@ -258,6 +259,7 @@ sub drawform : Global {
                                                  )
                          );
         }else{
+print STDERR "\n\n\n-=[".$c->session->{'menudata'}->{$menu}->{'template'}."]=-\n\n\n";
             $c->res->body( $c->view('TT')->render($c , $c->session->{'menudata'}->{$menu}->{'template'}, { 
                                                                     additional_template_paths => [ $c->config->{root} . '/src'],
                                                                     'menudata' => $c->session->{'menudata'}->{$menu},
