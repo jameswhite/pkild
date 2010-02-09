@@ -6,9 +6,9 @@
 <script>
 function thesame(){
     if ($('#passphrase1').value == $('#passphrase2').value ){
-        $('#submit').show('normal);
+        $('#submit').show('normal');
     }else{
-        $('#submit').hide('normal);
+        $('#submit').hide('normal');
     }
 }
 </script>
