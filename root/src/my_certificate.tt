@@ -6,15 +6,17 @@
 <script type="text/javascript">
 $().ready(function() {
 $("#pkcs12form").validate({
-                            rules: password: {
-                                               required: true,
-                                               minlength: 5
-                                             },
-                                   confirm_password: {
-                                                       required: true,
-                                                       minlength: 5,
-                                                       equalTo: "#password"
-                                                     },
+                            rules: {
+                                     password: {
+                                                 required: true,
+                                                 minlength: 5
+                                               },
+                                     confirm_password: {
+                                                         required: true,
+                                                         minlength: 5,
+                                                         equalTo: "#password"
+                                                       },
+                                    },
                              messages: {
                                          password: {
                                                      required: "Please provide a password",
