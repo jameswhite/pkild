@@ -65,7 +65,7 @@
                 </tr>
             [% END %]
             </table>
-            <input type="hidden" name="action_type" value="[% node %]"></td>
+            <input type="hidden" name="action_type" value="sign_personal_csr"></td>
             [% menudata.comments %]
         </fieldset>
     </form>
