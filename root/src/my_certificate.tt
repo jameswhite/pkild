@@ -5,12 +5,10 @@
 </style>
 <script>
 function thesame(){
-    if ($('#passphrase1').value == $('#passphrase2').value ){
+    if ($('#passphrase1').val() == $('#passphrase2').val() ){
         $('#submitcreate').show('normal');
-        alert($('#passphrase1').value + " " + $('#passphrase2').value );
     }else{
         $('#submitcreate').hide('normal');
-        alert($('#passphrase1').value + " " + $('#passphrase2').value );
     }
 }
 </script>
