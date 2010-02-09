@@ -15,7 +15,9 @@
                 -->
                 <tr>
                     <td align='right' valign='middle'><label for="passphrase"<nobr>PKCS#12 Passphase</label></td>
-                    <td align='leftt' valign='middle'><input type='text' size='20' name='passphrase'></td>
+                    <td align='leftt' valign='middle'><input type='password' size='20' name='passphrase'></td>
+                    <td align='right' valign='middle'><label for="passphrase"<nobr>Confirm Passphase</label></td>
+                    <td align='leftt' valign='middle'><input type='password' size='20' name='passphrase'></td>
                 <tr>
                 <tr><td colspan='2'><b>(You will be asked for this passphrase when you import the certificate to your browser)</b></td></tr>
                 <tr>
