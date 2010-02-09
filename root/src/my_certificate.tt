@@ -29,7 +29,7 @@ $("#pkcs12form").validate({
                                                            },
                                        }
                            });
-});
+};
 </script>
 <div class='centermiddle'>
     <center class='middle'>
