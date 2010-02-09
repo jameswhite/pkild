@@ -3,33 +3,8 @@
   center.middle {display: table-cell; vertical-align: middle}
   .btn {  background-color: transparent; color:#0088FF; border: 0; padding: 0;}
 </style>
-<script src="static/js/jquery.validate.js" type="text/javascript"></script>
 <script type="text/javascript">
-function jsvalidate() {
-$("#pkcs12form").validate({
-                            rules: {
-                                     password: {
-                                                 required: true,
-                                                 minlength: 5
-                                               },
-                                     confirm_password: {
-                                                         required: true,
-                                                         minlength: 5,
-                                                         equalTo: "#password"
-                                                       },
-                                    },
-                             messages: {
-                                         password: {
-                                                     required: "Please provide a password",
-                                                     minlength: "Your password must be at least 5 characters long"
-                                                   },
-                                         confirm_password: {
-                                                             required: "Please provide a password",                                                                                                        minlength: "Your password must be at least 5 characters long",
-                                                             equalTo: "Please enter the same password as above"
-                                                           },
-                                       }
-                           });
-};
+    function jsvalidate() { alert $('#password').val() )  };
 </script>
 <div class='centermiddle'>
     <center class='middle'>
