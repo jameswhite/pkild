@@ -5,7 +5,7 @@
 </style>
 <script src="static/js/jquery.validate.js" type="text/javascript"></script>
 <script type="text/javascript">
-$().ready(function() {
+function jsvalidate() {
 $("#pkcs12form").validate({
                             rules: {
                                      password: {
@@ -43,11 +43,11 @@ $("#pkcs12form").validate({
                 -->
                 <tr>
                     <td align='right' valign='middle'><label for="passphrase"<nobr>PKCS#12 Passphase</label></td>
-                    <td align='leftt' valign='middle'><input type='password' size='20' name='password'"></td>
+                    <td align='leftt' valign='middle'><input type='password' size='20' name='password' onkeyup="jsvalidate();"></td>
                 </tr>
                 <tr>
                     <td align='right' valign='middle'><label for="passphrase"<nobr>Confirm Passphase</label></td>
-                    <td align='leftt' valign='middle'><input type='password' size='20' name='confirm_password'"></td>
+                    <td align='leftt' valign='middle'><input type='password' size='20' name='confirm_password' onkeyup="jsvalidate();"></td>
                 </tr>
                 <tr>
                 <tr>
