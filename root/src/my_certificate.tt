@@ -2,7 +2,9 @@
   div.centermiddle {top: 0; left: 0; width: 100%; height: 100%; position: relativ; display: table; }
   center.middle {display: table-cell; vertical-align: middle}
 </style>
+<pre>
 [% user %]
+</pre>
 <div class='centermiddle'>
     <center class='middle'>
     <form action="" method="post">
