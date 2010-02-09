@@ -87,7 +87,9 @@ sub has_certificate{
     return undef;
 }
 sub create_certificate{
-    my ($self, $param,$session)=@_;
+    my ($self, $param, $session)=@_;
+    # Ensure they don't already have one
+    # Determine the parent
     # create openssl.cnf
     # create password-protected private key
     # create csr
