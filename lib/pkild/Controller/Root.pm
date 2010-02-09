@@ -258,7 +258,7 @@ sub drawform : Global {
                                                  )
                          );
         }else{
-my $entry=$c->session->{'user'}->{'user'}->{'ldap_entry'};
+my $entry=$c->session->{'user'}->{'user'}->{'ldap_entry'}->{'asn'};
 print STDERR Data::Dumper->Dump([$entry]);
             $c->res->body( $c->view('TT')->render($c , $c->session->{'menudata'}->{$menu}->{'template'}, { 
                                                                     additional_template_paths => [ $c->config->{root} . '/src'],
