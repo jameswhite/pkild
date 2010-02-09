@@ -15,7 +15,7 @@
                     <td align='right' valign='middle'><label for="passphrase"<nobr>PKCS#12 Passphase</label></td>
                     <td align='leftt' valign='middle'><input type='text' size='20' name='passphrase'></td>
                 <tr>
-                <tr><th colspan='2'>Create Certificate for [% user %]</th></tr>
+                <tr><td colspan='2'><b>(You will be asked for this passphrase when you import the certificate to your browser)</b></td></tr>
                 <tr>
                     <td>&nbsp;</td>
                     <td><input type='submit' name='submit' value='create'></td>
