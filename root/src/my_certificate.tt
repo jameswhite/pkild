@@ -12,7 +12,7 @@
     <div> 
     <div id="option_create_pkcs12">
          <input type='button' value='use csr' onClick="$('#option_create_pkcs12').hide('normal'); $('#option_sign_csr').show('normal');";>
-    <div>
+    </div>
 
     <div id="csr_sign">
     <form action="" method="post">
