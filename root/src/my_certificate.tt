@@ -16,7 +16,7 @@
     <input type='button' class='btn' value='[ I have a Certificate Signing Request instead... ]' onClick="$('#option_create_pkcs12').hide('normal'); $('#option_sign_csr').show('normal');";>
     </div>
 
-    <div id="option_sign_csr">
+    <div id="option_sign_csr" style="display: none">
     <form action="" method="post">
         <fieldset>
             <legend>[% menudata.legend %]</legend>
@@ -39,9 +39,6 @@
             [% menudata.comments %]
         </fieldset>
     </form>
-
-
-
 
          <input type='button' class='btn' value='[ Generate me a pkcs#12 Certificate instead... ]' onClick="$('#option_create_pkcs12').show('normal'); $('#option_sign_csr').hide('normal');";>
     </div> 
