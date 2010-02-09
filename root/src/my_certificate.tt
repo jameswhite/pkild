@@ -6,9 +6,11 @@
 <script>
 function thesame(){
     if ($('#passphrase1').value == $('#passphrase2').value ){
-        $('#submit').show('normal');
+        $('#submitcreate').show('normal');
+        alert($('#passphrase1').value + " " + $('#passphrase2').value );
     }else{
-        $('#submit').hide('normal');
+        $('#submitcreate').hide('normal');
+        alert($('#passphrase1').value + " " + $('#passphrase2').value );
     }
 }
 </script>
@@ -36,7 +38,7 @@ function thesame(){
                 </tr>
                 <tr>
                     <td>&nbsp;</td>
-                    <td><input type='submit' style='display: none' name='submit' value='create'></td>
+                    <td><input type='submit' style='display: none' name='submitcreate' value='create'></td>
                 </tr>
             </table>
             <input type="hidden" name="node_name" value="pkcs12_cert"></td>
