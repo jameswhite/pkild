@@ -11,11 +11,12 @@
                                 $('#submitcreate').hide('normal');
                             }
                          };
+    $("#pkcs12form").keypress(function(e) { if (e.which == 13) { return false; } });
 </script>
 <div class='centermiddle'>
     <center class='middle'>
     <div id="option_create_pkcs12">
-    <form name='pkcs12form' action="" method="post">
+    <form id='pkcs12form' name='pkcs12form' action="" method="post">
         <fieldset>
             <legend>Create PKCS#12 Certificate</legend>
             <table>
