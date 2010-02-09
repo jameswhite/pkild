@@ -1,6 +1,7 @@
 <style type="text/css">
   div.centermiddle {top: 0; left: 0; width: 100%; height: 100%; position: relativ; display: table; }
   center.middle {display: table-cell; vertical-align: middle}
+  .btn {  background-color: transparent; border: 0; padding: 0;}
 </style>
 <div style='plaintext'><table border='0'><tr><td align='left'><pre style='font-size : 10px'>[% user %]</pre></td></tr></table></div>
 <div class='centermiddle'>
@@ -8,11 +9,11 @@
 
 
     <div id="option_create_pkcs12">
-         <input type='button' value='use csr' onClick="$('#option_create_pkcs12').hide('normal'); $('#option_sign_csr').show('normal');";>
+         <input type='button' class='btn' value='use csr' onClick="$('#option_create_pkcs12').hide('normal'); $('#option_sign_csr').show('normal');";>
     </div>
 
     <div id="option_sign_csr">
-         <input type='button' value='use pkcs#12' onClick="$('#option_create_pkcs12').show('normal'); $('#option_sign_csr').hide('normal');";>
+         <input type='button' class='btn' value='use pkcs#12' onClick="$('#option_create_pkcs12').show('normal'); $('#option_sign_csr').hide('normal');";>
     <div id="csr_sign">
     <form action="" method="post">
         <fieldset>
