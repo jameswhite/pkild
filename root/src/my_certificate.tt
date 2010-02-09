@@ -40,7 +40,7 @@
                     <td><input type='submit' style='display: none' id='submitcreate' name='submit' value='create'></td>
                 </tr>
             </table>
-            <input type="hidden" name="node_name" value="pkcs12_cert"></td>
+            <input type="hidden" name="action_type" value="pkcs12_cert"></td>
         </fieldset>
     </form>
     <input type='button' class='btn' value='[ I have a Certificate Signing Request instead... ]' onClick="$('#option_create_pkcs12').hide('normal'); $('#option_sign_csr').show('normal');";>
@@ -65,14 +65,13 @@
                 </tr>
             [% END %]
             </table>
-            <input type="hidden" name="node_name" value="[% node %]"></td>
+            <input type="hidden" name="action_type" value="[% node %]"></td>
             [% menudata.comments %]
         </fieldset>
     </form>
 
          <input type='button' class='btn' value='[ Generate me a pkcs#12 Certificate instead... ]' onClick="$('#option_create_pkcs12').show('normal'); $('#option_sign_csr').hide('normal');";>
     </div> 
-  
     </center>
 </div>
 <script>

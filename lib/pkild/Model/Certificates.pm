@@ -86,15 +86,16 @@ sub has_certificate{
     my ($self, $object)=@_;
     return undef;
 }
+
 sub create_certificate{
     my ($self, $param, $session)=@_;
-    # Ensure they don't already have one
-    # Determine the parent
-    # create openssl.cnf
+    # Ensure they don't already have one 
+    # Determine the parent domain
+    # clone the parent domain's openssl.cnf
+    # create the 
     # create password-protected private key
-    # create csr
+    # convert to a pkcs12 container with the passphrase
     # ship the key to the user for saving locally.
-    # add an option for pkcs12
     return $self;  
 }
 
