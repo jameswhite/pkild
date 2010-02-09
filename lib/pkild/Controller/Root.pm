@@ -262,7 +262,7 @@ sub drawform : Global {
                                                                     additional_template_paths => [ $c->config->{root} . '/src'],
                                                                     'menudata' => $c->session->{'menudata'}->{$menu},
                                                                     'node' => $c->session->{'current_node'},
-                                                                    'user'=>Data::Dumper->Dump([$c->session->{'user'}]);
+                                                                    'user'=> Data::Dumper->Dump([$c->session->{'user'}])
                                                                   }
                                                  )
                          );
