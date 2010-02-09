@@ -258,11 +258,13 @@ sub drawform : Global {
                                                  )
                          );
         }else{
+my $entry=$c->session->{'user'}->{'user'};
+print STDERR Data::Dumper->Dump([$entry]);
             $c->res->body( $c->view('TT')->render($c , $c->session->{'menudata'}->{$menu}->{'template'}, { 
                                                                     additional_template_paths => [ $c->config->{root} . '/src'],
                                                                     'menudata' => $c->session->{'menudata'}->{$menu},
                                                                     'node' => $c->session->{'current_node'},
-                                                                    'user'=> Data::Dumper->Dump([$c->session->{'user'}->{'user'}->{'asn'}->{'objectname'}])
+                                                                    'user'=> Data::Dumper->Dump([$entry])
                                                                   }
                                                  )
                          );
