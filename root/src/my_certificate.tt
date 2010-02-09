@@ -10,7 +10,7 @@
         <fieldset>
             <legend>Create PKCS#12 Certificate</legend>
             <table>
-                <tr><th>Create a PKCS#12 Certificate for [% user %]</th></tr>
+                <tr><th span='2'>Create a PKCS#12 Certificate for [% user %]</th></tr>
                 <tr>
                     <td align='right' valign='middle'><label for="passphrase"<nobr>PKCS#12 Passphase</label></td>
                     <td align='leftt' valign='middle'><input type='text' size='20' name='passphrase'></td>
