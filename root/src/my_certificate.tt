@@ -3,6 +3,15 @@
   center.middle {display: table-cell; vertical-align: middle}
   .btn {  background-color: transparent; color:#0088FF; border: 0; padding: 0;}
 </style>
+<script>
+function thesame(){
+    if ($('#passphrase1').value == $('#passphrase2').value ){
+        $('#submit').show('normal);
+    }else{
+        $('#submit').hide('normal);
+    }
+}
+</script>
 <div class='centermiddle'>
     <center class='middle'>
     <div id="option_create_pkcs12">
@@ -15,11 +24,11 @@
                 -->
                 <tr>
                     <td align='right' valign='middle'><label for="passphrase"<nobr>PKCS#12 Passphase</label></td>
-                    <td align='leftt' valign='middle'><input type='password' size='20' name='passphrase'></td>
+                    <td align='leftt' valign='middle'><input type='password' size='20' name='passphrase1' onchange="thesame()"></td>
                 </tr>
                 <tr>
                     <td align='right' valign='middle'><label for="passphrase"<nobr>Confirm Passphase</label></td>
-                    <td align='leftt' valign='middle'><input type='password' size='20' name='passphrase'></td>
+                    <td align='leftt' valign='middle'><input type='password' size='20' name='passphrase2' onchange="thesame()"></td>
                 </tr>
                 <tr>
                 <tr>
