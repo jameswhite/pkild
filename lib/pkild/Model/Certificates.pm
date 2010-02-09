@@ -89,8 +89,22 @@ sub has_certificate{
 
 sub create_certificate{
     my ($self, $param, $session)=@_;
-    # Ensure they don't already have one 
+    my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
+    my $objectname=$c->session->{'user'}->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'};
+    my $domain=$objectname;
+    my ($uniquepart,$orgunit,$domain);
+    if($domain=~m/(.*)\s+,\s+[Oo][Uu]=([^,]+)\s+,\s+dc=(.*)/){
+        $uniquepart=$1;
+        $orgunit=$2;
+        $domain=$3;
+       $domain=~s/,dc=/./g;
+    }
+    print STDERR "\n\n\n";
+    print STDERR "$uniquepart :: $orgunit ::  $domain\n";
+    print STDERR "\n\n\n";
+
     # Determine the parent domain
+    # Ensure they don't already have one 
     # clone the parent domain's openssl.cnf
     # create the 
     # create password-protected private key
