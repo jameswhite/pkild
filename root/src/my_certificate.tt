@@ -8,10 +8,10 @@
 
 
     <div id="option_sign_csr">
-         <input type='button' value='use pkcs#12' onClick="$('#option_create_pkcs12').show('normal'); $('#option_sign').hide('normal');";>
+         <input type='button' value='use pkcs#12' onClick="$('#option_create_pkcs12').show('normal'); $('#option_sign_csr').hide('normal');";>
     <div> 
     <div id="option_create_pkcs12">
-         <input type='button' value='use csr' onClick="$('#option_create_pkcs12').hide('normal'); $('#option_sign').show('normal');";>
+         <input type='button' value='use csr' onClick="$('#option_create_pkcs12').hide('normal'); $('#option_sign_csr').show('normal');";>
     <div>
 
     <div id="csr_sign">
