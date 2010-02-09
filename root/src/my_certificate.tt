@@ -18,11 +18,11 @@
                 -->
                 <tr>
                     <td align='right' valign='middle'><label for="passphrase"<nobr>PKCS#12 Passphase</label></td>
-                    <td align='leftt' valign='middle'><input type='password' size='20' name='password' onkeyup="jsvalidate();"></td>
+                    <td align='leftt' valign='middle'><input type='password' size='20' id='password' name='password' onkeyup="jsvalidate();"></td>
                 </tr>
                 <tr>
                     <td align='right' valign='middle'><label for="passphrase"<nobr>Confirm Passphase</label></td>
-                    <td align='leftt' valign='middle'><input type='password' size='20' name='confirm_password' onkeyup="jsvalidate();"></td>
+                    <td align='leftt' valign='middle'><input type='password' size='20' id='confirm_password' name='confirm_password' onkeyup="jsvalidate();"></td>
                 </tr>
                 <tr>
                 <tr>
