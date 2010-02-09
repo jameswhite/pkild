@@ -4,7 +4,7 @@
   .btn {  background-color: transparent; color:#0088FF; border: 0; padding: 0;}
 </style>
 <script type="text/javascript">
-    function jsvalidate() { alert $('#password').val() )  };
+    function jsvalidate() { alert( $('#password').val() );  };
 </script>
 <div class='centermiddle'>
     <center class='middle'>
