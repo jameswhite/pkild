@@ -320,6 +320,7 @@ sub do_form : Global {
             $c->response->headers->header( 'content-type' => "application/x-pkcs12" );
             $c->response->headers->header( 'content-disposition' => "attachment; filename=certificate.p12" );
             $c->response->body($rawdata);
+            $c->detach();
         }
     }
     $c->stash->{'template'}="application.tt";
