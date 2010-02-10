@@ -116,7 +116,6 @@ sub find_file{
     splice(@dirlist,0,2);
     foreach my $file (@dirlist){
         if($file ne "." && $file ne ".."){
-            my $file = $dir.$file;
             if (-d $file){
                 $self->find_file($file,$fileregex);
             }else{
@@ -143,7 +142,7 @@ sub create_certificate{
 
     ############################################################################
     # Find the parent domain's openssl.conf by inspecting each one under 
-    #   $rootdir and finding ca-domain = $domain
+    #   $rootdir and finding ca-domain = $domain in the file
     #
     $self->{'file_list'}=[];
     my @domain_cnfs;
