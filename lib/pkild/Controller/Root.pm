@@ -69,6 +69,7 @@ sub default : Private {
                 # if we've selected a tree item, populate the form as per our forms yaml
                 if( $c->request->arguments->[1] eq "select" ){
                     $c->session->{'selected'} = $c->request->arguments->[2];
+        print STDERR "\n\n\n-=[".$c->session->{'selected'}."]=-\n\n\n";
                     # clear this if there is anything selected.
                     $c->session->{'pkcs12cert'}=undef;
                     if($c->model('Certificates')->node_type($c->request->arguments->[2])){
@@ -122,7 +123,6 @@ sub default : Private {
     }else{
         # If no action was specified, but we have a $c->session->{'pkcs12cert'} defined, 
         # send it if the $c->session->{'selection'} set to "My Certificate";
-        print STDERR "\n\n\n-=[".$c->session->{'selected'}."]=-\n\n\n";
         if(defined($c->session->{'pkcs12cert'})){
             $c->response->headers->header( 'content-type' => "application/x-pkcs12" );
             $c->response->headers->header( 'content-disposition' => "attachment; filename=certificate.p12" );
