@@ -122,11 +122,14 @@ sub default : Private {
     }else{
         # If no action was specified, but we have a $c->session->{'pkcs12cert'} defined, 
         # send it if the $c->session->{'selection'} set to "new_cert" ("My Certificate is Selected")
+print STDERR "ONE\n";
         if( (defined($c->session->{'pkcs12cert'})) &&  (pack("H*",$c->session->{'selected'}) eq "new_cert") ){
+print STDERR "TWO\n";
             $c->response->headers->header( 'content-type' => "application/x-pkcs12" );
             $c->response->headers->header( 'content-disposition' => "attachment; filename=certificate.p12" );
             $c->response->body($c->session->{'pkcs12cert'});
         }
+print STDERR "THREE\n";
     }
     ############################################################################
     # Update the default tab in the session if changed *deprecated*
@@ -331,7 +334,6 @@ sub do_form : Global {
             # Set up a refresh that will refresh to the pkcs12 download in the next page load.
             print STDERR "<meta http-equiv='refresh' content='5;URL=".$c->request->uri."'>\n";
             $c->stash->{'refreshto'}="<meta http-equiv=\"refresh\" content=\"5\" />";
-
             $c->stash->{'template'}="application.tt";
         }
     }
