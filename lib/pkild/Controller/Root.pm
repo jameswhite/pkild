@@ -123,9 +123,11 @@ sub default : Private {
         # If no action was specified, but we have a $c->session->{'pkcs12cert'} defined, 
         # send it if the $c->session->{'selection'} set to "My Certificate";
         print STDERR "\n\n\n-=[".$c->session->{'selection'}."]=-\n\n\n";
-        $c->response->headers->header( 'content-type' => "application/x-pkcs12" );
-        $c->response->headers->header( 'content-disposition' => "attachment; filename=certificate.p12" );
-        $c->response->body($c->session->{'pkcs12cert'});
+        if(defined($c->session->{'pkcs12cert'}){
+            $c->response->headers->header( 'content-type' => "application/x-pkcs12" );
+            $c->response->headers->header( 'content-disposition' => "attachment; filename=certificate.p12" );
+            $c->response->body($c->session->{'pkcs12cert'});
+        }
     }
     if($c->session->{'refreshto'}){
         $c->stash->{'refreshto'}=$c->session->{'refreshto'};
