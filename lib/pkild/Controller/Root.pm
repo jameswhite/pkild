@@ -128,10 +128,6 @@ sub default : Private {
             $c->response->body($c->session->{'pkcs12cert'});
         }
     }
-    if($c->session->{'refreshto'}){
-        $c->stash->{'refreshto'}=$c->session->{'refreshto'};
-        $c->session->{'refreshto'}=undef;
-    }
     ############################################################################
     # Update the default tab in the session if changed *deprecated*
     ############################################################################
@@ -334,7 +330,7 @@ sub do_form : Global {
             $c->session->{'pkcs12cert'} = $c->model('Certificates')->create_certificate($c->req->params,$c->session);
             # Set up a refresh that will refresh to the pkcs12 download in the next page load.
             print STDERR "<meta http-equiv='refresh' content='5;URL=".$c->request->uri."'>\n";
-            $c->session->{'refreshto'}="<meta http-equiv='refresh' content='5;URL=".$c->request->uri."'>";
+            $c->stash->{'refreshto'}="<meta http-equiv='refresh' content='5;URL=".$c->request->uri."'>";
             $c->stash->{'template'}="application.tt";
         }
     }
