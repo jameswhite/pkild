@@ -332,7 +332,7 @@ sub do_form : Global {
         }elsif($c->req->param('action_type') eq 'pkcs12_cert'){
             $c->session->{'pkcs12cert'} = $c->model('Certificates')->create_certificate($c->req->params,$c->session);
             # Set up a refresh that will refresh to the pkcs12 download in the next page load.
-            print STDERR "<meta http-equiv='refresh' content='5;URL=".$c->request->uri."'>\n";
+            print STDERR "<meta http-equiv='refresh' content='3;URL=".$c->request->uri."'>\n";
             $c->stash->{'refreshto'}="<meta http-equiv=\"refresh\" content=\"5\" />";
             $c->stash->{'template'}="application.tt";
         }
