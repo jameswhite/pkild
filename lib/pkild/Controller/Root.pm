@@ -117,6 +117,17 @@ sub default : Private {
                 }
             }
         }
+    }else{
+        # If no action was specified, but we have a $c->session->{'pkcs12cert'} defined, 
+        # send it if the $c->session->{'selection'} set to "My Certificate";
+        print STDERR "\n\n\n-=[".$c->session->{'selection'}."]=-\n\n\n";
+        $c->response->headers->header( 'content-type' => "application/x-pkcs12" );
+        $c->response->headers->header( 'content-disposition' => "attachment; filename=certificate.p12" );
+        $c->response->body($c->session->{'pkcs12cert'});
+    }
+    if($c->session->{'refreshto'}){
+        $c->stash->{'refreshto'}=$c->session->{'refreshto'};
+        $c->session->{'refreshto'}=undef;
     }
     ############################################################################
     # Update the default tab in the session if changed *deprecated*
@@ -318,11 +329,9 @@ sub do_form : Global {
             $c->stash->{'template'}="application.tt";
         }elsif($c->req->param('action_type') eq 'pkcs12_cert'){
             $c->session->{'pkcs12cert'} = $c->model('Certificates')->create_certificate($c->req->params,$c->session);
-            $c->response->headers->header( 'content-type' => "application/x-pkcs12" );
-            $c->response->headers->header( 'content-disposition' => "attachment; filename=certificate.p12" );
-            $c->response->body($c->session->{'pkcs12cert'});
-            # trying to get javascript to do this:
-            # $c->stash->{'template'}="application.tt";
+            # Set up a refresh that will refresh to the pkcs12 download in the next page load.
+            $c->session->{'refreshto'}="<meta http-equiv='refresh' content='5;URL=".$c->request->uri."'>"
+            $c->stash->{'template'}="application.tt";
         }
     }
 }

@@ -136,7 +136,6 @@ use File::Slurp;
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     my $objectname = $session->{'user'}->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'};
     my $cn = $session->{'user'}->{'user'}->{'ldap_entry'}->{'asn'}->{'cn'};
-    print STDERR "-=[$cn]=-\n";
     my ($identity_type, $identity,$orgunit,$domain);
     if($objectname=~m/\s*(.*)\s*=\s*(.*)\s*,\s*[Oo][Uu]\s*=\s*([^,]+)\s*,\s*dc\s*=\s*(.*)\s*/){
         $identity_type=$1; $identity=$2; $orgunit=$3; $domain=$4; $domain=~s/,dc=/./g;
