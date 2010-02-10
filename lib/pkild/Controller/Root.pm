@@ -235,7 +235,7 @@ sub drawform : Global {
     my $actual_node;
     if($c->model('Certificates')->node_type( $c->session->{'current_node'} )){
         if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "new_cert"){ 
-            my $objectname = $session->{'user'}->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'};
+            my $objectname = $c->session->{'user'}->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'};
             $actual_node = $c->model('Certificates')->actual_node_from_objectname($objectname);
             $menu='my_cert'; 
         }else{
