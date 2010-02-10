@@ -114,7 +114,7 @@ sub find_file{
     my @dirlist=readdir(DIR);
     closedir(DIR);
     splice(@dirlist,0,2);
-    foreach $file (@dirlist){
+    foreach my $file (@dirlist){
         if($file ne "." && $file ne ".."){
             my $file = $dir.$file;
             if (-d $file){
