@@ -138,7 +138,8 @@ sub create_certificate{
         $identity_type=$1; $identity=$2; $orgunit=$3; $domain=$4; $domain=~s/,dc=/./g;
     }
     ############################################################################
-    # Here's where things get weird... (we have to make assumptions)
+    # Here's where things get weird... 
+    # we have to make assumptions in the event the admin has not done any work.
     ############################################################################
 
     ############################################################################
@@ -154,15 +155,20 @@ sub create_certificate{
            push(@domain_cnfs,$cnf_file);
        }
     }
-    print STDERR Data::Dumper->Dump([@domain_cnfs]);
-    print STDERR Data::Dumper->Dump([$#domain_cnfs]);
 
     ############################################################################
     # If there are more than one, then something is wrong, but I'm going to use 
     #   the first one I find.
     # 
+    my $certdata={};
+    if($#domain_cnfs <= 0){
+       $certdata->{'config'}=$domain_cnfs[0];
+       $certdata->{'certs'}=$domain_cnfs[0];
+       $certdata->{'certs'}=~s/openssl.cnf$/certs/;
+    }else{
     # If it doesn't exist, look for a root-ca.$domain, and create it under there
-    # If root-ca.$domain doesn't exist, then look for any root-ca.*, 
+        print STDERR "We need code to look for root-ca.$domain, and to create $domain under it.\n";
+    }
     #   If there is only one, create $domain under it 
     #     (I can only assume you want to use the one that you made)
     #   If there isn't one, create root-ca.$domain
@@ -174,13 +180,23 @@ sub create_certificate{
     # but if you didn't bother to take the time to create either, 
     # then I can only assume you've got no idea what you want, so I set it up the way *I* want
     
-    # Ensure they don't already have one 
-    # clone the parent domain's openssl.cnf
-    # create the 
-    # create password-protected private key
-    # convert to a pkcs12 container with the passphrase
-    # ship the key to the user for saving locally.
-    return $self;  
+    # only do so if one doesn't exist
+    my $pkcs12data=undef;
+    if( ! -d "$certdata->{'certs'}/$objectname"){
+        mkdir("$certdata->{'certs'}/$objectname",0700);
+        # create password-protected private key
+        mkdir("$certdata->{'certs'}/$objectname/private",0700);
+        system("/usr/bin/openssl genrsa -out $certdata->{'certs'}/$objectname/private/$objectname.key 1024");
+        # create the CSR
+openssl req -new -key $base/users/$1/$1.key -out $base/users/$1/$1.csr
+        system("/usr/bin/openssl req -new -sha1 -days 365 -key $certdata->{'certs'}/$objectname/private/$objectname.key  -out $certdata->{'certs'}/$objectname/$objectname.csr -config $certdata->{'config'} -batch");
+        # Sign it with the parent
+        # convert to a pkcs12 container with the passphrase
+        # read in the content fo the pkcs12 cert to memory
+        # remove the pkcs12 cert from disk
+        # return the content of the pkcs12 cert as a blob for file transfer to the client
+    }
+    return $pkcs12data;
 }
 
 sub remove_certificate{
