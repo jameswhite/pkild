@@ -477,11 +477,11 @@ sub actual_node_from_objectname{
     $self->find_file($rootdir,"openssl.cnf");
     foreach my $cnf_file (@{ $self->{'file_list'} }){
        my $cnf_domain=$self->ca_domain_from_file($cnf_file);
+    print STDERR Data::Dumper->Dump([$cnf_domain]);
        if($cnf_domain eq $domain){
            push(@domain_cnfs,$cnf_file);
        }
     }
-    print STDERR Data::Dumper->Dump([$self->{'file_list'}]);
     ############################################################################
     # If there are more than one, then something is wrong, but I'm going to use 
     #   the first one I find.
