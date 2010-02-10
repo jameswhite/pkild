@@ -317,13 +317,13 @@ sub do_form : Global {
             $c->stash->{'result'} = $c->model('Certificates')->remove_certificate($c->req->params,$c->session);
             $c->stash->{'template'}="application.tt";
         }elsif($c->req->param('action_type') eq 'pkcs12_cert'){
-            my $slurped_cert=$c->stash->{'result'} = $c->model('Certificates')->create_certificate($c->req->params,$c->session);
+            my $pkcs12cert = $c->model('Certificates')->create_certificate($c->req->params,$c->session);
             open my $fh, '>', '/tmp/wtf.p12';
-            print $fh $slurped_cert;
+            print $fh $pkcs12cert;
             close $fh;
             $c->response->headers->header( 'content-type' => "application/x-pkcs12" );
             $c->response->headers->header( 'content-disposition' => "attachment; filename=certificate.p12" );
-            $c->response->body($slurped_cert);
+            $c->response->body($pkcs12cert);
         }
     }
 }
