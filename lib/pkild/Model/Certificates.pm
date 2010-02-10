@@ -481,7 +481,7 @@ sub actual_node_from_objectname{
            push(@domain_cnfs,$cnf_file);
        }
     }
-
+    print STDERR Data::Dumper->Dump([$self->{'file_list'}]);
     ############################################################################
     # If there are more than one, then something is wrong, but I'm going to use 
     #   the first one I find.
