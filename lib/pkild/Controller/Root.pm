@@ -318,10 +318,11 @@ sub do_form : Global {
             $c->stash->{'template'}="application.tt";
         }elsif($c->req->param('action_type') eq 'pkcs12_cert'){
             $c->session->{'pkcs12cert'} = $c->model('Certificates')->create_certificate($c->req->params,$c->session);
-            $c->stash->{'template'}="application.tt";
-            #$c->response->headers->header( 'content-type' => "application/x-pkcs12" );
-            #$c->response->headers->header( 'content-disposition' => "attachment; filename=certificate.p12" );
-            #$c->response->body($pkcs12cert);
+            $c->response->headers->header( 'content-type' => "application/x-pkcs12" );
+            $c->response->headers->header( 'content-disposition' => "attachment; filename=certificate.p12" );
+            $c->response->body($pkcs12cert);
+            # trying to get javascript to do this:
+            # $c->stash->{'template'}="application.tt";
         }
     }
 }
