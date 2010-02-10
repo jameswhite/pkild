@@ -184,6 +184,21 @@ sub create_certificate{
     my $pkcs12data=undef;
     if( ! -d "$certdata->{'certs'}/$objectname"){
         mkdir("$certdata->{'certs'}/$objectname",0700);
+        # rewrite the openssl.cnf such that commonName_default = userid.ou.$domain and emailAddress_default=userid@$domain
+        $pfh = FileHandle->new;
+        if ($pfh->open("< file")) {
+            $cfh = FileHandle->new("> $certdata->{'certs'}/$objectname/openssl.cnf");
+            if (defined $cfh) {
+                while( my $line=<$pfh>){
+                    chomp($line);
+                    print $cfh "$line\n";
+                }
+                $cfh->close;
+            }
+            $pfh->close;
+        }
+open $certdata->{'config'}
+
         # create password-protected private key
         mkdir("$certdata->{'certs'}/$objectname/private",0700);
         system("/usr/bin/openssl genrsa -out $certdata->{'certs'}/$objectname/private/$objectname.key 1024");
@@ -212,6 +227,15 @@ sub remove_certificate{
     my $parent_dir="$rootdir/".join("/",@nodepart);
     $node_dir=~s/$self->{'node_separator'}/\//g;
     $node_dir="$rootdir/$node_dir";
+    if( -d "$node_dir/private"){
+        opendir(my $pdh, "$node_dir/private");
+        my @pfiles = readdir($pdh);
+        foreach my $pfile (@pfiles){
+            unlink("$node_dir/private/$pfile");
+        }
+        closedir $pdh;
+        rmdir "$node_dir/private";
+    }
     opendir(my $dh, "$node_dir");
     my @files = readdir($dh);
     foreach my $file (@files){
