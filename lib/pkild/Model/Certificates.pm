@@ -138,8 +138,15 @@ sub create_certificate{
         $identity_type=$1; $identity=$2; $orgunit=$3; $domain=$4; $domain=~s/,dc=/./g;
     }
     $self->{'file_list'}=[];
+    my @domain_cnfs;
     $self->find_file($rootdir,"openssl.cnf");
-    print STDERR Data::Dumper->Dump([$self->{'file_list'}]);
+    foreach my $cnf_files (@{ $self->{'file_list'} }){
+       my $cnf_domain=$self->ca_domain_from_file($cnf_file);
+       if($cnf_domain eq $domain){
+           push(@domain_cnfs,$cnf_file);
+       }
+    }
+    print STDERR Data::Dumper->Dump([@domain_cnfs]);
     
     ############################################################################
     # Here's where things get weird... (we have to make assumptions)
