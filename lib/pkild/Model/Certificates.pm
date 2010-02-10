@@ -109,6 +109,7 @@ use FileHandle;
 
 sub find_file{
     my ($self,$dir,$fileregex)=@_; 
+print STDERR "inspecting  $dir for $fileregex\n";
     opendir(DIR,$dir);
     if ($dir !~ /\/$/) { $dir .= "/"; }
     my @dirlist=readdir(DIR);
@@ -116,6 +117,7 @@ sub find_file{
     splice(@dirlist,0,2);
     foreach my $file (@dirlist){
         if($file ne "." && $file ne ".."){
+            my $file = $dir.$file;
             if (-d $file){
                 $self->find_file($file,$fileregex);
             }else{
