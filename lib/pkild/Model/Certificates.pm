@@ -87,24 +87,81 @@ sub has_certificate{
     return undef;
 }
 
+sub ca-domain_from_file{
+use FileHandle;
+   my $self=shift;
+   my $file=shift;
+   my $fh = FileHandle->new;
+   my $ca_domain;
+   if ($fh->open("< $_")) {
+       while(my $line=<$fh>){
+           chomp($line);
+           if($line=~m/^\s*ca-domain\s*=\s*(.*)/){
+               $ca_domain=$1; 
+               $ca_domain=~s/^\s*//g;
+               $ca_domain=~s/\s*$//g;
+           }
+       }
+       $fh->close;
+   }
+   print return $ca_domain;
+}
+
+sub find_file{
+    my ($self,$dir,$fileregex)=@_; 
+    opendir(DIR,$dir);
+    if ($dir !~ /\/$/) { $dir .= "/"; }
+    my @dirlist=readdir(DIR);
+    closedir(DIR);
+    splice(@dirlist,0,2);
+    foreach $file (@dirlist){
+        if($file ne "." && $file ne ".."){
+            my $file = $dir.$file;
+            if (-d $file){
+                $self->find_file($file,$fileregex);
+            }else{
+                if($file=~m/$fileregex/){
+                   push( @{$self->{'file_list'} },$dir.$file)
+                }
+            }
+        }
+    }
+    return $self;
+}
+
 sub create_certificate{
     my ($self, $param, $session)=@_;
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     my $objectname = $session->{'user'}->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'};
     my ($identity_type, $identity,$orgunit,$domain);
     if($objectname=~m/\s*(.*)\s*=\s*(.*)\s*,\s*[Oo][Uu]\s*=\s*([^,]+)\s*,\s*dc\s*=\s*(.*)\s*/){
-        $identity_type=$1;
-        $identity=$2;
-        $orgunit=$3;
-        $domain=$4;
-       $domain=~s/,dc=/./g;
+        $identity_type=$1; $identity=$2; $orgunit=$3; $domain=$4; $domain=~s/,dc=/./g;
     }
-    print STDERR "\n\n\n";
-    print STDERR "$objectname\n";
-    print STDERR "$identity_type :: $identity :: $orgunit ::  $domain\n";
-    print STDERR "\n\n\n";
-
-    # Determine the parent domain
+    $self->{'file_list'}=[];
+    $self->find_file($rootdir,"openssl.cnf");
+    print STDERR Data::Dumper->Dump([$self->{'file_list'}]);
+    
+    ############################################################################
+    # Here's where things get weird... (we have to make assumptions)
+    # 
+    ############################################################################
+    # Find the parent domain's openssl.conf by inspecting each one under 
+    #   $rootdir and finding ca-domain = $domain
+    # If there are more than one, then something is wrong, but I'm going to use 
+    #   the first one I find.
+    # If it doesn't exist, look for a root-ca.$domain, and create it under there
+    # If root-ca.$domain doesn't exist, then look for any root-ca.*, 
+    #   If there is only one, create $domain under it 
+    #     (I can only assume you want to use the one that you made)
+    #   If there isn't one, create root-ca.$domain
+    #   If there is more than one, create root-ca.$domain, 
+    #     as there is no way for me to determine which one you want
+    # 
+    # Note:
+    # There is nothing that says you can't have a foo.com under a root-ca.verisign.com, (this is often the case)
+    # but if you didn't bother to take the time to create either, 
+    # then I can only assume you've got no idea what you want, so I set it up the way *I* want
+    
     # Ensure they don't already have one 
     # clone the parent domain's openssl.cnf
     # create the 
