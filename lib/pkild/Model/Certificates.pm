@@ -452,7 +452,17 @@ sub ca_create{
 sub actual_node_from_objectname{
     my $self=shift;
     my $objectname=shift;
-    print STDERR "-=[$objectname]=-\n";
+    my ($identity_type, $identity,$orgunit,$domain);
+    if($objectname=~m/\s*(.*)\s*=\s*(.*)\s*,\s*[Oo][Uu]\s*=\s*([^,]+)\s*,\s*dc\s*=\s*(.*)\s*/){
+        $identity_type=$1; $identity=$2; $orgunit=$3; $domain=$4; $domain=~s/,dc=/./g;
+        # I hate upper case.
+        $identity_type=~tr/A-Z/a-z/;
+        $identity=~tr/A-Z/a-z/;
+        $orgunit=~tr/A-Z/a-z/;
+        $domain=~tr/A-Z/a-z/;
+    }
+    my $directory_map=$identity;
+    print STDERR "-=[$identity, $domain]=-\n";
     my $actual_node="new_cert";
     return $actual_node;
 }
