@@ -170,7 +170,7 @@ use File::Slurp;
     #   the first one I find.
     # 
     my $certdata={};
-    if($#domain_cnfs <= 0){
+    if($#domain_cnfs >= 0){
        $certdata->{'config'}=$domain_cnfs[0];
        $certdata->{'certs'}=$domain_cnfs[0];
        $certdata->{'certs'}=~s/openssl.cnf$/certs/;
@@ -481,14 +481,13 @@ sub actual_node_from_objectname{
            push(@domain_cnfs,$cnf_file);
        }
     }
-    print STDERR Data::Dumper->Dump([@domain_cnfs]);
     ############################################################################
     # If there are more than one, then something is wrong, but I'm going to use 
     #   the first one I find.
-    # 
+    # ( i need to use the highest one... )
     my $physical_path;
-    if($#domain_cnfs <= 0){
-       $physical_path=$domain_cnfs[0];
+    if($#domain_cnfs >= 0){
+       $physical_path = $domain_cnfs[0];
     }
 
     print STDERR "-=[$identity, $domain, $physical_path]=-\n";
