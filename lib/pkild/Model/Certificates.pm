@@ -145,6 +145,7 @@ use File::Slurp;
         $orgunit=~tr/A-Z/a-z/;
         $domain=~tr/A-Z/a-z/;
     }
+    my $directory_map=$identity;
     ############################################################################
     # Here's where things get weird... 
     # we have to make assumptions in the event the admin has not done any work.
@@ -173,8 +174,8 @@ use File::Slurp;
        $certdata->{'config'}=$domain_cnfs[0];
        $certdata->{'certs'}=$domain_cnfs[0];
        $certdata->{'certs'}=~s/openssl.cnf$/certs/;
-       $certdata->{'child_dir'}="$certdata->{'certs'}/$objectname";
-       $certdata->{'child_id'}="$objectname";
+       $certdata->{'child_dir'}="$certdata->{'certs'}/$directory_map";
+       $certdata->{'child_id'}="$directory_map";
     }else{
     # If it doesn't exist, look for a root-ca.$domain, and create it under there
         print STDERR "We need code to look for root-ca.$domain, and to create $domain under it.\n";
