@@ -195,7 +195,7 @@ use File::Slurp;
     my $pkcs12data=undef;
     if( ! -d "$certdata->{'child_dir'}"){
         mkdir("$certdata->{'child_dir'}",0700);
-        # rewrite the openssl.cnf such that commonName_default = userid.ou.$domain and emailAddress_default=userid@$domain
+        # rewrite the openssl.cnf such that commonName_default = userid and emailAddress_default=userid@$domain
         #
         my $pfh = FileHandle->new;
         if ($pfh->open("< $certdata->{'config'}")) {
@@ -203,7 +203,7 @@ use File::Slurp;
             if (defined $cfh) {
                 while( my $line=<$pfh>){
                     chomp($line);
-                    if($line=~m/commonName_default\s*=\s*(.*)/){ $line=~s/$1/$identity.$orgunit.$domain/; }
+                    if($line=~m/commonName_default\s*=\s*(.*)/){ $line=~s/$1/$identity/; }
                     if($line=~m/emailAddress_default\s*=\s*(.*)/){ $line=~s/$1/$identity\@$domain/; }
                     print $cfh "$line\n";
                 }
