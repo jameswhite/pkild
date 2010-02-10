@@ -136,6 +136,11 @@ sub create_certificate{
     my ($identity_type, $identity,$orgunit,$domain);
     if($objectname=~m/\s*(.*)\s*=\s*(.*)\s*,\s*[Oo][Uu]\s*=\s*([^,]+)\s*,\s*dc\s*=\s*(.*)\s*/){
         $identity_type=$1; $identity=$2; $orgunit=$3; $domain=$4; $domain=~s/,dc=/./g;
+        # I hate upper case.
+        $identity_type=~tr/A-Z/a-z/;
+        $identity=~tr/A-Z/a-z/;
+        $orgunit=~tr/A-Z/a-z/;
+        $domain=~tr/A-Z/a-z/;
     }
     ############################################################################
     # Here's where things get weird... 
@@ -204,7 +209,11 @@ sub create_certificate{
         system("/usr/bin/openssl genrsa -out $certdata->{'certs'}/$objectname/private/$objectname.key 1024");
         # create the CSR
         system("/usr/bin/openssl req -new -sha1 -days 365 -key $certdata->{'certs'}/$objectname/private/$objectname.key  -out $certdata->{'certs'}/$objectname/$objectname.csr -config $certdata->{'certs'}/$objectname/openssl.cnf -batch");
-        # Sign it with the parent
+        # Validate the request matches our conventions
+        print STDERR "We need to ensure the certificate signing request matches the requestor here";
+        # openssl req -text -noout -in $certdata->{'certs'}/$objectname/$objectname.csr
+
+        # if it's valid, Sign it with the parent
 ### openssl ca -in $base/users/$1/$1.csr -cert $base/ca.crt -keyfile $base/ca.key -out $base/users/$1/$1.crt
         system("/usr/bin/openssl ca -config $certdata->{'config'} -policy policy_anything -out $certdata->{'certs'}/$objectname/$objectname.crt -batch -infiles $certdata->{'certs'}/$objectname/$objectname.csr");
         # convert to a pkcs12 container with the passphrase
