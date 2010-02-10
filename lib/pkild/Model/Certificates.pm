@@ -94,9 +94,9 @@ sub create_certificate{
     my ($identity_type, $identity,$orgunit,$domain);
     if($objectname=~m/\s*(.*)\s*=\s*(.*)\s*,\s*[Oo][Uu]\s*=\s*([^,]+)\s*,\s*dc\s*=\s*(.*)\s*/){
         $identity_type=$1;
-        $identity=$1;
-        $orgunit=$2;
-        $domain=$3;
+        $identity=$2;
+        $orgunit=$3;
+        $domain=$4;
        $domain=~s/,dc=/./g;
     }
     print STDERR "\n\n\n";
