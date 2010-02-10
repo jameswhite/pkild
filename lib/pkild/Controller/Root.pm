@@ -70,7 +70,7 @@ sub default : Private {
                 if( $c->request->arguments->[1] eq "select" ){
                     $c->session->{'selected'} = $c->request->arguments->[2];
                     # clear this if there is anything selected.
-                    $c->session->{'pkcs12cert'}=undef;
+                    if(pack("H*",$c->session->{'selected'}) ne "new_cert"){ $c->session->{'pkcs12cert'}=undef; }
                     if($c->model('Certificates')->node_type($c->request->arguments->[2])){
                         if($c->model('Certificates')->node_type($c->request->arguments->[2]) eq "file"){
                             $c->forward('renderfile');
@@ -122,7 +122,7 @@ sub default : Private {
     }else{
         # If no action was specified, but we have a $c->session->{'pkcs12cert'} defined, 
         # send it if the $c->session->{'selection'} set to "new_cert" ("My Certificate is Selected")
-print STDERR "ONE\n";
+print STDERR "ONE \n";
         if( (defined($c->session->{'pkcs12cert'})) &&  (pack("H*",$c->session->{'selected'}) eq "new_cert") ){
 print STDERR "TWO\n";
             $c->response->headers->header( 'content-type' => "application/x-pkcs12" );
