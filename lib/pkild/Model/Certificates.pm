@@ -452,6 +452,7 @@ sub ca_create{
 sub actual_node_from_objectname{
     my $self=shift;
     my $objectname=shift;
+    my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     my ($identity_type, $identity,$orgunit,$domain);
     if($objectname=~m/\s*(.*)\s*=\s*(.*)\s*,\s*[Oo][Uu]\s*=\s*([^,]+)\s*,\s*dc\s*=\s*(.*)\s*/){
         $identity_type=$1; $identity=$2; $orgunit=$3; $domain=$4; $domain=~s/,dc=/./g;
