@@ -483,8 +483,8 @@ sub actual_node_from_objectname{
     }
     ############################################################################
     # If there are more than one, then something is wrong, but I'm going to use 
-    #   the first one I find.
-    # ( i need to use the highest one... )
+    #   the first one I find.  ( Doh! i need to use the highest one... )
+#/*FIXME*/
     my $physical_path;
     if($#domain_cnfs >= 0){
        $physical_path = $domain_cnfs[0];
