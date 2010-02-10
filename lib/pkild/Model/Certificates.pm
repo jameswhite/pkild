@@ -452,6 +452,7 @@ sub ca_create{
 # by convention, all CAs have a subdir named "certs" and others don't
 sub node_type{
     my ($self, $unpacked_node)=@_;
+print STDERR "$unpacked_node\n";
     my $node = pack("H*",$unpacked_node);
     my @nodepart=split(/$self->{'node_separator'}/, $node);
     $node =~s/$self->{'node_separator'}/\//g;
