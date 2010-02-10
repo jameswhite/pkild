@@ -122,7 +122,7 @@ print STDERR "inspecting  $dir for $fileregex\n";
                 $self->find_file($file,$fileregex);
             }else{
                 if($file=~m/$fileregex/){
-                   push( @{$self->{'file_list'} },$dir.$file)
+                   push( @{$self->{'file_list'} },$file)
                 }
             }
         }
