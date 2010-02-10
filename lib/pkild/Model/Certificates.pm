@@ -135,6 +135,8 @@ use File::Slurp;
     my ($self, $param, $session)=@_;
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     my $objectname = $session->{'user'}->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'};
+    my $cn = $session->{'user'}->{'user'}->{'ldap_entry'}->{'asn'}->{'cn'};
+    print STDERR "-=[$cn]=-\n";
     my ($identity_type, $identity,$orgunit,$domain);
     if($objectname=~m/\s*(.*)\s*=\s*(.*)\s*,\s*[Oo][Uu]\s*=\s*([^,]+)\s*,\s*dc\s*=\s*(.*)\s*/){
         $identity_type=$1; $identity=$2; $orgunit=$3; $domain=$4; $domain=~s/,dc=/./g;
@@ -225,15 +227,10 @@ use File::Slurp;
         # read in the content fo the pkcs12 cert to memory
         $pkcs12data = read_file( "$certdata->{'certs'}/$objectname/$objectname.p12", binmode => ':raw' ) ;        
         # remove the pkcs12 cert from disk
-        # unlink("$certdata->{'certs'}/$objectname/$objectname.p12");
+        unlink("$certdata->{'certs'}/$objectname/$objectname.p12");
         # return the content of the pkcs12 cert as a blob for file transfer to the client
     }
     return $pkcs12data;
-}
-
-sub pkcs12_data{
-     my $self=shift;
-     return $self->{'pkcs12data'};
 }
 
 sub remove_certificate{
