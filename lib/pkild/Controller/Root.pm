@@ -307,23 +307,26 @@ sub do_form : Global {
     if($c->req->param('action_type')){
         if($c->req->param('action_type') eq 'new_ca'){
             $c->stash->{'result'} = $c->model('Certificates')->ca_create($c->req->params,$c->session);
+            $c->stash->{'template'}="application.tt";
         }elsif($c->req->param('action_type') eq 'sign_cert'){
             $c->stash->{'result'} = $c->model('Certificates')->sign_certificate($c->req->params,$c->session);
+            $c->stash->{'template'}="application.tt";
         }elsif($c->req->param('action_type') eq 'create_cert'){
             $c->stash->{'result'} = $c->model('Certificates')->create_certificate($c->req->params,$c->session);
+            $c->stash->{'template'}="application.tt";
         }elsif($c->req->param('action_type') eq 'revoke_cert'){
             $c->stash->{'result'} = $c->model('Certificates')->revoke_certificate($c->req->params,$c->session);
+            $c->stash->{'template'}="application.tt";
         }elsif($c->req->param('action_type') eq 'remove_cert'){
             $c->stash->{'result'} = $c->model('Certificates')->remove_certificate($c->req->params,$c->session);
+            $c->stash->{'template'}="application.tt";
         }elsif($c->req->param('action_type') eq 'pkcs12_cert'){
             my $rawdata=$c->stash->{'result'} = $c->model('Certificates')->create_certificate($c->req->params,$c->session);
             $c->response->headers->header( 'content-type' => "application/x-pkcs12" );
             $c->response->headers->header( 'content-disposition' => "attachment; filename=certificate.p12" );
             $c->response->body($rawdata);
-            $c->detach();
         }
     }
-    $c->stash->{'template'}="application.tt";
 }
 =head2 end
 
