@@ -150,16 +150,17 @@ sub create_certificate{
     $self->find_file($rootdir,"openssl.cnf");
     foreach my $cnf_file (@{ $self->{'file_list'} }){
        my $cnf_domain=$self->ca_domain_from_file($cnf_file);
-print STDERR "$cnf_file => [$cnf_domain]\n";
        if($cnf_domain eq $domain){
            push(@domain_cnfs,$cnf_file);
        }
     }
     print STDERR Data::Dumper->Dump([@domain_cnfs]);
+    print STDERR Data::Dumper->Dump([$#domain_cnfs]);
 
     ############################################################################
     # If there are more than one, then something is wrong, but I'm going to use 
     #   the first one I find.
+    # 
     # If it doesn't exist, look for a root-ca.$domain, and create it under there
     # If root-ca.$domain doesn't exist, then look for any root-ca.*, 
     #   If there is only one, create $domain under it 
