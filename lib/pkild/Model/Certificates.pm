@@ -90,10 +90,9 @@ sub has_certificate{
 sub create_certificate{
     my ($self, $param, $session)=@_;
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
-    my $objectname=$session->{'user'}->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'};
-    my $domain=$objectname;
+    my $objectname = $session->{'user'}->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'};
     my ($uniquepart,$orgunit,$domain);
-    if($domain=~m/(.*),(.*),(.*)/){
+    if($objectname=~m/(.*),(.*),(.*)/){
         $uniquepart=$1;
         $orgunit=$2;
         $domain=$3;
@@ -101,7 +100,6 @@ sub create_certificate{
     }
     print STDERR "\n\n\n";
     print STDERR "$objectname\n";
-    print STDERR "$domain\n";
     print STDERR "$uniquepart :: $orgunit ::  $domain\n";
     print STDERR "\n\n\n";
 
