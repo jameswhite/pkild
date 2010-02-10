@@ -186,7 +186,7 @@ sub create_certificate{
         mkdir("$certdata->{'certs'}/$objectname",0700);
         # rewrite the openssl.cnf such that commonName_default = userid.ou.$domain and emailAddress_default=userid@$domain
         my $pfh = FileHandle->new;
-        if ($pfh->open("< file")) {
+        if ($pfh->open("< $certdata->{'config'}")) {
             my $cfh = FileHandle->new("> $certdata->{'certs'}/$objectname/openssl.cnf");
             if (defined $cfh) {
                 while( my $line=<$pfh>){
