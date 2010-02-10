@@ -173,6 +173,8 @@ use File::Slurp;
        $certdata->{'config'}=$domain_cnfs[0];
        $certdata->{'certs'}=$domain_cnfs[0];
        $certdata->{'certs'}=~s/openssl.cnf$/certs/;
+       $certdata->{'child_dir'}="$certdata->{'certs'}/$objectname";
+       $certdata->{'child_id'}="$objectname";
     }else{
     # If it doesn't exist, look for a root-ca.$domain, and create it under there
         print STDERR "We need code to look for root-ca.$domain, and to create $domain under it.\n";
@@ -190,12 +192,13 @@ use File::Slurp;
     
     # only do so if one doesn't exist
     my $pkcs12data=undef;
-    if( ! -d "$certdata->{'certs'}/$objectname"){
-        mkdir("$certdata->{'certs'}/$objectname",0700);
+    if( ! -d "$certdata->{'child_dir'}"){
+        mkdir("$certdata->{'child_dir'}",0700);
         # rewrite the openssl.cnf such that commonName_default = userid.ou.$domain and emailAddress_default=userid@$domain
+        #
         my $pfh = FileHandle->new;
         if ($pfh->open("< $certdata->{'config'}")) {
-            my $cfh = FileHandle->new("> $certdata->{'certs'}/$objectname/openssl.cnf");
+            my $cfh = FileHandle->new("> $certdata->{'child_dir'}/openssl.cnf");
             if (defined $cfh) {
                 while( my $line=<$pfh>){
                     chomp($line);
@@ -208,25 +211,24 @@ use File::Slurp;
             $pfh->close;
         }
         # create password-protected private key
-        mkdir("$certdata->{'certs'}/$objectname/private",0700);
-        system("/usr/bin/openssl genrsa -out $certdata->{'certs'}/$objectname/private/$objectname.key 1024");
+        mkdir("$certdata->{'child_dir'}/private",0700);
+        system("/usr/bin/openssl genrsa -out $certdata->{'child_dir'}/private/$certdata->{'child_id'}.key 1024");
         # create the CSR
-        system("/usr/bin/openssl req -new -sha1 -days 365 -key $certdata->{'certs'}/$objectname/private/$objectname.key  -out $certdata->{'certs'}/$objectname/$objectname.csr -config $certdata->{'certs'}/$objectname/openssl.cnf -batch");
+        system("/usr/bin/openssl req -new -sha1 -days 365 -key $certdata->{'child_dir'}/private/$certdata->{'child_id'}.key  -out $certdata->{'child_dir'}/$certdata->{'child_id'}.csr -config $certdata->{'child_dir'}/openssl.cnf -batch");
         # Validate the request matches our conventions
         print STDERR "We need to ensure the certificate signing request matches the requestor here";
-        # openssl req -text -noout -in $certdata->{'certs'}/$objectname/$objectname.csr
+        # openssl req -text -noout -in $certdata->{'child_dir'}/$certdata->{'child_id'}.csr
+
 
         # if it's valid, Sign it with the parent
 ### openssl ca -in $base/users/$1/$1.csr -cert $base/ca.crt -keyfile $base/ca.key -out $base/users/$1/$1.crt
-        system("/usr/bin/openssl ca -config $certdata->{'config'} -policy policy_anything -out $certdata->{'certs'}/$objectname/$objectname.crt -batch -infiles $certdata->{'certs'}/$objectname/$objectname.csr");
+        system("/usr/bin/openssl ca -config $certdata->{'config'} -policy policy_anything -out $certdata->{'child_dir'}/$certdata->{'child_id'}.crt -batch -infiles $certdata->{'child_dir'}/$certdata->{'child_id'}.csr");
         # convert to a pkcs12 container with the passphrase
-        
-        print STDERR "/bin/echo \"$param->{'password'}\" | /usr/bin/openssl pkcs12 -export -clcerts -passout fd:0 -in $certdata->{'certs'}/$objectname/$objectname.crt -inkey $certdata->{'certs'}/$objectname/private/$objectname.key -out $certdata->{'certs'}/$objectname/$objectname.p12\n";
-        system("/bin/echo \"$param->{'password'}\" | /usr/bin/openssl pkcs12 -export -clcerts -passout fd:0 -in $certdata->{'certs'}/$objectname/$objectname.crt -inkey $certdata->{'certs'}/$objectname/private/$objectname.key -out $certdata->{'certs'}/$objectname/$objectname.p12");
+        system("/bin/echo \"$param->{'password'}\" | /usr/bin/openssl pkcs12 -export -clcerts -passout fd:0 -in $certdata->{'child_dir'}/$certdata->{'child_id'}.crt -inkey $certdata->{'child_dir'}/private/$certdata->{'child_id'}.key -out $certdata->{'child_dir'}/$certdata->{'child_id'}.p12");
         # read in the content fo the pkcs12 cert to memory
-        $pkcs12data = read_file( "$certdata->{'certs'}/$objectname/$objectname.p12", binmode => ':raw' ) ;        
+        $pkcs12data = read_file( "$certdata->{'child_dir'}/$certdata->{'child_id'}.p12", binmode => ':raw' ) ;        
         # remove the pkcs12 cert from disk
-        unlink("$certdata->{'certs'}/$objectname/$objectname.p12");
+        unlink("$certdata->{'child_dir'}/$certdata->{'child_id'}.p12");
         # return the content of the pkcs12 cert as a blob for file transfer to the client
     }
     return $pkcs12data;
