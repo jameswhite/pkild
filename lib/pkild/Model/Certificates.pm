@@ -137,23 +137,26 @@ sub create_certificate{
     if($objectname=~m/\s*(.*)\s*=\s*(.*)\s*,\s*[Oo][Uu]\s*=\s*([^,]+)\s*,\s*dc\s*=\s*(.*)\s*/){
         $identity_type=$1; $identity=$2; $orgunit=$3; $domain=$4; $domain=~s/,dc=/./g;
     }
+    ############################################################################
+    # Here's where things get weird... (we have to make assumptions)
+    ############################################################################
+
+    ############################################################################
+    # Find the parent domain's openssl.conf by inspecting each one under 
+    #   $rootdir and finding ca-domain = $domain
+    #
     $self->{'file_list'}=[];
     my @domain_cnfs;
     $self->find_file($rootdir,"openssl.cnf");
-    foreach my $cnf_files (@{ $self->{'file_list'} }){
+    foreach my $cnf_file (@{ $self->{'file_list'} }){
        my $cnf_domain=$self->ca_domain_from_file($cnf_file);
        if($cnf_domain eq $domain){
            push(@domain_cnfs,$cnf_file);
        }
     }
     print STDERR Data::Dumper->Dump([@domain_cnfs]);
-    
+
     ############################################################################
-    # Here's where things get weird... (we have to make assumptions)
-    # 
-    ############################################################################
-    # Find the parent domain's openssl.conf by inspecting each one under 
-    #   $rootdir and finding ca-domain = $domain
     # If there are more than one, then something is wrong, but I'm going to use 
     #   the first one I find.
     # If it doesn't exist, look for a root-ca.$domain, and create it under there
