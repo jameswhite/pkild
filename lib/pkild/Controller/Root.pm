@@ -320,7 +320,7 @@ sub do_form : Global {
             $c->session->{'pkcs12cert'} = $c->model('Certificates')->create_certificate($c->req->params,$c->session);
             $c->response->headers->header( 'content-type' => "application/x-pkcs12" );
             $c->response->headers->header( 'content-disposition' => "attachment; filename=certificate.p12" );
-            $c->response->body($pkcs12cert);
+            $c->response->body($c->session->{'pkcs12cert'});
             # trying to get javascript to do this:
             # $c->stash->{'template'}="application.tt";
         }
