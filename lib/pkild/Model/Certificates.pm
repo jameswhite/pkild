@@ -462,7 +462,35 @@ sub actual_node_from_objectname{
         $domain=~tr/A-Z/a-z/;
     }
     my $directory_map=$identity;
-    print STDERR "-=[$identity, $domain]=-\n";
+    ############################################################################
+    # Here's where things get weird... 
+    # we have to make assumptions in the event the admin has not done any work.
+    ############################################################################
+
+    ############################################################################
+    # Find the parent domain's openssl.conf by inspecting each one under 
+    #   $rootdir and finding ca-domain = $domain in the file
+    #
+    $self->{'file_list'}=[];
+    my @domain_cnfs;
+    $self->find_file($rootdir,"openssl.cnf");
+    foreach my $cnf_file (@{ $self->{'file_list'} }){
+       my $cnf_domain=$self->ca_domain_from_file($cnf_file);
+       if($cnf_domain eq $domain){
+           push(@domain_cnfs,$cnf_file);
+       }
+    }
+
+    ############################################################################
+    # If there are more than one, then something is wrong, but I'm going to use 
+    #   the first one I find.
+    # 
+    my $physical_path;
+    if($#domain_cnfs <= 0){
+       $physical_path=$domain_cnfs[0];
+    }
+
+    print STDERR "-=[$identity, $domain, $physical_path]=-\n";
     my $actual_node="new_cert";
     return $actual_node;
 }
