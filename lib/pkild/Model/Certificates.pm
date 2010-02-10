@@ -93,7 +93,7 @@ use FileHandle;
    my $file=shift;
    my $fh = FileHandle->new;
    my $ca_domain;
-   if ($fh->open("< $_")) {
+   if ($fh->open("< $file")) {
        while(my $line=<$fh>){
            chomp($line);
            if($line=~m/^\s*ca-domain\s*=\s*(.*)/){
