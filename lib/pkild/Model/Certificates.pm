@@ -221,7 +221,7 @@ use File::Slurp;
         # convert to a pkcs12 container with the passphrase
         system("/bin/echo \"$param->{'password'}\" | /usr/bin/openssl pkcs12 -export -clcerts -passout fd:0 -in $certdata->{'certs'}/$objectname/$objectname.crt -inkey $certdata->{'certs'}/$objectname/private/$objectname.key -out $certdata->{'certs'}/$objectname/$objectname.p12");
         # read in the content fo the pkcs12 cert to memory
-        my $pkcs12data = read_file( $certdata->{'certs'}/$objectname/$objectname.p12, binmode => ':raw' ) ;        
+        my $pkcs12data = read_file( "$certdata->{'certs'}/$objectname/$objectname.p12", binmode => ':raw' ) ;        
         # remove the pkcs12 cert from disk
         unlink("$certdata->{'certs'}/$objectname/$objectname.p12");
         # return the content of the pkcs12 cert as a blob for file transfer to the client
