@@ -109,7 +109,6 @@ use FileHandle;
 
 sub find_file{
     my ($self,$dir,$fileregex)=@_; 
-print STDERR "inspecting  $dir for $fileregex\n";
     opendir(DIR,$dir);
     if ($dir !~ /\/$/) { $dir .= "/"; }
     my @dirlist=readdir(DIR);
@@ -150,8 +149,8 @@ sub create_certificate{
     my @domain_cnfs;
     $self->find_file($rootdir,"openssl.cnf");
     foreach my $cnf_file (@{ $self->{'file_list'} }){
-print STDERR "[$cnf_file]\n";
        my $cnf_domain=$self->ca_domain_from_file($cnf_file);
+print STDERR "$cnf_file => [$cnf_domain]\n";
        if($cnf_domain eq $domain){
            push(@domain_cnfs,$cnf_file);
        }
