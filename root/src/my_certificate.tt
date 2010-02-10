@@ -37,7 +37,7 @@
                 </tr>
                 <tr>
                     <td>&nbsp;</td>
-                    <td><input type='submit' style='display: none' id='submitcreate' name='submit' value='create' onclick="tree();"></td>
+                    <td><input type='submit' style='display: none' id='submitcreate' name='submit' value='create'></td>
                     <!-- we need an onclick ajax here to update '#left-pane', when it reloads, it should re-load '#right-pane' -->
                 </tr>
             </table>
