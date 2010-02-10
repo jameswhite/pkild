@@ -35,6 +35,7 @@ sub tree{
         next if $node=~m/\/crl$/;
         next if $node=~m/\.pem$/;
         next if $node=~m/\.csr$/;
+        next if $node=~m/\.p12$/;
         # We need to know if this is a file, or a directory
         $type="unknown";
         if( -d $node){ $type="folder"; }
