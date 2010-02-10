@@ -449,11 +449,18 @@ sub ca_create{
     return "ERROR";
 }
 
+sub actual_node_from_objectname{
+    my $self=shift;
+    my $objectname=shift;
+    print STDERR "-=[$objectname]=-";
+    my $actual_node="new_cert";
+    return $actual_node;
+}
+
 # by convention, all CAs have a subdir named "certs" and others don't
 sub node_type{
     my ($self, $unpacked_node)=@_;
     my $node = pack("H*",$unpacked_node);
-print STDERR "$node\n";
     my @nodepart=split(/$self->{'node_separator'}/, $node);
     $node =~s/$self->{'node_separator'}/\//g;
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });

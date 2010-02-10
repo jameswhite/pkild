@@ -232,14 +232,21 @@ sub drawform : Global {
     # was selected and render it. 
     ############################################################
     my $menu = "new_root_ca";
+    my $actual_node;
     if($c->model('Certificates')->node_type( $c->session->{'current_node'} )){
-        if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "logout"){ $menu='logout'; }
-        if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "new_root_ca"){ $menu='new_root_ca'; }
-        if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "new_cert"){ $menu='my_cert'; }
-        if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "certs"){ $menu='sign'; }
-        if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "certificate"){ $menu='revoke'; }
-        if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "revoked_certificate"){ $menu='remove'; $c->session->{'selected'}=undef; }
-        if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "ca"){ 
+        if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "new_cert"){ 
+            my $objectname = $session->{'user'}->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'};
+            $actual_node = $c->model('Certificates')->actual_node_from_objectname($objectname);
+            $menu='my_cert'; 
+        }else{
+            $actual_node = $c->session->{'current_node'};
+        }
+        if($c->model('Certificates')->node_type( $actual_node ) eq "logout"){ $menu='logout'; }
+        if($c->model('Certificates')->node_type( $actual_node ) eq "new_root_ca"){ $menu='new_root_ca'; }
+        if($c->model('Certificates')->node_type( $actual_node ) eq "certs"){ $menu='sign'; }
+        if($c->model('Certificates')->node_type( $actual_node ) eq "certificate"){ $menu='revoke'; }
+        if($c->model('Certificates')->node_type( $actual_node ) eq "revoked_certificate"){ $menu='remove'; $c->session->{'selected'}=undef; }
+        if($c->model('Certificates')->node_type( $actual_node ) eq "ca"){ 
             $menu='new_mid_ca'; 
             # load the new_mid_ca form data with the parent node's values if the mid-ca form has not defined them yet
             foreach my $root_field (@{ $c->session->{'menudata'}->{'new_root_ca'}->{'fields'} }){
@@ -259,7 +266,7 @@ sub drawform : Global {
             $c->res->body( $c->view('TT')->render($c , 'form.tt', { 
                                                                     additional_template_paths => [ $c->config->{root} . '/src'],
                                                                     'menudata' => $c->session->{'menudata'}->{$menu},
-                                                                    'node' => $c->session->{'current_node'},
+                                                                    'node' => $actual_node,
                                                                   }
                                                  )
                          );
@@ -275,7 +282,7 @@ sub drawform : Global {
                                                        { 
                                                          'additional_template_paths' => [ $c->config->{root} . '/src'],
                                                          'menudata'                  => $c->session->{'menudata'}->{$menu},
-                                                         'node'                      => $c->session->{'current_node'},
+                                                         'node'                      => $actual_node,
                                                          'user'                      => $objectname,
                                                        },
                                                      )
