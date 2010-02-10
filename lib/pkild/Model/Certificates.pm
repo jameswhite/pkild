@@ -91,8 +91,8 @@ sub create_certificate{
     my ($self, $param, $session)=@_;
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     my $objectname = $session->{'user'}->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'};
-    my ($uniquepart,$orgunit,$domain);
-    if($objectname=~m/(.*)=(.*),[Oo][Uu]=([^,]+),dc=(.*)/){
+    my ($identity_type, $identity,$orgunit,$domain);
+    if($objectname=~m/\s*(.*)\s*=\s*(.*)\s*,\s*[Oo][Uu]\s*=\s*([^,]+)\s*,\s*dc\s*=\s*(.*)\s*/){
         $identity_type=$1;
         $identity=$1;
         $orgunit=$2;
