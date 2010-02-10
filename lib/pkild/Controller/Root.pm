@@ -233,19 +233,22 @@ sub drawform : Global {
     ############################################################
     my $menu = "new_root_ca";
     my $actual_node;
-    if($c->model('Certificates')->node_type( $c->session->{'current_node'} )){
-        if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "new_cert"){ 
-            my $objectname = $c->session->{'user'}->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'};
-            $actual_node = $c->model('Certificates')->actual_node_from_objectname($objectname);
-            $menu='my_cert'; 
-        }else{
-            $actual_node = $c->session->{'current_node'};
+    if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "new_cert"){ 
+        my $objectname = $c->session->{'user'}->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'};
+        $actual_node = $c->model('Certificates')->actual_node_from_objectname($objectname);
+        $menu='my_cert'; 
+    }else{
+        $actual_node = $c->session->{'current_node'};
+    }
+    if($c->model('Certificates')->node_type( $actual_node )){
+        if($c->model('Certificates')->node_type( $actual_node ) eq "logout"){              $menu='logout';      }
+        if($c->model('Certificates')->node_type( $actual_node ) eq "new_root_ca"){         $menu='new_root_ca'; }
+        if($c->model('Certificates')->node_type( $actual_node ) eq "certs"){               $menu='sign';        }
+        if($c->model('Certificates')->node_type( $actual_node ) eq "certificate"){         $menu='revoke';      }
+        if($c->model('Certificates')->node_type( $actual_node ) eq "revoked_certificate"){ 
+            $menu='remove'; 
+            $c->session->{'selected'}=undef; 
         }
-        if($c->model('Certificates')->node_type( $actual_node ) eq "logout"){ $menu='logout'; }
-        if($c->model('Certificates')->node_type( $actual_node ) eq "new_root_ca"){ $menu='new_root_ca'; }
-        if($c->model('Certificates')->node_type( $actual_node ) eq "certs"){ $menu='sign'; }
-        if($c->model('Certificates')->node_type( $actual_node ) eq "certificate"){ $menu='revoke'; }
-        if($c->model('Certificates')->node_type( $actual_node ) eq "revoked_certificate"){ $menu='remove'; $c->session->{'selected'}=undef; }
         if($c->model('Certificates')->node_type( $actual_node ) eq "ca"){ 
             $menu='new_mid_ca'; 
             # load the new_mid_ca form data with the parent node's values if the mid-ca form has not defined them yet

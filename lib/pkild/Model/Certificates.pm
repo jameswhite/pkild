@@ -452,7 +452,7 @@ sub ca_create{
 sub actual_node_from_objectname{
     my $self=shift;
     my $objectname=shift;
-    print STDERR "-=[$objectname]=-";
+    print STDERR "-=[$objectname]=-\n";
     my $actual_node="new_cert";
     return $actual_node;
 }
