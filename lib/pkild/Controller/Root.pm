@@ -181,12 +181,8 @@ sub logout : Global {
     # remove all user handles
     delete $c->session->{'user'};
     delete $c->session->{'username'};
-
     # expire our session
     $c->delete_session("logout");
-
-    # send us home, so subsequent page refreshes won't post logout
-    #$c->res->redirect("/pkild/"); <-- causes a redirect loop
     $c->detach();
 }
 
@@ -322,10 +318,12 @@ sub do_form : Global {
             $c->stash->{'template'}="application.tt";
         }elsif($c->req->param('action_type') eq 'pkcs12_cert'){
             my $slurped_cert=$c->stash->{'result'} = $c->model('Certificates')->create_certificate($c->req->params,$c->session);
+            open my $fh, '>', '/tmp/wtf.p12';
+            print $fh $slurped_cert;
+            close $fh;
             $c->response->headers->header( 'content-type' => "application/x-pkcs12" );
             $c->response->headers->header( 'content-disposition' => "attachment; filename=certificate.p12" );
             $c->response->body($slurped_cert);
-            $c->detach();
         }
     }
 }
