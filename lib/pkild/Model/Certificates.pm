@@ -223,12 +223,17 @@ use File::Slurp;
         print STDERR "/bin/echo \"$param->{'password'}\" | /usr/bin/openssl pkcs12 -export -clcerts -passout fd:0 -in $certdata->{'certs'}/$objectname/$objectname.crt -inkey $certdata->{'certs'}/$objectname/private/$objectname.key -out $certdata->{'certs'}/$objectname/$objectname.p12\n";
         system("/bin/echo \"$param->{'password'}\" | /usr/bin/openssl pkcs12 -export -clcerts -passout fd:0 -in $certdata->{'certs'}/$objectname/$objectname.crt -inkey $certdata->{'certs'}/$objectname/private/$objectname.key -out $certdata->{'certs'}/$objectname/$objectname.p12");
         # read in the content fo the pkcs12 cert to memory
-        $self->{'pkcs12data'} = read_file( "$certdata->{'certs'}/$objectname/$objectname.p12", binmode => ':raw' ) ;        
+        $pkcs12data = read_file( "$certdata->{'certs'}/$objectname/$objectname.p12", binmode => ':raw' ) ;        
         # remove the pkcs12 cert from disk
         # unlink("$certdata->{'certs'}/$objectname/$objectname.p12");
         # return the content of the pkcs12 cert as a blob for file transfer to the client
     }
     return $pkcs12data;
+}
+
+sub pkcs12_data{
+     my $self=shift;
+     return $self->{'pkcs12data'};
 }
 
 sub remove_certificate{
