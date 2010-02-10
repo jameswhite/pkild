@@ -188,7 +188,6 @@ sub create_certificate{
         mkdir("$certdata->{'certs'}/$objectname/private",0700);
         system("/usr/bin/openssl genrsa -out $certdata->{'certs'}/$objectname/private/$objectname.key 1024");
         # create the CSR
-openssl req -new -key $base/users/$1/$1.key -out $base/users/$1/$1.csr
         system("/usr/bin/openssl req -new -sha1 -days 365 -key $certdata->{'certs'}/$objectname/private/$objectname.key  -out $certdata->{'certs'}/$objectname/$objectname.csr -config $certdata->{'config'} -batch");
         # Sign it with the parent
         # convert to a pkcs12 container with the passphrase
