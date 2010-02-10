@@ -149,6 +149,7 @@ sub create_certificate{
     my @domain_cnfs;
     $self->find_file($rootdir,"openssl.cnf");
     foreach my $cnf_file (@{ $self->{'file_list'} }){
+print STDERR "[$cnf_file]\n";
        my $cnf_domain=$self->ca_domain_from_file($cnf_file);
        if($cnf_domain eq $domain){
            push(@domain_cnfs,$cnf_file);
