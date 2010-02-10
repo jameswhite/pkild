@@ -190,7 +190,10 @@ sub create_certificate{
         # create the CSR
         system("/usr/bin/openssl req -new -sha1 -days 365 -key $certdata->{'certs'}/$objectname/private/$objectname.key  -out $certdata->{'certs'}/$objectname/$objectname.csr -config $certdata->{'config'} -batch");
         # Sign it with the parent
+### openssl ca -in $base/users/$1/$1.csr -cert $base/ca.crt -keyfile $base/ca.key -out $base/users/$1/$1.crt
+        system("/usr/bin/openssl ca -config $certdata->{'config'} -policy policy_anything -out $certdata->{'certs'}/$objectname/$objectname.crt -batch -infiles $certdata->{'certs'}/$objectname/$objectname.csr");
         # convert to a pkcs12 container with the passphrase
+### openssl pkcs12 -export -clcerts -in $base/users/$1/$1.crt -inkey $base/users/$1/$1.key -out $base/users/$1/$1.p12
         # read in the content fo the pkcs12 cert to memory
         # remove the pkcs12 cert from disk
         # return the content of the pkcs12 cert as a blob for file transfer to the client
