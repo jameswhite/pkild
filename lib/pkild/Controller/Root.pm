@@ -122,7 +122,7 @@ sub default : Private {
     }else{
         # If no action was specified, but we have a $c->session->{'pkcs12cert'} defined, 
         # send it if the $c->session->{'selection'} set to "new_cert" ("My Certificate is Selected")
-        if(  (defined($c->session->{'pkcs12cert'}) &&  (pack("H*",$c->session->{'selected'}) eq "new_cert") ){
+        if( (defined($c->session->{'pkcs12cert'})) &&  (pack("H*",$c->session->{'selected'}) eq "new_cert") ){
             $c->response->headers->header( 'content-type' => "application/x-pkcs12" );
             $c->response->headers->header( 'content-disposition' => "attachment; filename=certificate.p12" );
             $c->response->body($c->session->{'pkcs12cert'});
