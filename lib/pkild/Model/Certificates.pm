@@ -92,15 +92,16 @@ sub create_certificate{
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     my $objectname = $session->{'user'}->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'};
     my ($uniquepart,$orgunit,$domain);
-    if($objectname=~m/(.*),[Oo][Uu]=([^,]+),dc=(.*)/){
-        $uniquepart=$1;
+    if($objectname=~m/(.*)=(.*),[Oo][Uu]=([^,]+),dc=(.*)/){
+        $identity_type=$1;
+        $identity=$1;
         $orgunit=$2;
         $domain=$3;
        $domain=~s/,dc=/./g;
     }
     print STDERR "\n\n\n";
     print STDERR "$objectname\n";
-    print STDERR "$uniquepart :: $orgunit ::  $domain\n";
+    print STDERR "$identity_type :: $identity :: $orgunit ::  $domain\n";
     print STDERR "\n\n\n";
 
     # Determine the parent domain
