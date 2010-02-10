@@ -191,6 +191,8 @@ sub create_certificate{
             if (defined $cfh) {
                 while( my $line=<$pfh>){
                     chomp($line);
+                    if($line=~m/commonName_default\s*=\s*(.*)/){ $line=~s/$1/"$identity.$identity_type.$domain"/; }
+                    if($line=~m/emailAddress_default\s*=\s*(.*)/){ $line=~s/$1/"$identity\@$domain"/; }
                     print $cfh "$line\n";
                 }
                 $cfh->close;
