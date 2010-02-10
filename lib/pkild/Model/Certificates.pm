@@ -131,6 +131,7 @@ sub find_file{
 }
 
 sub create_certificate{
+use File::Slurp;
     my ($self, $param, $session)=@_;
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     my $objectname = $session->{'user'}->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'};
@@ -220,7 +221,9 @@ sub create_certificate{
         # convert to a pkcs12 container with the passphrase
         system("/bin/echo \"$param->{'password'}\" | /usr/bin/openssl pkcs12 -export -clcerts -passout fd:0 -in $certdata->{'certs'}/$objectname/$objectname.crt -inkey $certdata->{'certs'}/$objectname/private/$objectname.key -out $certdata->{'certs'}/$objectname/$objectname.p12");
         # read in the content fo the pkcs12 cert to memory
+        my $pkcs12data = read_file( $certdata->{'certs'}/$objectname/$objectname.p12, binmode => ':raw' ) ;        
         # remove the pkcs12 cert from disk
+        unlink("$certdata->{'certs'}/$objectname/$objectname.p12");
         # return the content of the pkcs12 cert as a blob for file transfer to the client
     }
     return $pkcs12data;

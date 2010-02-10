@@ -316,7 +316,10 @@ sub do_form : Global {
         }elsif($c->req->param('action_type') eq 'remove_cert'){
             $c->stash->{'result'} = $c->model('Certificates')->remove_certificate($c->req->params,$c->session);
         }elsif($c->req->param('action_type') eq 'pkcs12_cert'){
-            $c->stash->{'result'} = $c->model('Certificates')->create_certificate($c->req->params,$c->session);
+            my $rawdata=$c->stash->{'result'} = $c->model('Certificates')->create_certificate($c->req->params,$c->session);
+            $c->response->headers->header( 'content-type' => "application/x-pkcs12" );
+            $c->response->headers->header( 'content-disposition' => "attachment; filename=certificate.p12" );
+            $c->response->body($rawdata);
         }
     }
     $c->stash->{'template'}="application.tt";
