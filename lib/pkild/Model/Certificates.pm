@@ -87,7 +87,7 @@ sub has_certificate{
     return undef;
 }
 
-sub ca-domain_from_file{
+sub ca_domain_from_file{
 use FileHandle;
    my $self=shift;
    my $file=shift;
