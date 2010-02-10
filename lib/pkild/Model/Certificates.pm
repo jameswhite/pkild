@@ -93,7 +93,7 @@ sub create_certificate{
     my $objectname=$session->{'user'}->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'};
     my $domain=$objectname;
     my ($uniquepart,$orgunit,$domain);
-    if($domain=~m/(.*),[Oo][Uu]=(.*),*dc=(.*)/){
+    if($domain=~m/(.*),ou=(.*),dc=(.*)/){
         $uniquepart=$1;
         $orgunit=$2;
         $domain=$3;
