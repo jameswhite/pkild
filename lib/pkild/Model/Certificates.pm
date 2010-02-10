@@ -191,7 +191,7 @@ sub create_certificate{
             if (defined $cfh) {
                 while( my $line=<$pfh>){
                     chomp($line);
-                    if($line=~m/commonName_default\s*=\s*(.*)/){ $line=~s/$1/"$identity.$identity_type.$domain"/; }
+                    if($line=~m/commonName_default\s*=\s*(.*)/){ $line=~s/$1/"$identity.$orgunit.$domain"/; }
                     if($line=~m/emailAddress_default\s*=\s*(.*)/){ $line=~s/$1/"$identity\@$domain"/; }
                     print $cfh "$line\n";
                 }
@@ -203,7 +203,7 @@ sub create_certificate{
         mkdir("$certdata->{'certs'}/$objectname/private",0700);
         system("/usr/bin/openssl genrsa -out $certdata->{'certs'}/$objectname/private/$objectname.key 1024");
         # create the CSR
-        system("/usr/bin/openssl req -new -sha1 -days 365 -key $certdata->{'certs'}/$objectname/private/$objectname.key  -out $certdata->{'certs'}/$objectname/$objectname.csr -config $certdata->{'config'} -batch");
+        system("/usr/bin/openssl req -new -sha1 -days 365 -key $certdata->{'certs'}/$objectname/private/$objectname.key  -out $certdata->{'certs'}/$objectname/$objectname.csr -config $certdata->{'certs'}/openssl.cnf -batch");
         # Sign it with the parent
 ### openssl ca -in $base/users/$1/$1.csr -cert $base/ca.crt -keyfile $base/ca.key -out $base/users/$1/$1.crt
         system("/usr/bin/openssl ca -config $certdata->{'config'} -policy policy_anything -out $certdata->{'certs'}/$objectname/$objectname.crt -batch -infiles $certdata->{'certs'}/$objectname/$objectname.csr");
