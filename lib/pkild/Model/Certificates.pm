@@ -185,9 +185,9 @@ sub create_certificate{
     if( ! -d "$certdata->{'certs'}/$objectname"){
         mkdir("$certdata->{'certs'}/$objectname",0700);
         # rewrite the openssl.cnf such that commonName_default = userid.ou.$domain and emailAddress_default=userid@$domain
-        $pfh = FileHandle->new;
+        my $pfh = FileHandle->new;
         if ($pfh->open("< file")) {
-            $cfh = FileHandle->new("> $certdata->{'certs'}/$objectname/openssl.cnf");
+            my $cfh = FileHandle->new("> $certdata->{'certs'}/$objectname/openssl.cnf");
             if (defined $cfh) {
                 while( my $line=<$pfh>){
                     chomp($line);
@@ -197,8 +197,6 @@ sub create_certificate{
             }
             $pfh->close;
         }
-open $certdata->{'config'}
-
         # create password-protected private key
         mkdir("$certdata->{'certs'}/$objectname/private",0700);
         system("/usr/bin/openssl genrsa -out $certdata->{'certs'}/$objectname/private/$objectname.key 1024");
