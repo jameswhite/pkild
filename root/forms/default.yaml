@@ -233,3 +233,5 @@ forms:
         prompt: ~
         type: hidden
         value : 1
+  certtificate_authority:
+    template: ca_cert.tt

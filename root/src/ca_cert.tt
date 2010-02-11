@@ -1,0 +1,11 @@
+<style type="text/css">
+  div.centermiddle {top: 0; left: 0; width: 100%; height: 100%; position: relativ; display: table; }
+  center.middle {display: table-cell; vertical-align: middle}
+</style>
+<div class='centermiddle'>
+    <center class='middle'>
+This is the link to your domain's Certificate Authority Trust Chain<br>
+You will need to left-click on this and to import it into your certificate store.
+[%link%]
+    </center>
+</div>
