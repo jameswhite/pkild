@@ -470,6 +470,7 @@ sub ca_for{
            push(@domain_cnfs,$cnf_file);
        }
     }
+    print STDERR Data::Dumper->Dump([@domain_cnfs]);
 
     my $physical_path;
     if($#domain_cnfs >= 0){
@@ -492,8 +493,8 @@ sub actual_node_from_objectname{
         $orgunit=~tr/A-Z/a-z/;
         $domain=~tr/A-Z/a-z/;
     }
-    my $cacert_dir=$self->ca_for($domain);
-    my $cert_dir=$self->ca_for($domain)."/$identity";
+    my $cacert_dir=$self->ca_for($domain) if $self->ca_for($domain);
+    my $cert_dir=$self->ca_for($domain)."/$identity" if $self->ca_for($domain);
     print STDERR "-=[$identity, $domain, $cacert_dir, $cert_dir]=-\n";
    
     # placeholder return while we test to not break anything
