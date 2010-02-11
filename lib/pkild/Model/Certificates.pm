@@ -448,6 +448,37 @@ sub ca_create{
     }
     return "ERROR";
 }
+################################################################################
+# Given the domain name, we traverse the tree to find the top-level openssl.cnf
+# that belongs to the domain, if there are more than one, we use the first
+# If there are none, we look for root-ca.<domain>, and create a <domain> under
+# it. If there is no root-ca.<domain>, we look for any root-ca, (the first if
+# more than one) and create the <domain> under it. we then return the path
+# to <domain> so we can do sub-ca (cert) operations under it.
+################################################################################
+sub ca_for{
+    my ($self,$ca_domain)=@_;
+    my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
+    ############################################################################
+    # find all the openssl.cnfs with ca_domain=$domain
+    #   $rootdir and finding ca-domain = $domain in the file
+    $self->{'file_list'}=[];
+    my @domain_cnfs;
+    $self->find_file($rootdir,"openssl.cnf");
+    foreach my $cnf_file (@{ $self->{'file_list'} }){
+       my $cnf_domain=$self->ca_domain_from_file($cnf_file);
+       if($cnf_domain eq $domain){
+           push(@domain_cnfs,$cnf_file);
+       }
+    }
+
+    my $physical_path;
+    if($#domain_cnfs >= 0){
+       $physical_path = $domain_cnfs[0];
+    }
+    # if we can't find any, we return undef 
+    return undef;
+}
 
 sub actual_node_from_objectname{
     my $self=shift;
@@ -462,35 +493,11 @@ sub actual_node_from_objectname{
         $orgunit=~tr/A-Z/a-z/;
         $domain=~tr/A-Z/a-z/;
     }
-    my $directory_map=$identity;
-    ############################################################################
-    # Here's where things get weird... 
-    # we have to make assumptions in the event the admin has not done any work.
-    ############################################################################
-
-    ############################################################################
-    # Find the parent domain's openssl.conf by inspecting each one under 
-    #   $rootdir and finding ca-domain = $domain in the file
-    #
-    $self->{'file_list'}=[];
-    my @domain_cnfs;
-    $self->find_file($rootdir,"openssl.cnf");
-    foreach my $cnf_file (@{ $self->{'file_list'} }){
-       my $cnf_domain=$self->ca_domain_from_file($cnf_file);
-       if($cnf_domain eq $domain){
-           push(@domain_cnfs,$cnf_file);
-       }
-    }
-    ############################################################################
-    # If there are more than one, then something is wrong, but I'm going to use 
-    #   the first one I find.  ( Doh! i need to use the highest one... )
-#/*FIXME*/
-    my $physical_path;
-    if($#domain_cnfs >= 0){
-       $physical_path = $domain_cnfs[0];
-    }
-
-    print STDERR "-=[$identity, $domain, $physical_path]=-\n";
+    my $cacert_dir=$self->ca_for($domain);
+    my $cert_dir="$self->ca_for($domain)/$identity";
+    print STDERR "-=[$identity, $domain, $cacert_dir, $cert_dir]=-\n";
+   
+    # placeholder return while we test to not break anything
     my $actual_node="new_cert";
     return $actual_node;
 }
