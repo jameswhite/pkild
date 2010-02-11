@@ -198,14 +198,14 @@ sub jstreemenu : Local {
     }
     push( @{ $menu_tree },
           { 
-            'attributes' => { 'id' =>  unpack("H*","new_cert") },
-            'data' => { 'title' => 'My Certificate Authority', 'icon' => 'createnew'},
+            'attributes' => { 'id' =>  unpack("H*","certificate_authority") },
+            'data' => { 'title' => 'My Certificate Authority', 'icon' => 'file'},
           }
         );
     push( @{ $menu_tree },
           { 
             'attributes' => { 'id' =>  unpack("H*","new_cert") },
-            'data' => { 'title' => 'My Certificate', 'icon' => 'createnew'},
+            'data' => { 'title' => 'My Certificate', 'icon' => 'file'},
           }
         );
     push( @{ $menu_tree },
