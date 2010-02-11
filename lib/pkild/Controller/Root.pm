@@ -172,7 +172,9 @@ sub default : Private {
         $c->stash->{'open_branches'}=$c->session->{'open_branches'};
         $c->stash->{'selected'} = $c->session->{'selected'};
         $c->stash->{'selected'} =~s/\./\\\\./g;
-        if($c->req->method eq 'POST'){ $c->forward('do_form'); }
+        if($c->req->method eq 'POST'){ 
+            $c->forward('do_form'); 
+        }
         $c->stash->{'template'}="application.tt";
     }
 }
@@ -324,18 +326,23 @@ sub do_form : Global {
     my ( $self, $c ) = @_;
     if($c->req->param('action_type')){
         if($c->req->param('action_type') eq 'new_ca'){
+            $c->session->{'pkcs12cert'}=undef;
             $c->stash->{'result'} = $c->model('Certificates')->ca_create($c->req->params,$c->session);
             $c->stash->{'template'}="application.tt";
         }elsif($c->req->param('action_type') eq 'sign_cert'){
+            $c->session->{'pkcs12cert'}=undef;
             $c->stash->{'result'} = $c->model('Certificates')->sign_certificate($c->req->params,$c->session);
             $c->stash->{'template'}="application.tt";
         }elsif($c->req->param('action_type') eq 'create_cert'){
+            $c->session->{'pkcs12cert'}=undef;
             $c->stash->{'result'} = $c->model('Certificates')->create_certificate($c->req->params,$c->session);
             $c->stash->{'template'}="application.tt";
         }elsif($c->req->param('action_type') eq 'revoke_cert'){
+            $c->session->{'pkcs12cert'}=undef;
             $c->stash->{'result'} = $c->model('Certificates')->revoke_certificate($c->req->params,$c->session);
             $c->stash->{'template'}="application.tt";
         }elsif($c->req->param('action_type') eq 'remove_cert'){
+            $c->session->{'pkcs12cert'}=undef;
             $c->stash->{'result'} = $c->model('Certificates')->remove_certificate($c->req->params,$c->session);
             $c->stash->{'template'}="application.tt";
         }elsif($c->req->param('action_type') eq 'pkcs12_cert'){
