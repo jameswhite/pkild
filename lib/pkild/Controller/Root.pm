@@ -329,11 +329,11 @@ sub renderfile : Global {
     my ( $self, $c ) = @_;
     my $plaintext;
     if( $c->check_user_roles( "certificate_administrators" ) ){
-        if(($c->request->arguments->[2]=~m/\.crl$/)||($c->request->arguments->[2]=~m/\.crt$/)){
+#        if(($c->request->arguments->[2]=~m/\.crl$/)||($c->request->arguments->[2]=~m/\.crt$/)){
             $plaintext=$c->model('Certificates')->contents($c->request->arguments->[2])
-        }else{
-            $plaintext="permission denied";
-        }
+#        }else{
+#            $plaintext="permission denied";
+#        }
     }else{
         $plaintext="permission denied";
     }
