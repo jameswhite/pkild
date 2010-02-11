@@ -243,6 +243,8 @@ sub drawform : Global {
             $menu='revoke';      
             if(defined($c->session->{'pkcs12cert'})){
                 $c->stash->{'download_cert_link'}="<a href=\"?download_pkcs12.crt\">Download Certificate</a>";
+            }else{
+                $c->stash->{'download_cert_link'}="";
             }
         }
         if($c->model('Certificates')->node_type( $actual_node ) eq "revoked_certificate"){ 
@@ -270,6 +272,7 @@ sub drawform : Global {
                                                                     additional_template_paths => [ $c->config->{root} . '/src'],
                                                                     'menudata' => $c->session->{'menudata'}->{$menu},
                                                                     'node' => $actual_node,
+                                                                    'download_cert_link' => $c->stash->{'download_cert_link'},
                                                                   }
                                                  )
                          );
