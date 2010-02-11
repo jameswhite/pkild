@@ -326,10 +326,16 @@ sub drawform : Global {
 
 sub renderfile : Global {
     my ( $self, $c ) = @_;
+    my $plaintext;
+    if($c->check_user_roles( "certificate_administrators" )){
+        $plaintext=$c->model('Certificates')->contents($c->request->arguments->[2])
+    }else{
+        $plaintext="permission denied";
+    }
     $c->res->body( $c->view('TT')->render($c , 'plaintext.tt', 
                                           { 
                                             additional_template_paths => [ $c->config->{root} . '/src'],
-                                            'plaintext'=>$c->model('Certificates')->contents($c->request->arguments->[2])
+                                            'plaintext'=>$plaintext,
                                           }
                                          )
                  );
