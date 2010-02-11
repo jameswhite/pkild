@@ -149,7 +149,6 @@ use File::Slurp;
     my $ca_dir=$self->ca_for($domain);
     my $certdata={};
     if($ca_dir){
-       $cert_dir="$ca_dir/certs/$identity";
        $certdata->{'config'}="$ca_dir/openssl.cnf";
        $certdata->{'certs'}="$ca_dir/certs";
        $certdata->{'child_dir'}="$certdata->{'certs'}/$directory_map";
