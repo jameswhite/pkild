@@ -513,7 +513,7 @@ sub actual_node_from_objectname{
     my $cacert_dir = $self->ca_for($domain);
     my $cert_dir=undef;
     if($cacert_dir){
-        $cert_dir="$ca_cert_dir/$identity";
+        $cert_dir="$cacert_dir/$identity";
     }
     print STDERR "-=[$identity, $domain, $cacert_dir, $cert_dir]=-\n";
    
