@@ -11,7 +11,7 @@ __PACKAGE__->config(
 sub objectname{
     my $self=shift;
     my $user_session=shift;
-    if(defined($user_session->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'}){
+    if(defined($user_session->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'})){
         return $user_session->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'};
     }
     return undef;
