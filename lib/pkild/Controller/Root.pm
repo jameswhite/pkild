@@ -278,7 +278,6 @@ sub drawform : Global {
                                                                     'menudata' => $c->session->{'menudata'}->{$menu},
                                                                     'node' => $actual_node,
                                                                     'download_cert_link' => $c->stash->{'download_cert_link'},
-                                                                    'link' => $c->stash->{'ca_link'},
                                                                   }
                                                  )
                          );
@@ -296,6 +295,7 @@ sub drawform : Global {
                                                          'menudata'                  => $c->session->{'menudata'}->{$menu},
                                                          'node'                      => $actual_node,
                                                          'user'                      => $objectname,
+                                                         'link'                      => $c->stash->{'ca_link'},
                                                        },
                                                      )
                          );
