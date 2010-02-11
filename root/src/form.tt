@@ -23,7 +23,7 @@
             [% END %]
             </table>
             <input type="hidden" name="node_name" value="[% node %]"></td>
-            <pre>
+            <pre style='font-size:10px;'>
             [% menudata.comments %]
             </pre>
         </fieldset>
