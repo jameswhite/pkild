@@ -490,6 +490,7 @@ sub ca_for{
        # now we sort them
        my @ordered_least_depth_domain_cnfs = sort(@least_depth_domain_cnfs);
        $physical_path = $least_depth_domain_cnfs[0];
+       $physical_path =~s/openssl.cnf.*$//;
        return $physical_path;
     }
     # if we can't find any, we return undef 
@@ -509,10 +510,10 @@ sub actual_node_from_objectname{
         $orgunit=~tr/A-Z/a-z/;
         $domain=~tr/A-Z/a-z/;
     }
-    my $cacert_dir=$self->ca_for($domain);
+    my $cacert_dir = $self->ca_for($domain);
     my $cert_dir=undef;
     if($cacert_dir){
-        $cert_dir="$cert_dir/$identity";
+        $cert_dir="$ca_cert_dir/$identity";
     }
     print STDERR "-=[$identity, $domain, $cacert_dir, $cert_dir]=-\n";
    
