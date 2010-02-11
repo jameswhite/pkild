@@ -60,7 +60,7 @@ sub default : Private {
     if(defined($c->req->param("get"))){ 
         if($c->req->param("get") eq "ca_trustchain"){
             $c->response->headers->header( 'content-type' => "application/x-x509-ca-cert" );
-            $c->response->headers->header( 'content-disposition' => "attachment; filename=".$c->model('Certificates')->object_domain($c->model('Certificates')->objectname($c->session->{'user'}))."crt" );
+            $c->response->headers->header( 'content-disposition' => "attachment; filename=".$c->model('Certificates')->object_domain($c->model('Certificates')->objectname($c->session->{'user'})).".crt" );
             $c->response->body($c->model('Certificates')->domain_trust_chain($c->model('Certificates')->object_domain($c->model('Certificates')->objectname($c->session->{'user'}))));
             $c->detach();
         }
