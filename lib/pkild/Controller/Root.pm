@@ -57,6 +57,12 @@ sub default : Private {
         # Forward to the logout action/method in this controller
         $c->forward('logout');
     }
+    if(defined($c->req->param("get"))){ 
+        if($c->req->param("get"))="ca_trustchain"){
+            $c->response->headers->header( 'content-type' => "application/x-x509-ca-cert" );
+            $c->response->body($c->model('Certificates')->domain_trust_chain($c->model('Certificates')->object_domain($c->model('Certificates')->objectname($c->session->{'user'}))));
+        }
+    }
     ############################################################################
     # Ajax request handlers
     ############################################################################

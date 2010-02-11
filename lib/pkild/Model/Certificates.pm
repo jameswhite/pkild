@@ -8,6 +8,39 @@ __PACKAGE__->config(
     node_separator => '::'
 );
 
+sub objectname{
+    my $self=shift;
+    my $user_session=shift;
+    if(defined($user_session->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'}){
+        return $user_session->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'};
+    }
+    return undef;
+}
+
+sub object_domain{
+    my $self=shift;
+    my $object=shift;
+    my ($identity_type, $identity,$orgunit,$domain);
+    if($object=~m/\s*(.*)\s*=\s*(.*)\s*,\s*[Oo][Uu]\s*=\s*([^,]+)\s*,\s*dc\s*=\s*(.*)\s*/){
+        $identity_type=$1; $identity=$2; $orgunit=$3; $domain=$4; $domain=~s/,dc=/./g;
+        # I hate upper case.
+        $identity_type=~tr/A-Z/a-z/;
+        $identity=~tr/A-Z/a-z/;
+        $orgunit=~tr/A-Z/a-z/;
+        $domain=~tr/A-Z/a-z/;
+    }
+    return $domain if $domain;
+    return undef;
+}
+
+sub domain_trust_chain{
+use File::Slurp;
+    my $self = shift;
+    my $domain=shift;
+    my $cert = read_file( $self->ca_for($domain)."/".$domain.".crt", binmode => ':raw' ) ;        
+    return $self->ca_for($domain)
+}
+
 ################################################################################
 # Return a list of hashes of lists of hashes that describe the directory tree
 ################################################################################
