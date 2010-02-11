@@ -119,6 +119,7 @@ sub default : Private {
                 }
             }
         }
+        $c->detach();
     }
    
     my $form_data=$c->config->{'layout'};
