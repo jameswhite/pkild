@@ -146,16 +146,19 @@ sub default : Private {
         $c->stash->{'open_branches'}=$c->session->{'open_branches'};
         $c->stash->{'selected'} = $c->session->{'selected'};
         $c->stash->{'selected'} =~s/\./\\\\./g;
-        if($c->req->method eq 'POST'){ $c->forward('do_form'); }
-        # If no action was specified, but we have a $c->session->{'pkcs12cert'} defined, 
-        # send it if the $c->session->{'selection'} set to "new_cert" ("My Certificate is Selected")
-        if( (defined($c->session->{'pkcs12cert'})) &&  (pack("H*",$c->session->{'selected'}) eq "new_cert") ){
-            $c->response->headers->header( 'content-type' => "application/x-pkcs12" );
-            $c->response->headers->header( 'content-disposition' => "attachment; filename=certificate.p12" );
-            $c->response->body($c->session->{'pkcs12cert'});
+        if($c->req->method eq 'POST'){ 
+            $c->forward('do_form'); 
         }else{
-            $c->stash->{'template'}="application.tt";
+            # If we did not post (we did a GET) and no action was specified (no args), 
+            # but we have a $c->session->{'pkcs12cert'} defined and # if the $c->session->{'selection'} is 
+            # set to "new_cert" ("My Certificate is Selected") then ship the pkcs12 cert
+            if( (defined($c->session->{'pkcs12cert'})) &&  (pack("H*",$c->session->{'selected'}) eq "new_cert") ){
+                $c->response->headers->header( 'content-type' => "application/x-pkcs12" );
+                $c->response->headers->header( 'content-disposition' => "attachment; filename=certificate.p12" );
+                $c->response->body($c->session->{'pkcs12cert'});
+            }
         }
+        $c->stash->{'template'}="application.tt";
     }
 }
 
