@@ -16,6 +16,8 @@
 <div class='centermiddle'>
     <center class='middle'>
     <div id="option_create_pkcs12">
+To create a personal certificate, enter a passphrase to protect your private key, and click "create".<br>
+("create" will only appear when you have entered your password in the same way twice, for confirmation.)
     <form id='pkcs12form' name='pkcs12form' action="" method="post">
         <fieldset>
             <legend>Create PKCS#12 Certificate</legend>
