@@ -120,32 +120,14 @@ sub default : Private {
             }
         }
     }
-    ############################################################################
-    # Update the default tab in the session if changed *deprecated*
-    ############################################################################
-    if(defined($c->req->param("change_tab"))){ 
-        $c->session->{'default_tab'} = $c->req->param("change_tab"); 
-        $c->res->body("Default tab changed to ".$c->session->{'default_tab'}.".");
-    }
    
     my $form_data=$c->config->{'layout'};
     if(! defined $c->session->{'menudata'}){
         $c->session->{'menudata'}=$form_data->{'forms'};
     }
-    # Remember what we set things to.
-    if($c->session->{'default_tab'}){
-        foreach my $value ($c->req->param()){
-            for(my $idx=0; $idx < $#{ $c->session->{'menudata'}->{ $c->session->{'default_tab'} }->{'fields'} }; $idx++){
-                if($value eq  $c->session->{'menudata'}->{ $c->session->{'default_tab'} }->{'fields'}->[$idx]->{'name'}){
-                    $c->session->{'menudata'}->{ $c->session->{'default_tab'}}->{'fields'}->[$idx]->{'value'} = $c->req->param($value);
-                }
-            }
-        }
-    }
     ############################################################################
     # If we're logged in, send us to the application, othewise the login page.
     ############################################################################
-
     if(!defined $c->session->{'user'}){
         $c->stash->{template}="login.tt";
     }else{
