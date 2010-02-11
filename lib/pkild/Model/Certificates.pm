@@ -493,7 +493,7 @@ sub actual_node_from_objectname{
         $domain=~tr/A-Z/a-z/;
     }
     my $cacert_dir=$self->ca_for($domain);
-    my $cert_dir="$self->ca_for($domain)/$identity";
+    my $cert_dir=$self->ca_for($domain)."/$identity";
     print STDERR "-=[$identity, $domain, $cacert_dir, $cert_dir]=-\n";
    
     # placeholder return while we test to not break anything
