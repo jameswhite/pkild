@@ -460,14 +460,13 @@ sub ca_for{
     my ($self,$ca_domain)=@_;
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     ############################################################################
-    # find all the openssl.cnfs with ca_domain=$domain
-    #   $rootdir and finding ca-domain = $domain in the file
+    # find all the openssl.cnfs with ca_domain=$ca_domain
     $self->{'file_list'}=[];
     my @domain_cnfs;
     $self->find_file($rootdir,"openssl.cnf");
     foreach my $cnf_file (@{ $self->{'file_list'} }){
        my $cnf_domain=$self->ca_domain_from_file($cnf_file);
-       if($cnf_domain eq $domain){
+       if($cnf_domain eq $ca_domain){
            push(@domain_cnfs,$cnf_file);
        }
     }
