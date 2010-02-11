@@ -102,13 +102,14 @@
                                                         data: { 
                                                                 type: "json",
                                                                 async: true,
-                                                                opts: { method: "GET", url:"jstree/" }
+                                                                opts: { method: "POST", url:"jstree/" }
                                                               },
                                                         ui:   { theme_name: "default"},
                                                         callback: {
                                                                     onopen: function(node,tree_obj)
                                                                     {
                                                                       $.ajax({
+                                                                               type: 'POST',
                                                                                url: 'action/open/' + node.id ,
                                                                                dataType: "json",
                                                                              });
@@ -116,6 +117,7 @@
                                                                     onclose: function(node,tree_obj)
                                                                     {
                                                                       $.ajax({
+                                                                               type: 'POST',
                                                                                url: 'action/close/' + node.id ,
                                                                                dataType: "json",
                                                                              });
@@ -123,6 +125,7 @@
                                                                     onselect: function(node,tree_obj)
                                                                     {
                                                                       $.ajax({
+                                                                               type: 'POST',
                                                                                url: 'action/select/' + node.id ,
                                                                                dataType: "html",
                                                                                success: function(data){
