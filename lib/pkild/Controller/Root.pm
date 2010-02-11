@@ -199,7 +199,7 @@ sub jstreemenu : Local {
     push( @{ $menu_tree },
           { 
             'attributes' => { 'id' =>  unpack("H*","certificate_authority") },
-            'data' => { 'title' => 'My Certificate Authority', 'icon' => 'file'},
+            'data' => { 'title' => 'Certificate Authority', 'icon' => 'file'},
           }
         );
     push( @{ $menu_tree },
@@ -239,6 +239,11 @@ sub drawform : Global {
         if($c->model('Certificates')->node_type( $actual_node ) eq "logout"){              $menu='logout';      }
         if($c->model('Certificates')->node_type( $actual_node ) eq "new_root_ca"){         $menu='new_root_ca'; }
         if($c->model('Certificates')->node_type( $actual_node ) eq "certs"){               $menu='sign';        }
+        if($c->model('Certificates')->node_type( $actual_node ) eq "certs"){               $menu='sign';        }
+        if($c->model('Certificates')->node_type( $actual_node ) eq "certificate_authority"){
+            $menu='certificate_authority';
+            $c->stash->{'ca_link'}="<a href=\"?get=ca_trustchain\">Certificate Authority Trust Chain</a>";
+        }
         if($c->model('Certificates')->node_type( $actual_node ) eq "certificate"){         
             $menu='revoke';      
             if(defined($c->session->{'pkcs12cert'})){
@@ -273,6 +278,7 @@ sub drawform : Global {
                                                                     'menudata' => $c->session->{'menudata'}->{$menu},
                                                                     'node' => $actual_node,
                                                                     'download_cert_link' => $c->stash->{'download_cert_link'},
+                                                                    'link' => $c->stash->{'ca_link'},
                                                                   }
                                                  )
                          );

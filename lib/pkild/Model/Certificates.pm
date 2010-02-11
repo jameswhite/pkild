@@ -495,6 +495,7 @@ sub node_type{
     $node =~s/$self->{'node_separator'}/\//g;
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     if($node eq "new_root_ca"){ return "new_root_ca"; }
+    if($node eq "certificate_authority"){ return "certificate_authority"; }
     if($node eq "new_cert"){ return "new_cert"; }
     if($node eq "logout"){ return "logout"; }
     if(-f "$rootdir/$node"){ return "file"; }
