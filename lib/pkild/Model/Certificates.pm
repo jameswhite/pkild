@@ -463,6 +463,7 @@ sub ca_for{
     # find all the openssl.cnfs with ca_domain=$ca_domain
     $self->{'file_list'}=[];
     my @domain_cnfs;
+    my @least_depth_domain_cnfs;
     $self->find_file($rootdir,"openssl.cnf");
     foreach my $cnf_file (@{ $self->{'file_list'} }){
        my $cnf_domain=$self->ca_domain_from_file($cnf_file);
@@ -470,11 +471,26 @@ sub ca_for{
            push(@domain_cnfs,$cnf_file);
        }
     }
-    print STDERR Data::Dumper->Dump([@domain_cnfs]);
-
     my $physical_path;
+    my $leastdepth=0;
     if($#domain_cnfs >= 0){
-       $physical_path = $domain_cnfs[0];
+       foreach my $domain_dir (@domain_cnfs){
+           my $depth=split("/",$domain_dir);
+           if(($leastdepth == 0)||($depth < $leastdepth)){
+               $leastdepth=$depth;
+           } 
+       }
+       # now that we know the minimum depth, find all that have it.
+       foreach my $domain_dir (@domain_cnfs){
+           my $depth=split("/",$domain_dir);
+           if($leastdepth == $depth){
+               push(@least_depth_domain_cnfs,$domain_dir);
+           }
+       }
+       # now we sort them
+       my @ordered_least_depth_domain_cnfs = sort(@least_depth_domain_cnfs);
+       $physical_path = $least_depth_domain_cnfs[0];
+       return $physical_path;
     }
     # if we can't find any, we return undef 
     return undef;
