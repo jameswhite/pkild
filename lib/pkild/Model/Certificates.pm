@@ -493,8 +493,11 @@ sub actual_node_from_objectname{
         $orgunit=~tr/A-Z/a-z/;
         $domain=~tr/A-Z/a-z/;
     }
-    my $cacert_dir=$self->ca_for($domain) if $self->ca_for($domain);
-    my $cert_dir=$self->ca_for($domain)."/$identity" if $self->ca_for($domain);
+    my $cacert_dir=$self->ca_for($domain);
+    my $cert_dir=undef;
+    if($cacert_dir){
+        $cert_dir="$cert_dir/$identity";
+    }
     print STDERR "-=[$identity, $domain, $cacert_dir, $cert_dir]=-\n";
    
     # placeholder return while we test to not break anything
