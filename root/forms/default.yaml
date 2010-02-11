@@ -209,7 +209,7 @@ forms:
         prompt: ~
         type: hidden
         value : revoke_cert
-    comments: |
+    comments: |-
 Our records indicate your have a valid Certificate. 
 Revoking this Certificate will render it unuseable.
 Do so if you believe that your private certificate has been compromised.
