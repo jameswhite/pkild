@@ -242,7 +242,7 @@ sub drawform : Global {
         if($c->model('Certificates')->node_type( $actual_node ) eq "certificate"){         
             $menu='revoke';      
             if(defined($c->session->{'pkcs12cert'})){
-                $c->stash->{'download_cert_link'}="<a href=\"?download_pkcs12.crt\">Download Certificate</a>";
+                $c->stash->{'download_cert_link'}="<a href=\"?download_pkcs12.crt\">Download Certificate (if it didn't auto-download)</a>";
             }else{
                 $c->stash->{'download_cert_link'}="";
             }
