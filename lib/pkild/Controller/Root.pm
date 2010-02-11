@@ -119,14 +119,6 @@ sub default : Private {
                 }
             }
         }
-    }else{
-        # If no action was specified, but we have a $c->session->{'pkcs12cert'} defined, 
-        # send it if the $c->session->{'selection'} set to "new_cert" ("My Certificate is Selected")
-        if( (defined($c->session->{'pkcs12cert'})) &&  (pack("H*",$c->session->{'selected'}) eq "new_cert") ){
-            $c->response->headers->header( 'content-type' => "application/x-pkcs12" );
-            $c->response->headers->header( 'content-disposition' => "attachment; filename=certificate.p12" );
-            $c->response->body($c->session->{'pkcs12cert'});
-        }
     }
     ############################################################################
     # Update the default tab in the session if changed *deprecated*
@@ -172,13 +164,16 @@ sub default : Private {
         $c->stash->{'open_branches'}=$c->session->{'open_branches'};
         $c->stash->{'selected'} = $c->session->{'selected'};
         $c->stash->{'selected'} =~s/\./\\\\./g;
-        if($c->req->method eq 'POST'){ 
-            # These should never be set after a post
-            $c->session->{'pkcs12cert'}=undef;
-            $c->stash->{'refreshto'}="";
-            $c->forward('do_form'); 
+        if($c->req->method eq 'POST'){ $c->forward('do_form'); }
+        # If no action was specified, but we have a $c->session->{'pkcs12cert'} defined, 
+        # send it if the $c->session->{'selection'} set to "new_cert" ("My Certificate is Selected")
+        if( (defined($c->session->{'pkcs12cert'})) &&  (pack("H*",$c->session->{'selected'}) eq "new_cert") ){
+            $c->response->headers->header( 'content-type' => "application/x-pkcs12" );
+            $c->response->headers->header( 'content-disposition' => "attachment; filename=certificate.p12" );
+            $c->response->body($c->session->{'pkcs12cert'});
+        }else{
+            $c->stash->{'template'}="application.tt";
         }
-        $c->stash->{'template'}="application.tt";
     }
 }
 
