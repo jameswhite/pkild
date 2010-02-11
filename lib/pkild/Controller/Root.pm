@@ -199,6 +199,12 @@ sub jstreemenu : Local {
     push( @{ $menu_tree },
           { 
             'attributes' => { 'id' =>  unpack("H*","new_cert") },
+            'data' => { 'title' => 'My Certificate Authority', 'icon' => 'createnew'},
+          }
+        );
+    push( @{ $menu_tree },
+          { 
+            'attributes' => { 'id' =>  unpack("H*","new_cert") },
             'data' => { 'title' => 'My Certificate', 'icon' => 'createnew'},
           }
         );
