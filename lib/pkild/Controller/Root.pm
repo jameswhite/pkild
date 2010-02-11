@@ -329,6 +329,7 @@ sub do_form : Global {
             $c->session->{'pkcs12cert'} = $c->model('Certificates')->create_certificate($c->req->params,$c->session);
             # Set up a refresh that will refresh to the pkcs12 download in the next page load.
             $c->stash->{'refreshto'}="<meta http-equiv=\"refresh\" content=\"5\" />";
+            $c->stash->{'instructions'}="Your certificate should start downloading momentarily. Import it into your browser.";
             $c->stash->{'template'}="application.tt";
         }
     }

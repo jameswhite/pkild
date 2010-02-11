@@ -24,6 +24,7 @@
             </table>
             <input type="hidden" name="node_name" value="[% node %]"></td>
             [% menudata.comments %]
+            [% instructions %]
         </fieldset>
     </form>
     </center>
