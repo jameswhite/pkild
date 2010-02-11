@@ -5,7 +5,7 @@
 <div class='centermiddle'>
     <center class='middle'>
 This is the link to your domain's Certificate Authority Trust Chain<br>
-You will need to left-click on this and to import it into your certificate store.
+You will need to left-click on this and to import it into your certificate store.<br>
 [%link%]
     </center>
 </div>
