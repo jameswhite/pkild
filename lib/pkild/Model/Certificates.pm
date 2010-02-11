@@ -517,9 +517,9 @@ sub actual_node_from_objectname{
     }
     my $actual_node=$cert_dir;
     print STDERR "1 -=[$actual_node $rootdir]=-\n";
-    $actual_node=s/^$rootdir//;
+    $actual_node=~s/^$rootdir//;
     print STDERR "2 -=[$actual_node]=-\n";
-    $actual_node=s/\//::/g;
+    $actual_node=~s/\//::/g;
     print STDERR "3 -=[$actual_node]=-\n";
    
     # placeholder return while we test to not break anything
