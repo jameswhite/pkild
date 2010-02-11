@@ -37,9 +37,8 @@ sub domain_trust_chain{
 use File::Slurp;
     my $self = shift;
     my $domain=shift;
-print STDERR "-=[   ".$self->ca_for($domain)."/".$domain.".crt   ]=-\n";
     my $cert = read_file( $self->ca_for($domain)."/".$domain.".crt", binmode => ':raw' ) ;        
-    return $self->ca_for($domain)
+    return $cert;
 }
 
 ################################################################################
