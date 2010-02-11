@@ -146,50 +146,20 @@ use File::Slurp;
         $domain=~tr/A-Z/a-z/;
     }
     my $directory_map=$identity;
-    ############################################################################
-    # Here's where things get weird... 
-    # we have to make assumptions in the event the admin has not done any work.
-    ############################################################################
-
-    ############################################################################
-    # Find the parent domain's openssl.conf by inspecting each one under 
-    #   $rootdir and finding ca-domain = $domain in the file
-    #
-    $self->{'file_list'}=[];
-    my @domain_cnfs;
-    $self->find_file($rootdir,"openssl.cnf");
-    foreach my $cnf_file (@{ $self->{'file_list'} }){
-       my $cnf_domain=$self->ca_domain_from_file($cnf_file);
-       if($cnf_domain eq $domain){
-           push(@domain_cnfs,$cnf_file);
-       }
+    my $ca_dir=$self->ca_for($domain);
+    my $cert_dir=undef;
+    if($ca_dir){
+        $cert_dir="$ca_dir/certs/$identity";
     }
-
-    ############################################################################
-    # If there are more than one, then something is wrong, but I'm going to use 
-    #   the first one I find.
-    # 
     my $certdata={};
     if($#domain_cnfs >= 0){
-       $certdata->{'config'}=$domain_cnfs[0];
-       $certdata->{'certs'}=$domain_cnfs[0];
-       $certdata->{'certs'}=~s/openssl.cnf$/certs/;
+       $certdata->{'config'}="$ca_dir/openssl.cnf";
+       $certdata->{'certs'}="$ca_dir/certs";
        $certdata->{'child_dir'}="$certdata->{'certs'}/$directory_map";
        $certdata->{'child_id'}="$directory_map";
     }else{
-    # If it doesn't exist, look for a root-ca.$domain, and create it under there
         print STDERR "We need code to look for root-ca.$domain, and to create $domain under it.\n";
     }
-    #   If there is only one, create $domain under it 
-    #     (I can only assume you want to use the one that you made)
-    #   If there isn't one, create root-ca.$domain
-    #   If there is more than one, create root-ca.$domain, 
-    #     as there is no way for me to determine which one you want
-    # 
-    # Note:
-    # There is nothing that says you can't have a foo.com under a root-ca.verisign.com, (this is often the case)
-    # but if you didn't bother to take the time to create either, 
-    # then I can only assume you've got no idea what you want, so I set it up the way *I* want
     
     # only do so if one doesn't exist
     my $pkcs12data=undef;
