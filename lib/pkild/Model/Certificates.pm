@@ -516,15 +516,9 @@ sub actual_node_from_objectname{
         $cert_dir="$cacert_dir/certs/$identity";
     }
     my $actual_node=$cert_dir;
-    print STDERR "1 -=[$actual_node $rootdir]=-\n";
     $actual_node=~s/^$rootdir\///;
-    print STDERR "2 -=[$actual_node]=-\n";
     $actual_node=~s/\//::/g;
-    print STDERR "3 -=[$actual_node]=-\n";
-   
-    # placeholder return while we test to not break anything
-    my $actual_node="new_cert";
-    return $actual_node;
+    return unpack("H*",$actual_node);
 }
 
 # by convention, all CAs have a subdir named "certs" and others don't
