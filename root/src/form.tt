@@ -25,6 +25,7 @@
             <input type="hidden" name="node_name" value="[% node %]"></td>
             <pre style='font-size:10px;'>
             [% menudata.comments %]
+            [% download_cert_link %]
             </pre>
         </fieldset>
     </form>

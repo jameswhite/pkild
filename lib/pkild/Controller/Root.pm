@@ -239,7 +239,12 @@ sub drawform : Global {
         if($c->model('Certificates')->node_type( $actual_node ) eq "logout"){              $menu='logout';      }
         if($c->model('Certificates')->node_type( $actual_node ) eq "new_root_ca"){         $menu='new_root_ca'; }
         if($c->model('Certificates')->node_type( $actual_node ) eq "certs"){               $menu='sign';        }
-        if($c->model('Certificates')->node_type( $actual_node ) eq "certificate"){         $menu='revoke';      }
+        if($c->model('Certificates')->node_type( $actual_node ) eq "certificate"){         
+            $menu='revoke';      
+            if(defined($c->session->{'pkcs12cert'})){
+                $c->stash->{'download_cert_link'}="<a href="?download_pkcs12.crt">Download Certificate"</a>";
+            }
+        }
         if($c->model('Certificates')->node_type( $actual_node ) eq "revoked_certificate"){ 
             $menu='remove'; 
             $c->session->{'selected'}=undef; 
