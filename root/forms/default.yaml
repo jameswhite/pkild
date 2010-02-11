@@ -209,7 +209,11 @@ forms:
         prompt: ~
         type: hidden
         value : revoke_cert
-    comments: "Revoking this Certificate will render it unuseable."
+    comments: |
+Our records indicate your have a valid Certificate. 
+Revoking this Certificate will render it unuseable.
+Do so if you believe that your private certificate has been compromised.
+You will be allowed to create a new one to replace it.
   remove:
     legend: Remove Certificate
     fields:
