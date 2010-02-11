@@ -221,7 +221,7 @@ forms:
         prompt: ~
         type: hidden
         value : remove_cert
-    comments: "This will delete the certificate files from the system."
+    comments: "This will delete the certificate files from the system.<br>You will then be allowed to create a new one.<br>"
   logout:
     legend: Are you sure?
     fields:
