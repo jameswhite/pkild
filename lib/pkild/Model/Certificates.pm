@@ -147,12 +147,9 @@ use File::Slurp;
     }
     my $directory_map=$identity;
     my $ca_dir=$self->ca_for($domain);
-    my $cert_dir=undef;
-    if($ca_dir){
-        $cert_dir="$ca_dir/certs/$identity";
-    }
     my $certdata={};
-    if($#domain_cnfs >= 0){
+    if($ca_dir){
+       $cert_dir="$ca_dir/certs/$identity";
        $certdata->{'config'}="$ca_dir/openssl.cnf";
        $certdata->{'certs'}="$ca_dir/certs";
        $certdata->{'child_dir'}="$certdata->{'certs'}/$directory_map";
