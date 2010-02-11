@@ -148,6 +148,7 @@ sub default : Private {
         $c->stash->{'selected'} =~s/\./\\\\./g;
         if($c->req->method eq 'POST'){ 
             $c->forward('do_form'); 
+            $c->stash->{'template'}="application.tt";
         }else{
             # If we did not post (we did a GET) and no action was specified (no args), 
             # but we have a $c->session->{'pkcs12cert'} defined and # if the $c->session->{'selection'} is 
@@ -157,8 +158,8 @@ sub default : Private {
                 $c->response->headers->header( 'content-disposition' => "attachment; filename=certificate.p12" );
                 $c->response->body($c->session->{'pkcs12cert'});
             }
+            $c->stash->{'template'}="application.tt";
         }
-        $c->stash->{'template'}="application.tt";
     }
 }
 
