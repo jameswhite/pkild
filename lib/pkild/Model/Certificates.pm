@@ -619,12 +619,9 @@ sub contents{
     my ($self, $unpacked_node)=@_;
     my $node = pack("H*",$unpacked_node);
     $node =~s/$self->{'node_separator'}/\//g;
-print STDERR "REQUEST $node\n";
     $node =~ s/\/\.\./\//g;
     $node =~ s/\.\.\//\//g;
-print STDERR "FILTERED $node\n";
     my $rootdir="/".join("/",@{ $self->{'root_dir'}->{'dirs'} });
-print STDERR "RENDER $rootdir/$node\n";
     my $contents='';
     if(-f "$rootdir/$node"){ 
         my $fh = FileHandle->new;
