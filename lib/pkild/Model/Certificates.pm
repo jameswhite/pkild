@@ -34,7 +34,7 @@ use FileHandle;
     my $cn=$objectname;
     my $type=undef;
     $cn=~s/,.*//g;
-    $cn=~tr/A-Z/a-z/g;
+    $cn=~tr/A-Z/a-z/;
     if($cn=~m/\s*uid=(.*)/){ $type="user"; }
     if($cn=~m/\s*cn=(.*)/){ $type="host"; }
     my $domain=$self->object_domain($objectname);
