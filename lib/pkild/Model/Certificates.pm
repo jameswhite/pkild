@@ -363,14 +363,14 @@ sub sign_certificate{
     while(my $line=<GETCN>){
         if($line=~m/Subject:/){
             $subject=$line;
-            $subject=s/\s+$//;
-            $subject=s/^\s+//;
             $line=~s/.*CN=//g;
             $line=~s/\/.*//g;
             $line=~s/\s+//g;
             $common_name=$line;
         }
     }
+    #$subject=s/\s+$//;
+    #$subject=s/^\s+//;
     print STDERR "\n==== $subject :: $common_name ====\n"; 
     # create the $root/$param->{'node_name'};/$cn  directory
     if(! -d "$node_dir/certs/$common_name"){
