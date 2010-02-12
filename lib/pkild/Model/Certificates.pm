@@ -377,7 +377,7 @@ sub sign_certificate{
     # Do not let a non-administrator sign a cert that isn't his/it's
     ############################################################################
     if(($admin == 0) && ($subject ne $self->user_cert_dn($session->{'user'})) ){
-        print STDERR  "WARNING: ".$self->objectname($user_session)." attempted to sign [$subject]\n";
+        print STDERR  "WARNING: ".$self->objectname($session->{'user'})." attempted to sign [$subject]\n";
         return undef;
     }
     # create the $root/$param->{'node_name'};/$cn  directory
