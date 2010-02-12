@@ -635,6 +635,8 @@ print STDERR "RENDER $rootdir/$node\n";
             $fh->close;
             return $contents;
         }
+    }else{
+        return "no.";
     }
     return undef;
 }
