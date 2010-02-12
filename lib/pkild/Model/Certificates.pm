@@ -36,8 +36,8 @@ print STDERR "1) $objectname\n";
     my $type=undef;
     $cn=~s/,.*//g;
     $cn=~tr/A-Z/a-z/;
-    if($cn=~m/\s*uid=(.*)/){ $type="user"; }
-    if($cn=~m/\s*cn=(.*)/){ $type="host"; }
+    if($cn=~m/\s*uid=(.*)/){ $type="user"; $cn=~s/\s*uid=//; }
+    if($cn=~m/\s*cn=(.*)/){ $type="host"; $cn=~s/\s*cn=//;}
     my $domain=$self->object_domain($objectname);
 print STDERR "2) $domain\n";
     my $ca = $self->ca_for($domain);
