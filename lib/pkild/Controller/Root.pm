@@ -241,7 +241,7 @@ sub drawform : Global {
             my $domain = $c->model('Certificates')->object_domain($objectname);
             my $ca_path = $c->model('Certificates')->object_domain($objectname);
             $actual_node = $c->model('Certificates')->actual_node_from_objectname($objectname);
-            $c->stash->{'user_cert_dn'}=pack("H*",$actual_node);
+            $c->stash->{'user_cert_dn'}=$ca_path;
             $menu='my_cert'; 
         }else{
             $actual_node = $c->session->{'current_node'};
