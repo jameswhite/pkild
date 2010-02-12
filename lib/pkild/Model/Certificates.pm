@@ -371,7 +371,7 @@ sub sign_certificate{
             $common_name=$line;
         }
     }
-    print STDERR "\n==== $subject ====\n"; 
+    print STDERR "\n==== $subject :: $common_name ====\n"; 
     # create the $root/$param->{'node_name'};/$cn  directory
     if(! -d "$node_dir/certs/$common_name"){
         mkdir("$node_dir/certs/$common_name",0700);
