@@ -377,6 +377,7 @@ sub sign_certificate{
     chomp($subject);
     $subject=~s/\s+$//;
     $subject=~s/^\s+//;
+    $subject=~s/^[Ss]ubject:\s*//;
     if($subject eq $self->user_cert_dn($session->{'user'})){
          print STDERR "\n\n==== Signing self cert ====\n\n";
     }else{ 
