@@ -238,10 +238,9 @@ sub drawform : Global {
     if($c->model('Certificates')->node_type( $c->session->{'current_node'} )){
         if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "new_cert"){ 
             my $objectname = $c->session->{'user'}->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'};
-            my $domain = $c->model('Certificates')->object_domain($objectname);
-            my $ca_path = $c->model('Certificates')->object_domain($objectname);
             $actual_node = $c->model('Certificates')->actual_node_from_objectname($objectname);
-            $c->stash->{'user_cert_dn'}=$ca_path;
+            # Get the logged in user's valid Cert DN
+            $c->stash->{'user_cert_dn'}=$c->model('Certificates')->user_cert_dn($c->session->{'user'});
             $menu='my_cert'; 
         }else{
             $actual_node = $c->session->{'current_node'};

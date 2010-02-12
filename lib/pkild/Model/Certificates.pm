@@ -8,6 +8,15 @@ __PACKAGE__->config(
     node_separator => '::'
 );
 
+sub user_cert_dn{
+    my ($self,$user_session) = @_;
+    my $objectname=$self->objectname($user_session);
+    my $domain=$self->object_domain($objectname);
+    my $ca = $self->ca_for($domain);
+print STDERR "$ca\n";
+    return "STILL DEBUGGING THIS";
+}
+
 sub objectname{
     my $self=shift;
     my $user_session=shift;
