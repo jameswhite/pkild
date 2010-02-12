@@ -46,6 +46,9 @@ To create a personal certificate, enter a passphrase to protect your private key
             <input type="hidden" name="action_type" value="pkcs12_cert"></td>
         </fieldset>
     </form>
+    <br> 
+    Note: This will *only* sign a certificate for [% user_cert_dn %] and will log all attempts to create a certificate for someone who is not yourself.
+    </br> 
     <input type='button' class='btn' value='[ I have a Certificate Signing Request instead... ]' onClick="$('#option_create_pkcs12').hide('normal'); $('#option_sign_csr').show('normal');";>
     </div>
 
