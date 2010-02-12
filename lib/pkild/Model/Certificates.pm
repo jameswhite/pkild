@@ -31,6 +31,7 @@ sub user_cert_dn{
 use FileHandle;
     my ($self,$user_session) = @_;
     my $objectname=$self->objectname($user_session);
+    
     my $uid=$objectname;
     $uid=~s/uid=//g;
     $uid=~s/,.*//g;
@@ -40,10 +41,10 @@ print STDERR "-- $uid -- \n";
     my $ca_subject=$self->cert_subject("$ca/$domain.crt");
     my $subject=$ca_subject;
     if($subject=~m/C=(.*),\s*ST=(.*),\s*O=(.*),\s*OU=(.*),\s*CN=(.*)\/emailAddress=(.*)/){
-    #    $subject="C=$1, ST=$2, O=$3, OU=$4, CN=$uid/emailAddress=$uid\@$domain";
+        $subject="C=$1, ST=$2, O=$3, OU=$4, CN=$uid/emailAddress=$uid\@$domain";
 print STDERR "== $subject ==\n";
     }
-    return "STILL DEBUGGING";
+    return $subject;
 }
 
 sub objectname{
