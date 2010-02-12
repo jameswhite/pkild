@@ -337,8 +337,13 @@ sub sign_certificate{
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     
     # convert the $self->{'node_separator'} delimited node names into a path
-    my $node_dir = $self->actual_node($param->{'node_name'});
-print STDERR "\n=== $node_dir ===\n";
+    my $node_dir;
+    if(! defined($param->{'node_name')){
+        $node_dir=$self->actual_node($self->actual_node_from_objectname($self->objectname($session->{'user'})));
+    }else{
+        $node_dir = $self->actual_node($param->{'node_name'});
+    }
+    print STDERR $node_dir;
     $node_dir=~s/$self->{'node_separator'}/\//g;
     $node_dir=~s/certs$//g;
     $node_dir="$rootdir/$node_dir";
