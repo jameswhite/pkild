@@ -74,7 +74,7 @@ To create a personal certificate, enter a passphrase to protect your private key
     </form>
     <br>Note: This will *only* sign a certificate for:<br>
     <br><b>[% user_cert_dn %]</b><br>
-    <br>and will log all attempts to create a certificate for someone who is not yourself.<br> 
+    <br>and will log all attempts to create a certificate for someone who is not yourself.<br><br>
 
          <input type='button' class='btn' value='[ Generate me a pkcs#12 Certificate instead... ]' onClick="$('#option_create_pkcs12').show('normal'); $('#option_sign_csr').hide('normal');";>
     </div> 

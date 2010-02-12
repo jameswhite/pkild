@@ -31,18 +31,22 @@ sub user_cert_dn{
 use FileHandle;
     my ($self,$user_session) = @_;
     my $objectname=$self->objectname($user_session);
-# HOST SUPPORT     
-    my $uid=$objectname;
-    $uid=~s/uid=//g;
-    $uid=~s/,.*//g;
-print STDERR "-- $uid -- \n";
+    my $cn=$objectname;
+    my $type=undef;
+    $cn=~s/,.*//g;
+    $cn=~tr/A-Z/a-z/g;
+    if($cn=~m/\s*uid=(.*)/){ $type="user"; }
+    if($cn=~m/\s*cn=(.*)/){ $type="host"; }
     my $domain=$self->object_domain($objectname);
     my $ca = $self->ca_for($domain);
     my $ca_subject=$self->cert_subject("$ca/$domain.crt");
     my $subject=$ca_subject;
     if($subject=~m/C=(.*),\s*ST=(.*),\s*O=(.*),\s*OU=(.*),\s*CN=(.*)\/emailAddress=(.*)/){
-        $subject="C=$1, ST=$2, O=$3, OU=$4, CN=$uid/emailAddress=$uid\@$domain";
-print STDERR "== $subject ==\n";
+        if($type eq "user"){
+            $subject="C=$1, ST=$2, O=$3, OU=$4, CN=$cn/emailAddress=$cn\@$domain";
+        elsif($type eq "host"){
+            $subject="C=$1, ST=$2, O=$3, OU=$4, CN=$cn.$domain/emailAddress=sysadmins\@$domain";
+        }
     }
     return $subject;
 }
