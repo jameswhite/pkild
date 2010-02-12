@@ -648,6 +648,7 @@ ca-domain = [\% ca_domain \%]
  
 [ ca ]
 default_ca = CA_default # The default ca section
+
 [ CA_default ]
 dir = \${HOME}
 certs = \$dir/certs
@@ -672,6 +673,7 @@ policy = policy_match
 [ policy_match ]
 countryName = match
 stateOrProvinceName = match
+localityName = match
 organizationName = match
 organizationalUnitName = optional
 commonName = supplied
