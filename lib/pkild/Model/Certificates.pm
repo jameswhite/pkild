@@ -15,7 +15,7 @@ sub cert_subject{
     if(-f "$cert_file"){
         my $cacert_fh = FileHandle->new;
         if ($cacert_fh->open("< $cert_file")) {
-            while(my $line=<$fh>){
+            while(my $line=<$cacert_fh>){
                 if($line=~m/\s*Subject:\s*(.*)/){
                    $subject=$1;
                 }
