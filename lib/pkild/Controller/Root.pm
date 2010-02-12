@@ -288,6 +288,7 @@ print STDERR pack("H*",$actual_node)."\n";
                                                                     'menudata' => $c->session->{'menudata'}->{$menu},
                                                                     'node' => $actual_node,
                                                                     'download_cert_link' => $c->stash->{'download_cert_link'},
+                                                                    'user_cert_dn' => $c->stash->{'user_cert_dn'},
                                                                   }
                                                  )
                          );
