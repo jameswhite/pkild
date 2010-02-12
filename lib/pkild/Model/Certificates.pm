@@ -349,7 +349,6 @@ sub sign_certificate{
     }else{
         $node_dir = $self->actual_node($param->{'node_name'});
     }
-    print STDERR "==== $node_dir ====\n";
     $node_dir=~s/$self->{'node_separator'}/\//g;
     $node_dir=~s/certs$//g;
     $node_dir="$rootdir/$node_dir";
@@ -359,16 +358,20 @@ sub sign_certificate{
     my ($fh, $filename) = tempfile( 'DIR' => $tmpdir );
     print $fh $param->{'csr_input'};
     my $common_name;
+    my $subject;
     open(GETCN, "/usr/bin/openssl req -in $filename -noout -text | ");
     while(my $line=<GETCN>){
         if($line=~m/Subject:/){
+            $subject=$line;
+            $subject=s/\s+$//;
+            $subject=s/^\s+//;
             $line=~s/.*CN=//g;
             $line=~s/\/.*//g;
             $line=~s/\s+//g;
             $common_name=$line;
         }
     }
-    # delete the temp file
+    print STDERR "\n==== $subject ====\n"; 
     # create the $root/$param->{'node_name'};/$cn  directory
     if(! -d "$node_dir/certs/$common_name"){
         mkdir("$node_dir/certs/$common_name",0700);
