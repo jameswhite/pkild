@@ -11,7 +11,6 @@ sub cert_subject{
     my $self=shift;
     my $cert_file=shift;
     my $subject=undef;
-    return undef;
 print STDERR "$cert_file\n";
     if(-f "$cert_file"){
         my $cacert_fh = FileHandle->new;
