@@ -344,6 +344,8 @@ sub sign_certificate{
                                                                           $self->objectname($session->{'user'})
                                                                          )
                                       );
+        # Strip off the last node as it's the user/host
+        $node_dir=~s/::[^:]+$//;
     }else{
         $node_dir = $self->actual_node($param->{'node_name'});
     }
