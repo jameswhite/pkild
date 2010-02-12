@@ -372,12 +372,12 @@ sub sign_certificate{
     chomp($subject);
     $subject=~s/\s+$//;
     $subject=~s/^\s+//;
-    if($subject eq $self->user_cert_dn($session)){
+    if($subject eq $self->user_cert_dn($session->{'user'})){
          print STDERR "\n\n==== Signing self cert ====\n\n";
     }else{ 
-         print STDERR "\n\n==== Signing cert as administrator ====\n\n";
-         print STDERR "$subject\n";
-         print STDERR $self->user_cert_dn($session)."\n";
+         print STDERR "\n\n==== Signing cert as administrator ====\n";
+         print STDERR "[$subject]\n";
+         print STDERR "[".$self->user_cert_dn($session)."]\n\n";
     }
     # create the $root/$param->{'node_name'};/$cn  directory
     if(! -d "$node_dir/certs/$common_name"){
