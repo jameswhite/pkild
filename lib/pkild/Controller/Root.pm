@@ -357,9 +357,12 @@ sub do_form : Global {
             $c->stash->{'template'}="application.tt";
         }elsif($c->req->param('action_type') eq 'sign_cert'){
 
-            $c->stash->{'result'} = $c->model('Certificates')->sign_certificate($c->req->params,$c->session);
+            if( $c->check_user_roles( "certificate_administrators" ) ){
+                $c->stash->{'result'} = $c->model('Certificates')->sign_certificate($c->req->params,$c->session,1);
+            }else{
+                $c->stash->{'result'} = $c->model('Certificates')->sign_certificate($c->req->params,$c->session,0);
+            }
             $c->stash->{'template'}="application.tt";
-
         }elsif($c->req->param('action_type') eq 'create_cert'){
             $c->stash->{'result'} = $c->model('Certificates')->create_certificate($c->req->params,$c->session);
             $c->stash->{'template'}="application.tt";

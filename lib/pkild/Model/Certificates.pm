@@ -333,7 +333,7 @@ sub revoke_certificate{
 sub sign_certificate{
     use FileHandle;
     use File::Temp qw/ tempfile tempdir /;
-    my ($self, $param,$session)=@_;
+    my ($self, $param,$session,$admin)=@_;
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     
     # convert the $self->{'node_separator'} delimited node names into a path
@@ -373,12 +373,12 @@ sub sign_certificate{
     $subject=~s/\s+$//;
     $subject=~s/^\s+//;
     $subject=~s/^[Ss]ubject:\s*//;
-    if($subject eq $self->user_cert_dn($session->{'user'})){
-         print STDERR "\n\n==== Signing self cert ====\n\n";
-    }else{ 
-         print STDERR "\n\n==== Signing cert as administrator ====\n";
-         print STDERR "[".$self->user_cert_dn($session->{'user'})."]\n\n";
-         print STDERR "[$subject]\n";
+    ############################################################################
+    # Do not let a non-administrator sign a cert that isn't his/it's
+    ############################################################################
+    if(($admin == 0) && ($subject ne $self->user_cert_dn($session->{'user'})) ){
+        print STDERR  "WARNING: ".$self->objectname($user_session)." attempted to sign [$subject]\n";
+        return undef;
     }
     # create the $root/$param->{'node_name'};/$cn  directory
     if(! -d "$node_dir/certs/$common_name"){
