@@ -471,9 +471,9 @@ sub ca_create{
                 # Have the parent sign the CSR
                 system("/usr/bin/openssl ca -extensions v3_ca -days $tpldata->{'ca_default_days'} -out $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.crt -in $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.csr -config $node_dir/openssl.cnf -batch");
                 # Clean up the CSR
-                if(-f "$node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.crt"){
-                    unlink("$node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.csr");
-                }
+#                if(-f "$node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.crt"){
+#                    unlink("$node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.csr");
+#                }
 
                 # Write out the PEM part to the .pem file
                 my $write=0;
