@@ -238,6 +238,8 @@ sub drawform : Global {
     if($c->model('Certificates')->node_type( $c->session->{'current_node'} )){
         if($c->model('Certificates')->node_type( $c->session->{'current_node'} ) eq "new_cert"){ 
             my $objectname = $c->session->{'user'}->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'};
+            my $domain = $c->model('Certificates')->object_domain($objectname);
+            my $ca_path = $c->model('Certificates')->object_domain($objectname);
             $actual_node = $c->model('Certificates')->actual_node_from_objectname($objectname);
             $c->stash->{'user_cert_dn'}=pack("H*",$actual_node);
             $menu='my_cert'; 
@@ -288,7 +290,6 @@ sub drawform : Global {
                                                                     'menudata' => $c->session->{'menudata'}->{$menu},
                                                                     'node' => $actual_node,
                                                                     'download_cert_link' => $c->stash->{'download_cert_link'},
-                                                                    'user_cert_dn' => $c->stash->{'user_cert_dn'},
                                                                   }
                                                  )
                          );
@@ -307,6 +308,7 @@ sub drawform : Global {
                                                          'node'                      => $actual_node,
                                                          'user'                      => $objectname,
                                                          'link'                      => $c->stash->{'ca_link'},
+                                                         'user_cert_dn'              => $c->stash->{'user_cert_dn'},
                                                        },
                                                      )
                          );
