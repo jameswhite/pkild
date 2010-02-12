@@ -11,7 +11,6 @@ sub cert_subject{
     my $self=shift;
     my $cert_file=shift;
     my $subject=undef;
-print STDERR "$cert_file\n";
     if(-f "$cert_file"){
         my $cacert_fh = FileHandle->new;
         if ($cacert_fh->open("< $cert_file")) {
@@ -36,10 +35,10 @@ use FileHandle;
     my $ca = $self->ca_for($domain);
     my $ca_subject=$self->cert_subject("$ca/$domain.crt");
     my $subject=$ca_subject;
-print STDERR "== $subject ==\n";
-    #if($subject=~m/C=(.*),\s*ST=(.*),\s*O=(.*),\s*OU=(.*),\s*CN=(.*)\/emailAddress=(.*)/){
+    if($subject=~m/C=(.*),\s*ST=(.*),\s*O=(.*),\s*OU=(.*),\s*CN=(.*)\/emailAddress=(.*)/){
     #    $subject= 
-    #}
+print STDERR "== $subject ==\n";
+    }
     return "STILL DEBUGGING";
 }
 
