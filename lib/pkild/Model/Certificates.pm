@@ -7,14 +7,34 @@ __PACKAGE__->config(
     root_dir => '/var/tmp/certificate_authority',
     node_separator => '::'
 );
+sub cert_subject{
+    my $self=shift;
+    my $cert_file=shift;
+    my $subject=undef;
+    return undef;
+    if(-f "$cert_file"){
+        $cacert_fh = FileHandle->new;
+        if ($cacert_fh->open("< $cert_file")) {
+            while(my $line=<$fh>){
+                if($line=~m/\s*Subject:\s*(.*)/){
+                   $subject=$1;
+                }
+            }
+            $cacert_fh->close;
+        }
+    }else{
+        return undef;
+    }
+    return $subject;
+}
 
 sub user_cert_dn{
+use FileHandle;
     my ($self,$user_session) = @_;
     my $objectname=$self->objectname($user_session);
     my $domain=$self->object_domain($objectname);
     my $ca = $self->ca_for($domain);
-print STDERR "$ca\n";
-    return "STILL DEBUGGING THIS";
+    return $self->cert_subject("$ca/$domain.crt");
 }
 
 sub objectname{
