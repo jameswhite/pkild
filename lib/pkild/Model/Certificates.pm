@@ -369,6 +369,7 @@ sub sign_certificate{
             $common_name=$line;
         }
     }
+    chomp($subject);
     #$subject=s/\s+$//;
     #$subject=s/^\s+//;
     print STDERR "\n==== $subject :: $common_name ====\n"; 
