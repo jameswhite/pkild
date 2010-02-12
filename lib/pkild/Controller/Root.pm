@@ -39,7 +39,7 @@ sub default : Private {
         $c->authenticate({
                            id       => $c->req->param("username"), 
                            password => $c->req->param("password") 
-                         }, 'ldap-user');
+                         }, 'ldap-people');
         if(defined($c->user)){
             $c->session->{'user'}=$c->user;
         }else{
@@ -47,7 +47,7 @@ sub default : Private {
                                id       => $c->req->param("username"), 
                                password => $c->req->param("password") 
                              }, 
-                             'ldap-host');
+                             'ldap-hosts');
             if(defined($c->user)){
                 $c->session->{'user'}=$c->user;
             }else{
