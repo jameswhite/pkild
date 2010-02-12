@@ -31,7 +31,7 @@ sub user_cert_dn{
 use FileHandle;
     my ($self,$user_session) = @_;
     my $objectname=$self->objectname($user_session);
-    
+# HOST SUPPORT     
     my $uid=$objectname;
     $uid=~s/uid=//g;
     $uid=~s/,.*//g;
