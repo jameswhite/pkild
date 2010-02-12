@@ -618,11 +618,11 @@ sub contents{
     use FileHandle;
     my ($self, $unpacked_node)=@_;
     my $node = pack("H*",$unpacked_node);
+    $node =~s/$self->{'node_separator'}/\//g;
 print STDERR "REQUEST $node\n";
     $node =~ s/\/\.\./\//g;
     $node =~ s/\.\.\//\//g;
 print STDERR "RENDER $node\n";
-    $node =~s/$self->{'node_separator'}/\//g;
     my $rootdir="/".join("/",@{ $self->{'root_dir'}->{'dirs'} });
     my $contents='';
     if(-f "$rootdir/$node"){ 
