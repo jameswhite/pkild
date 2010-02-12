@@ -44,7 +44,7 @@ use FileHandle;
     if($subject=~m/C=(.*),\s*ST=(.*),\s*O=(.*),\s*OU=(.*),\s*CN=(.*)\/emailAddress=(.*)/){
         if($type eq "user"){
             $subject="C=$1, ST=$2, O=$3, OU=$4, CN=$cn/emailAddress=$cn\@$domain";
-        elsif($type eq "host"){
+        }elsif($type eq "host"){
             $subject="C=$1, ST=$2, O=$3, OU=$4, CN=$cn.$domain/emailAddress=sysadmins\@$domain";
         }
     }
