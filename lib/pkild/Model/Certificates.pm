@@ -338,6 +338,7 @@ sub sign_certificate{
     
     # convert the $self->{'node_separator'} delimited node names into a path
     my $node_dir = $self->actual_node($param->{'node_name'});
+print STDERR "\n=== $node_dir ===\n";
     $node_dir=~s/$self->{'node_separator'}/\//g;
     $node_dir=~s/certs$//g;
     $node_dir="$rootdir/$node_dir";

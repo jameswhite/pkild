@@ -68,7 +68,7 @@ To create a personal certificate, enter a passphrase to protect your private key
                 </tr>
             [% END %]
             </table>
-            <input type="hidden" name="action_type" value="sign_personal_csr"></td>
+            <input type="hidden" name="action_type" value="sign_cert"></td>
             [% menudata.comments %]
         </fieldset>
     </form>
