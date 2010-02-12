@@ -13,7 +13,7 @@ sub cert_subject{
     my $subject=undef;
     return undef;
     if(-f "$cert_file"){
-        $cacert_fh = FileHandle->new;
+        my $cacert_fh = FileHandle->new;
         if ($cacert_fh->open("< $cert_file")) {
             while(my $line=<$fh>){
                 if($line=~m/\s*Subject:\s*(.*)/){
@@ -34,7 +34,13 @@ use FileHandle;
     my $objectname=$self->objectname($user_session);
     my $domain=$self->object_domain($objectname);
     my $ca = $self->ca_for($domain);
-    return $self->cert_subject("$ca/$domain.crt");
+    my $ca_subject=$self->cert_subject("$ca/$domain.crt");
+    my $subject=$ca_subject;
+print STDERR "== $subject ==\n";
+    #if($subject=~m/C=(.*),\s*ST=(.*),\s*O=(.*),\s*OU=(.*),\s*CN=(.*)\/emailAddress=(.*)/){
+    #    $subject= 
+    #}
+    return "STILL DEBUGGING";
 }
 
 sub objectname{
