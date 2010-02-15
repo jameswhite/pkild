@@ -34,7 +34,7 @@ sub json_wrap{
      if($JSON::VERSION >= 2.00){
          return JSON::to_json($map, {'pretty'=>1});
      }else{
-         return JSON::objToJson($map, {'pretty'=>1}));
+         return JSON::objToJson($map, {'pretty'=>1});
      }
 }
 
