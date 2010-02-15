@@ -28,6 +28,16 @@ pkild::Controller::Root - Root Controller for pkild
 
 =cut
 
+sub json_wrap{
+    my $self=shift;
+    my $map=shift;
+     if($JSON::VERSION >= 2.00){
+         return JSON::to_json($map, {'pretty'=>1});
+     }else{
+         return JSON::objToJson($map, {'pretty'=>1}));
+     }
+}
+
 sub default : Private {
     my ( $self, $c ) = @_;
     # remove this if not running in apache (can we do this automatically?)
@@ -109,7 +119,7 @@ sub default : Private {
                     my $found=0;
                     foreach my $item (@{ $c->session->{'open_branches'} }){ if($item eq $path){ $found=1; }  }
                     push (@{ $c->session->{'open_branches'} }, $path ) unless ($found == 1);
-                    $c->res->body(to_json($c->session->{'open_branches'}, {'pretty' => 0}));
+                    $c->res->body($self->json_wrap($c->session->{'open_branches'}, {'pretty' => 0}));
                 }elsif($c->request->arguments->[1] eq "close" ){
                     shift @{ $c->request->arguments };
                     shift @{ $c->request->arguments };
@@ -120,7 +130,7 @@ sub default : Private {
                         push(@tmplist,$tmp) unless ($tmp eq $path);
                     }
                     @{ $c->session->{'open_branches'} }=@tmplist;
-                    $c->res->body(to_json($c->session->{'open_branches'}, {'pretty' => 0}));
+                    $c->res->body($self->json_wrap($c->session->{'open_branches'}, {'pretty' => 0}));
                 }elsif( $c->request->arguments->[1] eq "update" ){
                     # loop through the fields and set the value in the session.
                     if($c->request->arguments->[2]){
@@ -232,7 +242,7 @@ sub jstreemenu : Local {
             'data' => { 'title' => 'Logout', 'icon' => 'forbidden'},
           }
         );
-    $c->res->body(to_json($menu_tree, {'pretty' => 1}));
+    $c->res->body($self->json_wrap($menu_tree, {'pretty' => 1}));
 }
 
 sub drawform : Global {
