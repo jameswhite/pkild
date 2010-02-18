@@ -38,7 +38,6 @@ use FileHandle;
     if($cn=~m/\s*uid=(.*)/){ $type="user"; $cn=~s/\s*uid=//; }
     if($cn=~m/\s*cn=(.*)/){ $type="host"; $cn=~s/\s*cn=//;}
     my $domain=$self->object_domain($objectname);
-print STDERR "-=[$objectname => $domain]=-\n";
     my $ca = $self->ca_for($domain);
     my $ca_subject=$self->cert_subject("$ca/$domain.crt");
     my $subject=$ca_subject;
@@ -66,7 +65,9 @@ sub object_domain{
     my $object=shift;
     my ($identity_type, $identity,$orgunit,$domain);
     if($object=~m/\s*(.*)\s*=\s*(.*)\s*,\s*[Oo][Uu]\s*=\s*([^,]+)\s*,\s*dc\s*=\s*(.*)\s*/){
+print STDERR "1: -=[$domain]=-\n";
         $identity_type=$1; $identity=$2; $orgunit=$3; $domain=$4; $domain=~s/,dc=/./g;
+print STDERR "2: -=[$domain]=-\n";
         # I hate upper case.
         $identity_type=~tr/A-Z/a-z/;
         $identity=~tr/A-Z/a-z/;
