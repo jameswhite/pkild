@@ -186,14 +186,11 @@ use FileHandle;
 
 sub find_file{
     my ($self,$dir,$fileregex)=@_; 
-print STDERR Data::Dumper->Dump([$dir,$fileregex]);
     opendir(DIR,$dir);
     if ($dir !~ /\/$/) { $dir .= "/"; }
     my @dirlist=readdir(DIR);
     closedir(DIR);
-print STDERR "1:".Data::Dumper->Dump([@dirlist]);
     # why is this here? splice(@dirlist,0,2);
-print STDERR "2:".Data::Dumper->Dump([@dirlist]);
     foreach my $file (@dirlist){
         if($file ne "." && $file ne ".."){
             my $file = $dir.$file;
@@ -541,6 +538,7 @@ print STDERR "1) $rootdir\n";
            push(@domain_cnfs,$cnf_file);
        }
     }
+print STDERR Data::Dumper->Dump([@domain_cnfs]);
     my $physical_path;
     my $leastdepth=0;
     if($#domain_cnfs >= 0){
