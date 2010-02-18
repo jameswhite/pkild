@@ -38,6 +38,7 @@ use FileHandle;
     if($cn=~m/\s*uid=(.*)/){ $type="user"; $cn=~s/\s*uid=//; }
     if($cn=~m/\s*cn=(.*)/){ $type="host"; $cn=~s/\s*cn=//;}
     my $domain=$self->object_domain($objectname);
+print STDERR "-=[$domain]=-\n";
     my $ca = $self->ca_for($domain);
     my $ca_subject=$self->cert_subject("$ca/$domain.crt");
     my $subject=$ca_subject;
@@ -523,19 +524,15 @@ sub ca_create{
 ################################################################################
 sub ca_for{
     my ($self,$ca_domain)=@_;
-print STDERR "0) $ca_domain\n";
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
-print STDERR "1) $rootdir\n";
     ############################################################################
     # find all the openssl.cnfs with ca_domain=$ca_domain
     $self->{'file_list'}=[];
     my @domain_cnfs;
     my @least_depth_domain_cnfs;
     $self->find_file($rootdir,"openssl.cnf");
-print STDERR "2)".Data::Dumper->Dump([$self->{'file_list'}])."\n";
     foreach my $cnf_file (@{ $self->{'file_list'} }){
        my $cnf_domain=$self->ca_domain_from_file($cnf_file);
-print STDERR "3) $cnf_domain\n";
        if($cnf_domain eq $ca_domain){
            push(@domain_cnfs,$cnf_file);
        }
@@ -560,7 +557,6 @@ print STDERR "3) $cnf_domain\n";
        my @ordered_least_depth_domain_cnfs = sort(@least_depth_domain_cnfs);
        $physical_path = $least_depth_domain_cnfs[0];
        $physical_path =~s/\/openssl.cnf.*$//;
-print STDERR "3) $physical_path\n";
        return $physical_path;
     }
     # if we can't find any, we return undef 
