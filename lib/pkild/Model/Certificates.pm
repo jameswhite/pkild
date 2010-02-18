@@ -259,12 +259,12 @@ use File::Slurp;
         # create the CSR
         system("/usr/bin/openssl req -new -sha1 -days 90 -key $certdata->{'child_dir'}/private/$certdata->{'child_id'}.key  -out $certdata->{'child_dir'}/$certdata->{'child_id'}.csr -config $certdata->{'child_dir'}/openssl.cnf -batch");
         # Validate the request matches our conventions
-        print STDERR "We need to ensure the certificate signing request matches the requestor here";
+        print STDERR "We need to ensure the certificate signing request matches the requestor here\n";
         # openssl req -text -noout -in $certdata->{'child_dir'}/$certdata->{'child_id'}.csr
 
 
         # if it's valid, Sign it with the parent
-
+        print STDERR "\n/usr/bin/openssl ca -config $certdata->{'config'} -days 90 -policy policy_anything -out $certdata->{'child_dir'}/$certdata->{'child_id'}.crt -batch -infiles $certdata->{'child_dir'}/$certdata->{'child_id'}.csr\n\n";
         system("/usr/bin/openssl ca -config $certdata->{'config'} -days 90 -policy policy_anything -out $certdata->{'child_dir'}/$certdata->{'child_id'}.crt -batch -infiles $certdata->{'child_dir'}/$certdata->{'child_id'}.csr");
         # convert to a pkcs12 container with the passphrase
         system("/bin/echo \"$param->{'password'}\" | /usr/bin/openssl pkcs12 -export -clcerts -passout fd:0 -in $certdata->{'child_dir'}/$certdata->{'child_id'}.crt -inkey $certdata->{'child_dir'}/private/$certdata->{'child_id'}.key -out $certdata->{'child_dir'}/$certdata->{'child_id'}.p12");
