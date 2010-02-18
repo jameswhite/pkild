@@ -192,7 +192,7 @@ print STDERR Data::Dumper->Dump([$dir,$fileregex]);
     my @dirlist=readdir(DIR);
     closedir(DIR);
 print STDERR "1:".Data::Dumper->Dump([@dirlist]);
-    splice(@dirlist,0,2);
+    # why is this here? splice(@dirlist,0,2);
 print STDERR "2:".Data::Dumper->Dump([@dirlist]);
     foreach my $file (@dirlist){
         if($file ne "." && $file ne ".."){
