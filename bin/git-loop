@@ -12,9 +12,6 @@ while [ 1 ] ; do
         export COMMITMSG="${NEWCOMMITMSG}";
     fi
     ( cd ${GITHOME}/${REPO}; git commit -a -m "$COMMITMSG"; git push); 
-    echo
-    echo "--"
-    echo
     #ssh root@${STAGEHOST} "(cd /var/cache/git/${REPO};git pull; /etc/init.d/apache2 restart)"; 
-    ssh root@${STAGEHOST} "(cd /usr/share/git/${REPO};git pull; /etc/init.d/httpd restart)"; 
+    ssh root@${STAGEHOST} "(cd /usr/share/${REPO};git pull; /etc/init.d/httpd restart)"; 
 done
