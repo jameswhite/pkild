@@ -524,6 +524,7 @@ sub ca_create{
 sub ca_for{
     my ($self,$ca_domain)=@_;
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
+print STDERR "1) $rootdir\n";
     ############################################################################
     # find all the openssl.cnfs with ca_domain=$ca_domain
     $self->{'file_list'}=[];
