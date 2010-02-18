@@ -191,6 +191,7 @@ print STDERR Data::Dumper->Dump([$dir,$fileregex]);
     if ($dir !~ /\/$/) { $dir .= "/"; }
     my @dirlist=readdir(DIR);
     closedir(DIR);
+print STDERR Data::Dumper->Dump([@dirlist]);
     splice(@dirlist,0,2);
     foreach my $file (@dirlist){
         if($file ne "." && $file ne ".."){
