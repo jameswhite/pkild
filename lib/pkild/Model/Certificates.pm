@@ -186,6 +186,7 @@ use FileHandle;
 
 sub find_file{
     my ($self,$dir,$fileregex)=@_; 
+print STDERR Data::Dumper->Dump([$dir,$fileregex]);
     opendir(DIR,$dir);
     if ($dir !~ /\/$/) { $dir .= "/"; }
     my @dirlist=readdir(DIR);
@@ -540,7 +541,6 @@ print STDERR "1) $rootdir\n";
     }
     my $physical_path;
     my $leastdepth=0;
-print STDERR Data::Dumper->Dump([@domain_cnfs]);
     if($#domain_cnfs >= 0){
        foreach my $domain_dir (@domain_cnfs){
            my $depth=split("/",$domain_dir);
