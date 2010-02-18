@@ -535,6 +535,7 @@ print STDERR "1) $rootdir\n";
 print STDERR "2)".Data::Dumper->Dump([$self->{'file_list'}])."\n";
     foreach my $cnf_file (@{ $self->{'file_list'} }){
        my $cnf_domain=$self->ca_domain_from_file($cnf_file);
+print STDERR "3) $cnf_domain\n";
        if($cnf_domain eq $ca_domain){
            push(@domain_cnfs,$cnf_file);
        }
