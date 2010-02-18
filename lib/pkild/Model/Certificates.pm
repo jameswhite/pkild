@@ -214,7 +214,7 @@ use File::Slurp;
     my $cn = $session->{'user'}->{'user'}->{'ldap_entry'}->{'asn'}->{'cn'};
     my ($identity_type, $identity,$orgunit,$domain);
     if($objectname=~m/\s*(.*)\s*=\s*(.*)\s*,\s*[Oo][Uu]\s*=\s*([^,]+)\s*,\s*dc\s*=\s*(.*)\s*/){
-        $identity_type=$1; $identity=$2; $orgunit=$3; $domain=$4; $domain=~s/,dc=/./g;
+        $identity_type=$1; $identity=$2; $orgunit=$3; $domain=$4; $domain=~s/,\s*dc=/./g;
         # I hate upper case.
         $identity_type=~tr/A-Z/a-z/;
         $identity=~tr/A-Z/a-z/;
@@ -556,7 +556,6 @@ sub ca_for{
        my @ordered_least_depth_domain_cnfs = sort(@least_depth_domain_cnfs);
        $physical_path = $least_depth_domain_cnfs[0];
        $physical_path =~s/\/openssl.cnf.*$//;
-print STDERR " -=[$physical_path]=-\n";
        return $physical_path;
     }
     # if we can't find any, we return undef 
@@ -569,7 +568,7 @@ sub actual_node_from_objectname{
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     my ($identity_type, $identity,$orgunit,$domain);
     if($objectname=~m/\s*(.*)\s*=\s*(.*)\s*,\s*[Oo][Uu]\s*=\s*([^,]+)\s*,\s*dc\s*=\s*(.*)\s*/){
-        $identity_type=$1; $identity=$2; $orgunit=$3; $domain=$4; $domain=~s/,dc=/./g;
+        $identity_type=$1; $identity=$2; $orgunit=$3; $domain=$4; $domain=~s/,\s*dc=/./g;
         # I hate upper case.
         $identity_type=~tr/A-Z/a-z/;
         $identity=~tr/A-Z/a-z/;
