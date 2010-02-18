@@ -6,9 +6,6 @@ use warnings;
 use Catalyst::Runtime '5.70';
 use YAML qw(LoadFile);
 use Path::Class 'file';
-#$DEBUG='-Debug';
-my $DEBUG='';
-
 
 # Set flags and add plugins for the application
 #
@@ -18,7 +15,8 @@ my $DEBUG='';
 # Static::Simple: will serve static files from the application's root 
 #                 directory
 
-use Catalyst qq/$DEBUG ConfigLoader Authentication Authorization::Roles Static::Simple Session Session::Store::FastMmap Session::State::Cookie/;
+#use Catalyst qw/-Debug ConfigLoader Authentication Authorization::Roles Static::Simple Session Session::Store::FastMmap Session::State::Cookie/;
+use Catalyst qw/ConfigLoader Authentication Authorization::Roles Static::Simple Session Session::Store::FastMmap Session::State::Cookie/;
 
 our $VERSION = '0.01';
 
