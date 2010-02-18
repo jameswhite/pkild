@@ -532,13 +532,13 @@ print STDERR "1) $rootdir\n";
     my @domain_cnfs;
     my @least_depth_domain_cnfs;
     $self->find_file($rootdir,"openssl.cnf");
+print STDERR "2)".Data::Dumper->Dump([$self->{'file_list'}])."\n";
     foreach my $cnf_file (@{ $self->{'file_list'} }){
        my $cnf_domain=$self->ca_domain_from_file($cnf_file);
        if($cnf_domain eq $ca_domain){
            push(@domain_cnfs,$cnf_file);
        }
     }
-print STDERR "2)".Data::Dumper->Dump([@domain_cnfs])."\n";
     my $physical_path;
     my $leastdepth=0;
     if($#domain_cnfs >= 0){
