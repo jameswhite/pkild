@@ -523,6 +523,7 @@ sub ca_create{
 ################################################################################
 sub ca_for{
     my ($self,$ca_domain)=@_;
+print STDERR "0) $ca_domain\n";
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
 print STDERR "1) $rootdir\n";
     ############################################################################
@@ -557,6 +558,7 @@ print STDERR "1) $rootdir\n";
        my @ordered_least_depth_domain_cnfs = sort(@least_depth_domain_cnfs);
        $physical_path = $least_depth_domain_cnfs[0];
        $physical_path =~s/\/openssl.cnf.*$//;
+print STDERR "2) $physical_path\n";
        return $physical_path;
     }
     # if we can't find any, we return undef 
