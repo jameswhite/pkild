@@ -16,5 +16,5 @@ while [ 1 ] ; do
     echo "--"
     echo
     #ssh root@${STAGEHOST} "(cd /var/cache/git/${REPO};git pull; /etc/init.d/apache2 restart)"; 
-echo    ssh root@${STAGEHOST} "(cd /usr/share/git/${REPO};git pull; /etc/init.d/httpd restart)"; 
+    ssh root@${STAGEHOST} "(cd /usr/share/git/${REPO};git pull; /etc/init.d/httpd restart)"; 
 done
