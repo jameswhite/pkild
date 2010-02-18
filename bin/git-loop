@@ -6,7 +6,7 @@ if [ -z "${REPO}" ]; then export REPO=pkild ;fi
 if [ -z "${STAGEHOST}" ]; then export STAGEHOST=localhost ;fi
 if [ -z "${GITHOME}" ]; then export GITHOME="${HOME}/dev/git" ;fi
 while [ 1 ] ; do 
-    clear; 
+#    clear; 
     echo -n "Commit msg: "; read NEWCOMMITMSG; 
     if [ ! -z "${NEWCOMMITMSG}" ];then 
         export COMMITMSG="${NEWCOMMITMSG}";
