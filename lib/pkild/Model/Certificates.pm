@@ -65,8 +65,7 @@ sub object_domain{
     my $object=shift;
     my ($identity_type, $identity,$orgunit,$domain);
     if($object=~m/\s*(.*)\s*=\s*(.*)\s*,\s*[Oo][Uu]\s*=\s*([^,]+)\s*,\s*dc\s*=\s*(.*)\s*/){
-print STDERR "1: -=[$domain]=-\n";
-        $identity_type=$1; $identity=$2; $orgunit=$3; $domain=$4; $domain=~s/,dc=/./g;
+        $identity_type=$1; $identity=$2; $orgunit=$3; $domain=$4; $domain=~s/,\s*dc=/./g;
 print STDERR "2: -=[$domain]=-\n";
         # I hate upper case.
         $identity_type=~tr/A-Z/a-z/;
