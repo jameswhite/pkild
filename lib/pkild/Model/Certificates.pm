@@ -538,7 +538,7 @@ print STDERR "1) $rootdir\n";
            push(@domain_cnfs,$cnf_file);
        }
     }
-print STDERR Data::Dumper->Dump([@domain_cnfs]);
+print STDERR "2)".Data::Dumper->Dump([@domain_cnfs])."\n";
     my $physical_path;
     my $leastdepth=0;
     if($#domain_cnfs >= 0){
@@ -559,7 +559,7 @@ print STDERR Data::Dumper->Dump([@domain_cnfs]);
        my @ordered_least_depth_domain_cnfs = sort(@least_depth_domain_cnfs);
        $physical_path = $least_depth_domain_cnfs[0];
        $physical_path =~s/\/openssl.cnf.*$//;
-print STDERR "2) $physical_path\n";
+print STDERR "3) $physical_path\n";
        return $physical_path;
     }
     # if we can't find any, we return undef 
