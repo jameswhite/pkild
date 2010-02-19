@@ -89,6 +89,15 @@ EOF
 EOF
         rpmbuild -ba  /usr/src/redhat/SPECS/${PACKAGE_NAME}.spec
         ########################################################################
+        # POSTINSTALL: /*FIXME*/
+        # template Config.yaml.template -> Config.yaml
+        #chown apache:apache /var/tmp/certificate_authority
+        #chmod 0700 /var/tmp/certificate_authority
+        #
+        #cp /etc/httpd/conf.d/ssl.conf /etc/httpd/conf.d/ssl.conf.dist
+        #sed -e 's/<VirtualHost _default_:443>/PerlSwitches -I\/usr\/share\/pkild\/lib\nPerlModule pkild\n<VirtualHost _default_:443>\n<Location \/>\nSetHandler          modperl\nPerlResponseHandler pkild\n<\/Location>\n/' /etc/httpd/conf.d/ssl.conf.dist > /etc/httpd/conf.d/ssl.conf
+        #/etc/init.d/httpd restart
+
     ;;
     "deb")
         if [ ! -d "${TMPDIR}/${PACKAGE_NAME}/DEBIAN" ];then 
