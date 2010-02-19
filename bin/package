@@ -62,10 +62,10 @@ case "$1" in
         %install
         rm -rf \$RPM_BUILD_ROOT
 EOF
-        (cd ${TMPDIR}; find . -type d)| sed -e 's/\.\///' |grep -v "^\.$"| while read line; do 
+        (cd ${TMPDIR}/${PKG_SRC_DIR}; find . -type d)| sed -e 's/\.\///' |grep -v "^\.$"| while read line; do 
             echo "mkdir -p \$RPM_BUILD_ROOT/$line" >> /usr/src/redhat/SPECS/${PACKAGE_NAME}.spec
         done
-        (cd ${TMPDIR}; find . -type f)| sed -e 's/\.\///'| grep -v "^\.$"|while read line; do 
+        (cd ${TMPDIR}/${PKG_SRC_DIR}; find . -type f)| sed -e 's/\.\///'| grep -v "^\.$"|while read line; do 
             echo "install $line \$RPM_BUILD_ROOT/$line" >> /usr/src/redhat/SPECS/${PACKAGE_NAME}.spec
         done
         echo "" >> /usr/src/redhat/SPECS/${PACKAGE_NAME}.spec
@@ -76,7 +76,7 @@ EOF
         echo "%defattr(-,root,root)" >> /usr/src/redhat/SPECS/${PACKAGE_NAME}.spec
         #echo "%doc README TODO COPYING ChangeLog
 
-        (cd ${TMPDIR}; find . -type f)| sed -e 's/\.\///'| grep -v "^\.$"|while read line; do 
+        (cd ${TMPDIR}/${PKG_SRC_DIR}; find . -type f)| sed -e 's/\.\///'| grep -v "^\.$"|while read line; do 
             echo "/$line" >> /usr/src/redhat/SPECS/${PACKAGE_NAME}.spec
         done
         cat<< EOF | cut -b 9-2000 >> /usr/src/redhat/SPECS/${PACKAGE_NAME}.spec
