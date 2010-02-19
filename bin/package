@@ -36,7 +36,7 @@ case "$1" in
 
         TARBALL="${PACKAGE_NAME}-${VERSION}.${RELEASE}.${PATCH}-${BUILD}.tar.gz"
         (cd ${TMPDIR}/${INSTALL_ROOT}/${PACKAGE_NAME}; tar cvzf /usr/src/redhat/SOURCES/${TARBALL} *)
-        cat<< EOF > /usr/src/redhat/SPECS/${PACKAGE_NAME}.spec
+        cat<< EOF | cut -b 9-2000 > /usr/src/redhat/SPECS/${PACKAGE_NAME}.spec
         Summary: A ajax based Private Key Infrastructure tool
         Name: ${PACKAGE_NAME}
         Version: ${VERSION}.${RELEASE}.${PATCH}
