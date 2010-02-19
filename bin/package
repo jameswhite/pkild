@@ -84,7 +84,7 @@ EOF
         cat<< EOF | cut -b 9-2000 >> /usr/src/redhat/SPECS/${PACKAGE_NAME}.spec
         
         %changelog
-        * Fri Feb 19 14:39:17 CST 2010 James S. White <james@wcyd.org>
+        * Fri Feb 19 2010 James S. White <james@wcyd.org>
         - added package building tool for rpm
 EOF
         rpmbuild -ba  /usr/src/redhat/SPECS/${PACKAGE_NAME}.spec
