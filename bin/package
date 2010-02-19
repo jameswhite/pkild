@@ -21,21 +21,22 @@ SED_INSTALL_ROOT=$(echo ${INSTALL_ROOT} | sed -e 's/\//\\\//g')
 #
 if [ ! -d "${SOURCE_ROOT}/tmp" ]; then mkdir -p "${SOURCE_ROOT}/tmp";fi
 TMPDIR=$(mktemp -d ${SOURCE_ROOT}/tmp/package.XXXX)
+PKG_SRC_DIR="${PACKAGE_NAME}-${VERSION}.${RELEASE}.${PATCH}"
 
 case "$1" in
     rpm)
         #rpm -qa | grep rpm-build || yum install -y rpm-build
-        if [ ! -d "${TMPDIR}/${INSTALL_ROOT}/${PACKAGE_NAME}" ];then 
-            mkdir -p "${TMPDIR}/${INSTALL_ROOT}/${PACKAGE_NAME}";
+        if [ ! -d "${TMPDIR}/${INSTALL_ROOT}/${PKG_SRC_DIR}" ];then 
+            mkdir -p "${TMPDIR}/${INSTALL_ROOT}/${PKG_SRC_DIR}";
         fi
         rsync -aqzPH \
               --link-dest ${SOURCE_ROOT}/ \
                           ${SOURCE_ROOT}/ \
-                          ${TMPDIR}/${INSTALL_ROOT}/${PACKAGE_NAME}/ \
+                          ${TMPDIR}/${INSTALL_ROOT}/${PKG_SRC_DIR}/ \
               --exclude "tmp" --exclude ".git"
 
-        TARBALL="${PACKAGE_NAME}-${VERSION}.${RELEASE}.${PATCH}-${BUILD}.tar.gz"
-        (cd ${TMPDIR}/${INSTALL_ROOT}/${PACKAGE_NAME}; tar cvzf /usr/src/redhat/SOURCES/${TARBALL} *)
+        TARBALL="${PKG_SRC_DIR}-${BUILD}.tar.gz"
+        (cd ${TMPDIR}/${INSTALL_ROOT} ; tar cvzf /usr/src/redhat/SOURCES/${TARBALL} ${PKG_SRC_DIR})
         ########################################################################
         # .spec file
         #
