@@ -48,6 +48,8 @@ case "$1" in
         License: GPL
         Group: System/Management
         Source: ${PACKAGE_NAME}-${VERSION}.${RELEASE}.${PATCH}-${BUILD}.tar.gz
+        Requires: perl-YAML, perl-Catalyst-Runtime, perl-Catalyst-View-TT, perl-Class-Accessor, perl-Class-Data-Inheritable, perl-MIME-Types, perl-LDAP >= 0.43, perl-JSON, httpd, mod_ssl, mod_perl, perl-Catalyst-Plugin-Session-State-Cookie, perl-Catalyst-Plugin-Session-Store-FastMmap, perl-Cache-FastMmap, perl-Object-Signature, perl-Catalyst-Plugin-Session, perl-Catalyst-Plugin-Static-Simple, perl-Set-Object, perl-Catalyst-Plugin-Authorization-Roles, perl-Catalyst-Plugin-Authentication, perl-Config-Any, perl-Tie-ToObject, perl-Data-Visitor, perl-Catalyst-Plugin-ConfigLoader, perl-Catalyst-Plugin-RequireSSL, perl-GSSAPI, perl-Authen-SASL, perl-Text-Iconv, perl-XML-Filter-BufferText, perl-XML-SAX-Writer, perl-LDAP, perl-Net-LDAP-Server-Test, perl-UNIVERSAL-can, perl-UNIVERSAL-isa, perl-Test-MockObject, perl-Sub-Uplevel, perl-Test-Exception, perl-Catalyst-Authentication-Store-LDAP, perl-Sub-Install, perl-Params-Util, perl-Data-OptList, perl-Sub-Exporter, perl-Sub-Name, perl-Class-MOP, perl-Moose, perl-Catalyst-Model-File, perl-Catalyst-Component-InstancePerContext, perl-File-Slurp, perl-Catalyst-Action-RenderView, perl-Catalyst-Engine-Apache, perl-IO-Socket-SSL
+
         BuildRoot: /var/tmp/%{name}-buildroot
         
         %description
@@ -82,8 +84,8 @@ EOF
         cat<< EOF | cut -b 9-2000 >> /usr/src/redhat/SPECS/${PACKAGE_NAME}.spec
         
         %changelog
-        * Sun Mar 21 1999 Cristian Gafton <gafton@redhat.com> 
-        - auto rebuild in the new build environment (release 3)
+        * Fri Feb 19 14:39:17 CST 2010 James S. White <james@wcyd.org>
+        - added package building tool for rpm
 EOF
         rpmbuild -ba  /usr/src/redhat/SPECS/${PACKAGE_NAME}.spec
         ########################################################################
