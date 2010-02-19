@@ -26,13 +26,13 @@ PKG_SRC_DIR="${PACKAGE_NAME}-${VERSION}.${RELEASE}.${PATCH}"
 case "$1" in
     rpm)
         #rpm -qa | grep rpm-build || yum install -y rpm-build
-        if [ ! -d "${TMPDIR}/${PKG_SRC_DIR}/${INSTALL_ROOT}/${PKG_NAME}" ];then 
-            mkdir -p "${TMPDIR}/${PKG_SRC_DIR}/${INSTALL_ROOT}/${PKG_NAME}";
+        if [ ! -d "${TMPDIR}/${PKG_SRC_DIR}/${INSTALL_ROOT}/${PACKAGE_NAME}" ];then 
+            mkdir -p "${TMPDIR}/${PKG_SRC_DIR}/${INSTALL_ROOT}/${PACKAGE_NAME}";
         fi
         rsync -aqzPH \
               --link-dest ${SOURCE_ROOT}/ \
                           ${SOURCE_ROOT}/ \
-                          ${TMPDIR}/${PKG_SRC_DIR}/${INSTALL_ROOT}/${PKG_NAME}/ \
+                          ${TMPDIR}/${PKG_SRC_DIR}/${INSTALL_ROOT}/${PACKAGE_NAME}/ \
               --exclude "tmp" --exclude ".git"
 
         TARBALL="${PKG_SRC_DIR}-${BUILD}.tar.gz"
