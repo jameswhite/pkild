@@ -36,6 +36,9 @@ case "$1" in
 
         TARBALL="${PACKAGE_NAME}-${VERSION}.${RELEASE}.${PATCH}-${BUILD}.tar.gz"
         (cd ${TMPDIR}/${INSTALL_ROOT}/${PACKAGE_NAME}; tar cvzf /usr/src/redhat/SOURCES/${TARBALL} *)
+        ########################################################################
+        # .spec file
+        #
         cat<< EOF | cut -b 9-2000 > /usr/src/redhat/SPECS/${PACKAGE_NAME}.spec
         Summary: A ajax based Private Key Infrastructure tool
         Name: ${PACKAGE_NAME}
@@ -47,43 +50,42 @@ case "$1" in
         BuildRoot: /var/tmp/%{name}-buildroot
         
         %description
-        The eject program allows the user to eject removable media
-        (typically CD-ROMs, floppy disks or Iomega Jaz or Zip disks)
-        using software control. Eject can also control some multi-
-        disk CD changers and even some devices' auto-eject features.
-        
-        Install eject if you'd like to eject removable media using
-        software control.
+        This application allows you to manage a PKI infrastructure from the web. It uses LDAP
+        for authentication and authorization.
         
         %prep
         %setup -q
-        %patch -p1 -b .buildroot
         
         %build
-        make RPM_OPT_FLAGS="$RPM_OPT_FLAGS"
+        make RPM_OPT_FLAGS="\$RPM_OPT_FLAGS"
         
         %install
-        rm -rf $RPM_BUILD_ROOT
-        mkdir -p $RPM_BUILD_ROOT/usr/bin
-        mkdir -p $RPM_BUILD_ROOT/usr/man/man1
-        
-        install -s -m 755 eject $RPM_BUILD_ROOT/usr/bin/eject
-        install -m 644 eject.1 $RPM_BUILD_ROOT/usr/man/man1/eject.1
-        
-        %clean
-        rm -rf $RPM_BUILD_ROOT
-        
-        %files
-        %defattr(-,root,root)
-        %doc README TODO COPYING ChangeLog
+        rm -rf \$RPM_BUILD_ROOT
+EOF
+        (cd ${TMPDIR}; find . -type d)| sed -e 's/\.\///'| while read line; do 
+            echo "mkdir -p \$RPM_BUILD_ROOT/$line" >> /usr/src/redhat/SPECS/${PACKAGE_NAME}.spec
+        done
+        (cd ${TMPDIR}; find . -type f)| sed -e 's/\.\///'| while read line; do 
+            echo "install $line \$RPM_BUILD_ROOT/$line" >> /usr/src/redhat/SPECS/${PACKAGE_NAME}.spec
+        done
 
-        /usr/bin/eject
-        /usr/man/man1/eject.1
+        echo "%clean" >> /usr/src/redhat/SPECS/${PACKAGE_NAME}.spec
+        echo "rm -rf \$RPM_BUILD_ROOT" >> /usr/src/redhat/SPECS/${PACKAGE_NAME}.spec
+        echo "" >> /usr/src/redhat/SPECS/${PACKAGE_NAME}.spec
+        echo "%files" >> /usr/src/redhat/SPECS/${PACKAGE_NAME}.spec
+        echo "%defattr(-,root,root)" >> /usr/src/redhat/SPECS/${PACKAGE_NAME}.spec
+        #echo "%doc README TODO COPYING ChangeLog
+
+        (cd ${TMPDIR}; find . -type f)| sed -e 's/\.\///'| while read line; do 
+            echo "/$line" >> /usr/src/redhat/SPECS/${PACKAGE_NAME}.spec
+        done
+        cat<< EOF | cut -b 9-2000 >> /usr/src/redhat/SPECS/${PACKAGE_NAME}.spec
         
         %changelog
         * Sun Mar 21 1999 Cristian Gafton <gafton@redhat.com> 
         - auto rebuild in the new build environment (release 3)
 EOF
+        ########################################################################
     ;;
     "deb")
         if [ ! -d "${TMPDIR}/${PACKAGE_NAME}/DEBIAN" ];then 
