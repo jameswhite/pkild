@@ -1,0 +1,84 @@
+#!/bin/bash
+################################################################################
+# To where we want to install the application
+#
+INSTALL_ROOT="/usr/share"
+################################################################################
+# From this git repo, determine the package name and file list
+#
+SELF=$0
+SELF_DIR=$(dirname $0);
+SOURCE_ROOT=$(cd ${SELF_DIR}/..;pwd)
+PACKAGE_NAME=$(basename ${SOURCE_ROOT})
+SED_SOURCE_ROOT=$(echo ${SOURCE_ROOT} | sed -e 's/\//\\\//g')
+SED_INSTALL_ROOT=$(echo ${INSTALL_ROOT} | sed -e 's/\//\\\//g')
+################################################################################
+# make a temporary fakeroot, and hardlink every file to it's corresponding file
+#
+if [ ! -d "${SOURCE_ROOT}/tmp" ]; then mkdir -p "${SOURCE_ROOT}/tmp";fi
+TMPDIR=$(mktemp -d ${SOURCE_ROOT}/tmp/package.XXXX)
+
+case "$1" in
+    rpm)
+        #rpm -qa | grep rpm-build || yum install -y rpm-build
+        if [ ! -d "${TMPDIR}/${INSTALL_ROOT}/${PACKAGE_NAME}" ];then 
+            mkdir -p "${TMPDIR}/${INSTALL_ROOT}/${PACKAGE_NAME}";
+        fi
+
+        (cd ${TMPDIR}/${INSTALL_ROOT}/${PACKAGE_NAME}; tar cvzf /usr/src/redhat/SOURCES/${PACKAGE_NAME}.tar.gz *)
+    ;;
+    "deb")
+        if [ ! -d "${TMPDIR}/${PACKAGE_NAME}/DEBIAN" ];then 
+            mkdir -p "${TMPDIR}/${PACKAGE_NAME}/DEBIAN"
+        fi
+        if [ ! -d "${TMPDIR}/${PACKAGE_NAME}/DATA/${INSTALL_ROOT}/${PACKAGE_NAME}" ];then 
+            mkdir -p "${TMPDIR}/${PACKAGE_NAME}/DATA/${INSTALL_ROOT}/${PACKAGE_NAME}";
+        fi
+        echo "2.0" > "${TMPDIR}/${PACKAGE_NAME}/DEBIAN/debian-binary"
+        rsync -avzPH \
+              --link-dest ${SOURCE_ROOT}/ \
+                          ${SOURCE_ROOT}/ \
+                          ${TMPDIR}/${PACKAGE_NAME}/DATA/${INSTALL_ROOT}/${PACKAGE_NAME}/ \
+              --exclude "tmp" --exclude ".git"
+        (cd ${TMPDIR}; for d in `ls`; do find ${d} -type f -exec md5sum {} \; ;done) \
+             > ${TMPDIR}/${PACKAGE_NAME}/DEBIAN/md5sums
+        INSTALLED=$(du -ks "${TMPDIR}/${PACKAGE_NAME}/DATA" | awk '{print $1'})
+        echo ${INSTALLED}
+        
+        #if [ ! -z ${prerm} ];then
+        #    cp ${prerm} ${TMPDIR}/${PACKAGE_NAME}/DEBIAN/prerm
+        #    chmod 755 ${TMPDIR}/${PACKAGE_NAME}/DEBIAN/prerm
+        #fi
+        #if [ ! -z ${postinst} ] ;then
+        #    cp ${postinst} ${TMPDIR}/${PACKAGE_NAME}/DEBIAN/postinst
+        #    chmod 755 ${TMPDIR}/${PACKAGE_NAME}/DEBIAN/postinst
+        #fi
+        
+        cat<< '        EOF' | sed -e 's/^        //' >${TMPDIR}/${PACKAGE_NAME}/DEBIAN/control
+        Package: ${PACKAGE_NAME}
+        Version: ${version}
+        Section: main
+        Priority: optional
+        Architecture: ${arch}
+        Depends: ${pkglist}
+        Installed-Size: ${INSTALLED}
+        Maintainer: $(getent passwd ${LOGNAME}| awk -F: '{print $5}')
+        Description: ${description}
+         A packages with no files that Depends on $pkglist
+        EOF
+
+        if [ "${editcontro}" == "1" ]; then
+            vi "${TMPDIR}/${PACKAGE_NAME}/DEBIAN/control"
+        fi
+
+        # Build the package
+        #(cd ${TMPDIR}; dpkg --build ${PACKAGE_NAME})
+        (cd ${TMPDIR}; dpkg-deb -b ${PACKAGE_NAME} ${PACKAGE_NAME}_${version}_${arch}.deb)
+        (cd ${TMPDIR}; mv ${PACKAGE_NAME}_${version}_${arch}.deb ${WHEREIAM}/${PACKAGE_NAME}_${version}_${arch}.deb)
+        
+        if [ ! -z "${TMPDIR}" ]; then rm -fr "${TMPDIR}";fi
+    ;;
+    *) 
+        echo "unknown or unsupoorted package format"
+    ;;
+esac
