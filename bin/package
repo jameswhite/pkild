@@ -36,7 +36,7 @@ case "$1" in
 
         TARBALL="${PACKAGE_NAME}-${VERSION}.${RELEASE}.${PATCH}-${BUILD}.tar.gz"
         (cd ${TMPDIR}/${INSTALL_ROOT}/${PACKAGE_NAME}; tar cvzf /usr/src/redhat/SOURCES/${TARBALL} *)
-        cat<<        EOF | sed -e 's/        //g'>/usr/src/redhat/SPECS/${PACKAGE_NAME}.spec
+        cat<<'        EOF' | sed -e 's/        //g' > /usr/src/redhat/SPECS/${PACKAGE_NAME}.spec
         Summary: A program that ejects removable media using software control.
         Name: eject
         Version: 2.0.2
