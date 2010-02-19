@@ -27,7 +27,7 @@ case "$1" in
         rsync -avzPH \
               --link-dest ${SOURCE_ROOT}/ \
                           ${SOURCE_ROOT}/ \
-                          ${TMPDIR}/${PACKAGE_NAME}/DATA/${INSTALL_ROOT}/${PACKAGE_NAME}/ \
+                          ${TMPDIR}/${INSTALL_ROOT}/${PACKAGE_NAME}/ \
               --exclude "tmp" --exclude ".git"
 
         (cd ${TMPDIR}/${INSTALL_ROOT}/${PACKAGE_NAME}; tar cvzf /usr/src/redhat/SOURCES/${PACKAGE_NAME}.tar.gz *)
