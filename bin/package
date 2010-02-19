@@ -44,7 +44,6 @@ case "$1" in
         Name: ${PACKAGE_NAME}
         Version: ${VERSION}.${RELEASE}.${PATCH}
         Release: ${BUILD}
-        Copyright: GPL
         Group: System/Management
         Source: ${PACKAGE_NAME}-${VERSION}.${RELEASE}.${PATCH}-${BUILD}.tar.gz
         BuildRoot: /var/tmp/%{name}-buildroot
@@ -68,7 +67,7 @@ EOF
         (cd ${TMPDIR}; find . -type f)| sed -e 's/\.\///'| while read line; do 
             echo "install $line \$RPM_BUILD_ROOT/$line" >> /usr/src/redhat/SPECS/${PACKAGE_NAME}.spec
         done
-
+        echo "" >> /usr/src/redhat/SPECS/${PACKAGE_NAME}.spec
         echo "%clean" >> /usr/src/redhat/SPECS/${PACKAGE_NAME}.spec
         echo "rm -rf \$RPM_BUILD_ROOT" >> /usr/src/redhat/SPECS/${PACKAGE_NAME}.spec
         echo "" >> /usr/src/redhat/SPECS/${PACKAGE_NAME}.spec
