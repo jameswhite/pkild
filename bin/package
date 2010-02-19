@@ -36,7 +36,7 @@ case "$1" in
 
         TARBALL="${PACKAGE_NAME}-${VERSION}.${RELEASE}.${PATCH}-${BUILD}.tar.gz"
         (cd ${TMPDIR}/${INSTALL_ROOT}/${PACKAGE_NAME}; tar cvzf /usr/src/redhat/SOURCES/${TARBALL} *)
-        cat<<"        EOF"> /usr/src/redhat/SPECS/${PACKAGE_NAME}.spec
+        cat<< EOF > /usr/src/redhat/SPECS/${PACKAGE_NAME}.spec
         Summary: A ajax based Private Key Infrastructure tool
         Name: ${PACKAGE_NAME}
         Version: ${VERSION}.${RELEASE}.${PATCH}
@@ -83,7 +83,7 @@ case "$1" in
         %changelog
         * Sun Mar 21 1999 Cristian Gafton <gafton@redhat.com> 
         - auto rebuild in the new build environment (release 3)
-        EOF
+EOF
     ;;
     "deb")
         if [ ! -d "${TMPDIR}/${PACKAGE_NAME}/DEBIAN" ];then 
