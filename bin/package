@@ -37,14 +37,13 @@ case "$1" in
         TARBALL="${PACKAGE_NAME}-${VERSION}.${RELEASE}.${PATCH}-${BUILD}.tar.gz"
         (cd ${TMPDIR}/${INSTALL_ROOT}/${PACKAGE_NAME}; tar cvzf /usr/src/redhat/SOURCES/${TARBALL} *)
         cat<<'        EOF' | sed -e 's/        //g' > /usr/src/redhat/SPECS/${PACKAGE_NAME}.spec
-        Summary: A program that ejects removable media using software control.
-        Name: eject
-        Version: 2.0.2
-        Release: 3
+        Summary: A ajax based Private Key Infrastructure tool
+        Name: ${PACKAGE_NAME}
+        Version: ${VERSION}.${RELEASE}.${PATCH}
+        Release: ${BUILD}
         Copyright: GPL
-        Group: System Environment/Base
-        Source: http://metalab.unc.edu/pub/Linux/utils/disk-management/eject-2.0.2.tar.gz
-        Patch: eject-2.0.2-buildroot.patch
+        Group: System/Management
+        Source: ${PACKAGE_NAME}-${VERSION}.${RELEASE}.${PATCH}-${BUILD}.tar.gz
         BuildRoot: /var/tmp/%{name}-buildroot
         
         %description
