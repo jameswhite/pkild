@@ -14,8 +14,6 @@ SELF=$0
 SELF_DIR=$(dirname $0);
 SOURCE_ROOT=$(cd ${SELF_DIR}/..;pwd)
 PACKAGE_NAME=$(basename ${SOURCE_ROOT})
-echo ${PACKAGE_NAME} 
-exit
 SED_SOURCE_ROOT=$(echo ${SOURCE_ROOT} | sed -e 's/\//\\\//g')
 SED_INSTALL_ROOT=$(echo ${INSTALL_ROOT} | sed -e 's/\//\\\//g')
 ################################################################################
