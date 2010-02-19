@@ -24,6 +24,11 @@ case "$1" in
         if [ ! -d "${TMPDIR}/${INSTALL_ROOT}/${PACKAGE_NAME}" ];then 
             mkdir -p "${TMPDIR}/${INSTALL_ROOT}/${PACKAGE_NAME}";
         fi
+        rsync -avzPH \
+              --link-dest ${SOURCE_ROOT}/ \
+                          ${SOURCE_ROOT}/ \
+                          ${TMPDIR}/${PACKAGE_NAME}/DATA/${INSTALL_ROOT}/${PACKAGE_NAME}/ \
+              --exclude "tmp" --exclude ".git"
 
         (cd ${TMPDIR}/${INSTALL_ROOT}/${PACKAGE_NAME}; tar cvzf /usr/src/redhat/SOURCES/${PACKAGE_NAME}.tar.gz *)
     ;;
