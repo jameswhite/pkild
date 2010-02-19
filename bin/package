@@ -44,6 +44,7 @@ case "$1" in
         Name: ${PACKAGE_NAME}
         Version: ${VERSION}.${RELEASE}.${PATCH}
         Release: ${BUILD}
+        License: GPL
         Group: System/Management
         Source: ${PACKAGE_NAME}-${VERSION}.${RELEASE}.${PATCH}-${BUILD}.tar.gz
         BuildRoot: /var/tmp/%{name}-buildroot
