@@ -25,7 +25,9 @@ PKG_SRC_DIR="${PACKAGE_NAME}-${VERSION}.${RELEASE}.${PATCH}"
 
 case "$1" in
     rpm)
-        #rpm -qa | grep rpm-build || yum install -y rpm-build
+        
+        rpm -qa | grep rpm-build || yum install -y rpm-build
+        rpm -qa | grep rpm-dev || yum install -y rpm-dev
         if [ ! -d "${TMPDIR}/${PKG_SRC_DIR}/${INSTALL_ROOT}/${PACKAGE_NAME}" ];then 
             mkdir -p "${TMPDIR}/${PKG_SRC_DIR}/${INSTALL_ROOT}/${PACKAGE_NAME}";
         fi
