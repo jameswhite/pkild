@@ -530,7 +530,7 @@ sub ca_create{
 sub ca_for{
     my ($self,$ca_domain)=@_;
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
-    foreach my $map (@{ $self->{'personal_cert_remap' }){
+    foreach my $map (@{ $self->{'personal_cert_remap'} }){
         if($ca_domain eq $map->{'auth_domain'}){
             $ca_domain = $map->{'cert_domain'};
         }
