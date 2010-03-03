@@ -39,6 +39,11 @@ print STDERR "2) $cn\n";
     if($cn=~m/\s*uid=(.*)/){ $type="user"; $cn=~s/\s*uid=//; }
     if($cn=~m/\s*cn=(.*)/){ $type="host"; $cn=~s/\s*cn=//;}
     my $domain=$self->object_domain($objectname);
+    foreach my $map (@{ $self->{'personal_cert_remap'} }){
+        if($domain eq $map->{'auth_domain'}){
+            $domain = $map->{'cert_domain'};
+        }
+    }
 print STDERR "3) $domain\n";
     my $ca = $self->ca_for($domain);
 print STDERR "4) $ca\n";
@@ -530,11 +535,8 @@ sub ca_create{
 sub ca_for{
     my ($self,$ca_domain)=@_;
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
-    foreach my $map (@{ $self->{'personal_cert_remap'} }){
-        if($ca_domain eq $map->{'auth_domain'}){
-            $ca_domain = $map->{'cert_domain'};
-        }
-    }
+
+
     ############################################################################
     # find all the openssl.cnfs with ca_domain=$ca_domain
     $self->{'file_list'}=[];
