@@ -5,7 +5,7 @@
 INSTALL_ROOT="/usr/share"
 VERSION=0
 RELEASE=1
-PATCH=0
+PATCH=1
 BUILD=$(echo "obase=16; ibase=10;$(date +'%s')"|bc)
 ################################################################################
 # From this git repo, determine the package name and file list
@@ -84,6 +84,8 @@ EOF
         cat<< EOF | cut -b 9-2000 >> /usr/src/redhat/SPECS/${PACKAGE_NAME}.spec
         
         %changelog
+        * Fri Mar  3 2010 James S. White <james@wcyd.org>
+        - added ability to re-map user certs away from the authentication domain
         * Fri Feb 19 2010 James S. White <james@wcyd.org>
         - added package building tool for rpm
 EOF
