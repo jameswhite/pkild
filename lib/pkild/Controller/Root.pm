@@ -260,7 +260,6 @@ sub drawform : Global {
             $actual_node = $c->model('Certificates')->actual_node_from_objectname($objectname);
             # Get the logged in user's valid Cert DN
             $c->stash->{'user_cert_dn'}=$c->model('Certificates')->user_cert_dn($c->session->{'user'});
-print STDERR Data::Dumper->Dump([$c->stash->{'user_cert_dn'}]);
             $menu='my_cert'; 
         }else{
             $actual_node = $c->session->{'current_node'};
