@@ -4,10 +4,7 @@ use strict;
 use base 'Catalyst::Model::File';
 use Path::Class 'file';
 
-__PACKAGE__->config(
-#    root_dir => '/var/lib/pkild/certificate_authority',
-    node_separator => '::'
-);
+__PACKAGE__->config( node_separator => '::');
 
 sub cert_subject{
     my $self=shift;
@@ -533,6 +530,7 @@ sub ca_create{
 sub ca_for{
     my ($self,$ca_domain)=@_;
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
+print Data::Dumper->Dump([$self->{'personal_cert_remap'}]);
     ############################################################################
     # find all the openssl.cnfs with ca_domain=$ca_domain
     $self->{'file_list'}=[];
