@@ -259,8 +259,8 @@ sub drawform : Global {
             my $objectname = $c->session->{'user'}->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'};
             $actual_node = $c->model('Certificates')->actual_node_from_objectname($objectname);
             # Get the logged in user's valid Cert DN
-print STDERR Data::Dumper->Dump([$c->session->{'user'}]);
             $c->stash->{'user_cert_dn'}=$c->model('Certificates')->user_cert_dn($c->session->{'user'});
+print STDERR Data::Dumper->Dump([$c->stash->{'user_cert_dn'}]);
             $menu='my_cert'; 
         }else{
             $actual_node = $c->session->{'current_node'};
