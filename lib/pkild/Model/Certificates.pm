@@ -5,9 +5,10 @@ use base 'Catalyst::Model::File';
 use Path::Class 'file';
 
 __PACKAGE__->config(
-    root_dir =>  YAML::LoadFile( file(__PACKAGE__->config->{home}, 'dirconfig.yaml') ),
+    root_dir =>  $self->{'directory'},
     node_separator => '::'
 );
+
 sub cert_subject{
     my $self=shift;
     my $cert_file=shift;
