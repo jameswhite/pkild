@@ -33,11 +33,8 @@ __PACKAGE__->config(
                      'name' => 'pkild',
                      'authentication' => YAML::LoadFile( file(__PACKAGE__->config->{home}, 'authconfig.yaml') ),
                      'layout' => YAML::LoadFile( file(__PACKAGE__->config->{home}, 'root/forms/default.yaml')),
-                     'Model::Certificates' => {
-                                                #root_dir => '/var/lib/pkild/certificate_authority',
-                                                YAML::LoadFile( file(__PACKAGE__->config->{home}, 'dirconfig.yaml')),
-                                              }
-                     );
+                     'Model::Certificates' => YAML::LoadFile( file(__PACKAGE__->config->{home}, 'dirconfig.yaml')),
+                   );
 
 # Start the application
 __PACKAGE__->setup( qw/RequireSSL/ );
