@@ -35,6 +35,7 @@ __PACKAGE__->config(
                      'layout' => YAML::LoadFile( file(__PACKAGE__->config->{home}, 'root/forms/default.yaml')),
                      'Model::Certificates' => {
                                                 root_dir => __PACKAGE__->path_to('/var/lib/pkild/certificate_authority'),
+                                                directory => __PACKAGE__->path_to('/var/lib/pkild/certificate_authority'),
                                               }
                      );
 
