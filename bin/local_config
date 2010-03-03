@@ -2,6 +2,7 @@
 use Cwd;
 use FileHandle;
 use YAML;
+use Data::Dumper;
 my $var;
 if(-f "/etc/ldap/ldap.conf"){
     $fh = FileHandle->new;
@@ -17,6 +18,7 @@ if(-f "/etc/ldap/ldap.conf"){
         $fh->close;
     }
 }
+print Data::Dumper->Dump([$var]);
 my $ready=1;
 my @variables=('LDAP_URI','LDAP_BASEDN','LDAP_BINDDN','LDAP_BINDPW');
 foreach my $vitem (@variables){
@@ -44,7 +46,8 @@ foreach my $key (keys(%{ $template->{'realms'}->{'ldap'}->{'store'} })){
         $template->{'realms'}->{'ldap'}->{'store'}->{$key}=~s/\[\%.*\%\]/$var->{$replacement}/;
     }
 }
-$template->{'realms'}->{'ldap'}->{'store'}->{'ldap_server'}=$var->{'LDAP_URI'};
+$template->{'realms'}->{'ldap-people'}->{'store'}->{'ldap_server'}=$var->{'LDAP_URI'};
+$template->{'realms'}->{'ldap-hosts'}->{'store'}->{'ldap_server'}=$var->{'LDAP_URI'};
 if($config=~m/(.*)/){
     my $newconfig=$1;
     $newconfig=~s/\.template//;
