@@ -12,16 +12,16 @@
 cd /var/cache/git/pkild
 
 # Catalyst-Plugin-Authentication-Store-LDAP (for authentication/authorization against LDAP)
-    bin/cpan2deb http://search.cpan.org/CPAN/authors/id/K/KA/KARMAN/Net-LDAP-Server-Test-0.08.tar.gz
+    bin/cpan2deb http://backpan.perl.org/authors/id/K/KA/KARMAN/Net-LDAP-Server-Test-0.08.tar.gz
     dpkg -i /opt/local/src/CPAN/libnet-ldap-server-test-perl_0.08-1_all.deb
 
-    # Results in:
+    # Building the latest Catalyst-Authentication-Store-LDAP results in:
     #   Content Encoding Error
     #   The page you are trying to view cannot be shown because it uses an invalid or unsupported form of compression.
     #bin/cpan2deb http://cpan.mirrors.hoobly.com/authors/id/K/KA/KARMAN/Catalyst-Authentication-Store-LDAP-1.006.tar.gz
     #dpkg -i /opt/local/src/CPAN/libcatalyst-authentication-store-ldap-perl_1.006-1_all.deb
     # So:
-    bin/cpan2deb http://search.cpan.org/CPAN/authors/id/K/KA/KARMAN/Catalyst-Authentication-Store-LDAP-0.1005.tar.gz
+    bin/cpan2deb http://backpan.perl.org/authors/id/K/KA/KARMAN/Catalyst-Authentication-Store-LDAP-0.1005.tar.gz
     dpkg -i /opt/local/src/CPAN/libcatalyst-authentication-store-ldap-perl_0.1005-1_all.deb
     # or 
     # put instructions for apt repository here...
