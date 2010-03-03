@@ -5,7 +5,7 @@ use base 'Catalyst::Model::File';
 use Path::Class 'file';
 
 __PACKAGE__->config(
-    root_dir => '/var/lib/pkild/certificate_authority',
+#    root_dir => '/var/lib/pkild/certificate_authority',
     node_separator => '::'
 );
 
