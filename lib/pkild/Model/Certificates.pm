@@ -2,6 +2,7 @@ package pkild::Model::Certificates;
 
 use strict;
 use base 'Catalyst::Model::File';
+use Path::Class 'file';
 
 __PACKAGE__->config(
     root_dir =>  YAML::LoadFile( file(__PACKAGE__->config->{home}, 'dirconfig.yaml') ),
