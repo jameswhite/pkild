@@ -38,11 +38,6 @@ use FileHandle;
     if($cn=~m/\s*cn=(.*)/){ $type="host"; $cn=~s/\s*cn=//;}
     my $domain=$self->object_domain($objectname);
     # Re-Map the domain if specified...
-    foreach my $map (@{ $self->{'personal_cert_remap'} }){
-        if($domain eq $map->{'auth_domain'}){
-            $domain = $map->{'cert_domain'};
-        }
-    }
     my $ca = $self->ca_for($domain);
     my $ca_subject=$self->cert_subject("$ca/$domain.crt");
     my $subject=$ca_subject;
@@ -76,6 +71,11 @@ sub object_domain{
         $identity=~tr/A-Z/a-z/;
         $orgunit=~tr/A-Z/a-z/;
         $domain=~tr/A-Z/a-z/;
+    }
+    foreach my $map (@{ $self->{'personal_cert_remap'} }){
+        if($domain eq $map->{'auth_domain'}){
+            $domain = $map->{'cert_domain'};
+        }
     }
     return $domain if $domain;
     return undef;
@@ -225,6 +225,11 @@ use File::Slurp;
         $identity=~tr/A-Z/a-z/;
         $orgunit=~tr/A-Z/a-z/;
         $domain=~tr/A-Z/a-z/;
+    }
+    foreach my $map (@{ $self->{'personal_cert_remap'} }){
+        if($domain eq $map->{'auth_domain'}){
+            $domain = $map->{'cert_domain'};
+        }
     }
     my $directory_map=$identity;
     my $ca_dir=$self->ca_for($domain);
