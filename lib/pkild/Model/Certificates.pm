@@ -4,7 +4,7 @@ use strict;
 use base 'Catalyst::Model::File';
 
 __PACKAGE__->config(
-    root_dir => '/var/tmp/certificate_authority',
+    root_dir =>  YAML::LoadFile( file(__PACKAGE__->config->{home}, 'Config.yaml')->{'certificate_root_dir'}
     node_separator => '::'
 );
 sub cert_subject{
