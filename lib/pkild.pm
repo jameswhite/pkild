@@ -31,7 +31,7 @@ our $VERSION = '0.01';
 
 __PACKAGE__->config( 
                      'name' => 'pkild',
-                     'authentication' => YAML::LoadFile( file(__PACKAGE__->config->{home}, 'Config.yaml')->{'authenticaton'}),
+                     'authentication' => YAML::LoadFile( file(__PACKAGE__->config->{home}, 'Config.yaml'))->{'authenticaton'},
                      'layout' => YAML::LoadFile( file(__PACKAGE__->config->{home}, 'root/forms/default.yaml')),
                    );
 

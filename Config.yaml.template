@@ -1,63 +1,66 @@
-use_session: 1
-default_realm: ldap
-realms:
-    ldap-people:
-        credential:
-            class: Password
-            password_field: password
-            password_type:  self_check
-        store:
-            class: LDAP
-            ldap_server: '[% LDAP_URI %]'
-            ldap_server_options:
-                timeout: 30
-            binddn: '[% LDAP_BINDDN %]'
-            bindpw: '[% LDAP_BINDPW %]'
-            start_tls: 0
-            start_tls_options:
-                verify: none
-            user_basedn: 'ou=People,[% LDAP_BASEDN %]'
-            user_filter: (&(objectClass=posixAccount)(uid=%s))
-            user_scope: one
-            user_field: uid
-            user_search_options:
-                deref: always
-            use_roles: 1
-            role_basedn: 'ou=Sets,[% LDAP_BASEDN %]'
-            role_filter: (&(objectClass=groupOfUniqueNames)(uniqueMember=%s))
-            role_scope: one
-            role_field: cn
-            role_value: dn
-            role_search_options:
-                deref: always
-            role_search_as_user: 0
+---
+certificate_root_dir: /var/lib/pkild/certificate_authority
+authentication:
+  default_realm: ldap-people
+  realms:
     ldap-hosts:
-        credential:
-            class: Password
-            password_field: password
-            password_type:  self_check
-        store:
-            class: LDAP
-            ldap_server: '[% LDAP_URI %]'
-            ldap_server_options:
-                timeout: 30
-            binddn: '[% LDAP_BINDDN %]'
-            bindpw: '[% LDAP_BINDPW %]'
-            start_tls: 0
-            start_tls_options:
-                verify: none
-            user_basedn: 'ou=People,[% LDAP_BASEDN %]'
-            user_filter: (&(objectClass=simplesecurityobject)(cn=%s))
-            user_scope: one
-            user_field: cn
-            user_search_options:
-                deref: always
-            use_roles: 1
-            role_basedn: 'ou=Sets,[% LDAP_BASEDN %]'
-            role_filter: (&(objectClass=groupOfUniqueNames)(uniqueMember=%s))
-            role_scope: one
-            role_field: cn
-            role_value: dn
-            role_search_options:
-                deref: always
-            role_search_as_user: 0
+      credential:
+        class: Password
+        password_field: password
+        password_type: self_check
+      store:
+        binddn: '[% LDAP_BINDDN %]'
+        bindpw: '[% LDAP_BINDPW %]'
+        class: LDAP
+        ldap_server: '[% LDAP_URI %]'
+        ldap_server_options:
+          timeout: 30
+        role_basedn: 'ou=Sets,[% LDAP_BASEDN %]'
+        role_field: cn
+        role_filter: (&(objectClass=groupOfUniqueNames)(uniqueMember=%s))
+        role_scope: one
+        role_search_as_user: 0
+        role_search_options:
+          deref: always
+        role_value: dn
+        start_tls: 0
+        start_tls_options:
+          verify: none
+        use_roles: 1
+        user_basedn: 'ou=People,[% LDAP_BASEDN %]'
+        user_field: cn
+        user_filter: (&(objectClass=simplesecurityobject)(cn=%s))
+        user_scope: one
+        user_search_options:
+          deref: always
+    ldap-people:
+      credential:
+        class: Password
+        password_field: password
+        password_type: self_check
+      store:
+        binddn: '[% LDAP_BINDDN %]'
+        bindpw: '[% LDAP_BINDPW %]'
+        class: LDAP
+        ldap_server: '[% LDAP_URI %]'
+        ldap_server_options:
+          timeout: 30
+        role_basedn: 'ou=Sets,[% LDAP_BASEDN %]'
+        role_field: cn
+        role_filter: (&(objectClass=groupOfUniqueNames)(uniqueMember=%s))
+        role_scope: one
+        role_search_as_user: 0
+        role_search_options:
+          deref: always
+        role_value: dn
+        start_tls: 0
+        start_tls_options:
+          verify: none
+        use_roles: 1
+        user_basedn: 'ou=People,[% LDAP_BASEDN %]'
+        user_field: uid
+        user_filter: (&(objectClass=posixAccount)(uid=%s))
+        user_scope: one
+        user_search_options:
+          deref: always
+  use_session: 1
