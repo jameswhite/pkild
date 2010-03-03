@@ -34,7 +34,7 @@ __PACKAGE__->config(
                      'authentication' => YAML::LoadFile( file(__PACKAGE__->config->{home}, 'authconfig.yaml') ),
                      'layout' => YAML::LoadFile( file(__PACKAGE__->config->{home}, 'root/forms/default.yaml')),
                      'Model::Certificates' => { 
-                         'directory' => YAML::LoadFile( file(__PACKAGE__->config->{home}, 'dirconfig.yaml') ),
+                         'root_dir' => YAML::LoadFile( file(__PACKAGE__->config->{home}, 'dirconfig.yaml') ),
                      }
                    );
 
