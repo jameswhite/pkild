@@ -582,6 +582,11 @@ sub actual_node_from_objectname{
         $orgunit=~tr/A-Z/a-z/;
         $domain=~tr/A-Z/a-z/;
     }
+    foreach my $map (@{ $self->{'personal_cert_remap'} }){
+        if($domain eq $map->{'auth_domain'}){
+            $domain = $map->{'cert_domain'};
+        }
+    }
     my $cacert_dir = $self->ca_for($domain);
     my $cert_dir=undef;
     if($cacert_dir){
