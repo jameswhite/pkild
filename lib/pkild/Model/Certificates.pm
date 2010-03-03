@@ -42,9 +42,13 @@ print STDERR "2) $cn\n";
     if($cn=~m/\s*uid=(.*)/){ $type="user"; $cn=~s/\s*uid=//; }
     if($cn=~m/\s*cn=(.*)/){ $type="host"; $cn=~s/\s*cn=//;}
     my $domain=$self->object_domain($objectname);
+print STDERR "3) $domain\n";
     my $ca = $self->ca_for($domain);
+print STDERR "4) $ca\n";
     my $ca_subject=$self->cert_subject("$ca/$domain.crt");
+print STDERR "5) $ca_subject\n";
     my $subject=$ca_subject;
+print STDERR "6) $subject\n";
     if($subject=~m/C=(.*),\s*ST=(.*),\s*L=(.*),\s*O=(.*),\s*OU=(.*),\s*CN=(.*)\/emailAddress=(.*)/){
         if($type eq "user"){
             $subject="C=$1, ST=$2, L=$3, O=$4, OU=$5, CN=$cn/emailAddress=$cn\@$domain";
@@ -52,6 +56,7 @@ print STDERR "2) $cn\n";
             $subject="C=$1, ST=$2, L=$3, O=$4, OU=$5, CN=$cn.$domain/emailAddress=sysadmins\@$domain";
         }
     }
+print STDERR "7) $subject\n";
     return $subject;
 }
 
