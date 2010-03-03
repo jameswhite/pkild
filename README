@@ -100,7 +100,11 @@ mkdir /var/www/pkild
 # bounce it
 /etc/init.d/apache2 restart
 
-# That's it.
+# You will also need to set the permissions on the root_dir defined in dirconfig.yaml
+# such that it's writeable by the uid that apache runs as.
+mkdir -p /var/lib/pkild/certificate_authority/
+chown www-data:www-data /var/lib/pkild/certificate_authority/
+# if not, apache creates it creates it as root: /*FIXME*/
 
 ################################################################################
 # Thoughts

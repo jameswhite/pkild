@@ -32,8 +32,8 @@ our $VERSION = '0.01';
 __PACKAGE__->config( 
                      'name' => 'pkild',
                      'authentication' => YAML::LoadFile( file(__PACKAGE__->config->{home}, 'authconfig.yaml') ),
-                     'layout' => YAML::LoadFile( file(__PACKAGE__->config->{home}, 'root/forms/default.yaml')),
                      'Model::Certificates' => YAML::LoadFile( file(__PACKAGE__->config->{home}, 'dirconfig.yaml')),
+                     'layout' => YAML::LoadFile( file(__PACKAGE__->config->{home}, 'root/forms/default.yaml')),
                    );
 
 # Start the application
