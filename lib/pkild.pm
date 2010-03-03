@@ -29,9 +29,10 @@ our $VERSION = '0.01';
 # with a external configuration file acting as an override for
 # local deployment.
 
+my $global_config = YAML::LoadFile( file(__PACKAGE__->config->{home}, 'Config.yaml') );
 __PACKAGE__->config( 
                      'name' => 'pkild',
-                     'authentication' => YAML::LoadFile( file(__PACKAGE__->config->{home}, 'Config.yaml'))->{'authenticaton'},
+                     'authentication' => $global_config->{'authentication'},
                      'layout' => YAML::LoadFile( file(__PACKAGE__->config->{home}, 'root/forms/default.yaml')),
                    );
 

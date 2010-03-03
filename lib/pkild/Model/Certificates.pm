@@ -2,9 +2,10 @@ package pkild::Model::Certificates;
 
 use strict;
 use base 'Catalyst::Model::File';
+my $global_config = YAML::LoadFile( file(__PACKAGE__->config->{home}, 'Config.yaml') );
 
 __PACKAGE__->config(
-    root_dir =>  YAML::LoadFile( file(__PACKAGE__->config->{home}, 'Config.yaml'))->{'certificate_root_dir'},
+    root_dir =>  $global_config->{'certificate_root_dir'},
     node_separator => '::'
 );
 sub cert_subject{
