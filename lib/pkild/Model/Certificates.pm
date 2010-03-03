@@ -33,10 +33,12 @@ sub user_cert_dn{
 use FileHandle;
     my ($self,$user_session) = @_;
     my $objectname=$self->objectname($user_session);
+print STDERR "1) $objectname\n";
     my $cn=$objectname;
     my $type=undef;
     $cn=~s/,.*//g;
     $cn=~tr/A-Z/a-z/;
+print STDERR "2) $cn\n";
     if($cn=~m/\s*uid=(.*)/){ $type="user"; $cn=~s/\s*uid=//; }
     if($cn=~m/\s*cn=(.*)/){ $type="host"; $cn=~s/\s*cn=//;}
     my $domain=$self->object_domain($objectname);
