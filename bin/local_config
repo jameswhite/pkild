@@ -40,13 +40,20 @@ my $template;
 if(-f "$config"){
     $template=YAML::LoadFile($config);
 }
-foreach my $key (keys(%{ $template->{'realms'}->{'ldap'}->{'store'} })){
-    if($template->{'realms'}->{'ldap'}->{'store'}->{$key}=~m/\[\% (.*) \%\]/){ 
+foreach my $key (keys(%{ $template->{'realms'}->{'ldap-people'}->{'store'} })){
+    if($template->{'realms'}->{'ldap-people'}->{'store'}->{$key}=~m/\[\% (.*) \%\]/){ 
         my $replacement=$1;
-        $template->{'realms'}->{'ldap'}->{'store'}->{$key}=~s/\[\%.*\%\]/$var->{$replacement}/;
+        $template->{'realms'}->{'ldap-people'}->{'store'}->{$key}=~s/\[\%.*\%\]/$var->{$replacement}/;
     }
 }
 $template->{'realms'}->{'ldap-people'}->{'store'}->{'ldap_server'}=$var->{'LDAP_URI'};
+
+foreach my $key (keys(%{ $template->{'realms'}->{'ldap-hosts'}->{'store'} })){
+    if($template->{'realms'}->{'ldap-hosts'}->{'store'}->{$key}=~m/\[\% (.*) \%\]/){ 
+        my $replacement=$1;
+        $template->{'realms'}->{'ldap-hosts'}->{'store'}->{$key}=~s/\[\%.*\%\]/$var->{$replacement}/;
+    }
+}
 $template->{'realms'}->{'ldap-hosts'}->{'store'}->{'ldap_server'}=$var->{'LDAP_URI'};
 if($config=~m/(.*)/){
     my $newconfig=$1;
