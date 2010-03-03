@@ -33,7 +33,7 @@ exit unless $ready;
 my $bin=$0;
 my $dir=getcwd;
 my $config="$dir/$bin";
-$config=~s/local_config/..\/Config.yaml.template/;
+$config=~s/local_config/..\/authconfig.yaml.template/;
 my $template;
 if(-f "$config"){
     $template=YAML::LoadFile($config);
