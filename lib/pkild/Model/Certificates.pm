@@ -5,7 +5,6 @@ use base 'Catalyst::Model::File';
 use Path::Class 'file';
 
 __PACKAGE__->config(
-    root_dir =>  $self->{'directory'},
     node_separator => '::'
 );
 

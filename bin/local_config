@@ -2,7 +2,6 @@
 use Cwd;
 use FileHandle;
 use YAML;
-use Data::Dumper;
 my $var;
 if(-f "/etc/ldap/ldap.conf"){
     $fh = FileHandle->new;
@@ -18,7 +17,6 @@ if(-f "/etc/ldap/ldap.conf"){
         $fh->close;
     }
 }
-print Data::Dumper->Dump([$var]);
 my $ready=1;
 my @variables=('LDAP_URI','LDAP_BASEDN','LDAP_BINDDN','LDAP_BINDPW');
 foreach my $vitem (@variables){
