@@ -69,7 +69,7 @@ fi
 # apache setup (from a fresh install)
 ################################################################################
 # if you don't have a certificate...
-apt-get install ssl-cert 
+apt-get install -y ssl-cert 
 # OR
 bin/gpg-init
 bin/ca_tree-init
@@ -86,14 +86,18 @@ bin/ca_tree-init
 # (Outside of VirtualHost block (main section))
 PerlSwitches -I/var/cache/git/pkild/lib
 PerlModule pkild
-
 #<VirtualHost..>
-    <Location />
+    <Location /pkild>
         SetHandler          modperl
         PerlResponseHandler pkild
     </Location>
 #</VirtualHost..>
 
+
+# to forward to /pkild/ if /pkild is given
+mkdir /var/www/pkild 
+
+# bounce it
 /etc/init.d/apache2 restart
 
 # That's it.
