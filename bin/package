@@ -6,7 +6,9 @@ INSTALL_ROOT="/usr/share"
 VERSION=0
 RELEASE=1
 PATCH=1
+ARCH='i386'
 BUILD=$(echo "obase=16; ibase=10;$(date +'%s')"|bc)
+DESCRIPTION="LDAP authenticated certificate authority"
 ################################################################################
 # From this git repo, determine the package name and file list
 #
@@ -95,30 +97,30 @@ EOF
         ########################################################################
         # POSTINSTALL: /*FIXME*/
         # template Config.yaml.template -> Config.yaml
-        #chown apache:apache /var/tmp/certificate_authority
-        #chmod 0700 /var/tmp/certificate_authority
+        # chown apache:apache /var/tmp/certificate_authority
+        # chmod 0700 /var/tmp/certificate_authority
         #
-        #cp /etc/httpd/conf.d/ssl.conf /etc/httpd/conf.d/ssl.conf.dist
-        #sed -e 's/<VirtualHost _default_:443>/PerlSwitches -I\/usr\/share\/pkild\/lib\nPerlModule pkild\n<VirtualHost _default_:443>\n<Location \/>\nSetHandler          modperl\nPerlResponseHandler pkild\n<\/Location>\n/' /etc/httpd/conf.d/ssl.conf.dist > /etc/httpd/conf.d/ssl.conf
-        #/etc/init.d/httpd restart
+        # cp /etc/httpd/conf.d/ssl.conf /etc/httpd/conf.d/ssl.conf.dist
+        # sed -e 's/<VirtualHost _default_:443>/PerlSwitches -I\/usr\/share\/pkild\/lib\nPerlModule pkild\n<VirtualHost _default_:443>\n<Location \/>\nSetHandler          modperl\nPerlResponseHandler pkild\n<\/Location>\n/' /etc/httpd/conf.d/ssl.conf.dist > /etc/httpd/conf.d/ssl.conf
+        # /etc/init.d/httpd restart
 
     ;;
     "deb")
         if [ ! -d "${TMPDIR}/${PACKAGE_NAME}/DEBIAN" ];then 
             mkdir -p "${TMPDIR}/${PACKAGE_NAME}/DEBIAN"
         fi
-        if [ ! -d "${TMPDIR}/${PACKAGE_NAME}/DATA/${INSTALL_ROOT}/${PACKAGE_NAME}" ];then 
-            mkdir -p "${TMPDIR}/${PACKAGE_NAME}/DATA/${INSTALL_ROOT}/${PACKAGE_NAME}";
+        if [ ! -d "${TMPDIR}/${PACKAGE_NAME}/${INSTALL_ROOT}/${PACKAGE_NAME}" ];then 
+            mkdir -p "${TMPDIR}/${PACKAGE_NAME}/${INSTALL_ROOT}/${PACKAGE_NAME}";
         fi
         echo "2.0" > "${TMPDIR}/${PACKAGE_NAME}/DEBIAN/debian-binary"
         rsync -avzPH \
               --link-dest ${SOURCE_ROOT}/ \
                           ${SOURCE_ROOT}/ \
-                          ${TMPDIR}/${PACKAGE_NAME}/DATA/${INSTALL_ROOT}/${PACKAGE_NAME}/ \
+                          ${TMPDIR}/${PACKAGE_NAME}/${INSTALL_ROOT}/${PACKAGE_NAME}/ \
               --exclude "tmp" --exclude ".git"
         (cd ${TMPDIR}; for d in `ls`; do find ${d} -type f -exec md5sum {} \; ;done) \
              > ${TMPDIR}/${PACKAGE_NAME}/DEBIAN/md5sums
-        INSTALLED=$(du -ks "${TMPDIR}/${PACKAGE_NAME}/DATA" | awk '{print $1'})
+        INSTALLED=$(du -ks "${TMPDIR}/${PACKAGE_NAME}" | awk '{print $1'})
         echo ${INSTALLED}
         
         #if [ ! -z ${prerm} ];then
@@ -130,18 +132,17 @@ EOF
         #    chmod 755 ${TMPDIR}/${PACKAGE_NAME}/DEBIAN/postinst
         #fi
         
-        cat<< '        EOF' | sed -e 's/^        //' >${TMPDIR}/${PACKAGE_NAME}/DEBIAN/control
+        cat<< EOF | cut -b 9-2000 > ${TMPDIR}/${PACKAGE_NAME}/DEBIAN/control
         Package: ${PACKAGE_NAME}
-        Version: ${version}
+        Version: ${VERSION}.${PATCH}.${RELEASE}
         Section: main
         Priority: optional
-        Architecture: ${arch}
+        Architecture: ${ARCH}
         Depends: ${pkglist}
         Installed-Size: ${INSTALLED}
-        Maintainer: $(getent passwd ${LOGNAME}| awk -F: '{print $5}')
-        Description: ${description}
-         A packages with no files that Depends on $pkglist
-        EOF
+        Maintainer: $(getent passwd ${LOGNAME}| awk -F: '{print $5}') <$(getent passwd ${LOGNAME}| awk -F: '{print $1}')@$(dnsdomainname)>
+        Description: ${DESCRIPTION}
+EOF
 
         if [ "${editcontro}" == "1" ]; then
             vi "${TMPDIR}/${PACKAGE_NAME}/DEBIAN/control"
@@ -149,9 +150,11 @@ EOF
 
         # Build the package
         #(cd ${TMPDIR}; dpkg --build ${PACKAGE_NAME})
-        (cd ${TMPDIR}; dpkg-deb -b ${PACKAGE_NAME} ${PACKAGE_NAME}_${version}_${arch}.deb)
-        (cd ${TMPDIR}; mv ${PACKAGE_NAME}_${version}_${arch}.deb ${WHEREIAM}/${PACKAGE_NAME}_${version}_${arch}.deb)
-        
+        (cd $TMPDIR/${PACKAGE_NAME}; find .)
+
+        (cd ${TMPDIR}; dpkg-deb -b ${PACKAGE_NAME} ${PACKAGE_NAME}_${VERSION}.${PATCH}.${RELEASE}_${ARCH}.deb)
+        (cd ${TMPDIR}; mv ${PACKAGE_NAME}_${VERSION}.${PATCH}.${RELEASE}_${ARCH}.deb \
+                          /var/tmp/${PACKAGE_NAME}_${VERSION}.${PATCH}.${RELEASE}_${ARCH}_${BUILD}.deb)
         if [ ! -z "${TMPDIR}" ]; then rm -fr "${TMPDIR}";fi
     ;;
     *) 
