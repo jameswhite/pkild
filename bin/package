@@ -8,7 +8,8 @@ RELEASE=1
 PATCH=1
 ARCH='i386'
 BUILD=$(echo "obase=16; ibase=10;$(date +'%s')"|bc)
-DESCRIPTION="LDAP authenticated certificate authority"
+DESCRIPTION="LDAP Authenticated Public Key Infrastructure Framework"
+
 ################################################################################
 # From this git repo, determine the package name and file list
 #
@@ -138,7 +139,7 @@ EOF
         Section: main
         Priority: optional
         Architecture: ${ARCH}
-        Depends: ${pkglist}
+        Depends: apache3, ssl-cert, libapache2-mod-perl2, libcatalyst-perl, libcatalyst-modules-perl
         Installed-Size: ${INSTALLED}
         Maintainer: $(getent passwd ${LOGNAME}| awk -F: '{print $5}') <$(getent passwd ${LOGNAME}| awk -F: '{print $1}')@$(dnsdomainname)>
         Description: ${DESCRIPTION}
