@@ -23,6 +23,8 @@ fi
 
 # write out our config
 sed -e 's/<VirtualHost _default_:443>/<VirtualHost _default_:443>\n<Location \/>\nSetHandler          modperl\nPerlResponseHandler pkild\n<\/Location>\n/' \
+    -e "s/ssl-cert-snakeoil/$(hostname -f)/g" \
+    -e "s/#SSLCACertificatePath/SSLCACertificatePath/g" \
     /etc/apache2/sites-available/default-ssl.dist > \
         /etc/apache2/sites-available/pkild-ssl
 if [ ! -h /etc/apache2/sites-enabled/001-pkild-ssl ]; then

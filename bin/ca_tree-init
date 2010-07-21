@@ -8,8 +8,8 @@ if [ ${EUID} -eq 0 ]; then
     MID_CA_KEYSIZE=4096
     HOST_KEYSIZE=2048
     CA_TREE_TRUNK="/var/lib/pkild/certificate_authority"
+    WEB_ROOT="/var/www"
     VAULT_DIR="/etc/vault"
-    WEB_ROOT="/etc/www"
     SSL_ROOT="/etc/ssl"
 else
     BASE=$(mktemp -d /var/tmp/ca_tree-init.XXXXX)
@@ -335,7 +335,10 @@ fi
 
 cp -r ${ROOT_CA} ${CA_TREE_TRUNK}
 cp -r ${MID_CA}  ${CA_TREE_TRUNK}/root-ca.${DOMAIN}/
-cp -r ${MY_CERT} ${CA_TREE_TRUNK}/root-ca.${DOMAIN}/mid-ca.${DOMAIN}
+
+/bin/rm ${MY_CERT}/*.key
+cp -r ${MY_CERT} ${CA_TREE_TRUNK}/root-ca.${DOMAIN}/mid-ca.${DOMAIN}/certs/
+
 find ${CA_TREE_TRUNK} -type d -exec chmod 700 {} \;
 find ${CA_TREE_TRUNK} -type f -exec chmod 600 {} \;
 
