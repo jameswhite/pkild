@@ -1,0 +1,27 @@
+The following text records should be in DNS:
+
+For the Certificate Authority: (to write the openssl.cnf from template)
+    ca-country   
+    ca-state
+    ca-locality
+    ca-org
+    ca-orgunit
+    ca-email
+    ca-crl
+
+For the vault: (to encrypt the root certificate authority for sub-revocations)
+    pgp-keyserver
+    pgp-keyid
+
+
+pkild will create a root certificate authority, then a mid-ca, then sign the mid-ca with
+the root-ca, and then pack up the root-ca in a gpg archive encrypted such that only the
+holder of the private key found at "pgp-keyid.yourdomain" on "pgp-server.yourdomain" will
+be able to open it and thus only that private key holder will be able to revoke the mid-ca
+that pkild creates. 
+
+all other keys that pkild creates will be signed with the mid-ca, and thus can be revoked
+by pkild without the use of the gpg private key. But in the event of a mid-ca compromise,
+the entire tree may be revoked by the gpg keyholder by running the openssl revoke commands
+and updating the certificate revocation list specified in the mid-ca's certificate.
+

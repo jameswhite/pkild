@@ -12,7 +12,7 @@ for elf in `echo "dig openssl gpg"`; do
         exit -1
     fi    
 done
-if [ -d /var/lib/certificate_authority/mid_ca ];then 
+if [ -d /var/lib/pkild/certificate_authority/mid_ca.$(dnsdomainname) ];then 
     echo "I've already got a pki infrastructure... Aborting"
     exit 0;
 fi
@@ -149,7 +149,7 @@ EOTPL
 ###################################################################
 # Create the Root Certificate Authority
 ###################################################################
-ROOT_CA="${WORKDIR}/root_ca"
+ROOT_CA="${WORKDIR}/root_ca.$(dnsdomainname)"
 if [ ! -d ${ROOT_CA} ];then mkdir -p ${ROOT_CA};fi
 echo "01" > ${ROOT_CA}/serial
 cp /dev/null ${ROOT_CA}/index.txt
@@ -176,7 +176,7 @@ echo ${SECRET} | openssl req -new -x509 -nodes -sha1 \
 ###################################################################
 # Create the Intermediate Certificate Authority
 ###################################################################
-MID_CA="${WORKDIR}/mid_ca"
+MID_CA="${WORKDIR}/mid_ca.$(dnsdomainname)"
 if [ ! -d ${MID_CA} ];then mkdir -p ${MID_CA};fi
 echo "01" > ${MID_CA}/serial
 cp /dev/null ${MID_CA}/index.txt
@@ -267,18 +267,18 @@ if [ ! -d /var/www/ ];then mkdir /var/www;fi
 cp ${ROOT_CA}/ca_trust_chain.crt /var/www/${DOMAIN}_trustchain.crt
 cp ${ROOT_CA}/ca_trust_chain.crt /etc/ssl/certs/${DOMAIN}_trustchain.pem
 secret | gpg -e -a -r ${PGP_KEYID} > /etc/vault/passphrase.gpg
-tar cvzf - root_ca|gpg -e -a -r ${PGP_KEYID} > /etc/vault/root_ca.gpg 
-rm -fr root_ca
-tar cvzf - mid_ca|gpg -e -a -r ${PGP_KEYID} > /etc/vault/mid_ca.gpg 
+tar cvzf - root_ca.$(dnsdomainname)|gpg -e -a -r ${PGP_KEYID} > /etc/vault/root_ca.$(dnsdomainname).gpg 
+rm -fr root_ca.$(dnsdomainname)
+tar cvzf - mid_ca.$(dnsdomainname)|gpg -e -a -r ${PGP_KEYID} > /etc/vault/mid_ca.$(dnsdomainname).gpg 
 chmod 600 /etc/vault/*
-if [ ! -d /var/lib/certificate_authority ];then 
-    mkdir -p /var/lib/certificate_authority
+if [ ! -d /var/lib/pkild/certificate_authority ];then 
+    mkdir -p /var/lib/pkild/certificate_authority
 fi
-mv mid_ca /var/lib/certificate_authority
-find /var/lib/certificate_authority -type d -exec chmod 700 {} \;
-find /var/lib/certificate_authority -type f -exec chmod 600 {} \;
-/bin/cp ${MY_CERT}/${HNAME}.${DOMAIN}.crt /var/lib/certificate_authority/mid_ca/certs
-/bin/cp ${MY_CERT}/${HNAME}.${DOMAIN}.key /var/lib/certificate_authority/mid_ca/certs
+mv mid_ca.$(dnsdomainname) /var/lib/pkild/certificate_authority
+find /var/lib/pkild/certificate_authority -type d -exec chmod 700 {} \;
+find /var/lib/pkild/certificate_authority -type f -exec chmod 600 {} \;
+/bin/cp ${MY_CERT}/${HNAME}.${DOMAIN}.crt /var/lib/pkild/certificate_authority/mid_ca.$(dnsdomainname)/certs
+/bin/cp ${MY_CERT}/${HNAME}.${DOMAIN}.key /var/lib/pkild/certificate_authority/mid_ca.$(dnsdomainname)/certs
 
 # and to where other applications can get to them:
 
@@ -295,9 +295,9 @@ exit 1;
 # 
 ###################################################################
 # This should be moved somewhere else
-/bin/cp /var/lib/certificate/mid_ca/certs/${HNAME}.${DOMAIN}.crt /etc/ssl/certs/
-/bin/cp /var/lib/certificate/mid_ca/certs/${HNAME}.${DOMAIN}.crt /etc/ssl/certs/
-/bin/cp /var/lib/certificate/mid_ca/certs/${HNAME}.${DOMAIN}.key /etc/ssl/private/
+/bin/cp /var/lib/certificate/mid_ca.$(dnsdomainname)/certs/${HNAME}.${DOMAIN}.crt /etc/ssl/certs/
+/bin/cp /var/lib/certificate/mid_ca.$(dnsdomainname)/certs/${HNAME}.${DOMAIN}.crt /etc/ssl/certs/
+/bin/cp /var/lib/certificate/mid_ca.$(dnsdomainname)/certs/${HNAME}.${DOMAIN}.key /etc/ssl/private/
 scp ${ROOT_CA}/chain.crt james@jameswhite.org:public_html/_catrustchain.crt
 scp ${ROOT_CA}/root-ca.websages.com.pem james@jameswhite.org:public_html/_root-ca.websages.com.crt
 scp ${MID_CA}/mid-ca.websages.com.pem james@jameswhite.org:public_html/_mid-ca.websages.com.crt
