@@ -1,0 +1,103 @@
+Pkild expects the certificates to be layed out a certain way, 
+if it's not layed out this way, operations fail in all kinds of buggy ways.
+
+The Certificate Authority Directory Tree should take the following form:
+(it defaults to /var/lib/pkild/certificat_authority but may be moved)
+
+certificate_authority
+  + root-ca.example.com
+      - openssl.cnf
+      - root-ca.example.com.crt
+      - root-ca.example.com.pem                   ######################################
+      + mid-ca.yetanotherexample.net              # a root ca my have multiple mid-cas #
+      + mid-ca.otherexample.net                   ######################################
+      + ...
+      + mid-ca.example.com
+          + certs                                 # The certficates signed by this mid_ca 
+          |   + hostname-01.example.com           # each have a directory containing their
+          |   + hostname-02.example.com           # csr and crt here
+          |   + ...
+          |   + hostname-NN.example.com
+          |       - hostname-NN.example.com.crt
+          |       - hostname-NN.example.com.csr
+          |   + username-01
+          |   + username-01
+          |   + ...
+          |   + username-NN                       # You can create and sign user pkcs12 certs as well...
+          |       - username-NN.crt               
+          |       - username-NN.csr  
+          |       - openssl.cnf  
+          |       + private
+          |           - username-NN.key
+          + crl
+          - crlnumber
+          - crlnumber.old
+          - index.txt
+          - index.txt.attr
+          - index.txt.attr.old
+          - index.txt.old
+          - mid-ca.example.com.crl                # The latest certificat revocation list
+          - mid-ca.example.com.crt                # This mid_ca's certificate
+          - mid-ca.example.com.pem                # This mid_ca's certificate in PEM format
+          + newcerts                              # The issued certificates by number in PEM format
+          |   - 01.pem
+          |   - 02.pem
+          |   - ...
+          |   - NN.pem
+          - openssl.cnf                           # The openssl.cnf used to create the mid_ca
+          - openssl.cnf.old                       # and to sign the sub-certificates.
+          + private                   
+              + mid-ca.example.com.key            # The mid_ca's private key (used for signing sub-certs)
+              + mid-ca.example.com.key.encrypted
+          - serial                                # The current serial (used for the next signed cert)
+          - serial.old
+          - sign.old
+          - trustchain.crt                        # The file containing the trust-chain root_ca:mid_ca 
+          |                                       # (for importing into browsers, and establishing root-level trust)
+          |
+          |                                       ###############################################
+          + mid-ca.dev.example.com                # a mid_ca may have multiple sub-mid_ca trees #
+          + mid-ca.test.example.com               # they are layed out identical to the mid_ca, #
+          + mid-ca.qa.example.com                 # and can have sub-sub_mid_ca trees as well   #
+          + ...                                   ###############################################
+          + mid-ca.subdomain.example.com              
+              + certs
+              |   + hostname-01.subdomain.example.com
+              |   + hostname-02.subdomain.example.com
+              |   + ...
+              |   + hostname-NN.subdomain.example.com
+              |       - hostname-NN.subdomain.example.com.crt
+              |       - hostname-NN.subdomain.example.com.csr
+              |   + username-01
+              |   + username-01
+              |   + ...
+              |   + username-NN
+              |       - username-NN.crt
+              |       - username-NN.csr  
+              |       - openssl.cnf  
+              |       + private
+              |           - username-NN.key
+              + crl
+              - crlnumber
+              - crlnumber.old
+              - index.txt
+              - index.txt.attr
+              - index.txt.attr.old
+              - index.txt.old
+              - mid-ca.subdomain.example.com.crl
+              - mid-ca.subdomain.example.com.crt
+              - mid-ca.subdomain.example.com.pem
+              + newcerts
+              |   - 01.pem
+              |   - 02.pem
+              |   - ...
+              |   - NN.pem
+              - openssl.cnf
+              - openssl.cnf.old
+              + private
+                  + mid-ca.subdomain.example.com.key
+                  + mid-ca.subdomain.example.com.key.encrypted
+              - serial
+              - serial.old
+              - sign.old
+              - trustchain.crt
