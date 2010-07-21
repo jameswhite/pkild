@@ -1,0 +1,23 @@
+#!/bin/bash
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
+
+# remove our modules
+if [ -f /etc/apache2/conf.d/pkild ]; then
+    rm /etc/apache2/conf.d/pkild ]; then
+fi
+
+if [ -h /etc/apache2/sites-enabled/001-pkild-ssl ]; then
+    unlink /etc/apache2/sites-enabled/001-pkild-ssl
+fi
+
+if [ -d /var/lib/pkild/certificate_authority ]; then
+    if [ "$(ls -a /var/lib/pkild/certificate_authority)" ]; then
+     echo "/var/lib/pkild/certificate_authority not empty so not removed."
+else
+    echo rmdir /var/lib/pkild/certificate_authority
+fi
+if [ -f /usr/share/pkild/authconfig.yaml ];then
+    rm /usr/share/pkild/authconfig.yaml
+fi
+
+/etc/init.d/apache2 restart

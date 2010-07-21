@@ -124,14 +124,14 @@ EOF
         INSTALLED=$(du -ks "${TMPDIR}/${PACKAGE_NAME}" | awk '{print $1'})
         echo ${INSTALLED}
         
-        #if [ ! -z ${prerm} ];then
-        #    cp ${prerm} ${TMPDIR}/${PACKAGE_NAME}/DEBIAN/prerm
-        #    chmod 755 ${TMPDIR}/${PACKAGE_NAME}/DEBIAN/prerm
-        #fi
-        #if [ ! -z ${postinst} ] ;then
-        #    cp ${postinst} ${TMPDIR}/${PACKAGE_NAME}/DEBIAN/postinst
-        #    chmod 755 ${TMPDIR}/${PACKAGE_NAME}/DEBIAN/postinst
-        #fi
+        if [ ! -z ${SOURCE_ROOT}/bin/prerm ];then
+            cp ${SOURCE_ROOT}/bin/prerm ${TMPDIR}/${PACKAGE_NAME}/DEBIAN/prerm
+            chmod 755 ${TMPDIR}/${PACKAGE_NAME}/DEBIAN/prerm
+        fi
+        if [ ! -z ${SOURCE_ROOT}/bin/postinst ] ;then
+            cp ${SOURCE_ROOT}/bin/postinst ${TMPDIR}/${PACKAGE_NAME}/DEBIAN/postinst
+            chmod 755 ${TMPDIR}/${PACKAGE_NAME}/DEBIAN/postinst
+        fi
         
         cat<< EOF | cut -b 9-2000 > ${TMPDIR}/${PACKAGE_NAME}/DEBIAN/control
         Package: ${PACKAGE_NAME}

@@ -1,0 +1,43 @@
+#!/bin/bash
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
+
+# enable our modules
+if [ ! -h /etc/apache2/mods-enabled/ssl.load ]; then
+    (cd /etc/apache2/mods-enabled; ln -s ../mods-available/ssl.load)
+fi
+if [ ! -h /etc/apache2/mods-enabled/ssl.conf ]; then
+    (cd /etc/apache2/mods-enabled; ln -s ../mods-available/ssl.conf)
+fi
+
+# backup the default ssl
+if [ ! -f /etc/apache2/sites-available/default-ssl.dist ]; then
+    cp /etc/apache2/sites-available/default-ssl \
+       /etc/apache2/sites-available/default-ssl.dist
+fi
+
+# load our modules
+if [ ! -f /etc/apache2/conf.d/pkild ]; then
+    echo -e "PerlSwitches -I /usr/share/pkild/lib">>/etc/apache2/conf.d/pkild
+    echo -e "PerlModule pkild" >> /etc/apache2/conf.d/pkild
+fi
+
+# write out our config
+sed -e 's/<VirtualHost _default_:443>/<VirtualHost _default_:443>\n<Location \/>\nSetHandler          modperl\nPerlResponseHandler pkild\n<\/Location>\n/' \
+    /etc/apache2/sites-available/default-ssl.dist > \
+        /etc/apache2/sites-available/pkild-ssl
+if [ ! -h /etc/apache2/sites-enabled/001-pkild-ssl ]; then
+    (cd /etc/apache2/sites-enabled/; ln -s ../sites-available/pkild-ssl 001-pkild-ssl)
+fi
+
+# create and permission our working dir
+if [ ! -d /var/lib/pkild/certificate_authority ]; then
+    mkdir -p /var/lib/pkild/certificate_authority
+fi
+chown www-data:ssl-cert /var/lib/pkild/certificate_authority
+
+# attempt to generate a config from /etc/ldap/ldap.conf
+(cd /usr/share/pkild/bin; ./local_config)
+
+# bounce apache
+/etc/init.d/apache2 restart
+
