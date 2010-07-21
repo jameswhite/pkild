@@ -34,8 +34,7 @@ if [ ! -d /var/lib/pkild/certificate_authority ]; then
     mkdir -p /var/lib/pkild/certificate_authority
 fi
 
-/usr/share/pkild/bin/ca_tree-init > /var/log/pkild-ca_tree-init.log 2>&1
-chown -R www-data:ssl-cert /var/lib/pkild/certificate_authority
+nohup bash -c "( /usr/share/pkild/bin/ca_tree-init > /var/log/pkild-ca_tree-init.log  2>&1; chown -R www-data:ssl-cert /var/lib/pkild/certificate_authority 2>&1)" > /var/log/ca_tree-init.log &
 
 # attempt to generate a config from /etc/ldap/ldap.conf
 (cd /usr/share/pkild/bin; ./local_config)
