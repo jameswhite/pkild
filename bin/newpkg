@@ -1,0 +1,16 @@
+#!/bin/bash
+HERE=$(cd $(dirname $0); pwd)
+
+if [ "$(ls -la /var/tmp/pkild_*)" ];then
+    /bin/rm /var/tmp/pkild_*
+fi
+
+if [ "$(ls -la ~/Dropbox/Public/pkgrepo/dists/lenny-wcyd/main/binary-i386/pkild_*)" ];then
+    /bin/rm ~/Dropbox/Public/pkgrepo/dists/lenny-wcyd/main/binary-i386/pkild_*
+fi
+
+${HERE}/package deb
+/bin/mv /var/tmp/pkild_*  ~/Dropbox/Public/pkgrepo/dists/lenny-wcyd/main/binary-i386/
+
+(cd ~/Dropbox/Public/pkgrepo/; ./update-lenny.sh)
+
