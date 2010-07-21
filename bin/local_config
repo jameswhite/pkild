@@ -3,20 +3,26 @@ use Cwd;
 use FileHandle;
 use YAML;
 my $var;
+################################################################################
+# Scrape our ldap.conf to get our read-only credentials
+################################################################################
 if(-f "/etc/ldap/ldap.conf"){
     $fh = FileHandle->new;
     if($fh->open("< /etc/ldap/ldap.conf")) {
         while(my $line=<$fh>){
             $line=~s/#.*//g;
-            if($line=~m/uri\s+(.*)/){ $var->{'LDAP_URI'}=$1; }
+            if($line=~m/^\s*uri\s+(.*)/){ $var->{'LDAP_URI'}=$1; }
             if($var->{'LDAP_URI'}=~m/,/){$var->{'LDAP_URI'}=[ split(", +",$var->{'LDAP_URI'}) ];}
-            if($line=~m/binddn\s+(.*)/){$var->{'LDAP_BINDDN'}=$1;}
-            if($line=~m/bindpw\s+(.*)/){$var->{'LDAP_BINDPW'}=$1;}
-            if($line=~m/base\s+(.*)/){$var->{'LDAP_BASEDN'}=$1;}
+            if($line=~m/^\s*binddn\s+(.*)/){$var->{'LDAP_BINDDN'}=$1;}
+            if($line=~m/^\s*bindpw\s+(.*)/){$var->{'LDAP_BINDPW'}=$1;}
+            if($line=~m/^\s*base\s+(.*)/){$var->{'LDAP_BASEDN'}=$1;}
         }
         $fh->close;
     }
 }
+################################################################################
+# verify we have something for each of them or complain
+################################################################################
 my $ready=1;
 my @variables=('LDAP_URI','LDAP_BASEDN','LDAP_BINDDN','LDAP_BINDPW');
 foreach my $vitem (@variables){
@@ -30,10 +36,19 @@ foreach my $vitem (@variables){
     }
 }
 exit unless $ready;
+
+################################################################################
+# figure out where we are so we can find our authconfig template
+################################################################################
 my $bin=$0;
-my $dir=getcwd;
-my $config="$dir/$bin";
-$config=~s/local_config/..\/authconfig.yaml.template/;
+my $dir=$1 if($bin=~m/(.*)\/[^\/]+/);
+chdir $dir; $dir=getcwd;
+$dir=~s/\/bin//;
+$config="$dir/authconfig.yaml.template";
+
+################################################################################
+# Now we write out our template
+################################################################################
 my $template;
 if(-f "$config"){
     $template=YAML::LoadFile($config);
@@ -44,7 +59,7 @@ foreach my $key (keys(%{ $template->{'realms'}->{'ldap-people'}->{'store'} })){
         $template->{'realms'}->{'ldap-people'}->{'store'}->{$key}=~s/\[\%.*\%\]/$var->{$replacement}/;
     }
 }
-$template->{'realms'}->{'ldap-people'}->{'store'}->{'ldap_server'}=$var->{'LDAP_URI'};
+$template->{'realms'}->{'ldap-people'}->{'store'}->{'ldap_server'}=YAML::Load(YAML::Dump($var->{'LDAP_URI'}));
 
 foreach my $key (keys(%{ $template->{'realms'}->{'ldap-hosts'}->{'store'} })){
     if($template->{'realms'}->{'ldap-hosts'}->{'store'}->{$key}=~m/\[\% (.*) \%\]/){ 
@@ -52,7 +67,8 @@ foreach my $key (keys(%{ $template->{'realms'}->{'ldap-hosts'}->{'store'} })){
         $template->{'realms'}->{'ldap-hosts'}->{'store'}->{$key}=~s/\[\%.*\%\]/$var->{$replacement}/;
     }
 }
-$template->{'realms'}->{'ldap-hosts'}->{'store'}->{'ldap_server'}=$var->{'LDAP_URI'};
+$template->{'realms'}->{'ldap-hosts'}->{'store'}->{'ldap_server'}=YAML::Load(YAML::Dump($var->{'LDAP_URI'}));
+
 if($config=~m/(.*)/){
     my $newconfig=$1;
     $newconfig=~s/\.template//;

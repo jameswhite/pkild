@@ -139,7 +139,7 @@ EOF
         Section: main
         Priority: optional
         Architecture: ${ARCH}
-        Depends: apache3, ssl-cert, libapache2-mod-perl2, libcatalyst-perl, libcatalyst-modules-perl
+        Depends: apache2, ssl-cert, libapache2-mod-perl2, libcatalyst-perl, libcatalyst-modules-perl, libcatalyst-modules-extra-perl, libnet-ldap-perl, libnet-ldap-server-perl, libmoose-perl, libconvert-asn1-perl, libcatalyst-plugin-requiressl-perl, libnet-ldap-server-test-perl, libcatalyst-model-file-perl, libcatalyst-component-instancepercontext-perl, libcatalyst-authentication-store-ldap-perl, libcatalyst-engine-apache-perl, apache2-mpm-prefork, libio-socket-ssl-perl
         Installed-Size: ${INSTALLED}
         Maintainer: $(getent passwd ${LOGNAME}| awk -F: '{print $5}') <$(getent passwd ${LOGNAME}| awk -F: '{print $1}')@$(dnsdomainname)>
         Description: ${DESCRIPTION}
