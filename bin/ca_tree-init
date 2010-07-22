@@ -268,8 +268,9 @@ sed -e 's/~LEVEL~.//g' \
 
 # domain ca
 cd ${DOM_CA}
-echo "${SECRET}" | openssl genrsa -des3 -passout fd:0 \
-                                  -out ${DOM_CA}/private/${DOMAIN}.key ${DOM_CA_KEYSIZE}
+
+# the domain ca key doesn't get a passphrase:
+openssl genrsa -out ${DOM_CA}/private/${DOMAIN}.key ${DOM_CA_KEYSIZE}
 echo "${SECRET}" | openssl req -new -sha1 -days 1095 -passin fd:0 \
                                -key ${DOM_CA}/private/${DOMAIN}.key \
                                -out ${DOM_CA}/${DOMAIN}.csr \
@@ -323,12 +324,11 @@ mv ${MY_CERT}/${HNAME}.${DOMAIN}.csr ${DOM_CA}
 
 # sign server cert with intermediate cert
 cd ${DOM_CA}
-echo ${SECRET} | openssl ca -config ${DOM_CA}/openssl.cnf \
-                            -passin fd:0 \
-                            -policy policy_anything \
-                            -out ${DOM_CA}/${HNAME}.${DOMAIN}.crt \
-                            -batch \
-                            -infiles ${DOM_CA}/${HNAME}.${DOMAIN}.csr
+openssl ca -config ${DOM_CA}/openssl.cnf \
+           -policy policy_anything \
+           -out ${DOM_CA}/${HNAME}.${DOMAIN}.crt \
+           -batch \
+           -infiles ${DOM_CA}/${HNAME}.${DOMAIN}.csr
 mv ${DOM_CA}/${HNAME}.${DOMAIN}.crt ${MY_CERT}
 mv ${DOM_CA}/${HNAME}.${DOMAIN}.csr ${MY_CERT}
 
