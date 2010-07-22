@@ -190,7 +190,7 @@ sed -e 's/~LEVEL~/root-ca/g' \
     -e 's/~TEXTLEVEL~/Root Certificate Authority/g' \
     -e 's/~EMAIL~/certificate.authority@${DOMAIN}/g' \
     -e 's/~DAYS~/1825/g' \
-    ${WORKDIR}/openssl.tpl > ${ROOT_CA}/root-ca.${DOMAIN}-openssl.cnf
+    ${WORKDIR}/openssl.tpl > ${ROOT_CA}/openssl.cnf
 # root ca
 echo ${SECRET} | openssl genrsa -des3 -passout fd:0 \
                                 -out ${ROOT_CA}/private/root-ca.${DOMAIN}.key ${ROOT_CA_KEYSIZE}
@@ -198,7 +198,7 @@ echo ${SECRET} | openssl req -new -x509 -nodes -sha1 \
                              -days 1825 -passin fd:0 \
                              -key ${ROOT_CA}/private/root-ca.${DOMAIN}.key \
                              -out ${ROOT_CA}/root-ca.${DOMAIN}.pem \
-                             -config ${ROOT_CA}/root-ca.${DOMAIN}-openssl.cnf -batch
+                             -config ${ROOT_CA}/openssl.cnf -batch
 
 ###################################################################
 # Create the Intermediate Certificate Authority
@@ -216,7 +216,7 @@ sed -e 's/~LEVEL~/mid-ca/g' \
     -e 's/~TEXTLEVEL~/Intermediate Certificate Authority/g' \
     -e 's/~EMAIL~/certificate.authority@${DOMAIN}/g' \
     -e 's/~DAYS~/1095/g' \
-    ${WORKDIR}/openssl.tpl > ${MID_CA}/mid-ca.${DOMAIN}-openssl.cnf
+    ${WORKDIR}/openssl.tpl > ${MID_CA}/openssl.cnf
 
 # mid ca
 cd ${MID_CA}
@@ -225,7 +225,7 @@ echo "${SECRET}" | openssl genrsa -des3 -passout fd:0 \
 echo "${SECRET}" | openssl req -new -sha1 -days 1095 -passin fd:0 \
                                -key ${MID_CA}/private/mid-ca.${DOMAIN}.key \
                                -out ${MID_CA}/mid-ca.${DOMAIN}.csr \
-                               -config ${MID_CA}/mid-ca.${DOMAIN}-openssl.cnf -batch
+                               -config ${MID_CA}/openssl.cnf -batch
 
 ###################################################################
 # sign the Intermediate CA with the Root CA
@@ -237,7 +237,7 @@ echo "${SECRET}" | openssl ca -extensions v3_ca -days 1095 \
                               -passin fd:0 \
                               -out ${ROOT_CA}/mid-ca.${DOMAIN}.crt \
                               -in ${ROOT_CA}/mid-ca.${DOMAIN}.csr \
-                              -config ${ROOT_CA}/root-ca.${DOMAIN}-openssl.cnf -batch
+                              -config ${ROOT_CA}/openssl.cnf -batch
 
 cat mid-ca.${DOMAIN}.crt root-ca.${DOMAIN}.pem > ${ROOT_CA}/ca_trust_chain.crt
 mv ${ROOT_CA}/mid-ca.${DOMAIN}.crt ${MID_CA}/mid-ca.${DOMAIN}.pem
@@ -258,13 +258,13 @@ sed -e "s/~LEVEL~/${HNAME}/g" \
     -e "s/~TEXTLEVEL~/${CA_ORGUNIT}/g" \
     -e "s/~EMAIL~/${CA_EMAIL}/g" \
     -e 's/~DAYS~/365/g' \
-    ${WORKDIR}/openssl.tpl > ${MY_CERT}/${HNAME}.${DOMAIN}-openssl.cnf
+    ${WORKDIR}/openssl.tpl > ${MY_CERT}/openssl.cnf
 
 echo ${SECRET} | openssl genrsa -des3 -passout fd:0 -out ${MY_CERT}/${HNAME}.${DOMAIN}.key ${HOST_KEYSIZE}
 echo ${SECRET} | openssl req -new -key ${MY_CERT}/${HNAME}.${DOMAIN}.key \
                              -passin fd:0 \
                              -out ${MY_CERT}/${HNAME}.${DOMAIN}.csr \
-                             -config ${MY_CERT}/${HNAME}.${DOMAIN}-openssl.cnf -batch
+                             -config ${MY_CERT}/openssl.cnf -batch
 
 ###################################################################
 # Sign Server Certificate with Intermediate
@@ -273,7 +273,7 @@ mv ${MY_CERT}/${HNAME}.${DOMAIN}.csr ${MID_CA}
 
 # sign server cert with intermediate cert
 cd ${MID_CA}
-echo ${SECRET} | openssl ca -config ${MID_CA}/mid-ca.${DOMAIN}-openssl.cnf \
+echo ${SECRET} | openssl ca -config ${MID_CA}/openssl.cnf \
                             -passin fd:0 \
                             -policy policy_anything \
                             -out ${MID_CA}/${HNAME}.${DOMAIN}.crt \
