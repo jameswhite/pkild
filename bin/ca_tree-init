@@ -244,7 +244,7 @@ echo "${SECRET}" | openssl ca -extensions v3_ca -days 1825 \
                               -in ${ROOT_CA}/mid-ca.${DOMAIN}.csr \
                               -config ${ROOT_CA}/openssl.cnf -batch
 
-cat ${MID_CA}/mid-ca.${DOMAIN}.crt ${ROOT_CA}root-ca.${DOMAIN}.pem > ${MID_CA}/ca_trust_chain.crt
+cat ${MID_CA}/mid-ca.${DOMAIN}.pem ${ROOT_CA}/root-ca.${DOMAIN}.pem > ${MID_CA}/ca_trust_chain.crt
 mv ${ROOT_CA}/mid-ca.${DOMAIN}.crt ${MID_CA}/mid-ca.${DOMAIN}.pem
 mv ${ROOT_CA}/mid-ca.${DOMAIN}.csr ${MID_CA}/mid-ca.${DOMAIN}.csr
 
@@ -390,15 +390,17 @@ cp -r ${MID_CA}  ${CA_TREE_TRUNK}
 cp -r ${DOM_CA}  ${CA_TREE_TRUNK}/mid-ca.${DOMAIN}/
 cp -r ${MY_CERT} ${CA_TREE_TRUNK}/mid-ca.${DOMAIN}/${DOMAIN}/certs/
 
-find ${CA_TREE_TRUNK} -type d -exec chmod 700 {} \;
-find ${CA_TREE_TRUNK} -type f -exec chmod 600 {} \;
+find ${CA_TREE_TRUNK} -type d -exec chmod 750 {} \;
+find ${CA_TREE_TRUNK} -type f -exec chmod 640 {} \;
 
 (cd /etc/ssl/certs/; /usr/bin/c_rehash)
 
 umask ${UMASK}
+cd ~/
 rm -fr ${WORKDIR}
 
 if [ ${EUID} -eq 0 ]; then
+    chown -R www-data:ssl-cert ${CA_TREE_TRUNK} 
     /etc/init.d/apache2 restart 
 #else 
    # (cd ${BASE}; find .)
