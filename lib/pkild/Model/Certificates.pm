@@ -3,11 +3,13 @@ package pkild::Model::Certificates;
 use strict;
 use base 'Catalyst::Model::File';
 use Path::Class 'file';
+use Cwd;
 
 __PACKAGE__->config( node_separator => '::');
 
 sub cert_subject{
     my $self=shift;
+    print STDERR "enter cert_subject\n" if $self->{'trace'};
     my $cert_file=shift;
     my $subject=undef;
     if(-f "$cert_file"){
@@ -21,14 +23,18 @@ sub cert_subject{
             $cacert_fh->close;
         }
     }else{
+        print STDERR "Cannot open Certificate file: $cert_file\n";
+        print STDERR "exit cert_subject undef\n" if $self->{'trace'};
         return undef;
     }
+    print STDERR "exit cert_subject with subject\n" if $self->{'trace'};
     return $subject;
 }
 
 sub user_cert_dn{
 use FileHandle;
     my ($self,$user_session) = @_;
+    print STDERR "enter cert_dn\n" if $self->{'trace'};
     my $objectname=$self->objectname($user_session);
     my $cn=$objectname;
     my $type=undef;
@@ -39,8 +45,14 @@ use FileHandle;
     my $domain=$self->object_domain($objectname);
     # Re-Map the domain if specified...
     my $ca = $self->ca_for($domain);
-    my $ca_subject=$self->cert_subject("$ca/$domain.crt");
+    my $ca_subject;
+    if( -f "$ca/$domain.crt" ){
+        $ca_subject=$self->cert_subject("$ca/$domain.crt");
+    }elsif( -f "$ca/$domain.pem" ){
+        $ca_subject=$self->cert_subject("$ca/$domain.pem");
+    }
     my $subject=$ca_subject;
+    print STDERR "type: [$type]\n";
     if($subject=~m/C=(.*),\s*ST=(.*),\s*L=(.*),\s*O=(.*),\s*OU=(.*),\s*CN=(.*)\/emailAddress=(.*)/){
         if($type eq "user"){
             $subject="C=$1, ST=$2, L=$3, O=$4, OU=$5, CN=$cn/emailAddress=$cn\@$domain";
@@ -48,20 +60,26 @@ use FileHandle;
             $subject="C=$1, ST=$2, L=$3, O=$4, OU=$5, CN=$cn.$domain/emailAddress=sysadmins\@$domain";
         }
     }
+    print STDERR "exit user_cert_dn with [$subject]\n";
+    print STDERR "exit user_cert_dn with [$subject]\n" if $self->{'trace'};
     return $subject;
 }
 
 sub objectname{
     my $self=shift;
+    print STDERR "enter objectname\n" if $self->{'trace'};
     my $user_session=shift;
     if(defined($user_session->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'})){
+        print STDERR "exit objectname with objectname\n" if $self->{'trace'};
         return $user_session->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'};
     }
+    print STDERR "exit objectname undef\n" if $self->{'trace'};
     return undef;
 }
 
 sub object_domain{
     my $self=shift;
+    print STDERR "enter object_domain\n" if $self->{'trace'};
     my $object=shift;
     my ($identity_type, $identity,$orgunit,$domain);
     if($object=~m/\s*(.*)\s*=\s*(.*)\s*,\s*[Oo][Uu]\s*=\s*([^,]+)\s*,\s*dc\s*=\s*(.*)\s*/){
@@ -77,15 +95,21 @@ sub object_domain{
             $domain = $map->{'cert_domain'};
         }
     }
-    return $domain if $domain;
+    if($domain){
+        print STDERR "exit object domain with domain\n" if $self->{'trace'};
+        return $domain;
+    }
+    print STDERR "exit object domain undef\n" if $self->{'trace'};
     return undef;
 }
 
 sub domain_trust_chain{
 use File::Slurp;
     my $self = shift;
+    print STDERR "enter domain_trust_chain\n" if $self->{'trace'};
     my $domain=shift;
     my $cert = read_file( $self->ca_for($domain)."/".$domain.".crt", binmode => ':raw' ) ;        
+    print STDERR "exit domain_trust_chain with cert\n" if $self->{'trace'};
     return $cert;
 }
 
@@ -94,6 +118,7 @@ use File::Slurp;
 ################################################################################
 sub tree{
     my ($self, $c)=@_;
+    print STDERR "enter tree\n" if $self->{'trace'};
     my $tree;
     my @file_names=$self->list(mode => 'both', recurse =>1);
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
@@ -155,23 +180,29 @@ sub tree{
             }
         }
     }
+    print STDERR "exit tree\n" if $self->{'trace'};
     return $tree->{''}->{'children'};
 }
 
 sub actual_node{
     my $self=shift;
+    print STDERR "enter actual_node\n" if $self->{'trace'};
     my $unpacked_node=shift;
+    print STDERR "exit actual_node\n" if $self->{'trace'};
     return pack("H*",$unpacked_node);
 }
 
 sub has_certificate{
     my ($self, $object)=@_;
+    print STDERR "enter has_certificate\n" if $self->{'trace'};
+    print STDERR "exit has_certificate\n" if $self->{'trace'};
     return undef;
 }
 
 sub ca_domain_from_file{
 use FileHandle;
    my $self=shift;
+   print STDERR "enter ca_domain_from_file\n" if $self->{'trace'};
    my $file=shift;
    my $fh = FileHandle->new;
    my $ca_domain;
@@ -186,11 +217,13 @@ use FileHandle;
        }
        $fh->close;
    }
+   print STDERR "exit ca_domain_from_file\n" if $self->{'trace'};
    print return $ca_domain;
 }
 
 sub find_file{
     my ($self,$dir,$fileregex)=@_; 
+    print STDERR "enter find_file\n" if $self->{'trace'};
     opendir(DIR,$dir);
     if ($dir !~ /\/$/) { $dir .= "/"; }
     my @dirlist=readdir(DIR);
@@ -208,6 +241,7 @@ sub find_file{
             }
         }
     }
+    print STDERR "exit find_file\n" if $self->{'trace'};
     return $self;
 }
 
@@ -243,23 +277,29 @@ use File::Slurp;
     }else{
         print STDERR "We need code to look for root-ca.$domain, and to create $domain under it.\n";
     }
-    
     chdir($certdata->{'dir'});
     # only do so if one doesn't exist
     my $pkcs12data=undef;
     if( ! -d "$certdata->{'child_dir'}"){
         mkdir("$certdata->{'child_dir'}",0700);
+        #
         # rewrite the openssl.cnf such that commonName_default = userid and emailAddress_default=userid@$domain
         #
         my $pfh = FileHandle->new;
+        my $newline='';
         if ($pfh->open("< $certdata->{'config'}")) {
             my $cfh = FileHandle->new("> $certdata->{'child_dir'}/openssl.cnf");
             if (defined $cfh) {
                 while( my $line=<$pfh>){
                     chomp($line);
-                    if($line=~m/commonName_default\s*=\s*(.*)/){ $line=~s/$1/$identity/; }
-                    if($line=~m/emailAddress_default\s*=\s*(.*)/){ $line=~s/$1/$identity\@$domain/; }
-                    print $cfh "$line\n";
+                    if($line=~m/commonName_default\s*=\s*(.*)/){ 
+                        $newline="commonName_default    =    $identity";
+                    }elsif($line=~m/emailAddress_default\s*=\s*(.*)/){ 
+                        $newline="emailAddress_default    =    $identity\@$domain";
+                    }else{
+                        $newline=$line;
+                    }
+                    print $cfh "$newline\n";
                 }
                 $cfh->close;
             }
@@ -320,6 +360,7 @@ sub remove_certificate{
 
 sub revoke_certificate{
     my ($self, $param,$session)=@_;
+    print STDERR "enter revoke_certificate\n" if $self->{'trace'};
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
 
     # convert the $self->{'node_separator'} delimited node names into a path
@@ -330,12 +371,14 @@ sub revoke_certificate{
     my $parent_dir="$rootdir/".join("/",@nodepart);
     $node_dir=~s/$self->{'node_separator'}/\//g;
     $node_dir="$rootdir/$node_dir";
+
     chdir ($parent_dir);
     if( ! -f "$parent_dir/crlnumber"){
         open(CRLINDEX,">$parent_dir/crlnumber");
-        print CRLINDEX "1";
+        print CRLINDEX "01\n";
         close(CRLINDEX);
     }
+print STDERR "::".getcwd."::\n";
     # Revoke the Certificate (updates the Index)
     system("/usr/bin/openssl ca -revoke $node_dir/$node_name.crt -keyfile $parent_dir/private/$parent_name.key -cert $parent_dir/$parent_name.pem -config $parent_dir/openssl.cnf");
 
@@ -344,6 +387,7 @@ sub revoke_certificate{
 
     # Rename the cert to indicate it has been revoked
     rename("$node_dir/$node_name.crt","$node_dir/$node_name.revoked");
+    print STDERR "exit revoke_certificate\n" if $self->{'trace'};
     return $self;  
 }
 
@@ -351,6 +395,7 @@ sub sign_certificate{
     use FileHandle;
     use File::Temp qw/ tempfile tempdir /;
     my ($self, $param,$session,$admin)=@_;
+    print STDERR "enter sign_certificate\n" if $self->{'trace'};
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     
     # convert the $self->{'node_separator'} delimited node names into a path
@@ -409,6 +454,7 @@ sub sign_certificate{
     }
     # sign the csr and write it out as a ${cn}.crt int the node directory
     system("/usr/bin/openssl ca -config $node_dir/openssl.cnf -policy policy_anything -out $node_dir/certs/$common_name/$common_name.crt -batch -infiles $node_dir/certs/$common_name/$common_name.csr");
+    print STDERR "enter sign_certificate\n" if $self->{'trace'};
     return "SUCCESS";
 }
 
@@ -416,6 +462,7 @@ sub ca_create{
     use FileHandle;
     use Template;
     my ($self, $param,$session)=@_;
+    print STDERR "enter ca_create\n" if $self->{'trace'};
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
 
     # convert the $self->{'node_separator'} delimited node names into a path
@@ -525,9 +572,11 @@ sub ca_create{
             system("/usr/bin/openssl ca -gencrl -keyfile $node_dir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key -cert $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.pem -config $node_dir/$param->{'ca_domain'}/openssl.cnf -out $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.crl");
             # To Revoke: (run this and then regenerate the CRL with the command above, copy it to it's URI)
             #system("/usr/bin/openssl ca -revoke <PATH/TO/BAD_CERT> -keyfile $node_dir/$param->{'ca_domain'}/private/$param->{'ca_domain'}.key -cert $node_dir/$param->{'ca_domain'}/$param->{'ca_domain'}.pem -config $node_dir/$param->{'ca_domain'}/openssl.cnf");
+            print STDERR "exit ca_create SUCCESS\n" if $self->{'trace'};
             return "SUCCESS";
         }
     }
+    print STDERR "exit ca_create ERROR\n" if $self->{'trace'};
     return "ERROR";
 }
 ################################################################################
@@ -540,6 +589,7 @@ sub ca_create{
 ################################################################################
 sub ca_for{
     my ($self,$ca_domain)=@_;
+    print STDERR "enter ca_for\n" if $self->{'trace'};
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
 
 
@@ -575,14 +625,17 @@ sub ca_for{
        my @ordered_least_depth_domain_cnfs = sort(@least_depth_domain_cnfs);
        $physical_path = $least_depth_domain_cnfs[0];
        $physical_path =~s/\/openssl.cnf.*$//;
+       print STDERR "exit ca_for\n" if $self->{'trace'};
        return $physical_path;
     }
     # if we can't find any, we return undef 
+    print STDERR "exit ca_for undef\n" if $self->{'trace'};
     return undef;
 }
 
 sub actual_node_from_objectname{
     my $self=shift;
+    print STDERR "enter actucal_node_from_objectname\n" if $self->{'trace'};
     my $objectname=shift;
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     my ($identity_type, $identity,$orgunit,$domain);
@@ -607,12 +660,14 @@ sub actual_node_from_objectname{
     my $actual_node=$cert_dir;
     $actual_node=~s/^$rootdir\///;
     $actual_node=~s/\//::/g;
+    print STDERR "exit actucal_node_from_objectname\n" if $self->{'trace'};
     return unpack("H*",$actual_node);
 }
 
 # by convention, all CAs have a subdir named "certs" and others don't
 sub node_type{
     my ($self, $unpacked_node)=@_;
+    print STDERR "enter node_type\n" if $self->{'trace'};
     my $node = pack("H*",$unpacked_node);
     my @nodepart=split(/$self->{'node_separator'}/, $node);
     $node =~s/$self->{'node_separator'}/\//g;
@@ -631,16 +686,20 @@ sub node_type{
             if(-f "$rootdir/$node/$nodepart[$#nodepart].revoked"){
                 return "revoked_certificate" ;
             }
+            print STDERR "exit node_type certificate\n" if $self->{'trace'};
             return "certificate" 
         };
+        print STDERR "exit node_type directory\n" if $self->{'trace'};
         return "directory"; 
     }
+    print STDERR "exit node_type undef\n" if $self->{'trace'};
     return undef;
 }
 
 sub contents{
     use FileHandle;
     my ($self, $unpacked_node)=@_;
+    print STDERR "enter contents\n" if $self->{'trace'};
     my $node = pack("H*",$unpacked_node);
     $node =~s/$self->{'node_separator'}/\//g;
     $node =~ s/\/\.\./\//g;
@@ -654,16 +713,20 @@ sub contents{
                 $contents.=$line;
             }
             $fh->close;
+            print STDERR "exit contents with contents\n" if $self->{'trace'};
             return $contents;
         }
     }else{
+        print STDERR "exit contents no\n" if $self->{'trace'};
         return "no.";
     }
+    print STDERR "exit contents undef\n" if $self->{'trace'};
     return undef;
 }
 
 sub openssl_cnf_template{
     my ($self)=shift;
+    print STDERR "enter openssl_cnf_template\n" if $self->{'trace'};
     my $the_template = <<_END_TEMPLATE_;
 HOME = [\% cert_home_dir \%]
 RANDFILE = \$HOME/.rnd
@@ -762,6 +825,7 @@ basicConstraints = CA:true
 nsCaRevocationUrl = [\% crl_path \%]
 _END_TEMPLATE_
 
+    print STDERR "exit openssl_cnf_template\n" if $self->{'trace'};
     return $the_template;
 }
 =head1 NAME
