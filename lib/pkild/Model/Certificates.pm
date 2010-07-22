@@ -330,7 +330,12 @@ sub revoke_certificate{
     my $parent_dir="$rootdir/".join("/",@nodepart);
     $node_dir=~s/$self->{'node_separator'}/\//g;
     $node_dir="$rootdir/$node_dir";
-
+    chdir ($parent_dir);
+    if( ! -f "$parent_dir/crlnumber"){
+        open(CRLINDEX,">$parent_dir/crlnumber");
+        print CRLINDEX "1";
+        close(CRLINDEX);
+    }
     # Revoke the Certificate (updates the Index)
     system("/usr/bin/openssl ca -revoke $node_dir/$node_name.crt -keyfile $parent_dir/private/$parent_name.key -cert $parent_dir/$parent_name.pem -config $parent_dir/openssl.cnf");
 
