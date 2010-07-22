@@ -108,7 +108,14 @@ use File::Slurp;
     my $self = shift;
     print STDERR "enter domain_trust_chain\n" if $self->{'trace'};
     my $domain=shift;
-    my $cert = read_file( $self->ca_for($domain)."/".$domain.".crt", binmode => ':raw' ) ;        
+    my $cert=undef;
+    if ( -f $self->ca_for($domain)."/".$domain.".crt"){ 
+        $cert = read_file( $self->ca_for($domain)."/".$domain.".crt", binmode => ':raw' ) ;        
+    }elsif ( -f $self->ca_for($domain)."/".$domain.".pem"){ 
+        $cert = read_file( $self->ca_for($domain)."/".$domain.".pem", binmode => ':raw' ) ;        
+    }else{
+        $cert = "File not found.";
+    }
     print STDERR "exit domain_trust_chain with cert\n" if $self->{'trace'};
     return $cert;
 }

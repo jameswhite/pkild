@@ -25,7 +25,7 @@ realms:
       start_tls_options:
         verify: none
       use_roles: 1
-      user_basedn: 'ou=People,[% LDAP_BASEDN %]'
+      user_basedn: 'ou=Hosts,[% LDAP_BASEDN %]'
       user_field: cn
       user_filter: (&(objectClass=simplesecurityobject)(cn=%s))
       user_scope: one
