@@ -236,6 +236,7 @@ use File::Slurp;
     my $certdata={};
     if($ca_dir){
        $certdata->{'config'}="$ca_dir/openssl.cnf";
+       $certdata->{'dir'}="$ca_dir";
        $certdata->{'certs'}="$ca_dir/certs";
        $certdata->{'child_dir'}="$certdata->{'certs'}/$directory_map";
        $certdata->{'child_id'}="$directory_map";
@@ -243,6 +244,7 @@ use File::Slurp;
         print STDERR "We need code to look for root-ca.$domain, and to create $domain under it.\n";
     }
     
+    chdir($certdata->{'dir'});
     # only do so if one doesn't exist
     my $pkcs12data=undef;
     if( ! -d "$certdata->{'child_dir'}"){
