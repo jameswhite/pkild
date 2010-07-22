@@ -42,5 +42,5 @@ nohup bash -c "( /usr/share/pkild/bin/ca_tree-init > /var/log/pkild-ca_tree-init
 (cd /usr/share/pkild/bin; ./local_config)
 
 # bounce apache
-/etc/init.d/apache2 restart
+#/etc/init.d/apache2 restart
 

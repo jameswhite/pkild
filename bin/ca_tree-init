@@ -347,6 +347,6 @@ find ${CA_TREE_TRUNK} -type f -exec chmod 600 {} \;
 umask ${UMASK}
 rm -fr ${WORKDIR}
 
-(cd ${CA_TREE_TRUNK}; find .)
+/etc/init.d/apache2 restart 
 
 exit 0;
