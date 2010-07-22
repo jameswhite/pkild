@@ -81,6 +81,7 @@ cat<<EOTPL > ${WORKDIR}/openssl.tpl
 HOME                    = .
 RANDFILE                = \$ENV::HOME/.rnd
 DOMAIN                  = ${DOMAIN}
+ca-domain               = ~LEVEL~.${DOMAIN}
 
 [ ca ]
 default_ca      = CA_default            # The default ca section
