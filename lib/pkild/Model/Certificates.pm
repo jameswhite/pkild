@@ -36,7 +36,7 @@ sub cert_subject{
 # we'll expect to find the certificate tree defined in the ca-basedn TXT record
 ################################################################################
 sub cert_dn_tree{
-    my ($self,$dnsdomain) = @_;
+    my ($self,$dnsdomain,$orgunit) = @_;
     print STDERR "enter cert_dn_tree\n" if $self->{'trace'};
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     use Net::DNS;
@@ -47,15 +47,16 @@ sub cert_dn_tree{
             foreach my $r ($rr->char_str_list){
                 my @components=split(",",$r);
                 for(my $idx=0; $idx<=$#components; $idx++){
-                    $components[$idx]=~s/^\s//;
-                    $components[$idx]=~s/\s$//;
+                    my ($key,$val) = split(/=/,$components[$idx]);
+                    $key=~s/^\s//; $key=~s/\s$//;
+                    $val=~s/^\s//; $val=~s/\s$//;
+                    $key=~tr/A-Z/a-z/;
+                    $components[$idx]="$key=$val";
                 }
                 my $dir_path=join('/',@components);
-                if(! -d "$rootdir/$dir_path"){
-print STDERR "Path: $rootdir/$dir_path Not found.\n";
+                if(! -d "$rootdir/$dir_path/ou=$orgunit"){
                     return undef;
                 }else{
-print STDERR "Path: $rootdir/$dir_path found.\n";
                     return $self;
                 }
             }

@@ -50,6 +50,8 @@ sub default : Private {
                            password => $c->req->param("password") 
                          }, 'ldap-people');
         if(defined($c->user)){
+ 
+            $c->stash->{'orgunit'}='People';
             $c->session->{'user'}=$c->user;
         }else{
             $c->authenticate({
@@ -59,6 +61,7 @@ sub default : Private {
                              'ldap-hosts');
             if(defined($c->user)){
                 $c->session->{'user'}=$c->user;
+                $c->stash->{'orgunit'}='Host';
             }else{
                 $c->stash->{'ERROR'}="Authentication Failed."; 
                 $c->forward('logout');
@@ -79,7 +82,7 @@ sub default : Private {
     ############################################################################
     # if we have no data to operate on, then forward to the "Create Tree" view
     ############################################################################
-    if(! defined($c->model('Certificates')->cert_dn_tree('websages.com'))){
+    if(! defined($c->model('Certificates')->cert_dn_tree('websages.com',$c->stash->{'orgunit'}))){
         if( $c->check_user_roles( "certificate_administrators" ) ){
             $c->stash->{'template'}='no_cert_tree_admin.tt';
         }else{
