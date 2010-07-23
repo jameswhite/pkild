@@ -33,6 +33,9 @@ sub cert_subject{
 
 sub cert_dn_tree{
     my ($self) = @_;
+    my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
+    $rootdir=~s/^\///;
+    print STDERR "$rootdir\n";
     return undef;
 }
 
