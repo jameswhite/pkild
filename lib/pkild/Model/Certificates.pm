@@ -41,8 +41,8 @@ sub cert_dn_tree{
     my $res   = Net::DNS::Resolver->new;
     my $query = $res->query("ca-basedn.$dnsdomain", "TXT");
     if ($query) {
-        foreach $rr (grep { $_->type eq 'TXT' } $query->answer) {
-            foreach $r ($rr->char_str_list){
+        foreach my $rr (grep { $_->type eq 'TXT' } $query->answer) {
+            foreach my $r ($rr->char_str_list){
                 print STDERR "$r\n";
             }
         }
