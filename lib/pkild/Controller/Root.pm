@@ -94,7 +94,12 @@ sub default : Private {
             $c->stash->{'template'}='no_cert_tree_user.tt';
         }
         $c->detach();
+    }else{
+        unless( $c->check_user_roles( "certificate_administrators" ) ){
+            $c->stash->{'template'}='my_certificate.tt';
+        }
     }
+
     
     if(defined($c->req->param("get"))){ 
         if($c->req->param("get") eq "ca_trustchain"){
