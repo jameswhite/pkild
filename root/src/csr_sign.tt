@@ -29,9 +29,9 @@ legend   {
 <script type="text/javascript">
     function jsvalidate(){ 
                             if( $('#password').val() == $('#confirm_password').val() ){
-                                $('#submitcreate').show('normal');
+                                $('#submitcreate').enable;
                             }else{
-                                $('#submitcreate').hide('normal');
+                                $('#submitcreate').disable;
                             }
                          };
     $("#pkcs12form").keypress(function(e) { if (e.which == 13) { return false; } });
@@ -63,7 +63,7 @@ To create a personal certificate, enter a passphrase to protect your private key
                 </tr>
                 <tr>
                     <td>&nbsp;</td>
-                    <td><input type='submit' style='display: none' id='submitcreate' name='submit' value='create' disabled='disabled'></td>
+                    <td><input type='submit' id='submitcreate' name='submit' value='create' disabled='disabled'></td>
                 </tr>
             </table>
             <input type="hidden" name="action_type" value="pkcs12_cert"></td>
