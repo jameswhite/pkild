@@ -22,7 +22,7 @@ legend   {
 <table>
     <tr>
         <td align="right"><label for="cert_basedn">Certificate Base Distinguished Name: </label></td>
-        <td align="left"><input type="text" name="new_cert_base_dn" size="20"></td>
+        <td align="left"><input type="text" name="new_cert_base_dn" size="40" value="C=US,ST=Tennessee,L=Nashville,O=Websages"></td>
     </tr>
         <td align="right">&nbsp;</td>
         <td align="right"><input type="submit" name="create_cert_tree" value="Submit"></td>
