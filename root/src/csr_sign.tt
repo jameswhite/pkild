@@ -83,12 +83,11 @@ To create a personal certificate, enter a passphrase to protect your private key
                         <label for="csr_request"<nobr>Certificate Signing Request</nobr></label>
                     </td>
                     <td align='left'>
-                       <textarea name="csr_request" rows="10" cols="64" value="" </textarea>
+                       <textarea name="csr_request" rows="10" cols="64" value=""> </textarea>
                     </td>
                 </tr>
             </table>
             <input type="hidden" name="action_type" value="sign_cert"></td>
-            [% menudata.comments %]
         </fieldset>
     </form>
     <br>Note: This will *only* sign a certificate for:<br>
