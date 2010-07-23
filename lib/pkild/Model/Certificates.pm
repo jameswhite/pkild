@@ -36,7 +36,7 @@ sub cert_dn_tree{
     my ($self) = @_;
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     opendir(DIR,$rootdir);
-    if ($dir !~ /\/$/) { $dir .= "/"; }
+    if ($rootdir !~ /\/$/) { $rootdir .= "/"; }
     my @dirlist=readdir(DIR);
     closedir(DIR);
     print STDERR Data::Dumper->Dump([$dirlist]);
