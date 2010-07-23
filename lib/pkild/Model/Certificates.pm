@@ -39,7 +39,11 @@ sub cert_dn_tree{
     if ($rootdir !~ /\/$/) { $rootdir .= "/"; }
     my @dirlist=readdir(DIR);
     closedir(DIR);
-    print STDERR Data::Dumper->Dump([@dirlist]);
+    foreach $dir (@dirlist){
+        next if($dir=~m/^\./);
+        print STDERR "$dir\n";
+    }
+
     return undef;
 }
 
