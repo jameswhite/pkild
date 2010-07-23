@@ -69,10 +69,12 @@ sub default : Private {
     if(! defined( $c->session->{'user'} )){
         $c->forward('logout');
     }else{
-        print STDERR Data::Dumper->Dump([ $c->session->{'user'}->{'auth_realm'} ]);
-        print STDERR $c->session->{'user'}->{'realm'}."\n";
+        if($c->session->{'user'}->{'auth_realm'} eq "ldap-hosts"){
+                $c->stash->{'orgunit'}='Hosts';
+        }
+        if($c->session->{'user'}->{'auth_realm'} eq "ldap-people"){
             $c->stash->{'orgunit'}='People';
-                $c->stash->{'orgunit'}='Host';
+        }
     }
     ############################################################################
     # Log us out if ?logout=1 was sent
