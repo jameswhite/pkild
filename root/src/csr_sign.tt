@@ -77,9 +77,8 @@ To create a personal certificate, enter a passphrase to protect your private key
     <div id="option_sign_csr" style="display: none">
     <form action="" method="post">
         <fieldset>
-            <legend>[% menudata.legend %]</legend>
+            <legend>Certficate Signing Request</legend>
             <table>
-            [% FOREACH field IN menudata.fields %]
                 <tr>
                     <td align='right' valign='middle'>
                         <label for="csr_request"<nobr>Certificate Signing Request</nobr></label>
@@ -88,7 +87,6 @@ To create a personal certificate, enter a passphrase to protect your private key
                        <textarea name="csr_request" rows="23" cols="80" value="" </textarea>
                     </td>
                 </tr>
-            [% END %]
             </table>
             <input type="hidden" name="action_type" value="sign_cert"></td>
             [% menudata.comments %]
