@@ -32,8 +32,24 @@ sub cert_subject{
     return $subject;
 }
 
+################################################################################
+# we'll expect to find the certificate tree defined in the ca-basedn TXT record
+################################################################################
 sub cert_dn_tree{
-    my ($self) = @_;
+    my ($self,$dnsdomain) = @_;
+    use Net::DNS;
+    my $res   = Net::DNS::Resolver->new;
+    my $query = $res->query("ca-basedn.$dnsdomain", "TXT");
+    if ($query) {
+        foreach $rr (grep { $_->type eq 'TXT' } $query->answer) {
+            foreach $r ($rr->char_str_list){
+                print STDERR "$r\n";
+            }
+        }
+    }else{
+        warn "query failed: ", $res->errorstring, "\n";
+    }
+    print STDERR "enter cert_dn_tree\n" if $self->{'trace'};
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     opendir(DIR,$rootdir);
     if ($rootdir !~ /\/$/) { $rootdir .= "/"; }
@@ -43,7 +59,7 @@ sub cert_dn_tree{
         next if($dir=~m/^\./);
         print STDERR "$dir\n";
     }
-
+    print STDERR "exit cert_dn_tree undef\n" if $self->{'trace'};
     return undef;
 }
 

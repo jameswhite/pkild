@@ -79,7 +79,7 @@ sub default : Private {
     ############################################################################
     # if we have no data to operate on, then forward to the "Create Tree" view
     ############################################################################
-    if(! defined($c->model('Certificates')->cert_dn_tree())){
+    if(! defined($c->model('Certificates')->cert_dn_tree('websages.com'))){
         if( $c->check_user_roles( "certificate_administrators" ) ){
             $c->stash->{'template'}='no_cert_tree_admin.tt';
         }else{
