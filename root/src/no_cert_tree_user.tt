@@ -24,6 +24,8 @@ legend   {
                     <td align='center'> 
                         There is no certificate tree on the server, and you're not in the administration group.
                     </td> 
+                </tr>
+                <tr>
                     <td align='center'> 
                         Contact your site administrator to have the certificate tree initialized. 
                     </td>
