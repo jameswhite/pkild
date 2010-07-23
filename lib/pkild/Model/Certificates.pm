@@ -54,7 +54,7 @@ sub cert_dn_tree{
                 if(! -d "$rootdir/$dir_path"){
                     return undef;
                 }else{
-                    return true;
+                    return $self;
                 }
             }
         }
