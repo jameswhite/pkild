@@ -95,9 +95,9 @@ print STDERR "object_domain: $domain\n";
     print STDERR "type: [$type]\n";
     if($subject=~m/C=(.*),\s*ST=(.*),\s*L=(.*),\s*O=(.*),\s*OU=(.*),\s*CN=(.*)\/emailAddress=(.*)/){
         if($type eq "user"){
-            $subject="C=$1, ST=$2, L=$3, O=$4, OU=$5, CN=$cn/emailAddress=$cn\@$domain";
+            $subject="c=$1, st=$2, l=$3, o=$4, ou=$orgunit, cn=$cn/emailAddress=$cn\@$domain";
         }elsif($type eq "host"){
-            $subject="C=$1, ST=$2, L=$3, O=$4, OU=$5, CN=$cn.$domain/emailAddress=sysadmins\@$domain";
+            $subject="c=$1, st=$2, l=$3, o=$4, ou=$orgunit, cn=$cn.$domain/emailAddress=root\@$cn.$domain";
         }
     }
     print STDERR "exit user_cert_dn with [$subject]\n" if $self->{'trace'};
