@@ -17,6 +17,7 @@ legend   {
 
 <font color="red">[% ERROR %]</font>
 <form action="" method="post">
+<center>
 <fieldset>  
 <legend>No certificate tree found.</legend>  
 <table>
@@ -25,9 +26,10 @@ legend   {
         <td align="left"><input type="text" name="new_cert_base_dn" size="40" value="C=US, ST=Tennessee, L=Nashville, O=Websages"></td>
     </tr>
         <td align="right">&nbsp;</td>
-        <td align="right"><input type="submit" name="create_cert_tree" value="Submit"></td>
+        <td align="right"><input type="submit" name="create_cert_tree" value="Create"></td>
     <tr>
     </tr>
 </table>
 </fieldset>
+</center>
 </form>
