@@ -42,7 +42,6 @@ legend   {
     <center class='middle'>
     <div id="option_create_pkcs12">
 To create a personal certificate, enter a passphrase to protect your private key, and click "create".<br>
-("create" will only appear when you have entered your password in the same way twice, for confirmation.)<br><br><br>
     <form id='pkcs12form' name='pkcs12form' action="" method="post">
         <fieldset>
             <legend>Create PKCS#12 Certificate</legend>
@@ -64,8 +63,7 @@ To create a personal certificate, enter a passphrase to protect your private key
                 </tr>
                 <tr>
                     <td>&nbsp;</td>
-                    <td><input type='submit' style='display: none' id='submitcreate' name='submit' value='create'"></td>
-                    <!-- we need an onclick ajax here to update '#left-pane', when it reloads, it should re-load '#right-pane' -->
+                    <td><input type='submit' style='display: none' id='submitcreate' name='submit' value='create' disabled='disabled'></td>
                 </tr>
             </table>
             <input type="hidden" name="action_type" value="pkcs12_cert"></td>
