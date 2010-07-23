@@ -75,6 +75,15 @@ sub default : Private {
         # Forward to the logout action/method in this controller
         $c->forward('logout');
     }
+
+    ############################################################################
+    # if we have no data to operate on, then forward to the "Create Tree" view
+    ############################################################################
+    if(! defined(c->model('Certificates')->cert_dn_tree())){
+        $c->stash->{'template'}=no_cert_tree.tt;
+        $c->detach();
+    }
+    
     if(defined($c->req->param("get"))){ 
         if($c->req->param("get") eq "ca_trustchain"){
             $c->response->headers->header( 'content-type' => "application/x-x509-ca-cert" );

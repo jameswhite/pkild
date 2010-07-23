@@ -1,14 +1,15 @@
 #!/usr/bin/perl
 use WWW::Mechanize;
 use Data::Dumper;
+use JSON;
+my $uri="https://loki.websages.com";
 my $mech = WWW::Mechanize->new();
-$mech->get( "https://eir.websages.com/" );
+$mech->get( $uri );
 $mech->submit_form(
                     fields      => {
                                      'username'    => 'loki',
-                                     'password'    => 'PSEbJQnNHdPNhQPe',
+                                     'password'    => 'eocMgOmociSoDPjO',
                                    }
                   );
-
-$mech->get("https://eir.websages.com/jstree");
+$mech->get($uri."/jstree");
 print $mech->content;

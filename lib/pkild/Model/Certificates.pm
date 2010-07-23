@@ -31,6 +31,11 @@ sub cert_subject{
     return $subject;
 }
 
+sub cert_dn_tree{
+    my ($self) = @_;
+    return undef;
+}
+
 sub user_cert_dn{
 use FileHandle;
     my ($self,$user_session) = @_;
