@@ -38,6 +38,8 @@ sub cert_subject{
 sub cert_dn_tree{
     my ($self,$dnsdomain,$orgunit) = @_;
     print STDERR "enter cert_dn_tree\n" if $self->{'trace'};
+    return undef unless $dnsdomain;
+    return undef unless $orgunit;
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     use Net::DNS;
     my $res   = Net::DNS::Resolver->new;
