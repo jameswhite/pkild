@@ -86,6 +86,10 @@ To create a personal certificate, enter a passphrase to protect your private key
                        <textarea name="csr_request" rows="10" cols="64" value=""> </textarea>
                     </td>
                 </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td><input type='submit' id='submitcsr' name='submit' value='csr'></td>
+                </tr>
             </table>
             <input type="hidden" name="action_type" value="sign_cert"></td>
         </fieldset>
