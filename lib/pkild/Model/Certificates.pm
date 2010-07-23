@@ -55,6 +55,7 @@ sub cert_dn_tree{
                 }
                 my $dir_path=join('/',@components);
                 if(! -d "$rootdir/$dir_path/ou=$orgunit"){
+                    print STDERR "Path: $rootdir/$dir_path/ou=$orgunit Not found.\n";
                     return undef;
                 }else{
                     return $self;
