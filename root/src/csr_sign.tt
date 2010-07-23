@@ -29,7 +29,7 @@ legend   {
 <script type="text/javascript">
     function jsvalidate(){ 
                             if( $('#password').val() == $('#confirm_password').val() ){
-                                $('#submitcreate').attr('disabled', 'enabled');
+                                $('#submitcreate').removeAttr('disabled');
                             }else{
                                 $('#submitcreate').attr('disabled', 'disabled');
 
