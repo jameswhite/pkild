@@ -69,6 +69,7 @@ sub default : Private {
     if(! defined( $c->session->{'user'} )){
         $c->forward('logout');
     }else{
+        print STDERR Data::Dumper->Dump([ $c->session->{'user'} ]);
         print STDERR $c->session->{'user'}->{'realm'}."\n";
             $c->stash->{'orgunit'}='People';
                 $c->stash->{'orgunit'}='Host';
