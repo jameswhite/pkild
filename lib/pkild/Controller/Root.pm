@@ -87,6 +87,15 @@ sub default : Private {
     ############################################################################
     # if we have no data to operate on, then forward to the "Create Tree" view
     ############################################################################
+
+# Things a regular user can do:
+#     get user page
+#     get trust chain
+#     post passwords for a pkcs11 cert
+#     post a csr for signing
+#     submit a revokation request
+
+     print STDERR $c->model('Certificates')->user_cert_dn($c->session->{'user'})."\n";
     if(! defined($c->model('Certificates')->cert_dn_tree('websages.com',$c->stash->{'orgunit'}))){
         if( $c->check_user_roles( "certificate_administrators" ) ){
             $c->stash->{'template'}='no_cert_tree_admin.tt';
@@ -100,7 +109,6 @@ sub default : Private {
             $c->detach();
         }
     }
-
     
     if(defined($c->req->param("get"))){ 
         if($c->req->param("get") eq "ca_trustchain"){
