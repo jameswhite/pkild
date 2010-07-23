@@ -1,1 +1,33 @@
-no certificate tree defined
+<style type="text/css">  
+fieldset {  
+            width:320px;  
+            font-family:Verdana, Arial, Helvetica, sans-serif;  
+            font-size:14px;  
+         }  
+legend   {  
+           width:100px;  
+           text-align:center;  
+           background:#DDE7F0;  
+           border:solid 1px;  
+           margin:1px;  
+           font-weight:bold;  
+           color:#0088FF;  
+         }  
+</style>  
+
+<font color="red">[% ERROR %]</font>
+<form action="" method="post">
+<fieldset>  
+<legend>No certificate tree found.</legend>  
+<table>
+    <tr>
+        <td align="right"><label for="cert_basedn">Certificate Base Distinguished Name: </label></td>
+        <td align="left"><input type="text" name="new_cert_base_dn" size="20"></td>
+    </tr>
+        <td align="right">&nbsp;</td>
+        <td align="right"><input type="submit" name="create_cert_tree" value="Submit"></td>
+    <tr>
+    </tr>
+</table>
+</fieldset>
+</form>
