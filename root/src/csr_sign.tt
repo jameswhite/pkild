@@ -29,9 +29,10 @@ legend   {
 <script type="text/javascript">
     function jsvalidate(){ 
                             if( $('#password').val() == $('#confirm_password').val() ){
-                                $('#submitcreate').enable;
+                                $('#submitcreate').attr('disabled', 'enabled');
                             }else{
-                                $('#submitcreate').disable;
+                                $('#submitcreate').attr('disabled', 'disabled');
+
                             }
                          };
     $("#pkcs12form").keypress(function(e) { if (e.which == 13) { return false; } });
