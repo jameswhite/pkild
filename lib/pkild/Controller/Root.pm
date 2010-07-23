@@ -51,7 +51,6 @@ sub default : Private {
                          }, 'ldap-people');
         if(defined($c->user)){
  
-            $c->stash->{'orgunit'}='People';
             $c->session->{'user'}=$c->user;
         }else{
             $c->authenticate({
@@ -61,7 +60,6 @@ sub default : Private {
                              'ldap-hosts');
             if(defined($c->user)){
                 $c->session->{'user'}=$c->user;
-                $c->stash->{'orgunit'}='Host';
             }else{
                 $c->stash->{'ERROR'}="Authentication Failed."; 
                 $c->forward('logout');
@@ -70,6 +68,10 @@ sub default : Private {
     }
     if(! defined( $c->session->{'user'} )){
         $c->forward('logout');
+    }else{
+        print STDERR $c->session->{'user'}->{'realm'}."\n";
+            $c->stash->{'orgunit'}='People';
+                $c->stash->{'orgunit'}='Host';
     }
     ############################################################################
     # Log us out if ?logout=1 was sent
