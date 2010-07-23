@@ -3,6 +3,7 @@ package pkild::Model::Certificates;
 use strict;
 use base 'Catalyst::Model::File';
 use Path::Class 'file';
+use Net::DNS;
 use Cwd;
 
 __PACKAGE__->config( node_separator => '::');
@@ -34,8 +35,11 @@ sub cert_subject{
 sub cert_dn_tree{
     my ($self) = @_;
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
-    $rootdir=~s/^\///;
-    print STDERR "$rootdir\n";
+    opendir(DIR,$rootdir);
+    if ($dir !~ /\/$/) { $dir .= "/"; }
+    my @dirlist=readdir(DIR);
+    closedir(DIR);
+    print STDERR Data::Dumper->Dump([$dirlist]);
     return undef;
 }
 
