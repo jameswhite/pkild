@@ -52,8 +52,10 @@ sub cert_dn_tree{
                 }
                 my $dir_path=join('/',@components);
                 if(! -d "$rootdir/$dir_path"){
+print STDERR "Path: $rootdir/$dir_path Not found.\n";
                     return undef;
                 }else{
+print STDERR "Path: $rootdir/$dir_path found.\n";
                     return $self;
                 }
             }
