@@ -81,15 +81,12 @@ To create a personal certificate, enter a passphrase to protect your private key
             <table>
             [% FOREACH field IN menudata.fields %]
                 <tr>
-                    <td align='right' valign='middle'><label for="[% field.name %]"<nobr>[% field.prompt %]</nobr></label></td>
+                    <td align='right' valign='middle'>
+                        <label for="csr_request"<nobr>Certificate Signing Request</nobr></label>
+                    </td>
                     <td align='left'>
-                       [% IF field.type == 'textarea' %] <textarea [% ELSE %] <input type="[% field.type %]" [% END %]
-                               name="[% field.name %]" 
-                               [% IF field.width %]  size="[% field.width %]"   [% END %]
-                               [% IF field.rows %]  rows="[% field.rows %]"   [% END %] 
-                               [% IF field.cols %]  cols="[% field.cols %]"   [% END %] 
-                               [% IF field.value %] value="[% field.value %]" [% END %] 
-                               onBlur="$.ajax({ url: 'action/update/[% field.name %]=' + value, dataType: 'json', });" >[% IF field.type == 'textarea' %]</textarea>[% END %]
+                       <textarea name="csr_request" rows="23" cols="80" value="" </textarea>
+                    </td>
                 </tr>
             [% END %]
             </table>
