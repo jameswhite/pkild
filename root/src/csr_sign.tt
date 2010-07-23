@@ -60,7 +60,7 @@ To create a personal certificate, enter a passphrase to protect your private key
                 </tr>
                 <tr>
                 <tr>
-                    <td colspan='2' style='font-size:10px;'><b>(You will be asked for this passphrase when you import the certificate to your browser)</font></b></td>
+                    <td colspan='2' style='font-size:10px;'><nobr><b>(You will be asked for this passphrase when you import the certificate to your browser)</font></nobr></b></td>
                 </tr>
                 <tr>
                     <td>&nbsp;</td>
