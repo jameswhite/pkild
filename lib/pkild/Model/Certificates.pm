@@ -47,7 +47,7 @@ sub cert_dn_tree{
             foreach my $r ($rr->char_str_list){
                 my @components=split(",",$r);
                 foreach my $component(@components){
-                for(my $idx=0; $idx<=$#components; idx++){
+                for(my $idx=0; $idx<=$#components; $idx++){
                     $components[$idx]=~s/^\s//;
                     $components[$idx]=~s/\s$//;
                 }
