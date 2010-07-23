@@ -37,27 +37,30 @@ sub cert_subject{
 ################################################################################
 sub cert_dn_tree{
     my ($self,$dnsdomain) = @_;
+    print STDERR "enter cert_dn_tree\n" if $self->{'trace'};
+    my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     use Net::DNS;
     my $res   = Net::DNS::Resolver->new;
     my $query = $res->query("ca-basedn.$dnsdomain", "TXT");
     if ($query) {
         foreach my $rr (grep { $_->type eq 'TXT' } $query->answer) {
             foreach my $r ($rr->char_str_list){
-                print STDERR "$r\n";
+                my @components=split(",",$r);
+                foreach my $component(@components){
+                for(my $idx=0; $idx<=$#components; idx++){
+                    $components[$idx]=~s/^\s//;
+                    $components[$idx]=~s/\s$//;
+                }
+                my $dir_path=join('/',@components);
+                if(! -d "$rootdir/$dir_path"){
+                    return undef;
+                }else{
+                    return true;
+                }
             }
         }
     }else{
         warn "query failed: ", $res->errorstring, "\n";
-    }
-    print STDERR "enter cert_dn_tree\n" if $self->{'trace'};
-    my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
-    opendir(DIR,$rootdir);
-    if ($rootdir !~ /\/$/) { $rootdir .= "/"; }
-    my @dirlist=readdir(DIR);
-    closedir(DIR);
-    foreach my $dir (@dirlist){
-        next if($dir=~m/^\./);
-        print STDERR "$dir\n";
     }
     print STDERR "exit cert_dn_tree undef\n" if $self->{'trace'};
     return undef;
