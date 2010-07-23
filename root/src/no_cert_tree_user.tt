@@ -21,7 +21,7 @@ legend   {
             <legend>No certificate tree found.</legend>  
             <table>
                 <tr>
-                    <td> And you're not in the administration group<br>contact your site administrator to have the tree initialized.
+                    <td> There is no certificate tree on the server, and you're not in the administration group. Contact your site administrator to have the certificate tree initialized.
                     </td>
                 </tr>
             </table>
