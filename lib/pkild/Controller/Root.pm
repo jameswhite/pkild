@@ -95,11 +95,11 @@ sub default : Private {
 #     post a csr for signing
 #     submit a revokation request
 
-     print STDERR $c->model('Certificates')->user_cert_dn($c->session->{'user'})."\n";
     if(! defined($c->model('Certificates')->cert_dn_tree('websages.com',$c->stash->{'orgunit'}))){
         if( $c->check_user_roles( "certificate_administrators" ) ){
             $c->stash->{'template'}='no_cert_tree_admin.tt';
         }else{
+            $c->stash->{'user_cert_dn'}=$c->model('Certificates')->user_cert_dn($c->session->{'user'});
             $c->stash->{'template'}='no_cert_tree_user.tt';
         }
         $c->detach();
