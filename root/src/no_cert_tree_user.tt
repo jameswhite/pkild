@@ -30,6 +30,11 @@ legend   {
                         Contact your site administrator to have the certificate tree initialized. 
                     </td>
                 </tr>
+                <tr>
+                    <td align='center'> 
+                        <a href="/?logout=1">Log out.</a>
+                    </td>
+                </tr>
             </table>
         </fieldset>
     </center>
