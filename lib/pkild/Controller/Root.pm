@@ -96,7 +96,7 @@ sub default : Private {
         $c->detach();
     }else{
         unless( $c->check_user_roles( "certificate_administrators" ) ){
-            $c->stash->{'template'}='my_certificate.tt';
+            $c->stash->{'template'}='csr_sign.tt';
             $c->detach();
         }
     }

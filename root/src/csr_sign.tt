@@ -1,0 +1,100 @@
+<style type="text/css">  
+fieldset {  
+            width:320px;  
+            font-family:Verdana, Arial, Helvetica, sans-serif;  
+            font-size:14px;  
+         }  
+legend   {  
+           width:100px;  
+           text-align:center;  
+           background:#DDE7F0;  
+           border:solid 1px;  
+           margin:1px;  
+           font-weight:bold;  
+           color:#0088FF;  
+         }  
+  div.centermiddle {top: 0; left: 0; width: 100%; height: 100%; position: relativ; display: table; }
+  center.middle {display: table-cell; vertical-align: middle}
+  .btn {  background-color: transparent; color:#0088FF; border: 0; padding: 0;}
+</style>
+
+<script type="text/javascript">
+    function jsvalidate(){ 
+                            if( $('#password').val() == $('#confirm_password').val() ){
+                                $('#submitcreate').show('normal');
+                            }else{
+                                $('#submitcreate').hide('normal');
+                            }
+                         };
+    $("#pkcs12form").keypress(function(e) { if (e.which == 13) { return false; } });
+</script>
+<div class='centermiddle'>
+    <center class='middle'>
+    <div id="option_create_pkcs12">
+To create a personal certificate, enter a passphrase to protect your private key, and click "create".<br>
+("create" will only appear when you have entered your password in the same way twice, for confirmation.)<br><br><br>
+    <form id='pkcs12form' name='pkcs12form' action="" method="post">
+        <fieldset>
+            <legend>Create PKCS#12 Certificate</legend>
+            <table>
+                <!--
+                <tr><th colspan='2'><br><br>Create Certificate for [% user %]<br><br></th></tr>
+                -->
+                <tr>
+                    <td align='right' valign='middle'><label for="passphrase"<nobr>PKCS#12 Passphase</label></td>
+                    <td align='leftt' valign='middle'><input type='password' size='20' id='password' name='password' onkeyup="jsvalidate();"></td>
+                </tr>
+                <tr>
+                    <td align='right' valign='middle'><label for="passphrase"<nobr>Confirm Passphase</label></td>
+                    <td align='leftt' valign='middle'><input type='password' size='20' id='confirm_password' name='confirm_password' onkeyup="jsvalidate();"></td>
+                </tr>
+                <tr>
+                <tr>
+                    <td colspan='2' style='font-size:8px;'><b>(You will be asked for this passphrase when you import the certificate to your browser)</font></b></td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td><input type='submit' style='display: none' id='submitcreate' name='submit' value='create'"></td>
+                    <!-- we need an onclick ajax here to update '#left-pane', when it reloads, it should re-load '#right-pane' -->
+                </tr>
+            </table>
+            <input type="hidden" name="action_type" value="pkcs12_cert"></td>
+        </fieldset>
+    </form>
+    <input type='button' class='btn' value='[ I have a Certificate Signing Request instead... ]' onClick="$('#option_create_pkcs12').hide('normal'); $('#option_sign_csr').show('normal');";>
+    </div>
+
+    <div id="option_sign_csr" style="display: none">
+    <form action="" method="post">
+        <fieldset>
+            <legend>[% menudata.legend %]</legend>
+            <table>
+            [% FOREACH field IN menudata.fields %]
+                <tr>
+                    <td align='right' valign='middle'><label for="[% field.name %]"<nobr>[% field.prompt %]</nobr></label></td>
+                    <td align='left'>
+                       [% IF field.type == 'textarea' %] <textarea [% ELSE %] <input type="[% field.type %]" [% END %]
+                               name="[% field.name %]" 
+                               [% IF field.width %]  size="[% field.width %]"   [% END %]
+                               [% IF field.rows %]  rows="[% field.rows %]"   [% END %] 
+                               [% IF field.cols %]  cols="[% field.cols %]"   [% END %] 
+                               [% IF field.value %] value="[% field.value %]" [% END %] 
+                               onBlur="$.ajax({ url: 'action/update/[% field.name %]=' + value, dataType: 'json', });" >[% IF field.type == 'textarea' %]</textarea>[% END %]
+                </tr>
+            [% END %]
+            </table>
+            <input type="hidden" name="action_type" value="sign_cert"></td>
+            [% menudata.comments %]
+        </fieldset>
+    </form>
+    <br>Note: This will *only* sign a certificate for:<br>
+    <br><b>[% user_cert_dn %]</b><br>
+    <br>and will log all attempts to create a certificate for someone who is not yourself.<br><br>
+
+         <input type='button' class='btn' value='[ Generate me a pkcs#12 Certificate instead... ]' onClick="$('#option_create_pkcs12').show('normal'); $('#option_sign_csr').hide('normal');";>
+    </div> 
+    </center>
+</div>
+<script>
+$('#option_sign_csr').hide('normal');
+</script>
