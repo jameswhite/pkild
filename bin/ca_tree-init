@@ -262,7 +262,7 @@ for dir in `echo "certs crl newcerts private"`;do
     fi
 done
 sed -e 's/~LEVEL~.//g' \
-    -e "s/~TEXTLEVEL~/$(dnsdomainname) Certificate Authority/g" \
+    -e "s/~TEXTLEVEL~/$(dnsdomainname)/g" \
     -e 's/~EMAIL~/certificate.authority@${DOMAIN}/g' \
     -e 's/~DAYS~/1095/g' \
     ${WORKDIR}/openssl.tpl > ${DOM_CA}/openssl.cnf

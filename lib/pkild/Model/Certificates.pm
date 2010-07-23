@@ -60,7 +60,6 @@ use FileHandle;
             $subject="C=$1, ST=$2, L=$3, O=$4, OU=$5, CN=$cn.$domain/emailAddress=sysadmins\@$domain";
         }
     }
-    print STDERR "exit user_cert_dn with [$subject]\n";
     print STDERR "exit user_cert_dn with [$subject]\n" if $self->{'trace'};
     return $subject;
 }

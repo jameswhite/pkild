@@ -3,7 +3,6 @@ package pkild::Controller::Root;
 use strict;
 use warnings;
 use base 'Catalyst::Controller';
-use YAML;
 use JSON;
 
 #
@@ -45,7 +44,7 @@ sub default : Private {
     ############################################################################
     # Attempt to authenticate
     ############################################################################
-    if( (defined($c->req->param("login")))&&(defined($c->req->param("password")))){
+    if( (defined($c->req->param("username")))&&(defined($c->req->param("password")))){
         $c->authenticate({
                            id       => $c->req->param("username"), 
                            password => $c->req->param("password") 
@@ -219,17 +218,19 @@ sub jstreemenu : Local {
         push( @{ $menu_tree },
               { 
                 'attributes' => { 'id' =>  unpack("H*","new_root_ca") },
-                'data' => { 'title' => 'Root Certificate Authorities', 'icon' => 'createnew'},
+                'data' => { 'title' => 'Certificate Authorities', 'icon' => 'createnew'},
                 'children' => $certificate_tree
               }
             );
     }
-    push( @{ $menu_tree },
-          { 
-            'attributes' => { 'id' =>  unpack("H*","certificate_authority") },
-            'data' => { 'title' => 'Certificate Authority', 'icon' => 'file'},
-          }
-        );
+
+#    push( @{ $menu_tree },
+#          { 
+#            'attributes' => { 'id' =>  unpack("H*","certificate_authority") },
+#            'data' => { 'title' => 'Certificate Authority', 'icon' => 'file'},
+#          }
+#        );
+
     push( @{ $menu_tree },
           { 
             'attributes' => { 'id' =>  unpack("H*","new_cert") },
@@ -371,7 +372,6 @@ sub do_form : Global {
             $c->stash->{'result'} = $c->model('Certificates')->ca_create($c->req->params,$c->session);
             $c->stash->{'template'}="application.tt";
         }elsif($c->req->param('action_type') eq 'sign_cert'){
-
             if( $c->check_user_roles( "certificate_administrators" ) ){
                 $c->stash->{'result'} = $c->model('Certificates')->sign_certificate($c->req->params,$c->session,1);
             }else{

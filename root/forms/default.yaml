@@ -1,6 +1,6 @@
 forms:
   new_root_ca:
-    legend: Create New Root Certificate Authority
+    legend: Create New Certificate Authority
     fields:
       - name: ca_domain
         prompt: Common Name:
@@ -11,27 +11,27 @@ forms:
         prompt: Email:
         type: text
         width: 20
-        value: sysadmins@example.org
+        value: certmaster@example.org
       - name: ca_orgunit
         prompt: Organizational Unit:
         type: text
         width: 20
-        value: your department
+        value: some organizatonal unit
       - name: ca_org
         prompt: Organization:
         type: text
         width: 20
-        value: your company
+        value: some organization
       - name: ca_localitiy
         prompt: Locality:
         type: text
         width: 20
-        value: Nashville
+        value: some_city
       - name: ca_state
         prompt: State:
         type: text
         width: 20
-        value: Tennessee
+        value: some_state
       - name: ca_country
         prompt: Country:
         type: text
@@ -67,6 +67,7 @@ forms:
         prompt: Common Name:
         type: text
         width: 20
+        disable: disabled
       - name: ca_email
         prompt: Email:
         type: text
@@ -79,18 +80,22 @@ forms:
         prompt: Organization:
         type: text
         width: 20
+        disable: disabled
       - name: ca_localitiy
         prompt: Locality:
         type: text
         width: 20
+        disable: disabled
       - name: ca_state
         prompt: State:
         type: text
         width: 20
+        disable: disabled
       - name: ca_country
         prompt: Country:
         type: text
         width: 20
+        disable: disabled
       - name: ca_default_days
         prompt: CA Certificate Lifetime (days)
         type: text
