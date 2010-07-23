@@ -22,12 +22,7 @@ legend   {
             <table>
                 <tr>
                     <td align='center'> 
-                        There is no certificate tree on the server, and you're not in the administration group.
-                    </td> 
-                </tr>
-                <tr>
-                    <td align='center'> 
-                        Contact your site administrator to have the certificate tree initialized. 
+                        There is no certificate tree on the server for your organizational unit and you are not in the administration group. Contact your site administrator to have the certificate tree initialized for your organizational unit. 
                     </td>
                 </tr>
                 <tr>
