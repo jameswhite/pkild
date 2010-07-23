@@ -84,7 +84,7 @@ To create a personal certificate, enter a passphrase to protect your private key
                         <label for="csr_request"<nobr>Certificate Signing Request</nobr></label>
                     </td>
                     <td align='left'>
-                       <textarea name="csr_request" rows="23" cols="80" value="" </textarea>
+                       <textarea name="csr_request" rows="10" cols="64" value="" </textarea>
                     </td>
                 </tr>
             </table>
