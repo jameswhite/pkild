@@ -29,7 +29,7 @@ print "-=[ $dir ]=-\n";
         system("cd $dir; /usr/bin/openssl genrsa -out $host_long.key 1024");
         # get our openssl.cnf
         $mech->follow_link( 'text' => 'OpenSSL config for batch CSR creation' );
-        open(OPENSSLCNF ">$dir/openssl.cnf");
+        open(OPENSSLCNF,">$dir/openssl.cnf");
         print OPENSSLCNF $mech->content."\n";
         close(OPENSSLCNF);
         $mech->back();
@@ -37,7 +37,7 @@ print "-=[ $dir ]=-\n";
         system("cd $dir; /usr/bin/openssl req -new -sha1 -days 90 -key $host_long.key -out $host_long.csr -config openssl.cnf -batch");
         # post our CSR
         my $csr='';
-        open(CSR "$dir/$host_long.csr");
+        open(CSR,"$dir/$host_long.csr");
         while(my $line=<CSR>){
             $csr.=$line; 
         close(CSR);
