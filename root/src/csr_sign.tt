@@ -83,7 +83,7 @@ legend   {
                         <label for="csr_request"<nobr>Certificate Signing Request</nobr></label>
                     </td>
                     <td align='left'>
-                       <textarea name="csr_request" rows="10" cols="64" value=""> </textarea>
+                       <textarea name="csr_request" rows="10" cols="64" value=''> </textarea>
                     </td>
                 </tr>
                 <tr>

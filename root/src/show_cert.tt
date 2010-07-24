@@ -21,6 +21,7 @@
                     </td>
                 </tr>
             </table>
+            <a href='/?get=certificate'>Download your Certificate</a>
         </fieldset>
     </center>
 </form>
