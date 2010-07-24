@@ -32,6 +32,7 @@ while( ($successful_creation==0) && ($count < 6) ){
         system("cd $dir; /usr/bin/openssl genrsa -out $host_long.key 2048");
         # get our openssl.cnf
         $mech->follow_link( 'text' => 'OpenSSL config for batch CSR creation' );
+        print $mech->content."\n";
         open(OPENSSLCNF,">$dir/openssl.cnf");
         print OPENSSLCNF $mech->content."\n";
         close(OPENSSLCNF);
