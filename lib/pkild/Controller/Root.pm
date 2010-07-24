@@ -93,7 +93,7 @@ sub default : Private {
             # The only thing an admin can do with no tree is initialize the tree...
             if($c->req->method eq 'POST'){ 
                 if($c->req->param('create_cert_tree')){
-                    $c->model('Certificates')->tree_init($c->req->param('new_cert_base_dn');
+                    $c->model('Certificates')->tree_init($c->req->param('new_cert_base_dn'));
                     $c->res->redirect('/');
                     $c->detach();
                 }
