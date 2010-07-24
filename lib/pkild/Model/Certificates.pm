@@ -69,7 +69,7 @@ sub cert_dn_tree{
     return undef;
 }
 
-sub user_cert_dn{
+sub user_cert_exists{
     my ($self,$user_session) = @_;
     return undef;
 }
