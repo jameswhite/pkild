@@ -197,9 +197,8 @@ sub attr_for{
             my ($key,$value)=split("=",$subject_parts[$idx]);
             $key=~tr/A-Z/a-z/;
             $subject_parts[$idx]="$key=$value";
-print STDERR "$key => $value\n";
             if(($key eq "c") && ($attr eq "countryName")){ return $value; }
-            if(($key eq "s") && ($attr eq "stateOrProvinceName")){ return $value; }
+            if(($key eq "st") && ($attr eq "stateOrProvinceName")){ return $value; }
             if(($key eq "l") && ($attr eq "localityName")){ return $value; }
             if(($key eq "o") && ($attr eq "organizationName")){ return $value; }
             if(($key eq "ou") && ($attr eq "organizationalUnitName")){ return $value; }

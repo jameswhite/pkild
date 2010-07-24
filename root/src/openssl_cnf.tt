@@ -20,7 +20,6 @@ default_bits = 1024
 default_keyfile = [% domainName %].pem
 distinguished_name = req_distinguished_name
 attributes = req_attributes
-x509_extensions = v3_ca
 
 [ req_distinguished_name ]
 countryName = Country Name (2 letter code)
@@ -46,9 +45,3 @@ emailAddress_default = [% emailAddress %]
 challengePassword = A challenge password
 challengePassword_min = 4
 challengePassword_max = 20
-
-[ v3_ca ]
-subjectKeyIdentifier=hash
-authorityKeyIdentifier=keyid:always,issuer:always
-basicConstraints = CA:true
-nsCaRevocationUrl = [% nsCaRevocationUrl %]
