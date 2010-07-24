@@ -91,8 +91,8 @@ sub default : Private {
     if(! defined($c->model('Certificates')->cert_dn_tree('websages.com',$c->stash->{'orgunit'}))){
         if( $c->check_user_roles( "certificate_administrators" ) ){
             # The only thing an admin can do with no tree is initialize the tree...
-            print STDERR $c->req->method."\n";
             if($c->req->method eq 'POST'){ 
+            print STDERR $c->req->param."\n";
                 if($c->req->param){
                     print Data::Dumper->Dump([$c->req->param]);
                 }
