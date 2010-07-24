@@ -82,6 +82,30 @@ sub csr_subject{
     return join(', ',@subject_parts);
 }
 
+sub ca_basedn{
+    my ($self,$dnsdomain,$orgunit) = @_;
+    print STDERR "enter cert_dn_tree\n" if $self->{'trace'};
+    use Net::DNS;
+    my $res   = Net::DNS::Resolver->new;
+    my $query = $res->query("ca-basedn.$dnsdomain", "TXT");
+    if ($query) {
+        foreach my $rr (grep { $_->type eq 'TXT' } $query->answer) {
+            foreach my $r ($rr->char_str_list){
+                my @components=split(",",$r);
+                for(my $idx=0; $idx<=$#components; $idx++){
+                    my ($key,$val) = split(/=/,$components[$idx]);
+                    $key=~s/^\s//; $key=~s/\s$//;
+                    $val=~s/^\s//; $val=~s/\s$//;
+                    $key=~tr/A-Z/a-z/;
+                    $components[$idx]="$key=$val";
+                }
+                return join(', ',@components);
+    }else{
+        warn "query failed: ", $res->errorstring, "\n";
+    }
+    print STDERR "exit cert_dn_tree undef\n" if $self->{'trace'};
+    return undef;
+}
 ################################################################################
 # we'll expect to find the certificate tree defined in the ca-basedn TXT record
 ################################################################################

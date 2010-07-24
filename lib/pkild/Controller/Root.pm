@@ -98,6 +98,7 @@ sub default : Private {
                     $c->detach();
                 }
             }
+            $c->stash->{'ca_basedn'}=$c->model('Certificates')->ca_basedn;
             $c->stash->{'template'}='no_cert_tree_admin.tt';
         }else{
             $c->stash->{'template'}='no_cert_tree_user.tt';
