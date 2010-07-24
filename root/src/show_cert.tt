@@ -21,7 +21,7 @@
                     </td>
                 </tr>
             </table>
-            <a href="/?logout=1">Log out.</a>
         </fieldset>
+        <a href="/?logout=1">Log out.</a>
     </center>
 </form>

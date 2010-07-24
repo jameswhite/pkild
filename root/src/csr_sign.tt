@@ -94,7 +94,6 @@ legend   {
                 <td colspan='2' align='center'><a href='/?get=openssl.cnf'>OpenSSL config for batch CSR creation</a><td>
                 </tr>
             </table>
-            <a href='/?logout=1'>Log Out</a>
             <input type="hidden" name="action_type" value="sign_cert"></td>
         </fieldset>
     </form>
@@ -106,6 +105,7 @@ legend   {
     </font>
          <input type='button' class='btn' value='[ Generate me a pkcs#12 Certificate instead... ]' onClick="$('#option_create_pkcs12').show('normal'); $('#option_sign_csr').hide('normal');";>
     </div> 
+    <a href='/?logout=1'>Log Out</a>
     </center>
 </div>
 <script>
