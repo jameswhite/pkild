@@ -8,7 +8,7 @@
                     <td align='left'> 
                         <nobr>You seem to already have a certificate.</nobr><br>
                         <nobr>You may revoke it if you would like.</nobr><br>
-                        <nobr>You should *always* revoke it if you suspect its private key has been compromised.</nobr><br>
+                        <nobr>You should <b>*always*</b> revoke it if you suspect its private key has been compromised.</nobr><br>
                         <nobr>You will then be given the opportunity to regenerate a new certificate.</nobr><br>
                     </td>
                 </tr>
