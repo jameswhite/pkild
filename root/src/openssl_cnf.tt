@@ -32,4 +32,4 @@ emailAddress = Email Address
 emailAddress_default = [% emailAddress %]
 
 [ v3_req ]
-# subjectAltName=DNS:www.websages.com,DNS:www.wcyd.org
+subjectAltName=DNS:www.websages.com,DNS:www.wcyd.org
