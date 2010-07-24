@@ -1,0 +1,41 @@
+HOME = .
+RANDFILE = $HOME/.rnd
+ca-domain = websages.com
+
+[ req ]
+default_bits = 1024
+default_keyfile = websages.com.pem
+distinguished_name = req_distinguished_name
+attributes = req_attributes
+x509_extensions = v3_ca
+
+[ req_distinguished_name ]
+countryName = Country Name (2 letter code)
+countryName_default = US
+countryName_min = 2
+countryName_max = 2
+stateOrProvinceName = State or Province Name (full name)
+stateOrProvinceName_default = Tennessee
+localityName = Locality Name (eg, city)
+localityName_default = Nashville
+0.organizationName = Organization Name (eg, company)
+0.organizationName_default = Websages
+organizationalUnitName = Organizational Unit Name (eg, section)
+organizationalUnitName_default = Hosts
+commonName = Common Name (eg, YOUR name)
+commonName_max = 64
+commonName_default = loki.websages.com
+emailAddress = Email Address
+emailAddress_max = 64
+emailAddress_default = root@loki.websages.com
+
+[ req_attributes ]
+challengePassword = A challenge password
+challengePassword_min = 4
+challengePassword_max = 20
+
+[ v3_ca ]
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid:always,issuer:always
+basicConstraints = CA:true
+nsCaRevocationUrl = http://pki.websages.com/hosts.websages.com.crl
