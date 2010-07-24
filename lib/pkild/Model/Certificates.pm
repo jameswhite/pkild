@@ -32,6 +32,31 @@ sub cert_subject{
     return $subject;
 }
 
+sub csr_subject{
+    my ($self, $csr) =@_;
+    # write out the csr to a temp file and get the Subject: String
+    my $tmpdir = tempdir( 'CLEANUP' => 1 );
+    my ($fh, $filename) = tempfile( 'DIR' => $tmpdir );
+    print $fh $param->{'csr_input'};
+    my $common_name;
+    my $subject;
+    open(GETCN, "/usr/bin/openssl req -in $filename -noout -text | ");
+    while(my $line=<GETCN>){  
+        if($line=~m/Subject:/){
+            $subject=$line;
+            $line=~s/.*[Cc][Nn]=//g;
+            $line=~s/\/.*//g;
+            $line=~s/\s+//g;
+            $common_name=$line;
+        }
+    }
+    chomp($subject);
+    $subject=~s/\s+$//;
+    $subject=~s/^\s+//;
+    $subject=~s/^[Ss]ubject:\s*//;
+    return $subject;
+}
+
 ################################################################################
 # we'll expect to find the certificate tree defined in the ca-basedn TXT record
 ################################################################################
@@ -457,7 +482,6 @@ sub certificate_for{
     my ($self, $session)=@_;
     my $user_cert_file=$self->user_cert_file($session);
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
-print STDERR "user_cert_file: $user_cert_file\n";
     if(-f "$user_cert_file"){
         my $user_cert='';
         open(USERCERT,"$user_cert_file");
@@ -473,9 +497,13 @@ print STDERR "user_cert_file: $user_cert_file\n";
 
 sub certificate_sign{
     my ($self, $session, $csr)=@_;
+    my $csr_subject=$self->csr_subject($csr);
+print STDERR "[ $csr_subject ]\n";
+    
     my $user_cert_dir=$self->user_cert_dir($session);
     if(! -d "$user_cert_dir"){ mkdir($user_cert_dir,0750); };
     my $user_cert_file=$self->user_cert_file($session);
+
     if( ! -f "$user_cert_file"){ 
         open(CSR, ">$user_cert_file");
         print CSR "$csr";
@@ -552,7 +580,7 @@ sub sign_certificate{
     $node_dir=~s/certs$//g;
     $node_dir="$rootdir/$node_dir";
 
-    # write out the csr to a temp file
+    # write out the csr to a temp file and get the Subject: String
     my $tmpdir = tempdir( 'CLEANUP' => 1 );
     my ($fh, $filename) = tempfile( 'DIR' => $tmpdir );
     print $fh $param->{'csr_input'};
