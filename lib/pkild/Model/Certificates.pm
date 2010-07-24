@@ -71,6 +71,13 @@ sub cert_dn_tree{
 
 sub user_cert_exists{
     my ($self,$user_session) = @_;
+    my $user_cert_dn=$self->user_cert_dn($user_session);
+    my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
+    my @subject_parts=split(",",$user_cert_dn);  
+    for(my $idx=0; $idx<=$#subject_parts; $idx++){
+        print STDERR $subject_parts[$idx]."\n";
+        
+    }
     return undef;
 }
 

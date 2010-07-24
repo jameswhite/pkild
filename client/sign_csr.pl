@@ -8,7 +8,7 @@ $mech->get( $uri );
 $mech->submit_form(
                     fields      => {
                                      'username'    => 'loki',
-                                     'password'    => 'eocMgOmociSoDPjO',
+                                     'password'    => $ENV{'LOKI_PASSWD'},
                                    }
                   );
 $mech->get($uri."/");
