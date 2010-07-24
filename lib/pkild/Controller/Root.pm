@@ -117,7 +117,7 @@ sub default : Private {
                     }
                 }
             }elsif($c->req->method eq 'POST'){
-                if($c->req->param('revoke')){
+                if(defined($c->req->param('revoke'))){
                     $c->model('Certificates')->revoke_user_certificate($c->session->{'user'});
                 }elsif($c->req->param('csr_request')){
                     if(! $c->model('Certificates')->user_cert_exists($c->session->{'user'})){
