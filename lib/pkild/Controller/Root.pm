@@ -96,45 +96,50 @@ sub default : Private {
         }
         $c->detach();
     }else{
+        ########################################################################
+        # Stuff a regular user/host can do
+        ########################################################################
         unless( $c->check_user_roles( "certificate_administrators" ) ){
             print STDERR Data::Dumper->Dump([$c->req->method]);
-            # Things a regular user can do:
             if($c->req->method eq 'GET'){ 
-                print STDERR Data::Dumper->Dump([$c->req->param]);
-            #     if method is GET
-            #         get trust chain
-            #         get the crl
-            #
+                if($c->req->param('get')){
+                    if($c->req->param('get') eq "certificate"){
+                         if($c->model('Certificates')->user_cert_exists($c->session->{'user'})){
+                             $c->response->body($c->model('Certificates')->certificate_for($c->session->{'user'}));
+                             $c->detach();
+                         }else{
+                             $c->response->body('File not found.');
+                             $c->detach();
+                         }
+                    }elsif($c->req->param('get') eq "openssl.cnf"){
+                         $c->response->body($c->model('Certificates')->openssl_cnf_for($c->session->{'user'}));
+                         $c->detach();
+                    }
+                }
             }elsif($c->req->method eq 'POST'){
-                print STDERR Data::Dumper->Dump([$c->req->param]);
-            #     if method is POST
-            #         if cert exits:
-            #             get their public cert if exists
                 if($c->req->param('revoke')){
                     $c->model('Certificates')->revoke_user_certificate($c->session->{'user'});
                 }
-            #             submit a revokation request
                 if($c->req->param('csr_request')){
-                    # only perform if cert does not exist
                     if(! $c->model('Certificates')->user_cert_exists($c->session->{'user'})){
-                        # post post a csr for signing
                         $c->model('Certificates')->certificate_sign($c->session->{'user'},$c->req->param('csr_request'));
                     }
                 }
             }
             if($c->model('Certificates')->user_cert_exists($c->session->{'user'})){
-                # display the show certificate page
                 $c->stash->{'template'}='show_cert.tt';
                 $c->detach();
             }else{
-                # display the sign certificate page
                 $c->stash->{'user_cert_dn'}=$c->model('Certificates')->user_cert_dn($c->session->{'user'});
                 $c->stash->{'template'}='csr_sign.tt';
                 $c->detach();
             }
         }
     }
-    
+    ############################################################################
+    # cerrtificate administrators only below here...
+    # and a lot of this is bitched, so you might just want to use the filesystem
+    ############################################################################
     if(defined($c->req->param("get"))){ 
         if($c->req->param("get") eq "ca_trustchain"){
             $c->response->headers->header( 'content-type' => "application/x-x509-ca-cert" );

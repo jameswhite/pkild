@@ -453,6 +453,16 @@ sub remove_certificate{
     rmdir "$node_dir";
 }
 
+sub openssl_cnf_for{
+    my ($self, $session, $csr)=@_;
+    return "Here's your openssl.cnf";
+}
+
+sub certificate_for{
+    my ($self, $session, $csr)=@_;
+    return "Here's your cert!";
+}
+
 sub certificate_sign{
     my ($self, $session, $csr)=@_;
     my $user_cert_dir=$self->user_cert_dir($session);
