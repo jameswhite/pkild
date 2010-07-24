@@ -172,6 +172,43 @@ sub user_cert_exists{
     }
 }
 
+sub attr_for{
+    my ($self,$session,$attr)=@_;
+    my $user_cert_dn=$self->user_cert_dn;
+    my @subject_parts=split(",",$user_cert_dn);
+    my $common_name;
+    for(my $idx=0; $idx<=$#subject_parts; $idx++){
+        $subject_parts[$idx]=~s/^\s+//g;
+        $subject_parts[$idx]=~s/\s+=/=/g;
+        $subject_parts[$idx]=~s/=\s+/=/g;
+        if($subject_parts[$idx]=~m/^[Cc][Nn].*\/.*/){
+            my ($key,$value);
+            my ($cn,$email)=split("\/",$subject_parts[$idx]);
+            ($key,$value)=split("=",$cn);
+            $key=~tr/A-Z/a-z/;
+            $cn="$key=$value";
+            $common_name=$value;
+            if($attr eq "commonName"){ return $common_name; }
+            ($key,$value)=split("=",$email);
+            $key=~tr/A-Z/a-z/;
+            if($attr eq "emailAddress"){ return $value; }
+            my $domain=$value;
+            $domain=~s/.*\@//;
+            if($attr eq "domainName"){ return $domain; }
+            $subject_parts[$idx]="$cn/$email";
+        }else{
+            my ($key,$value)=split("=",$subject_parts[$idx]);
+            $key=~tr/A-Z/a-z/;
+            $subject_parts[$idx]="$key=$value";
+            if(($key eq "c") && ($attr eq "countryName")){ return $value; }
+            if(($key eq "s") && ($attr eq "stateOrProvinceName")){ return $value; }
+            if(($key eq "l") && ($attr eq "localityName")){ return $value; }
+            if(($key eq "o") && ($attr eq "organizationName")){ return $value; }
+            if(($key eq "ou") && ($attr eq "organizationalUnitName")){ return $value; }
+        }
+    }
+}
+
 sub user_cert_dn{
 use FileHandle;
     my ($self,$user_session) = @_;
@@ -526,19 +563,19 @@ sub certificate_sign{
     my ($self, $session, $csr)=@_;
     my $csr_subject=$self->csr_subject($csr);
     my $user_cert_dn=$self->user_cert_dn($session);
-print STDERR "[ $csr_subject ]\n";
-print STDERR "[ $user_cert_dn ]\n";
-    
-    my $user_cert_dir=$self->user_cert_dir($session);
-    if(! -d "$user_cert_dir"){ mkdir($user_cert_dir,0750); };
-    my $user_cert_file=$self->user_cert_file($session);
-
-    if( ! -f "$user_cert_file"){ 
-        open(CSR, ">$user_cert_file");
-        print CSR "$csr";
-        close(CSR);
+    if( $csr_subject eq $user_cert_dn ){
+        my $user_cert_dir=$self->user_cert_dir($session);
+        if(! -d "$user_cert_dir"){ mkdir($user_cert_dir,0750); };
+        my $user_cert_file=$self->user_cert_file($session);
+        if( ! -f "$user_cert_file"){ 
+            open(CSR, ">$user_cert_file");
+            print CSR "$csr";
+            close(CSR);
+        }
+        return $self;
+    }else{
+        return undef;
     }
-    return $self;
 }
 
 sub revoke_user_certificate{
