@@ -456,7 +456,7 @@ sub remove_certificate{
 sub certificate_sign{
     my ($self, $session, $csr)=@_;
     my $user_cert_dir=$self->user_cert_dir($session);
-    if(! -d "$user_cert_dir"){ mkdir($user_cert_dir,0027); };
+    if(! -d "$user_cert_dir"){ mkdir($user_cert_dir,0750); };
     my $user_cert_file=$self->user_cert_file($session);
     if( ! -f "$user_cert_file"){ 
         open(CSR, ">$user_cert_file");
