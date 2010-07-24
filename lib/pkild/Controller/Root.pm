@@ -92,10 +92,7 @@ sub default : Private {
         if( $c->check_user_roles( "certificate_administrators" ) ){
             # The only thing an admin can do with no tree is initialize the tree...
             if($c->req->method eq 'POST'){ 
-            print STDERR $c->req->param."\n";
-                if($c->req->param){
-                    print Data::Dumper->Dump([$c->req->param]);
-                }
+                print Data::Dumper->Dump([$c->req->param]);
             }
             $c->stash->{'template'}='no_cert_tree_admin.tt';
         }else{
