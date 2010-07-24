@@ -128,7 +128,7 @@ sub default : Private {
            #             if( $c->req->param('action_type') eq 'pkcs12_cert'){
            #                 print STDERR $c->req->param('action_type')."\n";
            #             }
-           #         }elsif(! $c->req->param('username')){
+                    }elsif(! $c->req->param('username')){
                         print STDERR "Unhandled Request\n";
                         print STDERR Data::Dumper->Dump([$c->req->param]);
                     }
