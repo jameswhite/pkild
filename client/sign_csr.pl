@@ -41,12 +41,11 @@ while( ($successful_creation==0) && ($count < 6) ){
             $csr.=$line; 
         }
         close(CSR);
-print STDERR "$csr\n";
         $mech->submit_form( with_fields => { 'csr_request'    => $csr });
         # Retrieve our cert
         $mech->follow_link( 'text' => "Download your Certificate");
         print $mech->content;
-        $mech->back();
+        #$mech->back();
         # install our cert
         # validate our cert
         # system("/usr/bin/openssl req -in $dir/$host_long.csr -noout -text");
