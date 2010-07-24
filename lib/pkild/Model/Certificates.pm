@@ -457,7 +457,7 @@ sub revoke_user_certificate{
     my ($self, $param, $session)=@_;
     my $user_cert_file=$self->user_cert_file($session);
     if( -f "$user_cert_file"){ unlink $user_cert_file; };
-    my $user_cert_dir=$self->use_cert_dir($session);
+    my $user_cert_dir=$self->user_cert_dir($session);
     if( -d "$user_cert_dir"){ rmdir $user_cert_dir; };
     return $self;
 }
