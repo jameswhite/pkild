@@ -84,19 +84,10 @@ sub default : Private {
         $c->forward('logout');
     }
 
+
     ############################################################################
     # if we have no data to operate on, then forward to the "Create Tree" view
     ############################################################################
-
-# Things a regular user can do:
-#     get the default page
-#     get trust chain
-#     if cert exits:
-#         get their public cert if exists
-#         submit a revokation request
-#     if cert does not exist
-#         post passwords for a pkcs12 cert || post a csr for signing
-
     if(! defined($c->model('Certificates')->cert_dn_tree('websages.com',$c->stash->{'orgunit'}))){
         if( $c->check_user_roles( "certificate_administrators" ) ){
             $c->stash->{'template'}='no_cert_tree_admin.tt';
@@ -106,9 +97,27 @@ sub default : Private {
         $c->detach();
     }else{
         unless( $c->check_user_roles( "certificate_administrators" ) ){
+            # Things a regular user can do:
+            if($c->req->method eq 'GET'){ 
+            #     if method is GET
+            #         get trust chain
+            #         get the crl
+            #
+                $c->detach();
+            }elsif($c->req->method eq 'POST'){ 
+                print STDERR Data::Dumper->Dump([$c->req->param("get")]);
+            #     if method is POST
+            #         if cert exits:
+            #             get their public cert if exists
+            #             submit a revokation request
+            #         if cert does not exist
+            #             post passwords for a pkcs12 cert || post a csr for signing
+            }
+            # get the default if we haven't detached before here (like after a post)
             $c->stash->{'user_cert_dn'}=$c->model('Certificates')->user_cert_dn($c->session->{'user'});
             $c->stash->{'template'}='csr_sign.tt';
             $c->detach();
+            }
         }
     }
     
