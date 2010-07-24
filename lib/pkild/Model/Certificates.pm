@@ -70,8 +70,8 @@ sub cert_dn_tree{
 }
 
 sub user_cert_file{
-    my ($self,$user_session) = @_;
-    my $user_cert_dn=$self->user_cert_dn($user_session);
+    my ($self,$session) = @_;
+    my $user_cert_dn=$self->user_cert_dn($session);
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     my @subject_parts=split(",",$user_cert_dn);  
     my @dir_parts; my $common_name;
@@ -102,14 +102,14 @@ sub user_cert_file{
 }
 
 sub user_cert_dir{
-    my ($self,$user_session) = @_;
+    my ($self,$session) = @_;
     my $user_cert_file=$self->user_cert_file($session);
     $user_cert_file=~s/\/[^\/]*//;
     return $self;
 }
 
 sub user_cert_exists{
-    my ($self,$user_session) = @_;
+    my ($self,$session) = @_;
     my $user_cert_file=$self->user_cert_file($session);
     if( -f $user_cert_file){
         # we should probably validate the cert here
