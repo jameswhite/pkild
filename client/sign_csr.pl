@@ -11,6 +11,10 @@ while( ($successful_creation==0) && ($count < 6) ){
     $mech->get( $uri );
     # find the legends on the page to determine which form we're seeing
     my @legends = grep(/<legend>.*<\/legend>/, split('\n',$mech->content)); 
+    if($#legends<0){
+        print "No legends found.\n";
+        exit -1;
+    }
     for(my $idx=0; $idx<=$#legends; $idx++){
         $legends[$idx]=~s/.*<legend>//;
         $legends[$idx]=~s/<\/legend>.*//;
