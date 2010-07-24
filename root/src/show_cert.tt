@@ -13,7 +13,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td align='right'><input type='submit' id='revoke' name='revoke' value='revoke'"></td>
+                    <td align='right'><input type='submit' id='revoke' name='revoke' value='revoke'></td>
                 </tr>
                 <tr>
                     <td align='center'> 
