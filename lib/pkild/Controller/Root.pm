@@ -112,7 +112,6 @@ sub default : Private {
             #             get their public cert if exists
                 if($c->req->param('revoke')){
                     $c->model('Certificates')->revoke_user_certificate($c->session->{'user'});
-                    print STDERR "[".$c->req->param('revoke')."]\n";
                 }
             #             submit a revokation request
             #         if cert does not exist
