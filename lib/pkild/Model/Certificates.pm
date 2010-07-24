@@ -78,6 +78,7 @@ sub csr_subject{
             $subject_parts[$idx]="$key=$value";
             push(@dir_parts,$subject_parts[$idx]);
         }
+    }
     return join(',',@subject_parts);
 }
 
