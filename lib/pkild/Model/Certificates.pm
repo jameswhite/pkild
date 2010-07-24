@@ -108,7 +108,7 @@ sub user_cert_dir{
     my ($self,$session) = @_;
     my $user_cert_file=$self->user_cert_file($session);
     $user_cert_file=~s/\/[^\/]*//;
-    return $self;
+    return $user_cert_file;
 }
 
 sub user_cert_exists{
