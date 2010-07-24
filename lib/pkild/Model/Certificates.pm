@@ -37,7 +37,7 @@ sub csr_subject{
     # write out the csr to a temp file and get the Subject: String
     my $tmpdir = tempdir( 'CLEANUP' => 1 );
     my ($fh, $filename) = tempfile( 'DIR' => $tmpdir );
-    print $fh $param->{'csr_input'};
+    print $fh $csr;
     my $common_name;
     my $subject;
     open(GETCN, "/usr/bin/openssl req -in $filename -noout -text | ");
