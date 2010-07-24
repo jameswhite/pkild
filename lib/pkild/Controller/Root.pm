@@ -94,7 +94,7 @@ sub default : Private {
             if($c->req->method eq 'POST'){ 
                 if($c->req->param('create_cert_tree')){
                     $c->model('Certificates')->tree_init();
-                    $c->dispatch('/');
+                    $c->forward('default');
                 }
             }
             $c->stash->{'template'}='no_cert_tree_admin.tt';
