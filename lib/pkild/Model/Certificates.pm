@@ -457,6 +457,7 @@ sub certificate_for{
     my ($self, $session)=@_;
     my $user_cert_file=$self->user_cert_file($session);
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
+print STDERR "user_cert_file: $user_cert_file\n";
     #if(-f "$user_cert_file"){
     #    my $user_cert='';
     #    open(USERCERT,"$rootdir/$user_cert_file");
