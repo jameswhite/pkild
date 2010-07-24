@@ -73,7 +73,6 @@ sub user_cert_file{
     my ($self,$session) = @_;
     my $user_cert_dn=$self->user_cert_dn($session);
     return undef unless ($user_cert_dn);
-print STDERR "user_cert_dn: $user_cert_dn\n";
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     my @subject_parts=split(",",$user_cert_dn);  
     my @dir_parts; my $common_name;
@@ -100,7 +99,6 @@ print STDERR "user_cert_dn: $user_cert_dn\n";
             push(@dir_parts,$subject_parts[$idx]);
         }
     }
-    print STDERR "user_cert_file: ".$rootdir."/".join("/",@dir_parts)."/$common_name.crt\n";
     return $rootdir."/".join("/",@dir_parts)."/$common_name.crt";
 }
 
@@ -457,7 +455,7 @@ sub remove_certificate{
 }
 
 sub revoke_user_certificate{
-    my ($self, $param, $session)=@_;
+    my ($self, $session)=@_;
     my $user_cert_file=$self->user_cert_file($session);
     print STDERR "Removing $user_cert_file\n";
     if( -f "$user_cert_file"){ unlink $user_cert_file; };
