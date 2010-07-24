@@ -54,7 +54,31 @@ sub csr_subject{
     $subject=~s/\s+$//;
     $subject=~s/^\s+//;
     $subject=~s/^[Ss]ubject:\s*//;
-    return $subject;
+    my @subject_parts=split(",",$subject);  
+    my @dir_parts; my $common_name;
+    for(my $idx=0; $idx<=$#subject_parts; $idx++){
+        $subject_parts[$idx]=~s/^\s+//g;
+        $subject_parts[$idx]=~s/\s+=/=/g;
+        $subject_parts[$idx]=~s/=\s+/=/g;
+        if($subject_parts[$idx]=~m/^[Cc][Nn].*\/.*/){
+            my ($key,$value);
+            my ($cn,$email)=split("\/",$subject_parts[$idx]);
+            ($key,$value)=split("=",$cn);
+            $key=~tr/A-Z/a-z/;
+            $cn="$key=$value";
+            $common_name=$value;
+            push(@dir_parts,$cn);
+            ($key,$value)=split("=",$email);
+            $key=~tr/A-Z/a-z/;
+            $email="$key=$value";
+            $subject_parts[$idx]="$cn/$email";
+        }else{
+            my ($key,$value)=split("=",$subject_parts[$idx]);
+            $key=~tr/A-Z/a-z/;
+            $subject_parts[$idx]="$key=$value";
+            push(@dir_parts,$subject_parts[$idx]);
+        }
+    return join(',',@subject_parts);
 }
 
 ################################################################################
@@ -99,6 +123,7 @@ sub user_cert_file{
     my $user_cert_dn=$self->user_cert_dn($session);
     return undef unless ($user_cert_dn);
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
+
     my @subject_parts=split(",",$user_cert_dn);  
     my @dir_parts; my $common_name;
     for(my $idx=0; $idx<=$#subject_parts; $idx++){
@@ -123,6 +148,7 @@ sub user_cert_file{
             $subject_parts[$idx]="$key=$value";
             push(@dir_parts,$subject_parts[$idx]);
         }
+
     }
     return $rootdir."/".join("/",@dir_parts)."/$common_name.crt";
 }
