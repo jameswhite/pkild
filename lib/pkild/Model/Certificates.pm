@@ -132,7 +132,6 @@ sub cert_dn_tree{
                 }
                 my $dir_path=join('/',@components);
                 if(! -d "$rootdir/$dir_path/ou=$orgunit"){
-                    print STDERR "Path: $rootdir/$dir_path/ou=$orgunit Not found.\n";
                     return undef;
                 }else{
                     return $self;
@@ -725,7 +724,6 @@ sub tree_init{
         $ca_tree[$idx]=~s/[\/\\\.]//;
         my ($key,$value)=split(/=/,$ca_tree[$idx]);
         $key=~tr/A-Z/a-z/;
-        print STDERR $ca_tree[$idx]."\n";
         $ca_tree[$idx]="$key=$value";       
         $ca_dir.="/$ca_tree[$idx]";
         if(! -d "$ca_dir"){ mkdir($ca_dir,0750); }
