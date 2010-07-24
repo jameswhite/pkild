@@ -88,13 +88,13 @@ legend   {
                 </tr>
                 <tr>
                     <td>&nbsp;</td>
-                    <td><input type='submit' id='submitcsr' name='submit' value='Sign'></td>
+                    <td><input type='submit' id='submitcsr' name='submit' value='sign'></td>
                 </tr>
             </table>
             <input type="hidden" name="action_type" value="sign_cert"></td>
         </fieldset>
     </form>
-    <br>Paste the CSR into the textarea and click "Sign"
+    <br>Paste the CSR into the textarea and click "sign"
     <font size='-1'>
         <br>Note: This will *only* sign a certificate for:
         <br><b>[% user_cert_dn %]</b>
