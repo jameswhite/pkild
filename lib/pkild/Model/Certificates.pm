@@ -689,7 +689,22 @@ sub sign_certificate{
 
 sub tree_init{
     my ($self,$path)=@_;
-    print STDERR "[ $path ]\n";
+    my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
+    my @ca_tree=split(/,/,$path);
+    my $ca_dir=$rootdir;
+    for(my $idx=0; $idx<=$#ca_tree;$idx++){
+        $ca_tree[$idx]=~s/^\s+//;
+        $ca_tree[$idx]=~s/\s+$//;
+        $ca_tree[$idx]=~s/[\/\\\.]//;
+        my ($key,$value)=split(/=/,$ca_tree[$idx]);
+        $key=~tr/A-Z/a-z/;
+        print STDERR $ca_tree[$idx]."\n";
+        $ca_tree[$idx]="$key=$value";       
+        $ca_dir.="/$ca_tree[$idx]";
+        if(! -d "$ca_dir"){ 
+            print STDERR "mkdir $ca_dir\n";
+        }
+    }
     return $self;
 }
 
