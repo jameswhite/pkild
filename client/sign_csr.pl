@@ -43,9 +43,12 @@ while( ($successful_creation==0) && ($count < 6) ){
         close(CSR);
         $mech->submit_form( with_fields => { 'csr_request'    => $csr });
         # Retrieve our cert
+        $mech->get("$uri/?get=certificate");
+        print $mech->content;
+        $mech->back();
         # install our cert
         # validate our cert
-        system("/usr/bin/openssl req -in $dir/$host_long.csr -noout -text");
+        # system("/usr/bin/openssl req -in $dir/$host_long.csr -noout -text");
         $successful_creation=1;
     }elsif(grep /Please [Ll]og [Ii]n/, @legends){
         print "We need to Authenticate.\n";

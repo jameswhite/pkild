@@ -453,14 +453,20 @@ sub remove_certificate{
     rmdir "$node_dir";
 }
 
-sub openssl_cnf_for{
-    my ($self, $session, $csr)=@_;
-    return "Here's your openssl.cnf";
-}
-
 sub certificate_for{
-    my ($self, $session, $csr)=@_;
-    return "Here's your cert!";
+    my ($self, $session)=@_;
+    my $user_cert_file=$self->user_cert_file($session);
+    my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
+    if(-f "$rootdir/$user_cert_file"){
+        my $user_cert='';
+        open(USERCERT,"$rootdir/$user_cert_file");
+        while(my $line=<USERCERT>){
+            $user_cert.=$line;
+        }
+        close(USERCERT);
+    }else{
+        return "File not found.";
+    }
 }
 
 sub certificate_sign{
