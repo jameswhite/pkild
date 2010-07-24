@@ -1,3 +1,5 @@
+This is all depricated. -- jsw
+
 Pkild expects the certificates to be layed out a certain way, 
 if it's not layed out this way, operations fail in all kinds of buggy ways.
 

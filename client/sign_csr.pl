@@ -56,6 +56,8 @@ while( ($successful_creation==0) && ($count < 6) ){
         # validate our cert...
         $successful_creation=1;
         $mech->back();
+    }elsif(grep /No certificate tree found/, @legends){
+        exit -1;
     }elsif(grep /Please [Ll]og [Ii]n/, @legends){
         print "We need to Authenticate.\n";
         $mech->submit_form(

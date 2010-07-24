@@ -90,6 +90,11 @@ sub default : Private {
     ############################################################################
     if(! defined($c->model('Certificates')->cert_dn_tree('websages.com',$c->stash->{'orgunit'}))){
         if( $c->check_user_roles( "certificate_administrators" ) ){
+            if($c->req->method eq 'POST'){ 
+                if($c->req->param){
+                    print Data::Dumper->Dump([$c->req->param]);
+                }
+            }
             $c->stash->{'template'}='no_cert_tree_admin.tt';
         }else{
             $c->stash->{'template'}='no_cert_tree_user.tt';
