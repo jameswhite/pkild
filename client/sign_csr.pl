@@ -40,6 +40,7 @@ print "-=[ $dir ]=-\n";
         open(CSR,"$dir/$host_long.csr");
         while(my $line=<CSR>){
             $csr.=$line; 
+        }
         close(CSR);
         $mech->submit_form( with_fields => { 'csr_request'    => $csr });
         # Retrieve our cert
