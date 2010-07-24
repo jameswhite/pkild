@@ -230,9 +230,9 @@ use FileHandle;
     my $subject=$ca_subject;
     if($subject=~m/C=(.*),\s*ST=(.*),\s*L=(.*),\s*O=(.*),\s*OU=(.*),\s*CN=(.*)\/emailAddress=(.*)/){
         if($type eq "user"){
-            $subject="c=$1, st=$2, l=$3, o=$4, ou=$orgunit, cn=$cn/emailAddress=$cn\@$domain";
+            $subject="c=$1, st=$2, l=$3, o=$4, ou=$orgunit, cn=$cn/emailaddress=$cn\@$domain";
         }elsif($type eq "host"){
-            $subject="c=$1, st=$2, l=$3, o=$4, ou=$orgunit, cn=$cn.$domain/emailAddress=root\@$cn.$domain";
+            $subject="c=$1, st=$2, l=$3, o=$4, ou=$orgunit, cn=$cn.$domain/emailaddress=root\@$cn.$domain";
         }
     }
     print STDERR "exit user_cert_dn with [$subject]\n" if $self->{'trace'};
@@ -560,7 +560,6 @@ sub certificate_sign{
     my ($self, $session, $csr)=@_;
     my $csr_subject=$self->csr_subject($csr);
     my $user_cert_dn=$self->user_cert_dn($session);
-print STDERR "$csr_subject\n$user_cert_dn\n";
     if( $csr_subject eq $user_cert_dn ){
         my $user_cert_dir=$self->user_cert_dir($session);
         if(! -d "$user_cert_dir"){ mkdir($user_cert_dir,0750); };
