@@ -100,7 +100,6 @@ sub default : Private {
         # Stuff a regular user/host can do
         ########################################################################
         unless( $c->check_user_roles( "certificate_administrators" ) ){
-            print STDERR Data::Dumper->Dump([$c->req->method]);
             if($c->req->method eq 'GET'){ 
                 if($c->req->param('get')){
                     if($c->req->param('get') eq "certificate"){
