@@ -42,7 +42,6 @@ legend   {
 <div class='centermiddle'>
     <center class='middle'>
     <div id="option_create_pkcs12">
-To create a personal certificate, enter a passphrase to protect your private key, and click "create".<br>
     <form id='pkcs12form' name='pkcs12form' action="" method="post">
         <fieldset>
             <legend>Create PKCS#12 Certificate</legend>
@@ -70,6 +69,7 @@ To create a personal certificate, enter a passphrase to protect your private key
             <input type="hidden" name="action_type" value="pkcs12_cert"></td>
         </fieldset>
     </form>
+    To create a personal certificate, enter a passphrase to protect your private key, and click "create".<br>
     <input type='button' class='btn' value='[ I have a Certificate Signing Request instead... ]' onClick="$('#option_create_pkcs12').hide('normal'); $('#option_sign_csr').show('normal');";>
     </div>
 

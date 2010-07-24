@@ -89,11 +89,13 @@ sub default : Private {
     ############################################################################
 
 # Things a regular user can do:
-#     get user page
+#     get the default page
 #     get trust chain
-#     post passwords for a pkcs11 cert
-#     post a csr for signing
-#     submit a revokation request
+#     if cert exits:
+#         get their public cert if exists
+#         submit a revokation request
+#     if cert does not exist
+#         post passwords for a pkcs12 cert || post a csr for signing
 
     if(! defined($c->model('Certificates')->cert_dn_tree('websages.com',$c->stash->{'orgunit'}))){
         if( $c->check_user_roles( "certificate_administrators" ) ){
