@@ -116,7 +116,6 @@ sub user_cert_exists{
         # we should probably validate the cert here
         return 1;
     }else{ 
-        print STDERR "Not found: $user_cert_file\n";
         return undef;
     }
 }
