@@ -114,7 +114,7 @@ sub default : Private {
             #         if cert does not exist
             #             post passwords for a pkcs12 cert || post a csr for signing
             }
-            if($c->model->('Certificates')->user_cert_exists()){
+            if($c->model('Certificates')->user_cert_exists()){
                 # display the show certificate page
                 $c->stash->{'template'}='show_cert.tt';
                 $c->detach();
