@@ -98,6 +98,7 @@ sub user_cert_file{
             push(@dir_parts,$subject_parts[$idx]);
         }
     }
+    print STDERR "user_cert_file: ".$rootdir."/".join("/",@dir_parts)."/$common_name.crt\n";
     return $rootdir."/".join("/",@dir_parts)."/$common_name.crt";
 }
 
@@ -460,7 +461,7 @@ sub revoke_user_certificate{
     if( -f "$user_cert_file"){ unlink $user_cert_file; };
     if( -f "$user_cert_file"){ print STDERR "Unable to remove $user_cert_file\n" };
     my $user_cert_dir=$self->user_cert_dir($session);
-    print STDERR "Removing $user_cert_dir\n";
+    print STDERR "Removing ".$user_cert_dir."\n";
     if( -d "$user_cert_dir"){ rmdir $user_cert_dir; };
     if( -d "$user_cert_dir"){ print STDERR "Unable to remove $user_cert_dir\n" };
     return $self;
