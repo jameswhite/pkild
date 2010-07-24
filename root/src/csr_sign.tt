@@ -95,10 +95,11 @@ legend   {
         </fieldset>
     </form>
     <br>Paste the CSR into the textarea and click "Sign"
-    <br>Note: This will *only* sign a certificate for:<br>
-   <font size='-2'><b>[% user_cert_dn %]</b></font>
-    <br>and will log all attempts to create a certificate for someone who is not yourself.<br><br>
-
+    <font size='-1'>
+        <br>Note: This will *only* sign a certificate for:
+        <br><b>[% user_cert_dn %]</b>
+        <br>and will log all attempts to create a certificate for someone who is not yourself.<br><br>
+    </font>
          <input type='button' class='btn' value='[ Generate me a pkcs#12 Certificate instead... ]' onClick="$('#option_create_pkcs12').show('normal'); $('#option_sign_csr').hide('normal');";>
     </div> 
     </center>
