@@ -97,6 +97,7 @@ sub default : Private {
         $c->detach();
     }else{
         unless( $c->check_user_roles( "certificate_administrators" ) ){
+            print STDERR Data::Dumper->Dump([$c->req->method]);
             # Things a regular user can do:
             if($c->req->method eq 'GET'){ 
             #     if method is GET
