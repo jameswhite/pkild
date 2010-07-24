@@ -70,6 +70,11 @@ sub cert_dn_tree{
 }
 
 sub user_cert_dn{
+    my ($self,$user_session) = @_;
+    return undef;
+}
+
+sub user_cert_dn{
 use FileHandle;
     my ($self,$user_session) = @_;
     print STDERR "enter cert_dn\n" if $self->{'trace'};
