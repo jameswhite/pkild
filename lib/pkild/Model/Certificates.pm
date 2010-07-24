@@ -73,6 +73,7 @@ sub user_cert_exists{
     my ($self,$user_session) = @_;
     my $user_cert_dn=$self->user_cert_dn($user_session);
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
+print STDERR "subject: $user_cert_dn\n";
     my @subject_parts=split(",",$user_cert_dn);  
     for(my $idx=0; $idx<=$#subject_parts; $idx++){
         print STDERR $subject_parts[$idx]."\n";
@@ -103,7 +104,6 @@ use FileHandle;
         $ca_subject=$self->cert_subject("$ca/$domain.pem");
     }
     my $subject=$ca_subject;
-    print STDERR "type: [$type]\n";
     if($subject=~m/C=(.*),\s*ST=(.*),\s*L=(.*),\s*O=(.*),\s*OU=(.*),\s*CN=(.*)\/emailAddress=(.*)/){
         if($type eq "user"){
             $subject="c=$1, st=$2, l=$3, o=$4, ou=$orgunit, cn=$cn/emailAddress=$cn\@$domain";
@@ -111,7 +111,6 @@ use FileHandle;
             $subject="c=$1, st=$2, l=$3, o=$4, ou=$orgunit, cn=$cn.$domain/emailAddress=root\@$cn.$domain";
         }
     }
-print STDERR "subject: $subject\n";
     print STDERR "exit user_cert_dn with [$subject]\n" if $self->{'trace'};
     return $subject;
 }
