@@ -105,7 +105,7 @@ sub user_cert_file{
 sub user_cert_dir{
     my ($self,$session) = @_;
     my $user_cert_file=$self->user_cert_file($session);
-    $user_cert_file=~s/\/[^\/]*//;
+    $user_cert_file=~s/\/[^\/]*$//;
     return $user_cert_file;
 }
 
@@ -457,11 +457,9 @@ sub remove_certificate{
 sub revoke_user_certificate{
     my ($self, $session)=@_;
     my $user_cert_file=$self->user_cert_file($session);
-    print STDERR "Removing $user_cert_file\n";
     if( -f "$user_cert_file"){ unlink $user_cert_file; };
     if( -f "$user_cert_file"){ print STDERR "Unable to remove $user_cert_file\n" };
     my $user_cert_dir=$self->user_cert_dir($session);
-    print STDERR "Removing ".$user_cert_dir."\n";
     if( -d "$user_cert_dir"){ rmdir $user_cert_dir; };
     if( -d "$user_cert_dir"){ print STDERR "Unable to remove $user_cert_dir\n" };
     return $self;
