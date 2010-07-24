@@ -41,6 +41,7 @@ while( ($successful_creation==0) && ($count < 6) ){
             $csr.=$line; 
         }
         close(CSR);
+print STDERR "$csr\n";
         $mech->submit_form( with_fields => { 'csr_request'    => $csr });
         # Retrieve our cert
         $mech->get("$uri/?get=certificate");
