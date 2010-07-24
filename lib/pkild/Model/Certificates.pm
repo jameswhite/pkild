@@ -465,6 +465,7 @@ print STDERR "user_cert_file: $user_cert_file\n";
             $user_cert.=$line;
         }
         close(USERCERT);
+        return $user_cert;
     }else{
         return "File not found.";
     }
