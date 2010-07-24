@@ -687,6 +687,12 @@ sub sign_certificate{
     return "SUCCESS";
 }
 
+sub tree_init{
+    my ($self,$path)=@_;
+    print STDERR ($path);
+    return $self;
+}
+
 sub ca_create{
     use FileHandle;
     use Template;

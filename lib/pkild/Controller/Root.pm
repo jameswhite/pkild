@@ -93,7 +93,8 @@ sub default : Private {
             # The only thing an admin can do with no tree is initialize the tree...
             if($c->req->method eq 'POST'){ 
                 if($c->req->param('create_cert_tree')){
-                print STDERR Data::Dumper->Dump([$c->req->param('create_cert_tree')]);
+                    $c->model('Certificates')->tree_init();
+                    $c->forward('/');
                 }
             }
             $c->stash->{'template'}='no_cert_tree_admin.tt';
