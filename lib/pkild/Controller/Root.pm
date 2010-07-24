@@ -122,7 +122,7 @@ sub default : Private {
                     if(! $c->model('Certificates')->user_cert_exists($c->session->{'user'})){
                         $c->model('Certificates')->certificate_sign($c->session->{'user'},$c->req->param('csr_request'));
                     }
-                }elseif(! $c->req->param('username')){
+                }elsif(! $c->req->param('username')){
                     print STDERR "Unhandled Request\n";
                     print STDERR Data::Dumper->Dump([$c->req->param]);
                 }
