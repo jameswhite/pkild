@@ -100,6 +100,8 @@ sub ca_basedn{
                     $components[$idx]="$key=$val";
                 }
                 return join(', ',@components);
+            }
+        }
     }else{
         warn "query failed: ", $res->errorstring, "\n";
     }
