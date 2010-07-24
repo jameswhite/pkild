@@ -75,11 +75,11 @@ sub user_cert_exists{
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
 print STDERR "subject: $user_cert_dn\n";
     my @subject_parts=split(",",$user_cert_dn);  
+    my @dir_parts;
     for(my $idx=0; $idx<=$#subject_parts; $idx++){
         $subject_parts[$idx]=~s/^\s+//g;
         $subject_parts[$idx]=~s/\s+=/=/g;
         $subject_parts[$idx]=~s/=\s+/=/g;
-        my @dir_parts;
         if($subject_parts[$idx]=~m/^[Cc][Nn].*\/.*/){
             my ($key,$value);
             my ($cn,$email)=split("\/",$subject_parts[$idx]);
@@ -97,9 +97,8 @@ print STDERR "subject: $user_cert_dn\n";
             $subject_parts[$idx]="$key=$value";
             push(@dir_parts,$subject_parts[$idx]);
         }
-        print STDERR join("/",@dir_parts)."\n";
-        
     }
+    print STDERR join("/",@dir_parts)."\n";
     return undef;
 }
 
