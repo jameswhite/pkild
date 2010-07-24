@@ -455,7 +455,6 @@ sub remove_certificate{
 
 sub revoke_user_certificate{
     my ($self, $param, $session)=@_;
-    my 
     return $self;
 }
 
