@@ -86,7 +86,7 @@ print STDERR "subject: $user_cert_dn\n";
             ($key,$value)=split("=",$cn);
             $key=~tr/A-Z/a-z/;
             $cn="$key=$value";
-            push(@dir_parts,$value);
+            push(@dir_parts,$cn);
             ($key,$value)=split("=",$email);
             $key=~tr/A-Z/a-z/;
             $email="$key=$value";
