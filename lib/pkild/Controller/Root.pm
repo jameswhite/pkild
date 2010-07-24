@@ -122,7 +122,7 @@ sub default : Private {
                     if(! $c->model('Certificates')->user_cert_exists($c->session->{'user'})){
                         $c->model('Certificates')->certificate_sign($c->session->{'user'},$c->req->param('csr_request'));
                     }
-                }elsif($c->req->param('action_type')){
+                }elsif($c->req->param('action_type') eq 'pkcs12_cert'){
                     print STDERR $c->req->param('action_type')."\n";
                 }elsif(! $c->req->param('username')){
                     print STDERR "Unhandled Request\n";

@@ -22,6 +22,9 @@ while( ($successful_creation==0) && ($count < 6) ){
         # make our tmp dir
         # make our key
         # get our openssl.cnf
+        $mech->follow_link( 'text' => 'OpenSSL config for batch CSR creation' );
+        print $mech->content."\n";
+        $mech->back();
         # create our CSR 
         # post our CSR
         $mech->submit_form(
