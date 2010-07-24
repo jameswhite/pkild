@@ -72,6 +72,7 @@ sub cert_dn_tree{
 sub user_cert_file{
     my ($self,$session) = @_;
     my $user_cert_dn=$self->user_cert_dn($session);
+    return undef unless ($user_cert_dn);
 print STDERR "user_cert_dn: $user_cert_dn\n";
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     my @subject_parts=split(",",$user_cert_dn);  
