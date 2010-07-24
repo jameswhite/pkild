@@ -1,7 +1,7 @@
 ################################################################################
 #                                                                              #
 # Create your key with:                                                        #
-# /usr/bin/openssl genrsa -out $(hostename -f).key 1024                        #
+# /usr/bin/openssl genrsa -out $(hostename -f).key 2048                        #
 #                                                                              #
 # Create your Certificate Signing Request with:                                #
 # /usr/bin/openssl req -new -sha1 -days 90 -key $(hostname -f)            \    #
