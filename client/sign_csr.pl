@@ -16,4 +16,6 @@ $mech->get($uri."/");
 if(grep "<legend>Valid Certificate Found.</legend> ", $mech->content){
     print "valid cert found. Revoking\n";
     $mech->click_button( 'name' => 'revoke' );
+}else{
+    print $mech->content."\n";
 }
