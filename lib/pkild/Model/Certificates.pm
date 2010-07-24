@@ -79,7 +79,7 @@ sub csr_subject{
             push(@dir_parts,$subject_parts[$idx]);
         }
     }
-    return join(',',@subject_parts);
+    return join(', ',@subject_parts);
 }
 
 ################################################################################
