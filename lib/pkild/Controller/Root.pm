@@ -118,12 +118,11 @@ sub default : Private {
             }elsif($c->req->method eq 'POST'){
                 if($c->req->param('revoke')){
                     $c->model('Certificates')->revoke_user_certificate($c->session->{'user'});
-                }
-                if($c->req->param('csr_request')){
+                }elsif($c->req->param('csr_request')){
                     if(! $c->model('Certificates')->user_cert_exists($c->session->{'user'})){
                         $c->model('Certificates')->certificate_sign($c->session->{'user'},$c->req->param('csr_request'));
                     }
-                }else{
+                }elseif(! $c->req->param('username')){
                     print STDERR "Unhandled Request\n";
                     print STDERR Data::Dumper->Dump([$c->req->param]);
                 }
