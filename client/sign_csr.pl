@@ -1,5 +1,8 @@
 #!/usr/bin/perl
 use WWW::Mechanize;
+use File::Temp qw/ tempfile tempdir /;
+use Sys::Hostname::Long;
+$host_long = hostname_long;
 my $uri="https://loki.websages.com";
 my $mech = WWW::Mechanize->new();
 my $successful_creation=0;
@@ -20,18 +23,25 @@ while( ($successful_creation==0) && ($count < 6) ){
     }elsif(grep /Certficate Signing Request/, @legends){
         print "no cert found. creating a certificate signing request and posting for signature\n";
         # make our tmp dir
+        my  $dir = tempdir( CLEANUP => 1 );
+print "-=[ $dir ]=-\n";
         # make our key
+        system("cd $dir; /usr/bin/openssl genrsa -out $host_long.key 1024");
         # get our openssl.cnf
         $mech->follow_link( 'text' => 'OpenSSL config for batch CSR creation' );
-        print $mech->content."\n";
+        open(OPENSSLCNF ">$dir/openssl.cnf");
+        print OPENSSLCNF $mech->content."\n";
+        close(OPENSSLCNF);
         $mech->back();
         # create our CSR 
+        system("cd $dir; /usr/bin/openssl req -new -sha1 -days 90 -key $host_long.key -out $host_long.csr -config openssl.cnf -batch");
         # post our CSR
-        $mech->submit_form(
-                            with_fields => {
-                                             'csr_request'    => 'oh, hai.',
-                                           }
-                          );
+        my $csr='';
+        open(CSR "$dir/$host_long.csr");
+        while(my $line=<CSR>){
+            $csr.=$line; 
+        close(CSR);
+        $mech->submit_form( with_fields => { 'csr_request'    => $csr });
         # Retrieve our cert
         # install our cert
         # validate our cert
