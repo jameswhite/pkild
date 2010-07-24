@@ -73,9 +73,8 @@ sub user_cert_exists{
     my ($self,$user_session) = @_;
     my $user_cert_dn=$self->user_cert_dn($user_session);
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
-print STDERR "subject: $user_cert_dn\n";
     my @subject_parts=split(",",$user_cert_dn);  
-    my @dir_parts;
+    my @dir_parts; my $common_name;
     for(my $idx=0; $idx<=$#subject_parts; $idx++){
         $subject_parts[$idx]=~s/^\s+//g;
         $subject_parts[$idx]=~s/\s+=/=/g;
@@ -86,6 +85,7 @@ print STDERR "subject: $user_cert_dn\n";
             ($key,$value)=split("=",$cn);
             $key=~tr/A-Z/a-z/;
             $cn="$key=$value";
+            $common_name=$value;
             push(@dir_parts,$cn);
             ($key,$value)=split("=",$email);
             $key=~tr/A-Z/a-z/;
@@ -98,7 +98,7 @@ print STDERR "subject: $user_cert_dn\n";
             push(@dir_parts,$subject_parts[$idx]);
         }
     }
-    print STDERR $rootdir."/".join("/",@dir_parts)."\n";
+    print STDERR $rootdir."/".join("/",@dir_parts)."/$common_name.crt\n";
     return undef;
 }
 
