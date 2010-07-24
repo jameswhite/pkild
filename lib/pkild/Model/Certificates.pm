@@ -458,16 +458,16 @@ sub certificate_for{
     my $user_cert_file=$self->user_cert_file($session);
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
 print STDERR "user_cert_file: $user_cert_file\n";
-    #if(-f "$user_cert_file"){
-    #    my $user_cert='';
-    #    open(USERCERT,"$rootdir/$user_cert_file");
-    #    while(my $line=<USERCERT>){
-    #        $user_cert.=$line;
-    #    }
-    #    close(USERCERT);
-    #}else{
+    if(-f "$user_cert_file"){
+        my $user_cert='';
+        open(USERCERT,"$user_cert_file");
+        while(my $line=<USERCERT>){
+            $user_cert.=$line;
+        }
+        close(USERCERT);
+    }else{
         return "File not found.";
-    #}
+    }
 }
 
 sub certificate_sign{
