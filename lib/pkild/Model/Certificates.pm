@@ -82,7 +82,6 @@ use FileHandle;
     if($cn=~m/\s*uid=(.*)/){ $type="user"; $cn=~s/\s*uid=//; $orgunit="People";  }
     if($cn=~m/\s*cn=(.*)/){ $type="host";  $cn=~s/\s*cn=//;  $orgunit="Hosts";}
     my $domain=$self->object_domain($objectname);
-print STDERR "object_domain: $domain\n";
     # Re-Map the domain if specified...
     my $ca = $self->ca_for($domain);
     my $ca_subject;
@@ -100,6 +99,7 @@ print STDERR "object_domain: $domain\n";
             $subject="c=$1, st=$2, l=$3, o=$4, ou=$orgunit, cn=$cn.$domain/emailAddress=root\@$cn.$domain";
         }
     }
+print STDERR "subject: $subject\n";
     print STDERR "exit user_cert_dn with [$subject]\n" if $self->{'trace'};
     return $subject;
 }

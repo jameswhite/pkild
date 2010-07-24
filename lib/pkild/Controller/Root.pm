@@ -100,6 +100,7 @@ sub default : Private {
             print STDERR Data::Dumper->Dump([$c->req->method]);
             # Things a regular user can do:
             if($c->req->method eq 'GET'){ 
+                print STDERR Data::Dumper->Dump([$c->req->param]);
             #     if method is GET
             #         get trust chain
             #         get the crl
@@ -113,10 +114,16 @@ sub default : Private {
             #         if cert does not exist
             #             post passwords for a pkcs12 cert || post a csr for signing
             }
-            # get the default if we haven't detached before here 
-            $c->stash->{'user_cert_dn'}=$c->model('Certificates')->user_cert_dn($c->session->{'user'});
-            $c->stash->{'template'}='csr_sign.tt';
-            $c->detach();
+            if($c->model->('Certificates')->user_cert_exists(){
+                # display the show certificate page
+                $c->stash->{'template'}='show_cert.tt';
+                $c->detach();
+            }else{
+                # display the sign certificate page
+                $c->stash->{'user_cert_dn'}=$c->model('Certificates')->user_cert_dn($c->session->{'user'});
+                $c->stash->{'template'}='csr_sign.tt';
+                $c->detach();
+            }
         }
     }
     
