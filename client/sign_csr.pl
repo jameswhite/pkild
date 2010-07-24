@@ -46,12 +46,14 @@ while( ($successful_creation==0) && ($count < 6) ){
         $mech->get("$uri/?get=certificate");
         $mech->back();
         ########################################################################
-        # install our key and cert
-        ########################################################################
-        open(CERTFILE, "/tmp/$host_long.pem");
+        # install our cert and key                                             #
+        #                                                                      #
+        open(CERTFILE, ">/tmp/$host_long.pem");
         print CERTFILE $mech->content;
         close(CERTFILE);
         system("/bin/mv $dir/$host_long.key /tmp/$host_long.key");
+        #                                                                      #
+        ########################################################################
         # validate our cert...
         $successful_creation=1;
     }elsif(grep /Please [Ll]og [Ii]n/, @legends){
