@@ -69,7 +69,7 @@ sub cert_dn_tree{
     return undef;
 }
 
-sub user_cert_exists{
+sub user_cert_file{
     my ($self,$user_session) = @_;
     my $user_cert_dn=$self->user_cert_dn($user_session);
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
@@ -98,7 +98,20 @@ sub user_cert_exists{
             push(@dir_parts,$subject_parts[$idx]);
         }
     }
-    if( -f $rootdir."/".join("/",@dir_parts)."/$common_name.crt"){
+    return $rootdir."/".join("/",@dir_parts)."/$common_name.crt";
+}
+
+sub user_cert_dir{
+    my ($self,$user_session) = @_;
+    my $user_cert_file=$self->user_cert_file($session);
+    $user_cert_file=~s/\/[^\/]*//;
+    return $self;
+}
+
+sub user_cert_exists{
+    my ($self,$user_session) = @_;
+    my $user_cert_file=$self->user_cert_file($session);
+    if( -f $user_cert_file){
         # we should probably validate the cert here
         return 1;
     }else{ 
@@ -440,8 +453,15 @@ sub remove_certificate{
     rmdir "$node_dir";
 }
 
+sub revoke_user_certificate{
+    my ($self, $param, $session)=@_;
+    my 
+    return $self;
+}
+
+# depricated
 sub revoke_certificate{
-    my ($self, $param,$session)=@_;
+    my ($self, $param, $session)=@_;
     print STDERR "enter revoke_certificate\n" if $self->{'trace'};
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
 
