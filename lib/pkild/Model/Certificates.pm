@@ -98,7 +98,7 @@ sub user_cert_exists{
             push(@dir_parts,$subject_parts[$idx]);
         }
     }
-    if( -f $rootdir."/".join("/",@dir_parts)."/$common_name.crt\n"){
+    if( -f $rootdir."/".join("/",@dir_parts)."/$common_name.crt"){
         # we should probably validate the cert here
         return 1;
     }else{ 
