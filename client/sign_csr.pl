@@ -28,7 +28,6 @@ while( ($successful_creation==0) && ($count < 6) ){
         system("cd $dir; /usr/bin/openssl genrsa -out $host_long.key 1024");
         # get our openssl.cnf
         $mech->follow_link( 'text' => 'OpenSSL config for batch CSR creation' );
-print STDERR $mech->content;
         open(OPENSSLCNF,">$dir/openssl.cnf");
         print OPENSSLCNF $mech->content."\n";
         close(OPENSSLCNF);
@@ -42,9 +41,10 @@ print STDERR $mech->content;
             $csr.=$line; 
         }
         close(CSR);
+print STDERR "$csr\n";
         $mech->submit_form( with_fields => { 'csr_request'    => $csr });
         # Retrieve our cert
-        $mech->follow_link("Download your Certificate");
+        $mech->follow_link( 'text' => "Download your Certificate");
         print $mech->content;
         $mech->back();
         # install our cert
