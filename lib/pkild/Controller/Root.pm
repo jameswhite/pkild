@@ -99,12 +99,12 @@ sub default : Private {
         if( $c->check_user_roles( "certificate_administrators" ) ){
             $c->stash->{'template'}='no_cert_tree_admin.tt';
         }else{
-            $c->stash->{'user_cert_dn'}=$c->model('Certificates')->user_cert_dn($c->session->{'user'});
             $c->stash->{'template'}='no_cert_tree_user.tt';
         }
         $c->detach();
     }else{
         unless( $c->check_user_roles( "certificate_administrators" ) ){
+            $c->stash->{'user_cert_dn'}=$c->model('Certificates')->user_cert_dn($c->session->{'user'});
             $c->stash->{'template'}='csr_sign.tt';
             $c->detach();
         }
