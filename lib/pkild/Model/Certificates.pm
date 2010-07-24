@@ -83,8 +83,9 @@ sub csr_subject{
 }
 
 sub ca_basedn{
-    my ($self,$dnsdomain,$orgunit) = @_;
+    my ($self,$session) = @_;
     print STDERR "enter cert_dn_tree\n" if $self->{'trace'};
+    $dnsdomain = $self->object_domain( $self->objectname($session) ); }
     use Net::DNS;
     my $res   = Net::DNS::Resolver->new;
     my $query = $res->query("ca-basedn.$dnsdomain", "TXT");
