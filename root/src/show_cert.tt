@@ -1,0 +1,20 @@
+[% INCLUDE form_header.tt %]
+<form action="" method="post">
+    <center>
+        <fieldset>  
+            <legend>Valid Certificate Found.</legend>  
+            <table>
+                <tr>
+                    <td align='center'> 
+                        You seem to already have a certificate. You may revoke it if you feel it may have been compromised.
+                    </td>
+                </tr>
+                <tr>
+                    <td align='center'> 
+                        <a href="/?logout=1">Log out.</a>
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+    </center>
+</form>
