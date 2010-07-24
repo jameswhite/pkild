@@ -79,6 +79,21 @@ print STDERR "subject: $user_cert_dn\n";
         $subject_parts[$idx]=~s/^\s+//g;
         $subject_parts[$idx]=~s/\s+=/=/g;
         $subject_parts[$idx]=~s/=\s+/=/g;
+        if($subject_parts[$idx]=~m/^[Cc][Nn].*\/.*/){
+            my ($key,$value);
+            my ($cn,$email)=split("\/",$subject_parts[$idx]);
+            ($key,$value)=split("=",$cn);
+            $key=~tr/A-Z/a-z/;
+            $cn="$key=$value";
+            ($key,$value)=split("=",$email);
+            $key=~tr/A-Z/a-z/;
+            $email="$key=$value";
+            $subject_parts[$idx]="$cn/$email";
+        }else{
+            my ($key,$value)=split("=",$subject_parts[$idx]);
+            $key=~tr/A-Z/a-z/;
+            $subject_parts[$idx]="$key=$value";
+        }
         print STDERR $subject_parts[$idx]."\n";
         
     }
