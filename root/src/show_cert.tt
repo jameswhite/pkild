@@ -6,14 +6,14 @@
             <table>
                 <tr>
                     <td align='left'> 
-                        <nobr>You seem to already have a certificate.</nobr><br>
+                        <nobr>You seem to already have a certificate. <a href='/display_certificate'><a></nobr><br>
                         <nobr>You may revoke it if you would like.</nobr><br>
                         <nobr>You should <b>*always*</b> revoke it if you suspect its private key has been compromised.</nobr><br>
                         <nobr>You will then be given the opportunity to regenerate a new certificate.</nobr><br>
                     </td>
                 </tr>
                 <tr>
-                    <td align='right'><input type='submit' id='revoke' name='revoke' value='revoke_cert'"></td>
+                    <td align='right'><input type='submit' id='revoke' name='revoke' value='revoke'"></td>
                 </tr>
                 <tr>
                     <td align='center'> 
