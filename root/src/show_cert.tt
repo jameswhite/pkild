@@ -10,6 +10,9 @@
                     </td>
                 </tr>
                 <tr>
+                    <td><input type='submit' id='revoke' name='revoke' value='revoke'"></td>
+                </tr>
+                <tr>
                     <td align='center'> 
                         <a href="/?logout=1">Log out.</a>
                     </td>
