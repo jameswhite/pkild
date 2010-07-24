@@ -103,7 +103,6 @@ sub default : Private {
             #         get trust chain
             #         get the crl
             #
-                $c->detach();
             }elsif($c->req->method eq 'POST'){
                 print STDERR Data::Dumper->Dump([$c->req->param("get")]);
             #     if method is POST
@@ -113,7 +112,7 @@ sub default : Private {
             #         if cert does not exist
             #             post passwords for a pkcs12 cert || post a csr for signing
             }
-            # get the default if we haven't detached before here (like after a post)
+            # get the default if we haven't detached before here 
             $c->stash->{'user_cert_dn'}=$c->model('Certificates')->user_cert_dn($c->session->{'user'});
             $c->stash->{'template'}='csr_sign.tt';
             $c->detach();

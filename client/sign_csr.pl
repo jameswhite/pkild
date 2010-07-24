@@ -11,5 +11,5 @@ $mech->submit_form(
                                      'password'    => 'eocMgOmociSoDPjO',
                                    }
                   );
-$mech->get($uri."/jstree");
+$mech->get($uri."/");
 print $mech->content;
