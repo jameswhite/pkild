@@ -728,10 +728,12 @@ sub tree_init{
         print STDERR $ca_tree[$idx]."\n";
         $ca_tree[$idx]="$key=$value";       
         $ca_dir.="/$ca_tree[$idx]";
-        if(! -d "$ca_dir"){ 
-            print STDERR "mkdir $ca_dir\n";
-        }
+        if(! -d "$ca_dir"){ mkdir($ca_dir,0750); }
     }
+    if(! -d "$ca_dir Root Certificate Authority"){ mkdir("$ca_dir Root Certificate Authority",0750); }
+    if(! -d "$ca_dir Intermediate Certificate Authority"){ mkdir("$ca_dir Intermediate Certificate Authority",0750); }
+    if(! -d "$ca_dir/ou=People"){ mkdir("$ca_dir/ou=People",0750); }
+    if(! -d "$ca_dir/ou=Hosts"){ mkdir("$ca_dir/ou=Hosts",0750); }
     return $self;
 }
 
