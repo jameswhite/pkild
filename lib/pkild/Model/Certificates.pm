@@ -525,7 +525,9 @@ sub certificate_for{
 sub certificate_sign{
     my ($self, $session, $csr)=@_;
     my $csr_subject=$self->csr_subject($csr);
+    my $user_cert_dn=$self->user_cert_dn($session);
 print STDERR "[ $csr_subject ]\n";
+print STDERR "[ $user_cert_dn ]\n";
     
     my $user_cert_dir=$self->user_cert_dir($session);
     if(! -d "$user_cert_dir"){ mkdir($user_cert_dir,0750); };
