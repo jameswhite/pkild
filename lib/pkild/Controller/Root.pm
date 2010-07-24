@@ -126,6 +126,7 @@ sub default : Private {
                                          ];
                          foreach my $cnf_attr (@{ $cnf_attrs }){
                              $c->stash->{$cnf_attr} = $c->model('Certificates')->attr_for($c->session->{'user'},$cnf_attr);
+print STDERR $cnf_attr." ". $c->stash->{$cnf_attr}."\n";
                          }
                          $c->stash->{'template'}='openssl_cnf.tt';
                          $c->detach();
