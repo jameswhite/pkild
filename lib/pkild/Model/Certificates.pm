@@ -76,6 +76,9 @@ sub user_cert_exists{
 print STDERR "subject: $user_cert_dn\n";
     my @subject_parts=split(",",$user_cert_dn);  
     for(my $idx=0; $idx<=$#subject_parts; $idx++){
+        $subject_parts[$idx]=~s/^\s+//g;
+        $subject_parts[$idx]=~s/\s+=/=/g;
+        $subject_parts[$idx]=~s/=\s+/=/g;
         print STDERR $subject_parts[$idx]."\n";
         
     }
