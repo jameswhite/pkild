@@ -112,6 +112,7 @@ sub default : Private {
                          }
                     }elsif($c->req->param('get') eq "openssl.cnf"){
                          #$c->response->body($c->model('Certificates')->openssl_cnf_for($c->session->{'user'}));
+                         $c->req->{'header'}='Content-type: text/plain\n\n';
                          $c->stash->{'template'}='openssl_cnf.tt';
                          $c->detach();
                     }

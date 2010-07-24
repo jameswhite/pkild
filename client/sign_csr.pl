@@ -24,7 +24,6 @@ while( ($successful_creation==0) && ($count < 6) ){
         print "no cert found. creating a certificate signing request and posting for signature\n";
         # make our tmp dir
         my  $dir = tempdir( CLEANUP => 1 );
-print "-=[ $dir ]=-\n";
         # make our key
         system("cd $dir; /usr/bin/openssl genrsa -out $host_long.key 1024");
         # get our openssl.cnf
