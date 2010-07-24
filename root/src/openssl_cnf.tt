@@ -34,5 +34,6 @@ emailAddress_default = [% emailAddress %]
 [ v3_req ]
 basicConstraints = CA:FALSE
 keyUsage = nonRepudiation, digitalSignature, keyEncipherment
-#nsCaRevocationUrl = [\% crl_path \%]
-#subjectAltName=DNS:www.websages.com,DNS:www.wcyd.org
+# Additional things you might add:
+# nsCaRevocationUrl = [\% crl_path \%]
+# subjectAltName=DNS:www.websages.com,DNS:www.wcyd.org,DNS:on.yermom.now
