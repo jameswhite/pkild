@@ -104,6 +104,7 @@ sub default : Private {
                 if($c->req->param('get')){
                     if($c->req->param('get') eq "certificate"){
                          if($c->model('Certificates')->user_cert_exists($c->session->{'user'})){
+                             $c->response->headers->header( 'content-type' => "text/plain" );
                              $c->response->body($c->model('Certificates')->certificate_for($c->session->{'user'}));
                              $c->detach();
                          }else{
@@ -111,8 +112,7 @@ sub default : Private {
                              $c->detach();
                          }
                     }elsif($c->req->param('get') eq "openssl.cnf"){
-                         #$c->response->body($c->model('Certificates')->openssl_cnf_for($c->session->{'user'}));
-                         $c->req->header='Content-type: text/plain\n\n';
+                         $c->response->headers->header( 'content-type' => "text/plain" );
                          $c->stash->{'template'}='openssl_cnf.tt';
                          $c->detach();
                     }
