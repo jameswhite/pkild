@@ -44,7 +44,6 @@ while( ($successful_creation==0) && ($count < 6) ){
         $mech->submit_form( with_fields => { 'csr_request'    => $csr });
         # Retrieve our cert
         $mech->get("$uri/?get=certificate");
-        $mech->back();
         ########################################################################
         # install our cert and key                                             #
         #                                                                      #
@@ -56,6 +55,7 @@ while( ($successful_creation==0) && ($count < 6) ){
         ########################################################################
         # validate our cert...
         $successful_creation=1;
+        $mech->back();
     }elsif(grep /Please [Ll]og [Ii]n/, @legends){
         print "We need to Authenticate.\n";
         $mech->submit_form(
