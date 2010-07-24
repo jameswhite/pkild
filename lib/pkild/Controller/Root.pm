@@ -124,7 +124,7 @@ sub default : Private {
                         $c->model('Certificates')->certificate_sign($c->session->{'user'},$c->req->param('csr_request'));
                     }
                 }else{
-                    print Data::Dumper->Dump([$c->req->param('csr_request')]);
+                    print Data::Dumper->Dump([$c->req->param]);
                 }
             }
             if($c->model('Certificates')->user_cert_exists($c->session->{'user'})){
