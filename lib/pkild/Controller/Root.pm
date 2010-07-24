@@ -110,6 +110,9 @@ sub default : Private {
             #     if method is POST
             #         if cert exits:
             #             get their public cert if exists
+                if($c->req->param('revoke'){
+                    print STDERR "[".$c->req->param('revoke')."]\n";
+                }
             #             submit a revokation request
             #         if cert does not exist
             #             post passwords for a pkcs12 cert || post a csr for signing
