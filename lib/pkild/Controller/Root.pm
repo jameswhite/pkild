@@ -118,20 +118,20 @@ sub default : Private {
                 }
             }elsif($c->req->method eq 'POST'){
                 if($c->req->param){
-                    if(defined($c->req->param('revoke'))){
-                        $c->model('Certificates')->revoke_user_certificate($c->session->{'user'});
-                    }elsif(defined($c->req->param('csr_request'))){
-                        if(! $c->model('Certificates')->user_cert_exists($c->session->{'user'})){
-                            $c->model('Certificates')->certificate_sign($c->session->{'user'},$c->req->param('csr_request'));
-                        }
-                    }elsif(defined($c->req->param('action_type')) {
-                        if( $c->req->param('action_type') eq 'pkcs12_cert'){
-                            print STDERR $c->req->param('action_type')."\n";
-                        }
-                    }elsif(! $c->req->param('username')){
+           #         if(defined($c->req->param('revoke'))){
+           #             $c->model('Certificates')->revoke_user_certificate($c->session->{'user'});
+           #         }elsif(defined($c->req->param('csr_request'))){
+           #             if(! $c->model('Certificates')->user_cert_exists($c->session->{'user'})){
+           #                 $c->model('Certificates')->certificate_sign($c->session->{'user'},$c->req->param('csr_request'));
+           #             }
+           #         }elsif(defined($c->req->param('action_type')) {
+           #             if( $c->req->param('action_type') eq 'pkcs12_cert'){
+           #                 print STDERR $c->req->param('action_type')."\n";
+           #             }
+           #         }elsif(! $c->req->param('username')){
                         print STDERR "Unhandled Request\n";
                         print STDERR Data::Dumper->Dump([$c->req->param]);
-                    }
+           #         }
                 }
             }
             if($c->model('Certificates')->user_cert_exists($c->session->{'user'})){
