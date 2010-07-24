@@ -90,8 +90,11 @@ legend   {
                     <td>&nbsp;</td>
                     <td><input type='submit' id='submitcsr' name='submit' value='sign'></td>
                 </tr>
+                <tr>
+                <td colspan='2' align='center'><a href='/?get=openssl.cnf'>OpenSSL config for batch CSR creation</a><td>
+                </tr>
             </table>
-            <a href='/?get=openssl.cnf'>OpenSSL config for batch CSR creation</a>
+            <a href='/?logout=1'>Log Out</a>
             <input type="hidden" name="action_type" value="sign_cert"></td>
         </fieldset>
     </form>

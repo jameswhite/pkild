@@ -17,11 +17,11 @@
                 </tr>
                 <tr>
                     <td align='center'> 
-                        <a href="/?logout=1">Log out.</a>
+                        <a href='/?get=certificate'>Download your Certificate</a>
                     </td>
                 </tr>
             </table>
-            <a href='/?get=certificate'>Download your Certificate</a>
+            <a href="/?logout=1">Log out.</a>
         </fieldset>
     </center>
 </form>
