@@ -689,7 +689,7 @@ sub sign_certificate{
 
 sub tree_init{
     my ($self,$path)=@_;
-    print STDERR ($path);
+    print STDERR "[ $path ]\n";
     return $self;
 }
 
