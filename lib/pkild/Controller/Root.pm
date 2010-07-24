@@ -114,8 +114,13 @@ sub default : Private {
                     $c->model('Certificates')->revoke_user_certificate($c->session->{'user'});
                 }
             #             submit a revokation request
-            #         if cert does not exist
-            #             post passwords for a pkcs12 cert || post a csr for signing
+                if($c->req->param('csr_request')){
+                    # only perform if cert does not exist
+                    if(! $c->model('Certificates')->user_cert_exists($c->session->{'user'})){
+                        # post post a csr for signing
+                        $c->model('Certificates')->certificate_sign($c->session->{'user'},$c->req->param('csr_request'));
+                    }
+                }
             }
             if($c->model('Certificates')->user_cert_exists($c->session->{'user'})){
                 # display the show certificate page

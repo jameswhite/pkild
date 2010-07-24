@@ -453,6 +453,19 @@ sub remove_certificate{
     rmdir "$node_dir";
 }
 
+sub certificate_sign{
+    my ($self, $session, $csr)=@_;
+    my $user_cert_dir=$self->user_cert_dir($session);
+    if(! -d "$user_cert_dir"){ mkdir($user_cert_dir,0027); };
+    my $user_cert_file=$self->user_cert_file($session);
+    if( ! -f "$user_cert_file"){ 
+        open(CSR, ">$user_cert_file");
+        print CSR "$csr";
+        close(CSR);
+    }
+    return $self;
+}
+
 sub revoke_user_certificate{
     my ($self, $session)=@_;
     my $user_cert_file=$self->user_cert_file($session);
