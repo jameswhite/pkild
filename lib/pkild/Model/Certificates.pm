@@ -98,7 +98,7 @@ print STDERR "subject: $user_cert_dn\n";
             push(@dir_parts,$subject_parts[$idx]);
         }
     }
-    print STDERR join("/",@dir_parts)."\n";
+    print STDERR $rootdir."/".join("/",@dir_parts)."\n";
     return undef;
 }
 
