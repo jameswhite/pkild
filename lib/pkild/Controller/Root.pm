@@ -104,7 +104,7 @@ sub default : Private {
             #         get the crl
             #
                 $c->detach();
-            }elsif($c->req->method eq 'POST'){ 
+            }elsif($c->req->method eq 'POST'){
                 print STDERR Data::Dumper->Dump([$c->req->param("get")]);
             #     if method is POST
             #         if cert exits:
@@ -117,7 +117,6 @@ sub default : Private {
             $c->stash->{'user_cert_dn'}=$c->model('Certificates')->user_cert_dn($c->session->{'user'});
             $c->stash->{'template'}='csr_sign.tt';
             $c->detach();
-            }
         }
     }
     
