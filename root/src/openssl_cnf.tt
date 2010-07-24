@@ -32,4 +32,7 @@ emailAddress = Email Address
 emailAddress_default = [% emailAddress %]
 
 [ v3_req ]
-subjectAltName=DNS:www.websages.com,DNS:www.wcyd.org
+basicConstraints = CA:FALSE
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+#nsCaRevocationUrl = [\% crl_path \%]
+#subjectAltName=DNS:www.websages.com,DNS:www.wcyd.org
