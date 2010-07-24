@@ -13,6 +13,7 @@
 
 [ req ]
 distinguished_name = req_distinguished_name
+req_extensions = v3_req
 
 [ req_distinguished_name ]
 countryName = Country Name (2 letter code)
@@ -29,3 +30,6 @@ commonName = Common Name (eg, YOUR name)
 commonName_default = [% commonName %]
 emailAddress = Email Address
 emailAddress_default = [% emailAddress %]
+
+[ v3_req ]
+# subjectAltName=DNS:www.websages.com,DNS:www.wcyd.org
