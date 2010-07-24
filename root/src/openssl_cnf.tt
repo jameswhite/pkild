@@ -11,12 +11,8 @@
 # Then paste the contents of the resulting *.csr into the textarea             # 
 ################################################################################
 
-HOME = .
-RANDFILE = $HOME/.rnd
-ca-domain = [% domainName %]
 
 [ req ]
-default_bits = 2048
 distinguished_name = req_distinguished_name
 
 [ req_distinguished_name ]
