@@ -174,7 +174,7 @@ sub user_cert_exists{
 
 sub attr_for{
     my ($self,$session,$attr)=@_;
-    my $user_cert_dn=$self->user_cert_dn;
+    my $user_cert_dn=$self->user_cert_dn($session);
 print STDERR "$user_cert_dn :: $attr\n";
     my @subject_parts=split(",",$user_cert_dn);
     my $common_name;
