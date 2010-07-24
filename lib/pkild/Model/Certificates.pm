@@ -98,8 +98,12 @@ sub user_cert_exists{
             push(@dir_parts,$subject_parts[$idx]);
         }
     }
-    print STDERR $rootdir."/".join("/",@dir_parts)."/$common_name.crt\n";
-    return undef;
+    if( -f $rootdir."/".join("/",@dir_parts)."/$common_name.crt\n"){
+        # we should probably validate the cert here
+        return 1;
+    }else{ 
+        return undef;
+    }
 }
 
 sub user_cert_dn{
