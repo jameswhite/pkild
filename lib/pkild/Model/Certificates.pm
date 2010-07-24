@@ -175,6 +175,7 @@ sub user_cert_exists{
 sub attr_for{
     my ($self,$session,$attr)=@_;
     my $user_cert_dn=$self->user_cert_dn($session);
+    if($attr eq "domainName"){ return $self->object_domain( $self->objectname($session) ); }
     my @subject_parts=split(",",$user_cert_dn);
     my $common_name;
     for(my $idx=0; $idx<=$#subject_parts; $idx++){
@@ -192,10 +193,6 @@ sub attr_for{
             ($key,$value)=split("=",$email);
             $key=~tr/A-Z/a-z/;
             if($attr eq "emailAddress"){ return $value; }
-            my $domain=$value;
-            $domain=~s/.*\@//;
-            if($attr eq "domainName"){ return $domain; }
-            $subject_parts[$idx]="$cn/$email";
         }else{
             my ($key,$value)=split("=",$subject_parts[$idx]);
             $key=~tr/A-Z/a-z/;
