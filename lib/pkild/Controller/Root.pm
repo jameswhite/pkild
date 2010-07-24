@@ -104,7 +104,7 @@ sub default : Private {
             #         get the crl
             #
             }elsif($c->req->method eq 'POST'){
-                print STDERR Data::Dumper->Dump([$c->req->param("get")]);
+                print STDERR Data::Dumper->Dump([$c->req->param]);
             #     if method is POST
             #         if cert exits:
             #             get their public cert if exists
