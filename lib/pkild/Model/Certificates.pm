@@ -739,7 +739,7 @@ sub tree_init{
     }
     # Create the certificate authority for our organization, sign it with the Intermediate CA
     if(! -d "$ca_dir"){ 
-        $self->ca_initialize("$ca_dir","$ca_dir");
+        $self->ca_initialize("$ca_dir","$ca_dir Intermediate Certificate Authority");
     }
     if(! -d "$ca_dir/ou=People"){ mkdir("$ca_dir/ou=People",0750); }
     if(! -d "$ca_dir/ou=Hosts"){ mkdir("$ca_dir/ou=Hosts",0750); }
