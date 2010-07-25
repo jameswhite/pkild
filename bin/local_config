@@ -62,7 +62,7 @@ if ($query) {
                 $key=~tr/A-Z/a-z/;
                 $components[$idx]="$key=$val";
             }
-            $ca_basedn = join(', ',@components);
+            $ca_basedn .= join(', ',@components);
 print "$ca_basedn\n";
         }
     }
