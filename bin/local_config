@@ -21,9 +21,13 @@ if(-f "/etc/ldap/ldap.conf"){
     }
 }
 
+################################################################################
+# get our domain name
+################################################################################
 my $dnsdomain=$var->{'LDAP_BASEDN'};
 $dnsdomain=~s/,dc=/\./g;
 $dnsdomain=~s/^dc=//g;
+
 ################################################################################
 # verify we have something for each of them or complain
 ################################################################################
@@ -40,9 +44,6 @@ foreach my $vitem (@variables){
     }
 }
 exit unless $ready;
-################################################################################
-# figure out where we are so we can find our authconfig template
-################################################################################
 
 ################################################################################
 # figure out where we are so we can find our authconfig template
@@ -62,9 +63,9 @@ if ($query) {
                 $key=~tr/A-Z/a-z/;
                 $components[$idx]="$key=$val";
             }
-            $ca_basedn .= join(', ',@components);
-print "$ca_basedn\n";
+            $ca_basedn = join(', ',@components);
         }
+print "[$ca_basedn]\n";
     }
 }else{
     warn "query failed: ", $res->errorstring, "\n";
