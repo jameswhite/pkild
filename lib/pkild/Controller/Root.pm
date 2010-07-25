@@ -85,6 +85,7 @@ sub default : Private {
     }
 
 
+    $c->model('Certificates')->dnsdomainname('websages.com');
     ############################################################################
     # if we have no data to operate on, then forward to the "Create Tree" view
     ############################################################################

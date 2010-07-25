@@ -1,2 +1,7 @@
 ---
 name: pkild
+domain: websages.com
+cert_basedn: c=US, st=Tennessee, l=Nashville, o=Websages
+orgunits:
+  - ou=People
+  - ou=Hosts
