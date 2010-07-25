@@ -50,7 +50,7 @@ exit unless $ready;
 # figure out where we are so we can find our authconfig template
 ################################################################################
 use Net::DNS;
-my $ca_basedn;
+my $ca_basedn='';
 my $res   = Net::DNS::Resolver->new;
 my $query = $res->query("ca-basedn.$dnsdomain", "TXT");
 if ($query) {
@@ -67,7 +67,7 @@ if ($query) {
             if($ca_basedn eq ''){
                 $ca_basedn = join(', ',@components);
             }else{
-                $ca_basedn = ", ".join(', ',@components);
+                $ca_basedn .= ", ".join(', ',@components);
             }
         }
         print "[$ca_basedn]\n";
