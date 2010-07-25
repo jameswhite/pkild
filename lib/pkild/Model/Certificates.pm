@@ -761,6 +761,7 @@ sub ca_initialize{
     # 
     # openssl.cnf
     #
+    my $template=Template->new();
     my $tpldata;
     my $text = $self->openssl_cnf_template(); 
     $tpldata->{'cert_home_dir'}="$dir";
