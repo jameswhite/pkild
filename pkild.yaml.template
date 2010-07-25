@@ -7,7 +7,7 @@ global:
   orgunits:
     - ou=People
     - ou=Hosts
-Model::Certificate:
+Model::Certificates:
   root_dir: /var/lib/pkild/certificate_authority
 authentication:
   use_session: 1
