@@ -92,7 +92,9 @@ sub default : Private {
         if( $c->check_user_roles( "certificate_administrators" ) ){
             # The only thing an admin can do with no tree is initialize the tree...
             if($c->req->method eq 'POST'){ 
-print STDERR Data::Dumper->Dump([$c->req->param]);
+if($c->req->param('create_cert_tree')){
+    print STDERR "create_cert_tree: ".$c->req->param('create_cert_tree')."\n";
+}
                 if($c->req->param('create_cert_tree')){
                     $c->model('Certificates')->tree_init( $c->model('Certificates')->ca_basedn($c->session->{'user'}) );
                     $c->res->redirect('/');
