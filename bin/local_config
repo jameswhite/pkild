@@ -62,10 +62,11 @@ if ($query) {
                 $val=~s/^\s//; $val=~s/\s$//;
                 $key=~tr/A-Z/a-z/;
                 $components[$idx]="$key=$val";
+                $ca_basedn .= (', ',@components);
             }
+            print Data::Dumper->Dump([@components]);
             $ca_basedn = join(', ',@components);
         }
-print "[$ca_basedn]\n";
     }
 }else{
     warn "query failed: ", $res->errorstring, "\n";
