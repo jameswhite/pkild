@@ -215,7 +215,6 @@ use FileHandle;
     my $domain=$self->object_domain($objectname);
     # Re-Map the domain if specified...
     my $ca = $self->ca_for($domain);
-print STDERR "ca: $ca\n";
     my $ca_subject;
     if( -f "$ca/$domain.crt" ){
         $ca_subject=$self->cert_subject("$ca/$domain.crt");
@@ -1098,7 +1097,7 @@ policy = policy_match
 countryName = match
 stateOrProvinceName = match
 localityName = match
-organizationName = match
+organizationName = optional
 organizationalUnitName = optional
 commonName = supplied
 emailAddress = optional
