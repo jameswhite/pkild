@@ -780,7 +780,6 @@ sub ca_initialize{
     # let's not use spaces and capital letters in our uris...
     $tpldata->{'crl_path'}=~s/ /_/g;
     $tpldata->{'crl_path'}=~tr/A-Z/a-z/;
-    print STDERR Data::Dumper->Dump([$tpldata]);
     $template->process(\$text,$tpldata,"$dir/openssl.cnf");
     # private.key
     system("/usr/bin/openssl genrsa -out \"$dir/private/key\" 4096");
