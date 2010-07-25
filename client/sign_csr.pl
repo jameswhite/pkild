@@ -82,10 +82,10 @@ while( ($successful_creation==0) && ($count < 6) ){
         print "We need to Authenticate.\n";
         $mech->submit_form(
                             with_fields => {
-                                             'username'    => 'loki',
-                                             'password'    => $ENV{'LOKI_PASSWD'},
-                                             #'username'    => 'whitejs',
-                                             #'password'    => $ENV{'WHITEJS_PASSWD'},
+                                             #'username'    => 'loki',
+                                             #'password'    => $ENV{'LOKI_PASSWD'},
+                                             'username'    => 'whitejs',
+                                             'password'    => $ENV{'WHITEJS_PASSWD'},
                                            }
                           );
     }else{
