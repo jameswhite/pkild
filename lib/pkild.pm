@@ -29,14 +29,8 @@ our $VERSION = '0.01';
 # with a external configuration file acting as an override for
 # local deployment.
 
-__PACKAGE__->config( 
-                     'name' => 'pkild',
-                     'global'              => YAML::LoadFile(file(__PACKAGE__->config->{home},'pkild.yaml')->{'global'}),
-                     'authentication'      => YAML::LoadFile(file(__PACKAGE__->config->{home},'pkild.yaml')->{'authentication'}),
-                     'Model::Certificates' => YAML::LoadFile(file(__PACKAGE__->config->{home},'pkild.yaml')->{'Model::Certificate'}),
-                     'layout'              => YAML::LoadFile(file(__PACKAGE__->config->{home},'root/forms/default.yaml')),
-                   );
-
+__PACKAGE__->config( YAML::LoadFile(file(__PACKAGE__->config->{home},'pkild.yaml')->{'global'}));
+__PACKAGE__->config->{layout} = YAML::LoadFile(file(__PACKAGE__->config->{home},'root/forms/default.yaml'));
 # Start the application
 __PACKAGE__->setup( qw/RequireSSL/ );
 __PACKAGE__->config->{require_ssl} = {
