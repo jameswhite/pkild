@@ -780,13 +780,13 @@ sub ca_initialize{
     $tpldata->{'ca_default_days'}="365";
     $tpldata->{'crl_path'}=$crl_path;
     my $text = $self->openssl_cnf_template(); 
-    my @tree=split(/\//,$dir);
     my $map = {
                 'c'  => 'ca_country',
                 'st' => 'ca_state',
                 'l'  => 'ca_locality',
                 'o'  => 'ca_org',
-              }
+              };
+    my @tree=split(/\//,$dir);
     foreach my $branch (@tree){
         my ($k,$v)=split(/=/,$branch);
         $tpldata->{ $map->{$k} }=$v;
