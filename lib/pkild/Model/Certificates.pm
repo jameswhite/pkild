@@ -774,8 +774,8 @@ sub ca_initialize{
     my $template=Template->new();
     my $tpldata;
     $tpldata->{'cert_home_dir'}="\"$dir\"";
-    $tpldata->{'ca_orgunit'}="\"Certificate Authority\"";
-    $tpldata->{'ca_email'}="\"certmaster\@$domain\"";
+    $tpldata->{'ca_orgunit'}="Certificate Authority";
+    $tpldata->{'ca_email'}="certmaster\@$domain";
     $tpldata->{'crl_days'}="30";
     $tpldata->{'ca_default_days'}="365";
     $tpldata->{'crl_path'}=$crl_path;
@@ -786,11 +786,13 @@ sub ca_initialize{
                 'st' => 'ca_state',
                 'l'  => 'ca_locality',
                 'o'  => 'ca_org',
+                'cn' => 'ca_org', # we just repeat this because there is no hostname
               };
     my @tree=split(/\//,$dir);
     foreach my $branch (@tree){
         my ($k,$v)=split(/=/,$branch);
-        $tpldata->{ $map->{$k} }=$v;
+        print STDERR "\$tpldata->{ $map->{$k} }=$v\n";
+        if(defined($map->{$k})){ $tpldata->{ $map->{$k} }=$v; }
     }
     $template->process(\$text,$tpldata,"$dir/openssl.cnf");
     # private.key
