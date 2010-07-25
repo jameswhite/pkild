@@ -729,10 +729,18 @@ sub tree_init{
         $ca_dir.="/$ca_tree[$idx]";
         if(! -d "$ca_dir"){ mkdir($ca_dir,0750); }
     }
+    # Create the root certificate authority for our organization
     if(! -d "$ca_dir Root Certificate Authority"){ 
         $self->ca_initialize("$ca_dir Root Certificate Authority",undef);
     }
-    if(! -d "$ca_dir Intermediate Certificate Authority"){ mkdir("$ca_dir Intermediate Certificate Authority",0750); }
+    # Create the intermediate certificate authority for our organization, sign it with the Root CA
+    if(! -d "$ca_dir Intermediate Certificate Authority"){ 
+        $self->ca_initialize("$ca_dir Intermediate Certificate Authority","$ca_dir Root Certificate Authority");
+    }
+    # Create the certificate authority for our organization, sign it with the Intermediate CA
+    if(! -d "$ca_dir"){ 
+        $self->ca_initialize("$ca_dir","$ca_dir Root Certificate Authority");
+    }
     if(! -d "$ca_dir/ou=People"){ mkdir("$ca_dir/ou=People",0750); }
     if(! -d "$ca_dir/ou=Hosts"){ mkdir("$ca_dir/ou=Hosts",0750); }
     return $self;
