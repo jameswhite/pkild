@@ -73,7 +73,6 @@ while( ($successful_creation==0) && ($count < 6) ){
                 $mech->click( 'create_cert_tree' );
             }
         }
-        exit -1;
     }elsif(grep /Please [Ll]og [Ii]n/, @legends){
         print "We need to Authenticate.\n";
         $mech->submit_form(
