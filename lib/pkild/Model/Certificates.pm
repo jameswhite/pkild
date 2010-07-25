@@ -749,7 +749,7 @@ sub tree_init{
 # Create a certificate authority in the provided directory, sign with the $parent (dir) if provided, else self-sign
 sub ca_initialize{
     my ($self, $dir ,$parent)=@_;
-    my $domain = "example.org";
+    my $domain = "example.org"; #how do I get this shit?
     my $crl_path = "https://pki.example.org/ugh.$domain.crl";
     if(! -d "$dir"){ mkdir("$dir",0750); }
     if(! -d "$dir/certs"){ mkdir("$dir/private",0750); }
