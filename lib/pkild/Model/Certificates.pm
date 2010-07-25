@@ -729,10 +729,44 @@ sub tree_init{
         $ca_dir.="/$ca_tree[$idx]";
         if(! -d "$ca_dir"){ mkdir($ca_dir,0750); }
     }
-    if(! -d "$ca_dir Root Certificate Authority"){ mkdir("$ca_dir Root Certificate Authority",0750); }
+    if(! -d "$ca_dir Root Certificate Authority"){ 
+        $self->ca_initialize("$ca_dir Root Certificate Authority",undef);
+    }
     if(! -d "$ca_dir Intermediate Certificate Authority"){ mkdir("$ca_dir Intermediate Certificate Authority",0750); }
     if(! -d "$ca_dir/ou=People"){ mkdir("$ca_dir/ou=People",0750); }
     if(! -d "$ca_dir/ou=Hosts"){ mkdir("$ca_dir/ou=Hosts",0750); }
+    return $self;
+}
+
+# Create a certificate authority in the provided directory, sign with the $parent (dir) if provided, else self-sign
+sub ca_initialize{
+    my ($self,$dir,$parent)=@_
+    if(! -d "$dir"){ mkdir("$dir",0750); }
+    if(! -d "$dir/certs"){ mkdir("$dir/private",0750); }
+    if(! -d "$dir/crl"){ mkdir("$dir/crl",0750); }
+    if(! -d "$dir/newcerts"){ mkdir("$dir/newcerts",0750); }
+    if(! -d "$dir/private"){ mkdir("$dir/private",0750); }
+    if(! -f "$dir/serial"){
+        my $fh = FileHandle->new("> $dir/serial");
+        if (defined $fh) { print $fh "01\n"; $fh->close; }
+    }
+    if(! -f "$dir/crlnumber"){
+        my $fh = FileHandle->new("> $dir/crlnumber");
+        if (defined $fh) { print $fh "01\n"; $fh->close; }
+    }
+    if(! -f "$dir/index.txt"){
+        my $fh = FileHandle->new("> $dir/index.txt");
+        if (defined $fh) { print $fh ''; $fh->close; }
+    }
+    # openssl.cnf
+    my $text=$self->openssl_cnf_template(); 
+    $tpldata->{"$dir"}="$node_dir/$param->{'ca_domain'}";
+    $template->process(\$text,$tpldata,"$node_dir/$param->{'ca_domain'}/openssl.cnf");
+    # private.key
+    system("/usr/bin/openssl genrsa -out \"$dir/private/key\" 4096");
+    # cacert.crt
+    # trustchain.crt
+    # trustchain.pem
     return $self;
 }
 
