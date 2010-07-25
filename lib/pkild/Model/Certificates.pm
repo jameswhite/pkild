@@ -787,7 +787,8 @@ sub ca_initialize{
             $org=$v if($k eq 'o');
         }
     }
-    $tpldata->{'crl_path'}="\"$crl_path/$org.crl\"";
+    $tpldata->{'crl_path'}="$crl_path/$org.crl";
+    $tpldata->{'crl_path'}=~s/ /_/g;
     print STDERR Data::Dumper->Dump([$tpldata]);
     $template->process(\$text,$tpldata,"$dir/openssl.cnf");
     # private.key
