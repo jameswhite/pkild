@@ -779,6 +779,7 @@ sub ca_initialize{
     $tpldata->{'crl_days'}="30";
     $tpldata->{'ca_default_days'}="365";
     $tpldata->{'crl_path'}=$crl_path;
+    $tpldata->{'crl_domain'}=$domain;
     my $text = $self->openssl_cnf_template(); 
     my $map = {
                 'c'  => 'ca_country',
