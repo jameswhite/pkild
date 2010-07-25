@@ -746,6 +746,12 @@ sub tree_init{
     return $self;
 }
 
+sub dnsdomainname{
+    my ($self,$domain)=@_;
+    $self->{'domain'}=$domain if $domain;
+    return $self->{'domain'};
+}
+
 # Create a certificate authority in the provided directory, sign with the $parent (dir) if provided, else self-sign
 sub ca_initialize{
     my ($self, $dir ,$parent)=@_;
