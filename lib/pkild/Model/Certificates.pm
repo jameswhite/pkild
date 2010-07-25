@@ -740,7 +740,7 @@ sub tree_init{
 
 # Create a certificate authority in the provided directory, sign with the $parent (dir) if provided, else self-sign
 sub ca_initialize{
-    my ($self,$dir,$parent)=@_
+    my ($self, $dir ,$parent)=@_;
     if(! -d "$dir"){ mkdir("$dir",0750); }
     if(! -d "$dir/certs"){ mkdir("$dir/private",0750); }
     if(! -d "$dir/crl"){ mkdir("$dir/crl",0750); }
