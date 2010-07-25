@@ -24,7 +24,6 @@ if(-f "/etc/ldap/ldap.conf"){
 my $dnsdomain=$var->{'LDAP_BASEDN'};
 $dnsdomain=~s/,dc=/\./g;
 $dnsdomain=~s/^dc=//g;
-print STDERR "domain: $dnsdomain\n";
 ################################################################################
 # verify we have something for each of them or complain
 ################################################################################
@@ -49,6 +48,7 @@ exit unless $ready;
 # figure out where we are so we can find our authconfig template
 ################################################################################
 use Net::DNS;
+my $ca_basedn;
 my $res   = Net::DNS::Resolver->new;
 my $query = $res->query("ca-basedn.$dnsdomain", "TXT");
 if ($query) {
@@ -62,13 +62,12 @@ if ($query) {
                 $key=~tr/A-Z/a-z/;
                 $components[$idx]="$key=$val";
             }
-            return join(', ',@components);
+            $ca_basedn = join(', ',@components);
         }
     }
 }else{
     warn "query failed: ", $res->errorstring, "\n";
 }
-
 
 ################################################################################
 # figure out where we are so we can find our authconfig template
@@ -101,6 +100,8 @@ foreach my $key (keys(%{ $template->{'authentication'}->{'realms'}->{'ldap-hosts
     }
 }
 $template->{'authentication'}->{'realms'}->{'ldap-hosts'}->{'store'}->{'ldap_server'}=YAML::Load(YAML::Dump($var->{'LDAP_URI'}));
+$template->{'global'}->{'domain'}=$dnsdomain;
+$template->{'global'}->{'cert_basedn'}=$ca_basedn;
 
 if($config=~m/(.*)/){
     my $newconfig=$1;
