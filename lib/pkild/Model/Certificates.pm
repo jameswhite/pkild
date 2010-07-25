@@ -776,8 +776,8 @@ sub ca_initialize{
     $tpldata->{'cert_home_dir'}="\"$dir\"";
     $tpldata->{'ca_orgunit'}="\"Certificate Authority\"";
     $tpldata->{'ca_email'}="\"certmaster\@$domain\"";
-    $tpldata->{'crl_days'}="30"
-    $tpldata->{'ca_default_days'}="365"
+    $tpldata->{'crl_days'}="30";
+    $tpldata->{'ca_default_days'}="365";
     $tpldata->{'crl_path'}=$crl_path;
     my $text = $self->openssl_cnf_template(); 
     my @tree=split(/\//,$dir){
