@@ -762,8 +762,8 @@ sub ca_initialize{
     # openssl.cnf
     #
     my $tpldata;
-    my $text=$self->openssl_cnf_template(); 
-    $tpldata->{"$cert_home_dir"}="$dir";
+    my $text = $self->openssl_cnf_template(); 
+    $tpldata->{'cert_home_dir'}="$dir";
     $template->process(\$text,$tpldata,"$dir/openssl.cnf");
     # private.key
     system("/usr/bin/openssl genrsa -out \"$dir/private/key\" 4096");
