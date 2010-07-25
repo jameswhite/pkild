@@ -64,10 +64,13 @@ if ($query) {
                 $key=~tr/A-Z/a-z/;
                 $components[$idx]="$key=$val";
             }
-            print Data::Dumper->Dump([@components]);
-            $ca_basedn = join(', ',@components);
-            print "[$ca_basedn]\n";
+            if($ca_basedn eq ''){
+                $ca_basedn = join(', ',@components);
+            }else{
+                $ca_basedn = ", ".join(', ',@components);
+            }
         }
+        print "[$ca_basedn]\n";
     }
 }else{
     warn "query failed: ", $res->errorstring, "\n";
