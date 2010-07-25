@@ -109,7 +109,7 @@ foreach my $key (keys(%{ $template->{'authentication'}->{'realms'}->{'ldap-hosts
 $template->{'authentication'}->{'realms'}->{'ldap-hosts'}->{'store'}->{'ldap_server'}=YAML::Load(YAML::Dump($var->{'LDAP_URI'}));
 $template->{'global'}->{'domain'}=$dnsdomain;
 $template->{'global'}->{'cert_basedn'}=$ca_basedn;
-$template->{'global'}->{'crl_base'}="https://pki.$domain";
+$template->{'global'}->{'crl_base'}="https://pki.$dnsdomain";
 
 if($config=~m/(.*)/){
     my $newconfig=$1;
