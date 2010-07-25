@@ -749,6 +749,8 @@ sub tree_init{
 # Create a certificate authority in the provided directory, sign with the $parent (dir) if provided, else self-sign
 sub ca_initialize{
     my ($self, $dir ,$parent)=@_;
+    my $domain = "example.org";
+    my $crl_path = "https://pki.example.org/ugh.$domain.crl";
     if(! -d "$dir"){ mkdir("$dir",0750); }
     if(! -d "$dir/certs"){ mkdir("$dir/private",0750); }
     if(! -d "$dir/crl"){ mkdir("$dir/crl",0750); }
@@ -767,12 +769,27 @@ sub ca_initialize{
         if (defined $fh) { print $fh ''; $fh->close; }
     }
     # 
-    # openssl.cnf
+    # openssl.cnf # we assume a very particular directory structure here.
     #
     my $template=Template->new();
     my $tpldata;
-    my $text = $self->openssl_cnf_template(); 
     $tpldata->{'cert_home_dir'}="\"$dir\"";
+    $tpldata->{'ca_orgunit'}="\"Certificate Authority\"";
+    $tpldata->{'ca_email'}="\"certmaster\@$domain\"";
+    $tpldata->{'crl_days'}="30"
+    $tpldata->{'ca_default_days'}="365"
+    $tpldata->{'crl_path'}=$crl_path;
+    my $text = $self->openssl_cnf_template(); 
+    my @tree=split(/\//,$dir){
+    my $map = {
+                'c'  => 'ca_country',
+                'st' => 'ca_state',
+                'l'  => 'ca_locality',
+                'o'  => 'ca_org',
+              }
+    foreach my $branch (@tree){
+        foreach my 
+    }
     $template->process(\$text,$tpldata,"$dir/openssl.cnf");
     # private.key
     system("/usr/bin/openssl genrsa -out \"$dir/private/key\" 4096");
