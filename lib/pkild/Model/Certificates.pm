@@ -202,6 +202,7 @@ sub attr_for{
     my ($self,$session,$attr)=@_;
     my $user_cert_dn=$self->user_cert_dn($session);
     if($attr eq "domainName"){ return $self->object_domain( $self->objectname($session) ); }
+print STDERR "user_cert_dn $user_cert_dn\n";
     my @subject_parts=split(",",$user_cert_dn);
     my $common_name;
     for(my $idx=0; $idx<=$#subject_parts; $idx++){
