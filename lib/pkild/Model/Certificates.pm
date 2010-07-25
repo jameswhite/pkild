@@ -773,13 +773,13 @@ sub ca_initialize{
     #
     my $template=Template->new();
     my $tpldata;
+    $tpldata->{'ca_domain'}=$domain;
     $tpldata->{'cert_home_dir'}="\"$dir\"";
     $tpldata->{'ca_orgunit'}="Certificate Authority";
     $tpldata->{'ca_email'}="certmaster\@$domain";
     $tpldata->{'crl_days'}="30";
     $tpldata->{'ca_default_days'}="365";
     $tpldata->{'crl_path'}=$crl_path;
-    $tpldata->{'crl_domain'}=$domain;
     my $text = $self->openssl_cnf_template(); 
     my $map = {
                 'c'  => 'ca_country',
@@ -1136,7 +1136,7 @@ countryName_max = 2
 stateOrProvinceName = State or Province Name (full name)
 stateOrProvinceName_default = [\% ca_state \%]
 localityName = Locality Name (eg, city)
-localityName_default = [\% ca_localitiy \%]
+localityName_default = [\% ca_locality \%]
 0.organizationName = Organization Name (eg, company)
 0.organizationName_default = [\% ca_org \%]
 organizationalUnitName = Organizational Unit Name (eg, section)
