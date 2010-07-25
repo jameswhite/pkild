@@ -784,7 +784,7 @@ sub ca_initialize{
         my ($k,$v)=split(/=/,$branch);
         if(defined($map->{$k})){ 
             $tpldata->{ $map->{$k} }=$v; 
-            $org=$v if($k eq o);
+            $org=$v if($k eq 'o');
         }
     }
     $tpldata->{'crl_path'}="$crl_path/$org.crl";
