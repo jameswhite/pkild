@@ -75,6 +75,7 @@ if ($query) {
     warn "query failed: ", $res->errorstring, "\n";
 }
 
+
 ################################################################################
 # figure out where we are so we can find our authconfig template
 ################################################################################
@@ -108,6 +109,7 @@ foreach my $key (keys(%{ $template->{'authentication'}->{'realms'}->{'ldap-hosts
 $template->{'authentication'}->{'realms'}->{'ldap-hosts'}->{'store'}->{'ldap_server'}=YAML::Load(YAML::Dump($var->{'LDAP_URI'}));
 $template->{'global'}->{'domain'}=$dnsdomain;
 $template->{'global'}->{'cert_basedn'}=$ca_basedn;
+$template->{'global'}->{'crl_base'}="https://pki.$domain";
 
 if($config=~m/(.*)/){
     my $newconfig=$1;

@@ -4,6 +4,7 @@ global:
   name: pkild
   domain: '[% domainname %]'
   cert_basedn: '[% cert_basedn %]'
+  crl_base: '[% crl_base %]'
   orgunits:
     - ou=People
     - ou=Hosts

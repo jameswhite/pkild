@@ -731,11 +731,17 @@ sub dnsdomainname{
     return $self->{'domain'};
 }
 
+sub crl_base{
+    my ($self,$crl_base)=@_;
+    $self->{'crl_base'}=$crl_base if $crl_base;
+    return $self->{'crl_base'};
+}
+
 # Create a certificate authority in the provided directory, sign with the $parent (dir) if provided, else self-sign
 sub ca_initialize{
     my ($self, $dir ,$parent)=@_;
-    my $domain = "example.org"; #how do I get this shit?
-    my $crl_path = "https://pki.example.org/ugh.$domain.crl";
+    my $domain = $self->{'domain'};
+    my $crl_path = $self->{'crl_base'};
     if(! -d "$dir"){ mkdir("$dir",0750); }
     if(! -d "$dir/certs"){ mkdir("$dir/private",0750); }
     if(! -d "$dir/crl"){ mkdir("$dir/crl",0750); }
