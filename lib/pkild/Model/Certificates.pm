@@ -791,9 +791,11 @@ sub ca_initialize{
     my @tree=split(/\//,$dir);
     foreach my $branch (@tree){
         my ($k,$v)=split(/=/,$branch);
-        print STDERR "\$tpldata->{ $map->{$k} }=$v\n";
-        if(defined($map->{$k})){ $tpldata->{ $map->{$k} }=$v; }
+        if(defined($map->{$k})){ 
+            $tpldata->{ $map->{$k} }=$v; 
+        }
     }
+    print STDERR Data::Dumper->Dump([$tpldata]);
     $template->process(\$text,$tpldata,"$dir/openssl.cnf");
     # private.key
     system("/usr/bin/openssl genrsa -out \"$dir/private/key\" 4096");
