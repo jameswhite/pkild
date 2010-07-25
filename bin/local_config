@@ -44,7 +44,7 @@ my $bin=$0;
 my $dir=$1 if($bin=~m/(.*)\/[^\/]+/);
 chdir $dir; $dir=getcwd;
 $dir=~s/\/bin//;
-$config="$dir/authconfig.yaml.template";
+$config="$dir/pkild.yaml.template";
 
 ################################################################################
 # Now we write out our template
@@ -53,21 +53,21 @@ my $template;
 if(-f "$config"){
     $template=YAML::LoadFile($config);
 }
-foreach my $key (keys(%{ $template->{'realms'}->{'ldap-people'}->{'store'} })){
-    if($template->{'realms'}->{'ldap-people'}->{'store'}->{$key}=~m/\[\% (.*) \%\]/){ 
+foreach my $key (keys(%{ $template->{'authentication'}->{'realms'}->{'ldap-people'}->{'store'} })){
+    if($template->{'authentication'}->{'realms'}->{'ldap-people'}->{'store'}->{$key}=~m/\[\% (.*) \%\]/){ 
         my $replacement=$1;
-        $template->{'realms'}->{'ldap-people'}->{'store'}->{$key}=~s/\[\%.*\%\]/$var->{$replacement}/;
+        $template->{'authentication'}->{'realms'}->{'ldap-people'}->{'store'}->{$key}=~s/\[\%.*\%\]/$var->{$replacement}/;
     }
 }
-$template->{'realms'}->{'ldap-people'}->{'store'}->{'ldap_server'}=YAML::Load(YAML::Dump($var->{'LDAP_URI'}));
+$template->{'authentication'}->{'realms'}->{'ldap-people'}->{'store'}->{'ldap_server'}=YAML::Load(YAML::Dump($var->{'LDAP_URI'}));
 
-foreach my $key (keys(%{ $template->{'realms'}->{'ldap-hosts'}->{'store'} })){
-    if($template->{'realms'}->{'ldap-hosts'}->{'store'}->{$key}=~m/\[\% (.*) \%\]/){ 
+foreach my $key (keys(%{ $template->{'authentication'}->{'realms'}->{'ldap-hosts'}->{'store'} })){
+    if($template->{'authentication'}->{'realms'}->{'ldap-hosts'}->{'store'}->{$key}=~m/\[\% (.*) \%\]/){ 
         my $replacement=$1;
-        $template->{'realms'}->{'ldap-hosts'}->{'store'}->{$key}=~s/\[\%.*\%\]/$var->{$replacement}/;
+        $template->{'authentication'}->{'realms'}->{'ldap-hosts'}->{'store'}->{$key}=~s/\[\%.*\%\]/$var->{$replacement}/;
     }
 }
-$template->{'realms'}->{'ldap-hosts'}->{'store'}->{'ldap_server'}=YAML::Load(YAML::Dump($var->{'LDAP_URI'}));
+$template->{'authentication'}->{'realms'}->{'ldap-hosts'}->{'store'}->{'ldap_server'}=YAML::Load(YAML::Dump($var->{'LDAP_URI'}));
 
 if($config=~m/(.*)/){
     my $newconfig=$1;

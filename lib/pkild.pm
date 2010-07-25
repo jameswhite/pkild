@@ -31,10 +31,10 @@ our $VERSION = '0.01';
 
 __PACKAGE__->config( 
                      'name' => 'pkild',
-                     'global'              => YAML::LoadFile( file(__PACKAGE__->config->{home}, 'pkild.yaml')),
-                     'authentication'      => YAML::LoadFile( file(__PACKAGE__->config->{home}, 'authconfig.yaml') ),
-                     'Model::Certificates' => YAML::LoadFile( file(__PACKAGE__->config->{home}, 'certconfig.yaml')),
-                     'layout'              => YAML::LoadFile( file(__PACKAGE__->config->{home}, 'root/forms/default.yaml')),
+                     'global'              => YAML::LoadFile(file(__PACKAGE__->config->{home},'pkild.yaml')->{'global'}),
+                     'authentication'      => YAML::LoadFile(file(__PACKAGE__->config->{home},'pkild.yaml')->{'authentication'}),
+                     'Model::Certificates' => YAML::LoadFile(file(__PACKAGE__->config->{home},'pkild.yaml')->{'Model::Certificate'}),
+                     'layout'              => YAML::LoadFile(file(__PACKAGE__->config->{home},'root/forms/default.yaml')),
                    );
 
 # Start the application
