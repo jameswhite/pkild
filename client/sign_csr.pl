@@ -70,7 +70,7 @@ while( ($successful_creation==0) && ($count < 6) ){
                 exit -1;
             }else{
                 print "We have administrator rights. Creating the tree\n";
-                $mech->submit_form();
+                $mech->submit_form( fields  => { 'create_cert_tree' => 'Create' } );
             }
         }
         exit -1;
