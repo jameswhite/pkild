@@ -31,7 +31,6 @@ our $VERSION = '0.01';
 
 __PACKAGE__->config( YAML::LoadFile( file(__PACKAGE__->config->{home}, 'pkild.yaml') ) );
 __PACKAGE__->config->{layout} = YAML::LoadFile( file(__PACKAGE__->config->{home},'root/forms/default.yaml') );
-print STDERR Data::Dumper->Dump([__PACKAGE__->config->{'Model::Certificates'}]);
 # Start the application
 __PACKAGE__->setup( qw/RequireSSL/ );
 __PACKAGE__->config->{require_ssl} = {

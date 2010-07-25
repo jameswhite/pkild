@@ -20,6 +20,11 @@ if(-f "/etc/ldap/ldap.conf"){
         $fh->close;
     }
 }
+
+my $dnsdomain=$var->{'LDAP_BASEDN'};
+$dnsdomain=~s/,dc=/\./g;
+$dnsdomain=~s/^dc=//g;
+print STDERR "domain: $dnsdomain\n";
 ################################################################################
 # verify we have something for each of them or complain
 ################################################################################
@@ -36,6 +41,34 @@ foreach my $vitem (@variables){
     }
 }
 exit unless $ready;
+################################################################################
+# figure out where we are so we can find our authconfig template
+################################################################################
+
+################################################################################
+# figure out where we are so we can find our authconfig template
+################################################################################
+use Net::DNS;
+my $res   = Net::DNS::Resolver->new;
+my $query = $res->query("ca-basedn.$dnsdomain", "TXT");
+if ($query) {
+    foreach my $rr (grep { $_->type eq 'TXT' } $query->answer) {
+        foreach my $r ($rr->char_str_list){
+            my @components=split(",",$r);
+            for(my $idx=0; $idx<=$#components; $idx++){
+                my ($key,$val) = split(/=/,$components[$idx]);
+                $key=~s/^\s//; $key=~s/\s$//;
+                $val=~s/^\s//; $val=~s/\s$//;
+                $key=~tr/A-Z/a-z/;
+                $components[$idx]="$key=$val";
+            }
+            return join(', ',@components);
+        }
+    }
+}else{
+    warn "query failed: ", $res->errorstring, "\n";
+}
+
 
 ################################################################################
 # figure out where we are so we can find our authconfig template
