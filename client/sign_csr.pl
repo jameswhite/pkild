@@ -1,4 +1,5 @@
 #!/usr/bin/perl
+use Data::Dumper;
 use WWW::Mechanize;
 use File::Temp qw/ tempfile tempdir /;
 use Sys::Hostname::Long;
@@ -62,15 +63,29 @@ while( ($successful_creation==0) && ($count < 6) ){
         $successful_creation=1;
         $mech->back();
     }elsif(grep /No certificate tree found/, @legends){
+        print "We need to create the tree.\n";
+        foreach my $form ($mech->forms()){
+            if($form->inputs() < 1){
+                print "We do not have administrator rights. Can not create the tree.\n";
+                exit -1;
+            }else{
+                print "We have administrator rights. Creating the tree\n";
+                $mech->submit_form(
+                                    with_fields => {
+                                                     'create_cert_tree' => 'Create',
+                                                   }
+                                  );
+            }
+        }
         exit -1;
     }elsif(grep /Please [Ll]og [Ii]n/, @legends){
         print "We need to Authenticate.\n";
         $mech->submit_form(
                             with_fields => {
-                                             #'username'    => 'loki',
-                                             #'password'    => $ENV{'LOKI_PASSWD'},
-                                             'username'    => 'whitejs',
-                                             'password'    => $ENV{'WHITEJS_PASSWD'},
+                                             'username'    => 'loki',
+                                             'password'    => $ENV{'LOKI_PASSWD'},
+                                             #'username'    => 'whitejs',
+                                             #'password'    => $ENV{'WHITEJS_PASSWD'},
                                            }
                           );
     }else{
