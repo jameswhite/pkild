@@ -770,7 +770,6 @@ sub ca_initialize{
     $tpldata->{'ca_email'}="certmaster\@$domain";
     $tpldata->{'crl_days'}="30";
     $tpldata->{'ca_default_days'}="365";
-    $tpldata->{'crl_path'}=$crl_path;
     my $text = $self->openssl_cnf_template(); 
     my $map = {
                 'c'  => 'ca_country',
@@ -779,13 +778,16 @@ sub ca_initialize{
                 'o'  => 'ca_org',
                 'cn' => 'ca_org', # we just repeat this because there is no hostname
               };
+    my $org;
     my @tree=split(/\//,$dir);
     foreach my $branch (@tree){
         my ($k,$v)=split(/=/,$branch);
         if(defined($map->{$k})){ 
             $tpldata->{ $map->{$k} }=$v; 
+            $org=$v if($k eq o);
         }
     }
+    $tpldata->{'crl_path'}="$crl_path/$org.crl";
     print STDERR Data::Dumper->Dump([$tpldata]);
     $template->process(\$text,$tpldata,"$dir/openssl.cnf");
     # private.key
