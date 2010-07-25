@@ -202,7 +202,6 @@ sub attr_for{
     my ($self,$session,$attr)=@_;
     my $user_cert_dn=$self->user_cert_dn($session);
     if($attr eq "domainName"){ return $self->object_domain( $self->objectname($session) ); }
-print STDERR "user_cert_dn $user_cert_dn\n";
     my @subject_parts=split(",",$user_cert_dn);
     my $common_name;
     for(my $idx=0; $idx<=$#subject_parts; $idx++){
@@ -238,6 +237,7 @@ use FileHandle;
     my ($self,$user_session) = @_;
     print STDERR "enter cert_dn\n" if $self->{'trace'};
     my $objectname=$self->objectname($user_session);
+print STDERR "objectname: $objectname\n";
     my $cn=$objectname;
     my $type=undef;
     my $orgunit=undef;
