@@ -790,7 +790,7 @@ sub ca_initialize{
     #system("/usr/bin/openssl ca -extensions v3_ca -days 365 -out \"$dir/crt\" -in \"$dir/csr\" -config \"$dir/openssl.cnf\" -batch");
         print STDERR "fixme.\n";
     }else{
-        system("openssl req -new -x509 -nodes -sha1 -days 3650 -key \"$dir/key\" -out \"$dir/pem\" -config \"$dir/openssl.cnf\" -batch");
+        system("openssl req -new -x509 -nodes -sha1 -days 3650 -key \"$dir/private/key\" -out \"$dir/pem\" -config \"$dir/openssl.cnf\" -batch");
 
     }
     # trustchain.crt
