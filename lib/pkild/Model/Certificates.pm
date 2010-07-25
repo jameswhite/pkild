@@ -3,7 +3,6 @@ package pkild::Model::Certificates;
 use strict;
 use base 'Catalyst::Model::File';
 use Path::Class 'file';
-use Net::DNS;
 use Cwd;
 
 __PACKAGE__->config( node_separator => '::');
@@ -785,7 +784,10 @@ sub ca_initialize{
     $template->process(\$text,$tpldata,"$dir/openssl.cnf");
     # private.key
     system("/usr/bin/openssl genrsa -out \"$dir/private/key\" 4096");
-    # cacert.crt
+    # csr
+    system("/usr/bin/openssl req -new -sha1 -days 365 -key $dir/private/key  -out $dir/csr -config $dir/openssl.cnf -batch");
+    # crt
+
     # trustchain.crt
     # trustchain.pem
     return $self;
