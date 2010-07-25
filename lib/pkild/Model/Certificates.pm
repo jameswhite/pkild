@@ -784,7 +784,7 @@ sub ca_initialize{
     # private.key
     system("/usr/bin/openssl genrsa -out \"$dir/private/key\" 4096");
     # csr
-    system("/usr/bin/openssl req -new -sha1 -days 365 -key $dir/private/key  -out $dir/csr -config $dir/openssl.cnf -batch");
+    system("/usr/bin/openssl req -new -sha1 -days 365 -key \"$dir/private/key\"  -out \"$dir/csr\" -config \"$dir/openssl.cnf\" -batch");
     # crt
 
     # trustchain.crt
