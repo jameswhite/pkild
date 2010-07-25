@@ -730,15 +730,15 @@ sub tree_init{
         if(! -d "$ca_dir"){ mkdir($ca_dir,0750); }
     }
     # Create the root certificate authority for our organization
-    if(! -d "$ca_dir Root Certificate Authority"){ 
+    if(! -d "$ca_dir Root Certificate Authority/private"){ 
         $self->ca_initialize("$ca_dir Root Certificate Authority",undef);
     }
     # Create the intermediate certificate authority for our organization, sign it with the Root CA
-    if(! -d "$ca_dir Intermediate Certificate Authority"){ 
+    if(! -d "$ca_dir Intermediate Certificate Authority/private"){ 
         $self->ca_initialize("$ca_dir Intermediate Certificate Authority","$ca_dir Root Certificate Authority");
     }
     # Create the certificate authority for our organization, sign it with the Intermediate CA
-    if(! -d "$ca_dir"){ 
+    if(! -d "$ca_dir/private"){ 
         $self->ca_initialize("$ca_dir","$ca_dir Intermediate Certificate Authority");
     }
     if(! -d "$ca_dir/ou=People"){ mkdir("$ca_dir/ou=People",0750); }
