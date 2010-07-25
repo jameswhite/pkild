@@ -70,7 +70,7 @@ while( ($successful_creation==0) && ($count < 6) ){
                 exit -1;
             }else{
                 print "We have administrator rights. Creating the tree\n";
-                $mech->click( 'Create' );
+                $mech->click( 'create_cert_tree' );
             }
         }
         exit -1;
