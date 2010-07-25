@@ -84,17 +84,21 @@ sub default : Private {
         $c->forward('logout');
     }
 
-
+    ############################################################################
+    # set our model parameters
+    ############################################################################
     $c->model('Certificates')->dnsdomainname($c->config->{'global'}->{'domain'});
+    $c->model('Certificates')->ca_basedn($c->config->{'global'}->{'cert_basedn'});
+
     ############################################################################
     # if we have no data to operate on, then forward to the "Create Tree" view
     ############################################################################
-    if(! defined($c->model('Certificates')->cert_dn_tree('websages.com',$c->stash->{'orgunit'}))){
+    if(! defined($c->model('Certificates')->cert_dn_tree($c->config->{'global'}->{'domain'},$c->stash->{'orgunit'}))){
         if( $c->check_user_roles( "certificate_administrators" ) ){
             # The only thing an admin can do with no tree is initialize the tree...
             if($c->req->method eq 'POST'){ 
                 if($c->req->param('create_cert_tree')){
-                    $c->model('Certificates')->tree_init( $c->model('Certificates')->ca_basedn($c->session->{'user'}) );
+                    $c->model('Certificates')->tree_init( $c->model('Certificates')->ca_basedn() );
                     $c->res->redirect('/');
                     $c->detach();
                 }

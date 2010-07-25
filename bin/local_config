@@ -70,7 +70,6 @@ if ($query) {
                 $ca_basedn .= ", ".join(', ',@components);
             }
         }
-        print "[$ca_basedn]\n";
     }
 }else{
     warn "query failed: ", $res->errorstring, "\n";

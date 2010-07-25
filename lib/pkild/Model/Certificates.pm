@@ -83,30 +83,9 @@ sub csr_subject{
 }
 
 sub ca_basedn{
-    my ($self,$session) = @_;
-    print STDERR "enter cert_dn_tree\n" if $self->{'trace'};
-    my $dnsdomain = $self->object_domain( $self->objectname($session) );
-    use Net::DNS;
-    my $res   = Net::DNS::Resolver->new;
-    my $query = $res->query("ca-basedn.$dnsdomain", "TXT");
-    if ($query) {
-        foreach my $rr (grep { $_->type eq 'TXT' } $query->answer) {
-            foreach my $r ($rr->char_str_list){
-                my @components=split(",",$r);
-                for(my $idx=0; $idx<=$#components; $idx++){
-                    my ($key,$val) = split(/=/,$components[$idx]);
-                    $key=~s/^\s//; $key=~s/\s$//;
-                    $val=~s/^\s//; $val=~s/\s$//;
-                    $key=~tr/A-Z/a-z/;
-                    $components[$idx]="$key=$val";
-                }
-                return join(', ',@components);
-            }
-        }
-    }else{
-        warn "query failed: ", $res->errorstring, "\n";
-    }
-    print STDERR "exit cert_dn_tree undef\n" if $self->{'trace'};
+    my ($self,$ca_basedn) = @_;
+    $self->{'ca_basedn'}=$ca_basedn if $ca_basedn;
+    return $self->{'ca_basedn'} if $self->{'ca_basedn'};
     return undef;
 }
 ################################################################################
