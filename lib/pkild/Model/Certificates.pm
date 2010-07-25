@@ -237,7 +237,6 @@ use FileHandle;
     my ($self,$user_session) = @_;
     print STDERR "enter cert_dn\n" if $self->{'trace'};
     my $objectname=$self->objectname($user_session);
-print STDERR "objectname: $objectname\n";
     my $cn=$objectname;
     my $type=undef;
     my $orgunit=undef;
@@ -245,6 +244,7 @@ print STDERR "objectname: $objectname\n";
     $cn=~tr/A-Z/a-z/;
     if($cn=~m/\s*uid=(.*)/){ $type="user"; $cn=~s/\s*uid=//; $orgunit="People";  }
     if($cn=~m/\s*cn=(.*)/){ $type="host";  $cn=~s/\s*cn=//;  $orgunit="Hosts";}
+print STDERR "cn: $cn\n";
     my $domain=$self->object_domain($objectname);
     # Re-Map the domain if specified...
     my $ca = $self->ca_for($domain);
