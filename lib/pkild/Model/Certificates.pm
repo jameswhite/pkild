@@ -1114,7 +1114,7 @@ emailAddress = optional
  
 [ req ]
 default_bits = 1024
-default_keyfile = [\% ca_domain \%].pem
+default_keyfile = pem
 distinguished_name = req_distinguished_name
 attributes = req_attributes
 x509_extensions = v3_ca
