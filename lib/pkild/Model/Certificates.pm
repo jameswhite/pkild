@@ -95,30 +95,20 @@ sub cert_dn_tree{
     my ($self,$dnsdomain,$orgunit) = @_;
     print STDERR "enter cert_dn_tree\n" if $self->{'trace'};
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
-    use Net::DNS;
-    my $res   = Net::DNS::Resolver->new;
-    my $query = $res->query("ca-basedn.$dnsdomain", "TXT");
-    if ($query) {
-        foreach my $rr (grep { $_->type eq 'TXT' } $query->answer) {
-            foreach my $r ($rr->char_str_list){
-                my @components=split(",",$r);
-                for(my $idx=0; $idx<=$#components; $idx++){
-                    my ($key,$val) = split(/=/,$components[$idx]);
-                    $key=~s/^\s//; $key=~s/\s$//;
-                    $val=~s/^\s//; $val=~s/\s$//;
-                    $key=~tr/A-Z/a-z/;
-                    $components[$idx]="$key=$val";
-                }
-                my $dir_path=join('/',@components);
-                if(! -d "$rootdir/$dir_path/ou=$orgunit"){
-                    return undef;
-                }else{
-                    return $self;
-                }
-            }
-        }
+    my @components=split(",",$self->{'ca_basedn'});
+    for(my $idx=0; $idx<=$#components; $idx++){
+        my ($key,$val) = split(/=/,$components[$idx]);
+        $key=~s/^\s//; $key=~s/\s$//;
+        $val=~s/^\s//; $val=~s/\s$//;
+        $key=~tr/A-Z/a-z/;
+        $components[$idx]="$key=$val";
+    }
+    my $dir_path=join('/',@components);
+    if(! -d "$rootdir/$dir_path/ou=$orgunit"){
+        print STDERR "Not found: $rootdir/$dir_path/ou=$orgunit\n";
+        return undef;
     }else{
-        warn "query failed: ", $res->errorstring, "\n";
+        return $self;
     }
     print STDERR "exit cert_dn_tree undef\n" if $self->{'trace'};
     return undef;
