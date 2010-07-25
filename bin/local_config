@@ -2,6 +2,7 @@
 use Cwd;
 use FileHandle;
 use YAML;
+use Data::Dumper;
 my $var;
 ################################################################################
 # Scrape our ldap.conf to get our read-only credentials
