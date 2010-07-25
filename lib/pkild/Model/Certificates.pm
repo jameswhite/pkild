@@ -759,9 +759,9 @@ sub ca_initialize{
         if (defined $fh) { print $fh ''; $fh->close; }
     }
     # openssl.cnf
-    my $text=$self->openssl_cnf_template(); 
-    $tpldata->{"$dir"}="$node_dir/$param->{'ca_domain'}";
-    $template->process(\$text,$tpldata,"$node_dir/$param->{'ca_domain'}/openssl.cnf");
+    #my $text=$self->openssl_cnf_template(); 
+    #$tpldata->{"$dir"}="$node_dir/$param->{'ca_domain'}";
+    #$template->process(\$text,$tpldata,"$node_dir/$param->{'ca_domain'}/openssl.cnf");
     # private.key
     system("/usr/bin/openssl genrsa -out \"$dir/private/key\" 4096");
     # cacert.crt
