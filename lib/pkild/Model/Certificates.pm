@@ -786,7 +786,7 @@ sub ca_initialize{
     system("/usr/bin/openssl req -new -sha1 -days 365 -key \"$dir/private/key\"  -out \"$dir/csr\" -config \"$dir/openssl.cnf\" -batch");
     # pem
     if(defined($parent)){
-        system("/usr/bin/openssl ca -extensions v3_ca -days 365 -out \"$parent/pem\" -in \"$dir/csr\" -config \"$parent/openssl.cnf\" -batch");
+        system("/usr/bin/openssl ca -extensions v3_ca -days 365 -out \"$dir/pem\" -in \"$dir/csr\" -config \"$parent/openssl.cnf\" -batch");
     }else{
         system("openssl req -new -x509 -nodes -sha1 -days 3650 -key \"$dir/private/key\" -out \"$dir/pem\" -config \"$dir/openssl.cnf\" -batch");
 
