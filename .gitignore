@@ -5,3 +5,5 @@ inc
 MANIFEST
 Makefile.old
 MANIFEST.bak
+pkild.yaml
+authconfig.yaml
