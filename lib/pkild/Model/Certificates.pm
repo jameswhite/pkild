@@ -781,7 +781,7 @@ sub ca_initialize{
     $tpldata->{'crl_path'}=~tr/A-Z/a-z/;
     $template->process(\$text,$tpldata,"$dir/openssl.cnf");
     # private.key
-    system("/usr/bin/openssl genrsa -out \"$dir/private/key\" 8192");
+    system("/usr/bin/openssl genrsa -out \"$dir/private/key\" 4096");
     # csr
     system("/usr/bin/openssl req -new -sha1 -days 3650 -key \"$dir/private/key\"  -out \"$dir/csr\" -config \"$dir/openssl.cnf\" -batch");
     # pem

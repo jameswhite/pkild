@@ -1,0 +1,11 @@
+export HOST='loki.websages.com'
+alias go='ssh root@${HOST} rm -fr /var/lib/pkild/certificate_authority/c\=US; 
+          ssh root@${HOST} "(cd /usr/share/pkild/;git pull)"; 
+          ssh root@${HOST} /etc/init.d/apache2 stop
+          ssh root@${HOST} "echo -e \"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\" >> /var/log/apache2/error.log"; 
+          ssh root@loki.websages.com /etc/init.d/apache2 start
+          ./client/sign_csr.pl'
+
+# now you can just do the followingn for a CI test:
+# git commit -a -m "${COMMIT_MSG}"; git push; go
+# and tail -f /var/log/apache2/error.log in another window
