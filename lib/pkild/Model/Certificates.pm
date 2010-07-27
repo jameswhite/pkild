@@ -159,7 +159,7 @@ sub user_parent_cert_file{
     my ($self,$session) = @_;
     my $user_parent_cert_file=$self->user_cert_file($session);
     $user_parent_cert_file=~s/\/ou=.*//;
-    $user_parent_cert_file.="/crt".
+    $user_parent_cert_file="$user_parent_cert_file/pem";
 print STDERR "$user_parent_cert_file\n";
     return $user_parent_cert_file;
 }
