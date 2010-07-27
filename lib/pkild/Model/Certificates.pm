@@ -548,11 +548,12 @@ sub certificate_sign{
     my $csr_subject=$self->csr_subject($csr);
     my $user_cert_dn=$self->user_cert_dn($session);
     my $ca_cert_dn=$self->user_cert_dn($session);
-print STDERR "$csr_subject\n$user_cert_dn\n";
     if( $csr_subject eq $user_cert_dn ){
         my $user_cert_dir=$self->user_cert_dir($session);
         if(! -d "$user_cert_dir"){ mkdir($user_cert_dir,0750); };
         my $user_cert_file=$self->user_cert_file($session);
+        print STDERR $self->user_cert_file($session)."\n"; 
+        
         if( ! -f "$user_cert_file"){ 
             open(CSR, ">$user_cert_file");
             print CSR "$csr";
