@@ -558,18 +558,17 @@ sub certificate_sign{
     my $ca_cert_dn=$self->user_cert_dn($session);
     if( $csr_subject eq $user_cert_dn ){
         my $user_cert_dir=$self->user_cert_dir($session);
+        if(! -d "$user_cert_dir"){ mkdir($user_cert_dir,0750); };
         # write out the CSR
         if( ! -f "$user_cert_dir/csr"){ 
             open(CSR, ">$user_cert_dir/csr");
             print CSR "$csr";
             close(CSR);
         }
-        return $self;
-        if(! -d "$user_cert_dir"){ mkdir($user_cert_dir,0750); };
         my $user_cert_file=$self->user_cert_file($session);
-        print STDERR $self->user_cert_file($session)."\n"; 
         # get the parent dir
         my $pdir = $self->user_parent_cert_dir($session);
+        # sign the csr with the parent cert
         system("/usr/bin/openssl ca -config $pdir/openssl.cnf -policy policy_anything -out $user_cert_file -batch -infiles $user_cert_dir/csr");
     }else{
         return undef;
