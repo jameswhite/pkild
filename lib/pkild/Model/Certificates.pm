@@ -210,25 +210,17 @@ use FileHandle;
     my $orgunit=undef;
     $cn=~s/,.*//g;
     $cn=~tr/A-Z/a-z/;
-    if($cn=~m/\s*uid=(.*)/){ $type="user"; $cn=~s/\s*uid=//; $orgunit="People";  }
-    if($cn=~m/\s*cn=(.*)/){ $type="host";  $cn=~s/\s*cn=//;  $orgunit="Hosts";}
-    my $domain=$self->object_domain($objectname);
-    # Re-Map the domain if specified...
-print STDERR $self->ca_basedn().", $orgunit\n";
-    my $ca = $self->ca_for($domain);
-    my $ca_subject;
-    if( -f "$ca/$domain.crt" ){
-        $ca_subject=$self->cert_subject("$ca/$domain.crt");
-    }elsif( -f "$ca/$domain.pem" ){
-        $ca_subject=$self->cert_subject("$ca/$domain.pem");
+    my $subject;
+    if($cn=~m/\s*uid=(.*)/){ 
+        $type="user"; 
+        $cn=~s/\s*uid=//;
+        $subject = $self->ca_basedn().", ou=People, cn=$cn/emailaddress=$cn\@".$self->dnsdomainname();
     }
-    my $subject=$ca_subject;
-    if($subject=~m/C=(.*),\s*ST=(.*),\s*L=(.*),\s*O=(.*),\s*OU=(.*),\s*CN=(.*)\/emailAddress=(.*)/){
-        if($type eq "user"){
-            $subject="c=$1, st=$2, l=$3, o=$4, ou=$orgunit, cn=$cn/emailaddress=$cn\@$domain";
-        }elsif($type eq "host"){
-            $subject="c=$1, st=$2, l=$3, o=$4, ou=$orgunit, cn=$cn.$domain/emailaddress=root\@$cn.$domain";
-        }
+    if($cn=~m/\s*cn=(.*)/){ 
+        $type="host";  
+        $cn=~s/\s*cn=//;
+        $subject = $self->ca_basedn().", ou=Hosts, cn=$cn/emailaddress=$cn\@".$self->dnsdomainname();
+        $subject="c=$1, st=$2, l=$3, o=$4, ou=$orgunit, cn=$cn.$domain/emailaddress=root\@$cn.$domain";
     }
     print STDERR "exit user_cert_dn with [$subject]\n" if $self->{'trace'};
     return $subject;
