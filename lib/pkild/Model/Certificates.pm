@@ -214,7 +214,7 @@ use FileHandle;
     if($cn=~m/\s*cn=(.*)/){ $type="host";  $cn=~s/\s*cn=//;  $orgunit="Hosts";}
     my $domain=$self->object_domain($objectname);
     # Re-Map the domain if specified...
-print STDERR $self->ca_basedn()."\n";
+print STDERR $self->ca_basedn().", $orgunit\n";
     my $ca = $self->ca_for($domain);
     my $ca_subject;
     if( -f "$ca/$domain.crt" ){
