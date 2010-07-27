@@ -155,6 +155,15 @@ sub user_cert_dir{
     return $user_cert_file;
 }
 
+sub user_parent_cert_file{
+    my ($self,$session) = @_;
+    my $user_parent_cert_file=$self->user_cert_file($session);
+    $user_parent_cert_file=~s/\/[^\/]*$//;
+    $user_parent_cert_file=~s/\/[^\/]*$//;
+print STDERR "$user_parent_cert_file\n";
+    return $user_parent_cert_file;
+}
+
 sub user_cert_exists{
     my ($self,$session) = @_;
     my $user_cert_file=$self->user_cert_file($session);
@@ -553,7 +562,10 @@ sub certificate_sign{
         if(! -d "$user_cert_dir"){ mkdir($user_cert_dir,0750); };
         my $user_cert_file=$self->user_cert_file($session);
         print STDERR $self->user_cert_file($session)."\n"; 
-        
+        # get the parent dir
+        my $parent_cert = $self->user_parent_cert_file();
+    #foo 
+        # Sign the cert
         if( ! -f "$user_cert_file"){ 
             open(CSR, ">$user_cert_file");
             print CSR "$csr";
