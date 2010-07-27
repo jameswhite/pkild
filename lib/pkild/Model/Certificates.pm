@@ -155,13 +155,12 @@ sub user_cert_dir{
     return $user_cert_file;
 }
 
-sub user_parent_cert_file{
+sub user_parent_cert_dir{
     my ($self,$session) = @_;
-    my $user_parent_cert_file=$self->user_cert_file($session);
-    $user_parent_cert_file=~s/\/ou=.*//;
-    $user_parent_cert_file="$user_parent_cert_file/pem";
-print STDERR "$user_parent_cert_file\n";
-    return $user_parent_cert_file;
+    my $user_parent_cert_dir=$self->user_cert_file($session);
+    $user_parent_cert_dir=~s/\/ou=.*//;
+    $user_parent_cert_dir="$user_parent_cert_dir/pem";
+    return $user_parent_cert_dir;
 }
 
 sub user_cert_exists{
@@ -559,19 +558,19 @@ sub certificate_sign{
     my $ca_cert_dn=$self->user_cert_dn($session);
     if( $csr_subject eq $user_cert_dn ){
         my $user_cert_dir=$self->user_cert_dir($session);
-        if(! -d "$user_cert_dir"){ mkdir($user_cert_dir,0750); };
-        my $user_cert_file=$self->user_cert_file($session);
-        print STDERR $self->user_cert_file($session)."\n"; 
-        # get the parent dir
-        my $parent_cert = $self->user_parent_cert_file($session);
-    #foo 
-        # Sign the cert
-        if( ! -f "$user_cert_file"){ 
-            open(CSR, ">$user_cert_file");
+        # write out the CSR
+        if( ! -f "$user_cert_dir/csr"){ 
+            open(CSR, ">$user_cert_dir/csr");
             print CSR "$csr";
             close(CSR);
         }
         return $self;
+        if(! -d "$user_cert_dir"){ mkdir($user_cert_dir,0750); };
+        my $user_cert_file=$self->user_cert_file($session);
+        print STDERR $self->user_cert_file($session)."\n"; 
+        # get the parent dir
+        my $pdir = $self->user_parent_cert_dir($session);
+        system("/usr/bin/openssl ca -config $pdir/openssl.cnf -policy policy_anything -out $user_cert_file -batch -infiles $user_cert_dir/csr");
     }else{
         return undef;
     }
