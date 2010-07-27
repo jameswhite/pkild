@@ -159,7 +159,6 @@ sub user_parent_cert_dir{
     my ($self,$session) = @_;
     my $user_parent_cert_dir=$self->user_cert_file($session);
     $user_parent_cert_dir=~s/\/ou=.*//;
-    $user_parent_cert_dir="$user_parent_cert_dir/pem";
     return $user_parent_cert_dir;
 }
 
