@@ -206,6 +206,7 @@ use FileHandle;
     print STDERR "enter cert_dn\n" if $self->{'trace'};
     my $objectname=$self->objectname($user_session);
     my $cn=$objectname;
+    my $domain=$self->dnsdomainname();
     my $type=undef;
     my $orgunit=undef;
     $cn=~s/,.*//g;
@@ -214,13 +215,12 @@ use FileHandle;
     if($cn=~m/\s*uid=(.*)/){ 
         $type="user"; 
         $cn=~s/\s*uid=//;
-        $subject = $self->ca_basedn().", ou=People, cn=$cn/emailaddress=$cn\@".$self->dnsdomainname();
+        $subject = $self->ca_basedn().", ou=People, cn=$cn/emailaddress=$cn\@$domain";
     }
     if($cn=~m/\s*cn=(.*)/){ 
         $type="host";  
         $cn=~s/\s*cn=//;
-        $subject = $self->ca_basedn().", ou=Hosts, cn=$cn/emailaddress=$cn\@".$self->dnsdomainname();
-        $subject="c=$1, st=$2, l=$3, o=$4, ou=$orgunit, cn=$cn.$domain/emailaddress=root\@$cn.$domain";
+        $subject = $self->ca_basedn().", ou=Hosts, cn=$cn.$domain/emailaddress=$cn\@$domain";
     }
     print STDERR "exit user_cert_dn with [$subject]\n" if $self->{'trace'};
     return $subject;
