@@ -160,7 +160,7 @@ sub user_parent_cert_file{
     my $user_parent_cert_file=$self->user_cert_file($session);
     $user_parent_cert_file=~s/\/[^\/]*$//;
     $user_parent_cert_file=~s/\/[^\/]*$//;
-print STDERR "$user_parent_cert_file\n";
+print STDERR ":$user_parent_cert_file:\n";
     return $user_parent_cert_file;
 }
 
@@ -563,7 +563,7 @@ sub certificate_sign{
         my $user_cert_file=$self->user_cert_file($session);
         print STDERR $self->user_cert_file($session)."\n"; 
         # get the parent dir
-        my $parent_cert = $self->user_parent_cert_file();
+        my $parent_cert = $self->user_parent_cert_file($session);
     #foo 
         # Sign the cert
         if( ! -f "$user_cert_file"){ 
