@@ -158,8 +158,7 @@ sub user_cert_dir{
 sub user_parent_cert_file{
     my ($self,$session) = @_;
     my $user_parent_cert_file=$self->user_cert_file($session);
-    $user_parent_cert_file=~s/\/[^\/]*$//;
-    $user_parent_cert_file=~s/\/[^\/]*$//;
+    $user_parent_cert_file=~s/\/ou=.*//;
 print STDERR ":$user_parent_cert_file:\n";
     return $user_parent_cert_file;
 }
