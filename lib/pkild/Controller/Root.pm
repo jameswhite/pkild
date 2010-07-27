@@ -140,7 +140,7 @@ sub default : Private {
                                            'nsCaRevocationUrl'
                                          ];
                          foreach my $cnf_attr (@{ $cnf_attrs }){
-print STDERR $cnf_attr." ".$c->model('Certificates')->attr_for($c->session->{'user'},$cnf_attr)."\n";
+#print STDERR $cnf_attr." ".$c->model('Certificates')->attr_for($c->session->{'user'},$cnf_attr)."\n";
                              $c->stash->{$cnf_attr} = $c->model('Certificates')->attr_for($c->session->{'user'},$cnf_attr);
                          }
                          $c->stash->{'template'}='openssl_cnf.tt';
