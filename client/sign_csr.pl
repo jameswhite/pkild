@@ -10,7 +10,7 @@ sub dotheneedful{
     my $uri="https://loki.websages.com";
     my $mech = WWW::Mechanize->new();
     my $successful_creation=0;
-    my $successful_revoke=0;
+    my $successful_revoke=1;
     my $count=0;
         while( ( ($successful_creation==0) || ($successful_revoke==0) )  && ($count < 6) ){
         $mech->get( $uri );
