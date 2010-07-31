@@ -67,8 +67,10 @@ sub dotheneedful{
             #                                                                      #
             ########################################################################
             # validate our cert...
+print STDERR "successful create\n";
             $successful_creation=1;
             if($successful_revoke==1){
+print STDERR "successful create after revoke\n";
                 $successful_creation_after_revoke=1;
             }
             $mech->back();
