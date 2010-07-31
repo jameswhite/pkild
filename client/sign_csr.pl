@@ -9,7 +9,7 @@ sub dotheneedful{
     my $cnstr=shift if @_;
     my $uri="https://loki.websages.com";
     my $mech = WWW::Mechanize->new();
-    my $successful_creation=0;
+    my $successful_create=0;
     my $successful_revoke=0;
     my $successful_create_after_revoke=0;
     my $count=0;
@@ -68,10 +68,10 @@ sub dotheneedful{
             ########################################################################
             # validate our cert...
 print STDERR "successful create\n";
-            $successful_creation=1;
+            $successful_create=1;
             if($successful_revoke==1){
 print STDERR "successful create after revoke\n";
-                $successful_creation_after_revoke=1;
+                $successful_create_after_revoke=1;
             }
             $mech->back();
         }elsif(grep /No certificate tree found/, @legends){
