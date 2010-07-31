@@ -227,7 +227,7 @@ use FileHandle;
     if($cn=~m/\s*cn=(.*)/){ 
         $type="host";  
         $cn=~s/\s*cn=//;
-        $subject = $self->ca_basedn().", ou=Hosts, cn=$cn.$domain/emailaddress=$cn\@$domain";
+        $subject = $self->ca_basedn().", ou=Hosts, cn=$cn.$domain/emailaddress=root\@$cn.$domain";
     }
     print STDERR "exit user_cert_dn with [$subject]\n" if $self->{'trace'};
     return $subject;
