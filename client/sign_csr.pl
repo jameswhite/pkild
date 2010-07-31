@@ -27,9 +27,11 @@ sub dotheneedful{
         }
         # if there is a certificate, then we want to revoke it (or why are we running?)
         if(grep /Valid Certificate Found/, @legends){
-            print "valid cert found. Revoking\n";
-            $mech->click_button( 'name' => 'revoke' );
-            $successful_revoke=1;
+            unless($successful_create_after_revoke == 1){
+                print "valid cert found. Revoking\n";
+                $mech->click_button( 'name' => 'revoke' );
+                $successful_revoke=1;
+            }
         # if there not a certificate, then we want to create one.
         }elsif(grep /Certficate Signing Request/, @legends){
             print "no cert found. creating a certificate signing request and posting for signature\n";
