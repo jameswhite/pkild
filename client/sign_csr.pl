@@ -67,10 +67,10 @@ sub dotheneedful{
             #                                                                      #
             ########################################################################
             # validate our cert...
-            if($successful_creation==1){
+            $successful_creation=1;
+            if($successful_revoke==1){
                 $successful_creation_after_revoke=1;
             }
-            $successful_creation=1;
             $mech->back();
         }elsif(grep /No certificate tree found/, @legends){
             print "We need to create the tree.\n";
