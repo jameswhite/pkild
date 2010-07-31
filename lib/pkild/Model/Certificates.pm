@@ -584,7 +584,7 @@ sub revoke_user_certificate{
     system("/usr/bin/openssl ca -revoke $user_cert_dir/crt -keyfile $pdir/private/key -cert $pdir/pem -config $pdir/openssl.cnf");
 
     # update the Certificate Revocation list
-    system("/usr/bin/openssl ca -gencrl -keyfile $dir/private/key -cert $pdir/pem -config $pdir/openssl.cnf -out $pdir/crl");
+    system("/usr/bin/openssl ca -gencrl -keyfile $pdir/private/key -cert $pdir/pem -config $pdir/openssl.cnf -out $pdir/crl");
     opendir(my $dh, "$user_cert_dir");
     my @files = readdir($dh);
     foreach my $file (@files){
