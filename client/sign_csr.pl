@@ -6,7 +6,7 @@ use Sys::Hostname::Long;
 $host_long = hostname_long;
 
 sub dotheneedful{
-    my $cnstr=@_ if @_;
+    my $cnstr=shift if @_;
     my $uri="https://loki.websages.com";
     my $mech = WWW::Mechanize->new();
     my $successful_creation=0;
@@ -17,7 +17,7 @@ sub dotheneedful{
         my @legends = grep(/<legend>.*<\/legend>/, split('\n',$mech->content)); 
         if($#legends<0){
             print "No legends found.\n";
-            exit -1;
+            return -1;
         }
         for(my $idx=0; $idx<=$#legends; $idx++){
             $legends[$idx]=~s/.*<legend>//;
