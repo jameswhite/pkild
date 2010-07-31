@@ -580,6 +580,7 @@ sub revoke_user_certificate{
     if( -f "$user_cert_file"){ unlink $user_cert_file; };
     if( -f "$user_cert_file"){ print STDERR "Unable to remove $user_cert_file\n" };
     my $user_cert_file=$self->user_cert_file($session);
+    my $user_cert_dir=$self->user_cert_dir($session);
     my $pdir = $self->user_parent_cert_dir($session);
     system("/usr/bin/openssl ca -revoke $user_cert_file -keyfile $pdir/private/key -cert $pdir/pem -config $pdir/openssl.cnf");
     if($? == 0){
