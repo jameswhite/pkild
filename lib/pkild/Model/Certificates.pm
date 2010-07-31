@@ -565,6 +565,7 @@ sub certificate_sign{
             close(CSR);
         }
         my $user_cert_file=$self->user_cert_file($session);
+print STDERR "-=[ $user_cert_file ]=-\n";
         # get the parent dir
         my $pdir = $self->user_parent_cert_dir($session);
         # sign the csr with the parent cert
