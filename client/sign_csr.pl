@@ -10,8 +10,9 @@ sub dotheneedful{
     my $uri="https://loki.websages.com";
     my $mech = WWW::Mechanize->new();
     my $successful_creation=0;
+    my $successful_revoke=0;
     my $count=0;
-        while( ($successful_creation==0) && ($count < 6) ){
+        while( ( ($successful_creation==0) || ($successful_revoke==0) )  && ($count < 6) ){
         $mech->get( $uri );
         # find the legends on the page to determine which form we're seeing
         my @legends = grep(/<legend>.*<\/legend>/, split('\n',$mech->content)); 
@@ -27,6 +28,7 @@ sub dotheneedful{
         if(grep /Valid Certificate Found/, @legends){
             print "valid cert found. Revoking\n";
             $mech->click_button( 'name' => 'revoke' );
+            $successful_revoke=1;
         # if there not a certificate, then we want to create one.
         }elsif(grep /Certficate Signing Request/, @legends){
             print "no cert found. creating a certificate signing request and posting for signature\n";
