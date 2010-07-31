@@ -752,7 +752,6 @@ sub ca_initialize{
     my $crl_path = $self->{'crl_base'};
     if(! -d "$dir"){ mkdir("$dir",0750); }
     if(! -d "$dir/certs"){ mkdir("$dir/private",0750); }
-    if(! -d "$dir/crl"){ mkdir("$dir/crl",0750); }
     if(! -d "$dir/newcerts"){ mkdir("$dir/newcerts",0750); }
     if(! -d "$dir/private"){ mkdir("$dir/private",0750); }
     if(! -f "$dir/serial"){
@@ -765,6 +764,10 @@ sub ca_initialize{
     }
     if(! -f "$dir/index.txt"){
         my $fh = FileHandle->new("> $dir/index.txt");
+        if (defined $fh) { print $fh ''; $fh->close; }
+    }
+    if(! -f "$dir/crl"){
+        my $fh = FileHandle->new("> $dir/crl");
         if (defined $fh) { print $fh ''; $fh->close; }
     }
     # 
