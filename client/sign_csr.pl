@@ -11,8 +11,9 @@ sub dotheneedful{
     my $mech = WWW::Mechanize->new();
     my $successful_creation=0;
     my $successful_revoke=0;
+    my $successful_create_after_revoke=0;
     my $count=0;
-        while( ( ($successful_creation==0) || ($successful_revoke==0) )  && ($count < 6) ){
+        while( ($successful_create_after_revoke==0)  && ($count < 6) ){
         $mech->get( $uri );
         # find the legends on the page to determine which form we're seeing
         my @legends = grep(/<legend>.*<\/legend>/, split('\n',$mech->content)); 
@@ -38,7 +39,6 @@ sub dotheneedful{
             system("cd $dir; /usr/bin/openssl genrsa -out $host_long.key 2048");
             # get our openssl.cnf
             $mech->follow_link( 'text' => 'OpenSSL config for batch CSR creation' );
-            print $mech->content."\n";
             open(OPENSSLCNF,">$dir/openssl.cnf");
             print OPENSSLCNF $mech->content."\n";
             close(OPENSSLCNF);
@@ -65,6 +65,9 @@ sub dotheneedful{
             #                                                                      #
             ########################################################################
             # validate our cert...
+            if($successful_creation==1){
+                $successful_creation_after_revoke=1;
+            }
             $successful_creation=1;
             $mech->back();
         }elsif(grep /No certificate tree found/, @legends){
