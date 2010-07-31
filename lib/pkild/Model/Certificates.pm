@@ -580,6 +580,12 @@ sub revoke_user_certificate{
     if( -f "$user_cert_file"){ unlink $user_cert_file; };
     if( -f "$user_cert_file"){ print STDERR "Unable to remove $user_cert_file\n" };
     my $user_cert_dir=$self->user_cert_dir($session);
+    opendir(my $dh, "$user_cert_dir");
+    my @files = readdir($dh);
+    foreach my $file (@files){
+        unlink("$user_cert_dir/$file");
+    }
+    closedir $dh;
     if( -d "$user_cert_dir"){ rmdir $user_cert_dir; };
     if( -d "$user_cert_dir"){ print STDERR "Unable to remove $user_cert_dir\n" };
     return $self;
