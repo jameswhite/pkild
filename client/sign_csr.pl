@@ -13,7 +13,7 @@ sub dotheneedful{
     my $successful_revoke=0;
     my $successful_create_after_revoke=0;
     my $count=0;
-        while( ($successful_create_after_revoke==0)  && ($count < 6) ){
+        while( ($successful_create_after_revoke==0)  && ($count < 10) ){
         $mech->get( $uri );
         # find the legends on the page to determine which form we're seeing
         my @legends = grep(/<legend>.*<\/legend>/, split('\n',$mech->content)); 
