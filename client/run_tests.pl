@@ -30,8 +30,7 @@ sub legends{
     # find the legends on the page to determine which form we're seeing
     my @legends = grep(/<legend>.*<\/legend>/, split('\n',$self->{'mech'}->content)); 
     if($#legends<0){
-        print "No legends found.\n";
-        return undef;
+        die "No legends found.\n";
     }
     for(my $idx=0; $idx<=$#legends; $idx++){
         $legends[$idx]=~s/.*<legend>//;
@@ -190,6 +189,7 @@ while(( ($test->{'csr_signed'} == 0) || ($test->{'cert_revoke'} == 0) || ($test-
     }else{
         print "Unhandled legends found:\n";
         print join("\n",$pt->legends())."\n";
+       
     }
     $idx++;
     print STDERR Data::Dumper->Dump([$test]);
