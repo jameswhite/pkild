@@ -165,6 +165,7 @@ sub user_parent_cert_dir{
 sub user_cert_exists{
     my ($self,$session) = @_;
     my $user_cert_file=$self->user_cert_file($session);
+print STDERR "-=[$user_cert_file]=-\n";
     if( -f $user_cert_file){
         # we should probably validate the cert here
         return 1;
