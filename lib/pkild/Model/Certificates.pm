@@ -420,6 +420,52 @@ sub find_file{
     return $self;
 }
 
+sub opensslcnf_for{
+    use Template::Toolkit;
+    my ($self,$session)=@_;
+    my $tpl_data={};
+    my $tt=Template::Toolkit->new();
+    my $opensslcnf= "req 
+distinguished_name = req_distinguished_name
+req_extensions = v3_req
+
+[ req_distinguished_name ]
+countryName = Country Name (2 letter code)
+countryName_default = [% countryName %]
+stateOrProvinceName = State or Province Name (full name)
+stateOrProvinceName_default = [% stateOrProvinceName %]
+localityName = Locality Name (eg, city)
+localityName_default = [% localityName %]
+0.organizationName = Organization Name (eg, company)
+0.organizationName_default = [% organizationName %]
+organizationalUnitName = Organizational Unit Name (eg, section)
+organizationalUnitName_default = [% organizationalUnitName %]
+commonName = Common Name (eg, YOUR name)
+commonName_default = [% commonName %]
+emailAddress = Email Address
+emailAddress_default = [% emailAddress %]
+
+[ v3_req ]
+basicConstraints = CA:FALSE
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+";
+    my $cnf_attrs = [ 
+                      'domainName',
+                      'countryName',
+                      'stateOrProvinceName',
+                      'localityName',
+                      'organizationName',
+                      'organizationalUnitName',
+                      'commonName',
+                      'emailAddress',
+                      'nsCaRevocationUrl'
+                    ];
+    foreach my $cnf_attr (@{ $cnf_attrs }){
+        $tpl_data->{$cnf_attr} = $self->attr_for($session,$cnf_attr);
+    }
+    return $tt->process(\$opensslcnf,$tpl_data);
+}
+
 sub create_certificate{
 use File::Slurp;
     my ($self, $param, $session)=@_;
