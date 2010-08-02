@@ -49,6 +49,7 @@ sub dotheneedful{
             system("cd $dir; /usr/bin/openssl req -new -sha1 -days 90 -key $host_long.key -out $host_long.csr -config openssl.cnf -batch");
             # post our CSR
             my $csr='';
+            print "Submitting our CSR\n";
             open(CSR,"$dir/$host_long.csr");
             while(my $line=<CSR>){
                 $csr.=$line; 
@@ -56,6 +57,7 @@ sub dotheneedful{
             close(CSR);
             $mech->submit_form( with_fields => { 'csr_request'    => $csr });
             # Retrieve our cert
+            print "Retrieving our certificate -> $host_long.pem\n";
             $mech->get("$uri/?get=certificate");
             ########################################################################
             # install our cert and key                                             #
@@ -64,13 +66,12 @@ sub dotheneedful{
             print CERTFILE $mech->content;
             close(CERTFILE);
             system("/bin/mv $dir/$host_long.key /tmp/$host_long.key");
+            #print $mech->content;
             #                                                                      #
             ########################################################################
             # validate our cert...
-print STDERR "successful create\n";
             $successful_create=1;
             if($successful_revoke==1){
-print STDERR "successful create after revoke\n";
                 $successful_create_after_revoke=1;
             }
             $mech->back();
