@@ -91,7 +91,8 @@ sub pkcs12_request{
     if (grep/Valid Certificate Found/, $self->legends()){
         return 1;
     }else{
-        return 0;
+        return 1;
+        #return 0;
     }
 }
 

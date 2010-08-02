@@ -464,7 +464,6 @@ keyUsage = nonRepudiation, digitalSignature, keyEncipherment
     foreach my $cnf_attr (@{ $cnf_attrs }){
         $tpl_data->{$cnf_attr} = $self->attr_for($session,$cnf_attr);
     }
-    print STDERR Data::Dumper->Dump([ $tt->process(\$opensslcnf,$tpl_data) ]);
     $tt->process(\$opensslcnf,$tpl_data,\$output);
     return $output;
 }
@@ -477,6 +476,7 @@ use File::Slurp;
     my $cn = $objectname;
     my $domain=$self->dnsdomainname();
     my $user_cert_dir=$self->user_cert_dir($session);
+    my $user_parent_cert_dir=$self->user_parent_cert_dir($session);
     my ($subject,$type);
     $cn=~s/,.*//g;
     $cn=~tr/A-Z/a-z/;
@@ -526,23 +526,22 @@ use File::Slurp;
     ############################################################################    
     # if it's valid, Sign it with the parent
     ############################################################################    
-    # print STDERR "\n/usr/bin/openssl ca -config $certdata->{'config'} -days 90 -policy policy_anything -out $certdata->{'child_dir'}/$certdata->{'child_id'}.crt -batch -infiles $certdata->{'child_dir'}/$certdata->{'child_id'}.csr\n\n";
-    # system("/usr/bin/openssl ca -config $certdata->{'config'} -days 90 -policy policy_anything -out $certdata->{'child_dir'}/$certdata->{'child_id'}.crt -batch -infiles $certdata->{'child_dir'}/$certdata->{'child_id'}.csr");
+    system("/usr/bin/openssl ca -config $user_parent_cert_dir/openssl.cnf -days 90 -policy policy_anything -out $user_cert_dir/pem -batch -infiles $user_cert_dir/csr");
 
     ############################################################################    
     # convert to a pkcs12 container with the passphrase
     ############################################################################    
-    # system("/bin/echo \"$param->{'password'}\" | /usr/bin/openssl pkcs12 -export -clcerts -passout fd:0 -in $certdata->{'child_dir'}/$certdata->{'child_id'}.crt -inkey $certdata->{'child_dir'}/private/$certdata->{'child_id'}.key -out $certdata->{'child_dir'}/$certdata->{'child_id'}.p12");
+    system("/bin/echo \"$param->{'password'}\" | /usr/bin/openssl pkcs12 -export -clcerts -passout fd:0 -in $user_cert_dir/pem -inkey $user_cert_dir/private/key -out $user_cert_dir/p12");
 
     ############################################################################    
     # read in the content fo the pkcs12 cert to memory
     ############################################################################    
-    # $pkcs12data = read_file( "$certdata->{'child_dir'}/$certdata->{'child_id'}.p12", binmode => ':raw' ) ;        
+    $pkcs12data = read_file( "$user_cert_dir/p12", binmode => ':raw' ) ;        
 
     ############################################################################    
     # remove the pkcs12 cert from disk
     ############################################################################    
-    # unlink("$certdata->{'child_dir'}/$certdata->{'child_id'}.p12");
+    unlink("$user_cert_dir/p12");
 
     ############################################################################    
     # remove the key from disk
@@ -555,8 +554,7 @@ use File::Slurp;
     ############################################################################    
     # return the content of the pkcs12 cert as a blob for file transfer to the client
     ############################################################################    
-    # return $pkcs12data;
-    return undef;
+    return $pkcs12data;
 }
 
 sub remove_certificate{
