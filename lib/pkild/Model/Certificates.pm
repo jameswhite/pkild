@@ -491,6 +491,9 @@ use File::Slurp;
     # remove the key from disk
     ############################################################################    
     unlink("$user_cert_dir/private/key");
+    if(! -d "$user_cert_dir/private"){
+        rmdir("$user_cert_dir/private");
+    }
 
     ############################################################################    
     # return the content of the pkcs12 cert as a blob for file transfer to the client

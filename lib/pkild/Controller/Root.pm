@@ -127,23 +127,25 @@ sub default : Private {
                              $c->detach();
                          }
                     }elsif($c->req->param('get') eq "openssl.cnf"){
-                         $c->response->headers->header( 'content-type' => "text/plain" );
-                         my $cnf_attrs = [ 
-                                           'domainName',
-                                           'countryName',
-                                           'stateOrProvinceName',
-                                           'localityName',
-                                           'organizationName',
-                                           'organizationalUnitName',
-                                           'commonName',
-                                           'emailAddress',
-                                           'nsCaRevocationUrl'
-                                         ];
-                         foreach my $cnf_attr (@{ $cnf_attrs }){
-                             $c->stash->{$cnf_attr} = $c->model('Certificates')->attr_for($c->session->{'user'},$cnf_attr);
-                         }
-                         $c->stash->{'template'}='openssl_cnf.tt';
-                         $c->detach();
+                             $c->response->body($c->model('Certificates')->opensslcnf_for($c->sesson->{'user'}));
+                             $c->detach();
+#                         $c->response->headers->header( 'content-type' => "text/plain" );
+#                         my $cnf_attrs = [ 
+#                                           'domainName',
+#                                           'countryName',
+#                                           'stateOrProvinceName',
+#                                           'localityName',
+#                                           'organizationName',
+#                                           'organizationalUnitName',
+#                                           'commonName',
+#                                           'emailAddress',
+#                                           'nsCaRevocationUrl'
+#                                         ];
+#                         foreach my $cnf_attr (@{ $cnf_attrs }){
+#                             $c->stash->{$cnf_attr} = $c->model('Certificates')->attr_for($c->session->{'user'},$cnf_attr);
+#                         }
+#                         $c->stash->{'template'}='openssl_cnf.tt';
+#                         $c->detach();
                     }
                 }
             }elsif($c->req->method eq 'POST'){
