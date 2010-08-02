@@ -160,7 +160,7 @@ my $test = {
            };
 
 my $idx=0;
-while(( ($test->{'csr_signed'} == 0) || ($test->{'cert_revoke'} == 0) || ($test->{'pkcs12_create'} == 0))&&($idx < 8)){
+while(( ($test->{'csr_signed'} == 0) || ($test->{'cert_revoke'} == 0) || ($test->{'pkcs12_create'} == 0))&&($idx < 5)){
     if(grep /Please [Ll]og [Ii]n/, $pt->legends() ){
         print "We need to log in\n";
         $pt->log_in();
