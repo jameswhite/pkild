@@ -423,12 +423,11 @@ sub find_file{
 sub create_certificate{
 use File::Slurp;
     my ($self, $param, $session)=@_;
-print STDERR Data::Dumper->Dump([$session->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'}]);
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     my $objectname = $self->objectname($session);
-print STDERR "-=[$objectname]=-\n";
     my $cn = $objectname;
     my $domain=$self->dnsdomainname();
+    my $user_cert_dir=$self->user_cert_dir($session);
     my ($subject,$type);
     $cn=~s/,.*//g;
     $cn=~tr/A-Z/a-z/;
@@ -442,84 +441,62 @@ print STDERR "-=[$objectname]=-\n";
         $cn=~s/\s*cn=//;
         $subject = $self->ca_basedn().", ou=Hosts, cn=$cn.$domain/emailaddress=root\@$cn.$domain";
     }
-print STDERR "-=[$cn]=-\n";
-return 1;
-    my ($identity_type, $identity,$orgunit,$domain);
-    if($objectname=~m/\s*(.*)\s*=\s*(.*)\s*,\s*[Oo][Uu]\s*=\s*([^,]+)\s*,\s*dc\s*=\s*(.*)\s*/){
-        $identity_type=$1; $identity=$2; $orgunit=$3; $domain=$4; $domain=~s/,\s*dc=/./g;
-        # I hate upper case.
-        $identity_type=~tr/A-Z/a-z/;
-        $identity=~tr/A-Z/a-z/;
-        $orgunit=~tr/A-Z/a-z/;
-        $domain=~tr/A-Z/a-z/;
+    if(! -d "$user_cert_dir"){
+        mkdir("$user_cert_dir",0700);
     }
-    foreach my $map (@{ $self->{'personal_cert_remap'} }){
-        if($domain eq $map->{'auth_domain'}){
-            $domain = $map->{'cert_domain'};
-        }
-    }
-    my $directory_map=$identity;
-    my $ca_dir=$self->ca_for($domain);
-    my $certdata={};
-    if($ca_dir){
-       $certdata->{'config'}="$ca_dir/openssl.cnf";
-       $certdata->{'dir'}="$ca_dir";
-       $certdata->{'certs'}="$ca_dir/certs";
-       $certdata->{'child_dir'}="$certdata->{'certs'}/$directory_map";
-       $certdata->{'child_id'}="$directory_map";
-    }else{
-        print STDERR "We need code to look for root-ca.$domain, and to create $domain under it.\n";
-    }
-    chdir($certdata->{'dir'});
-    # only do so if one doesn't exist
-    my $pkcs12data=undef;
-    if( ! -d "$certdata->{'child_dir'}"){
-        mkdir("$certdata->{'child_dir'}",0700);
-        #
-        # rewrite the openssl.cnf such that commonName_default = userid and emailAddress_default=userid@$domain
-        #
-        my $pfh = FileHandle->new;
-        my $newline='';
-        if ($pfh->open("< $certdata->{'config'}")) {
-            my $cfh = FileHandle->new("> $certdata->{'child_dir'}/openssl.cnf");
-            if (defined $cfh) {
-                while( my $line=<$pfh>){
-                    chomp($line);
-                    if($line=~m/commonName_default\s*=\s*(.*)/){ 
-                        $newline="commonName_default    =    $identity";
-                    }elsif($line=~m/emailAddress_default\s*=\s*(.*)/){ 
-                        $newline="emailAddress_default    =    $identity\@$domain";
-                    }else{
-                        $newline=$line;
-                    }
-                    print $cfh "$newline\n";
-                }
-                $cfh->close;
-            }
-            $pfh->close;
-        }
-        # create password-protected private key
-        mkdir("$certdata->{'child_dir'}/private",0700);
-        system("/usr/bin/openssl genrsa -out $certdata->{'child_dir'}/private/$certdata->{'child_id'}.key 1024");
-        # create the CSR
-        system("/usr/bin/openssl req -new -sha1 -days 90 -key $certdata->{'child_dir'}/private/$certdata->{'child_id'}.key  -out $certdata->{'child_dir'}/$certdata->{'child_id'}.csr -config $certdata->{'child_dir'}/openssl.cnf -batch");
-        # Validate the request matches our conventions
-        print STDERR "We need to ensure the certificate signing request matches the requestor here\n";
-        # openssl req -text -noout -in $certdata->{'child_dir'}/$certdata->{'child_id'}.csr
+    ############################################################################    
+    # Create an openssl.cnf in the $user_cert_dir 
+    ############################################################################    
 
-
-        # if it's valid, Sign it with the parent
-        print STDERR "\n/usr/bin/openssl ca -config $certdata->{'config'} -days 90 -policy policy_anything -out $certdata->{'child_dir'}/$certdata->{'child_id'}.crt -batch -infiles $certdata->{'child_dir'}/$certdata->{'child_id'}.csr\n\n";
-        system("/usr/bin/openssl ca -config $certdata->{'config'} -days 90 -policy policy_anything -out $certdata->{'child_dir'}/$certdata->{'child_id'}.crt -batch -infiles $certdata->{'child_dir'}/$certdata->{'child_id'}.csr");
-        # convert to a pkcs12 container with the passphrase
-        system("/bin/echo \"$param->{'password'}\" | /usr/bin/openssl pkcs12 -export -clcerts -passout fd:0 -in $certdata->{'child_dir'}/$certdata->{'child_id'}.crt -inkey $certdata->{'child_dir'}/private/$certdata->{'child_id'}.key -out $certdata->{'child_dir'}/$certdata->{'child_id'}.p12");
-        # read in the content fo the pkcs12 cert to memory
-        $pkcs12data = read_file( "$certdata->{'child_dir'}/$certdata->{'child_id'}.p12", binmode => ':raw' ) ;        
-        # remove the pkcs12 cert from disk
-        unlink("$certdata->{'child_dir'}/$certdata->{'child_id'}.p12");
-        # return the content of the pkcs12 cert as a blob for file transfer to the client
+    ############################################################################    
+    # create the private key
+    ############################################################################    
+    if(! -d "$user_cert_dir/private"){
+        mkdir("$user_cert_dir/private",0700);
     }
-    return $pkcs12data;
+    system("/usr/bin/openssl genrsa -out $user_cert_dir/private/key 2048");
+
+    ############################################################################    
+    # create the CSR
+    ############################################################################    
+    # system("/usr/bin/openssl req -new -sha1 -days 90 -key $user_cert_dir/private/key  -out $user_cert_dir/csr -config $user_cert_dir/openssl.cnf -batch");
+
+    ############################################################################    
+    # Ensure the DN is correct
+    ############################################################################    
+    # openssl req -text -noout -in $certdata->{'child_dir'}/$certdata->{'child_id'}.csr
+ 
+    ############################################################################    
+    # if it's valid, Sign it with the parent
+    ############################################################################    
+    # print STDERR "\n/usr/bin/openssl ca -config $certdata->{'config'} -days 90 -policy policy_anything -out $certdata->{'child_dir'}/$certdata->{'child_id'}.crt -batch -infiles $certdata->{'child_dir'}/$certdata->{'child_id'}.csr\n\n";
+    # system("/usr/bin/openssl ca -config $certdata->{'config'} -days 90 -policy policy_anything -out $certdata->{'child_dir'}/$certdata->{'child_id'}.crt -batch -infiles $certdata->{'child_dir'}/$certdata->{'child_id'}.csr");
+
+    ############################################################################    
+    # convert to a pkcs12 container with the passphrase
+    ############################################################################    
+    # system("/bin/echo \"$param->{'password'}\" | /usr/bin/openssl pkcs12 -export -clcerts -passout fd:0 -in $certdata->{'child_dir'}/$certdata->{'child_id'}.crt -inkey $certdata->{'child_dir'}/private/$certdata->{'child_id'}.key -out $certdata->{'child_dir'}/$certdata->{'child_id'}.p12");
+
+    ############################################################################    
+    # read in the content fo the pkcs12 cert to memory
+    ############################################################################    
+    # $pkcs12data = read_file( "$certdata->{'child_dir'}/$certdata->{'child_id'}.p12", binmode => ':raw' ) ;        
+
+    ############################################################################    
+    # remove the pkcs12 cert from disk
+    ############################################################################    
+    # unlink("$certdata->{'child_dir'}/$certdata->{'child_id'}.p12");
+
+    ############################################################################    
+    # remove the key from disk
+    ############################################################################    
+    unlink("$user_cert_dir/private/key");
+
+    ############################################################################    
+    # return the content of the pkcs12 cert as a blob for file transfer to the client
+    ############################################################################    
+    # return $pkcs12data;
+    return undef;
 }
 
 sub remove_certificate{
