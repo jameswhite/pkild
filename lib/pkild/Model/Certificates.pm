@@ -421,10 +421,10 @@ sub find_file{
 }
 
 sub opensslcnf_for{
-    use Template::Toolkit;
+    use Template;
     my ($self,$session)=@_;
     my $tpl_data={};
-    my $tt=Template::Toolkit->new();
+    my $tt=Template->new();
     my $opensslcnf= "req 
 distinguished_name = req_distinguished_name
 req_extensions = v3_req
