@@ -127,7 +127,7 @@ sub default : Private {
                              $c->detach();
                          }
                     }elsif($c->req->param('get') eq "openssl.cnf"){
-                             $c->response->body($c->model('Certificates')->opensslcnf_for($c->sesson->{'user'}));
+                             $c->response->body($c->model('Certificates')->opensslcnf_for($c->session->{'user'}));
                              $c->detach();
 #                         $c->response->headers->header( 'content-type' => "text/plain" );
 #                         my $cnf_attrs = [ 
