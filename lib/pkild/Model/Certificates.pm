@@ -424,6 +424,7 @@ sub opensslcnf_for{
     use Template;
     my ($self,$session)=@_;
     my $tpl_data={};
+    my $output='';
     my $tt=Template->new();
     my $opensslcnf= "req 
 distinguished_name = req_distinguished_name
@@ -464,7 +465,8 @@ keyUsage = nonRepudiation, digitalSignature, keyEncipherment
         $tpl_data->{$cnf_attr} = $self->attr_for($session,$cnf_attr);
     }
     print STDERR Data::Dumper->Dump([ $tt->process(\$opensslcnf,$tpl_data) ]);
-    return $tt->process(\$opensslcnf,$tpl_data);
+    $tt->process(\$opensslcnf,$tpl_data,\$output);
+    return $output;
 }
 
 sub create_certificate{
