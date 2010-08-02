@@ -496,6 +496,9 @@ use File::Slurp;
     ############################################################################    
     # Create an openssl.cnf in the $user_cert_dir 
     ############################################################################    
+    open(SSLCNF,">$user_cert_dir/openssl.cnf");
+    print SSLCNF $self->opensslcnf_for($session);
+    close(SSLCNF);
 
     ############################################################################    
     # create the private key
@@ -508,12 +511,17 @@ use File::Slurp;
     ############################################################################    
     # create the CSR
     ############################################################################    
-    # system("/usr/bin/openssl req -new -sha1 -days 90 -key $user_cert_dir/private/key  -out $user_cert_dir/csr -config $user_cert_dir/openssl.cnf -batch");
+    system("/usr/bin/openssl req -new -sha1 -days 90 -key $user_cert_dir/private/key  -out $user_cert_dir/csr -config $user_cert_dir/openssl.cnf -batch");
 
     ############################################################################    
     # Ensure the DN is correct
     ############################################################################    
-    # openssl req -text -noout -in $certdata->{'child_dir'}/$certdata->{'child_id'}.csr
+    open(VERIFY,"openssl req -text -noout -in $user_cert_dir/csr|");
+    while(my $line=<VERIFY>){
+        # do something else here, yo
+        print STDERRR $line;
+    }
+    close(VERIFY);
  
     ############################################################################    
     # if it's valid, Sign it with the parent
