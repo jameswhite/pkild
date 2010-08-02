@@ -463,6 +463,7 @@ keyUsage = nonRepudiation, digitalSignature, keyEncipherment
     foreach my $cnf_attr (@{ $cnf_attrs }){
         $tpl_data->{$cnf_attr} = $self->attr_for($session,$cnf_attr);
     }
+    print STDERR Data::Dumper->Dump([ $tt->process(\$opensslcnf,$tpl_data) ]);
     return $tt->process(\$opensslcnf,$tpl_data);
 }
 
