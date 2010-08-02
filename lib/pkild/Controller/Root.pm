@@ -112,7 +112,7 @@ sub default : Private {
         $c->detach();
     }else{
         ########################################################################
-        # Stuff a regular user/host can do
+        # The user-mode (non /admin)  view
         ########################################################################
         unless( $c->check_user_roles( "certificate_administrators" ) ){
             if($c->req->method eq 'GET'){ 
@@ -157,9 +157,7 @@ sub default : Private {
                         }
                     }elsif(defined($c->req->param('action_type'))){
                         if( $c->req->param('action_type') eq 'pkcs12_cert'){
-################################################################################
-#                            print STDERR $c->req->param('action_type')."\n";
-################################################################################
+                            $c->forward('do_form'); 
                         }
                     }elsif(! $c->req->param('username')){
                         print STDERR "Unhandled Request\n";
