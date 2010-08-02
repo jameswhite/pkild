@@ -426,7 +426,7 @@ sub opensslcnf_for{
     my $tpl_data={};
     my $output='';
     my $tt=Template->new();
-    my $opensslcnf= "req 
+    my $opensslcnf= "[ req ]
 distinguished_name = req_distinguished_name
 req_extensions = v3_req
 
