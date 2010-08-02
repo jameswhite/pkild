@@ -426,6 +426,7 @@ use File::Slurp;
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     my $objectname = $self->objectname($session);
     my $cn = $objectname;
+    my $domain=$self->dnsdomainname();
     my ($subject,$type);
     $cn=~s/,.*//g;
     $cn=~tr/A-Z/a-z/;
