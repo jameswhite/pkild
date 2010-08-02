@@ -33,7 +33,7 @@ sub dotheneedful{
                 $successful_revoke=1;
             }
         # if there not a certificate, then we want to create one.
-        }elsif(grep /Certficate Signing Request/, @legends){
+        }elsif(grep /Certificate Signing Request/, @legends){
             print "no cert found. creating a certificate signing request and posting for signature\n";
             # make our tmp dir
             my  $dir = tempdir( CLEANUP => 1 );
@@ -96,7 +96,7 @@ sub dotheneedful{
                               );
         }else{
             print "Unhandled legends found:\n";
-            print join('\n',@legends)."\n";
+            print join("\n",@legends)."\n";
         }
         $count++;
     }
