@@ -425,10 +425,10 @@ use File::Slurp;
     my ($self, $param, $session)=@_;
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     my $objectname = $self->objectname($session);
+print STDERR "-=[$objectname]=-\n";
     my $cn = $objectname;
     my $domain=$self->dnsdomainname();
     my ($subject,$type);
-print STDERR "-=[$objectname]=-\n";
     $cn=~s/,.*//g;
     $cn=~tr/A-Z/a-z/;
     if($cn=~m/\s*uid=(.*)/){
@@ -443,6 +443,33 @@ print STDERR "-=[$objectname]=-\n";
     }
 print STDERR "-=[$cn]=-\n";
 return 1;
+    my ($identity_type, $identity,$orgunit,$domain);
+    if($objectname=~m/\s*(.*)\s*=\s*(.*)\s*,\s*[Oo][Uu]\s*=\s*([^,]+)\s*,\s*dc\s*=\s*(.*)\s*/){
+        $identity_type=$1; $identity=$2; $orgunit=$3; $domain=$4; $domain=~s/,\s*dc=/./g;
+        # I hate upper case.
+        $identity_type=~tr/A-Z/a-z/;
+        $identity=~tr/A-Z/a-z/;
+        $orgunit=~tr/A-Z/a-z/;
+        $domain=~tr/A-Z/a-z/;
+    }
+    foreach my $map (@{ $self->{'personal_cert_remap'} }){
+        if($domain eq $map->{'auth_domain'}){
+            $domain = $map->{'cert_domain'};
+        }
+    }
+    my $directory_map=$identity;
+    my $ca_dir=$self->ca_for($domain);
+    my $certdata={};
+    if($ca_dir){
+       $certdata->{'config'}="$ca_dir/openssl.cnf";
+       $certdata->{'dir'}="$ca_dir";
+       $certdata->{'certs'}="$ca_dir/certs";
+       $certdata->{'child_dir'}="$certdata->{'certs'}/$directory_map";
+       $certdata->{'child_id'}="$directory_map";
+    }else{
+        print STDERR "We need code to look for root-ca.$domain, and to create $domain under it.\n";
+    }
+    chdir($certdata->{'dir'});
     # only do so if one doesn't exist
     my $pkcs12data=undef;
     if( ! -d "$certdata->{'child_dir'}"){
