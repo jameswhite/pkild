@@ -424,10 +424,22 @@ sub create_certificate{
 use File::Slurp;
     my ($self, $param, $session)=@_;
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
-    my $objectname = $session->{'user'}->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'};
-print STDERR "-=[$objectname]=-\n";
-return undef;
-    my $cn = $session->{'user'}->{'user'}->{'ldap_entry'}->{'asn'}->{'cn'};
+    my $objectname = $self->objectname($session);
+    my $cn = $objectname;
+    $cn=~s/,.*//g;
+    $cn=~tr/A-Z/a-z/;
+    my $subject;
+    if($cn=~m/\s*uid=(.*)/){
+        $type="user";
+        $cn=~s/\s*uid=//;
+        $subject = $self->ca_basedn().", ou=People, cn=$cn/emailaddress=$cn\@$domain";
+    }
+    if($cn=~m/\s*cn=(.*)/){
+        $type="host";
+        $cn=~s/\s*cn=//;
+        $subject = $self->ca_basedn().", ou=Hosts, cn=$cn.$domain/emailaddress=root\@$cn.$domain";
+    }
+print STDERR "-=[$cn]=-\n";
     my ($identity_type, $identity,$orgunit,$domain);
     if($objectname=~m/\s*(.*)\s*=\s*(.*)\s*,\s*[Oo][Uu]\s*=\s*([^,]+)\s*,\s*dc\s*=\s*(.*)\s*/){
         $identity_type=$1; $identity=$2; $orgunit=$3; $domain=$4; $domain=~s/,\s*dc=/./g;
