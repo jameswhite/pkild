@@ -157,7 +157,9 @@ sub default : Private {
                         }
                     }elsif(defined($c->req->param('action_type'))){
                         if( $c->req->param('action_type') eq 'pkcs12_cert'){
-                            print STDERR $c->req->param('action_type')."\n";
+################################################################################
+#                            print STDERR $c->req->param('action_type')."\n";
+################################################################################
                         }
                     }elsif(! $c->req->param('username')){
                         print STDERR "Unhandled Request\n";
