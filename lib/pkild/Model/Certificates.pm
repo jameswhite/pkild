@@ -239,7 +239,6 @@ sub objectname{
     my $user_session=shift;
     if(defined($user_session->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'})){
         print STDERR "exit objectname with objectname\n" if $self->{'trace'};
-print STDERR Data::Dumper->Dump([$user_session->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'}]);
         return $user_session->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'};
     }
     print STDERR "exit objectname undef\n" if $self->{'trace'};
@@ -424,6 +423,7 @@ sub find_file{
 sub create_certificate{
 use File::Slurp;
     my ($self, $param, $session)=@_;
+print STDERR Data::Dumper->Dump([$session->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'}]);
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     my $objectname = $self->objectname($session);
 print STDERR "-=[$objectname]=-\n";
