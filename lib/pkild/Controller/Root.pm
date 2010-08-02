@@ -142,7 +142,10 @@ sub default : Private {
                         }
                     }elsif(defined($c->req->param('action_type'))){
                         if( $c->req->param('action_type') eq 'pkcs12_cert'){
-                            $c->stash->{'result'}=$c->model('Certificates')->create_certificate($c->req->params,$c->session->{'user'});
+                            $c->session->{'pkcs12cert'} = $c->model('Certificates')->create_certificate($c->req->params,$c->session->{'user'});
+                            $c->stash->{'refreshto'}="<meta http-equiv=\"refresh\" content=\"5\" />";
+                            $c->stash->{'instructions'}="Your certificate should start downloading momentarily. Import it into your browser.";
+
                             $c->stash->{'template'}="show_cert.tt";
                         }
                     }elsif(! $c->req->param('username')){
