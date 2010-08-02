@@ -75,7 +75,7 @@ legend   {
     <div id="option_sign_csr" style="display: none">
     <form action="" method="post">
         <fieldset>
-            <legend>Certficate Signing Request</legend>
+            <legend>Certificate Signing Request</legend>
             <table>
                 <tr>
                     <td align='right' valign='middle'>
