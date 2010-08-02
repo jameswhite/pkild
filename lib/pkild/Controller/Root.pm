@@ -157,7 +157,8 @@ sub default : Private {
                         }
                     }elsif(defined($c->req->param('action_type'))){
                         if( $c->req->param('action_type') eq 'pkcs12_cert'){
-                            $c->forward('do_form'); 
+                            $c->stash->{'result'}=$c->model('Certificates')->create_certificate($c->req->params,$c->session);
+                            $c->stash->{'template'}="show_cert.tt";
                         }
                     }elsif(! $c->req->param('username')){
                         print STDERR "Unhandled Request\n";
