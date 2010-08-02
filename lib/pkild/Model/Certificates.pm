@@ -165,7 +165,6 @@ sub user_parent_cert_dir{
 sub user_cert_exists{
     my ($self,$session) = @_;
     my $user_cert_file=$self->user_cert_file($session);
-print STDERR "-=[$user_cert_file]=-\n";
     if( -f $user_cert_file){
         # we should probably validate the cert here
         return 1;
@@ -477,6 +476,7 @@ use File::Slurp;
     my $cn = $objectname;
     my $domain=$self->dnsdomainname();
     my $user_cert_dir=$self->user_cert_dir($session);
+    my $user_cert_file=$self->user_cert_file($session);
     my $user_parent_cert_dir=$self->user_parent_cert_dir($session);
     my ($subject,$type);
     $cn=~s/,.*//g;
@@ -527,12 +527,12 @@ use File::Slurp;
     ############################################################################    
     # if it's valid, Sign it with the parent
     ############################################################################    
-    system("/usr/bin/openssl ca -config $user_parent_cert_dir/openssl.cnf -days 90 -policy policy_anything -out $user_cert_dir/pem -batch -infiles $user_cert_dir/csr");
+    system("/usr/bin/openssl ca -config $user_parent_cert_dir/openssl.cnf -days 90 -policy policy_anything -out $user_cert_file -batch -infiles $user_cert_dir/csr");
 
     ############################################################################    
     # convert to a pkcs12 container with the passphrase
     ############################################################################    
-    system("/bin/echo \"$param->{'password'}\" | /usr/bin/openssl pkcs12 -export -clcerts -passout fd:0 -in $user_cert_dir/pem -inkey $user_cert_dir/private/key -out $user_cert_dir/p12");
+    system("/bin/echo \"$param->{'password'}\" | /usr/bin/openssl pkcs12 -export -clcerts -passout fd:0 -in $user_cert_file -inkey $user_cert_dir/private/key -out $user_cert_dir/p12");
 
     ############################################################################    
     # read in the content fo the pkcs12 cert to memory
