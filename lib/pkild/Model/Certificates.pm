@@ -441,6 +441,7 @@ use File::Slurp;
         $subject = $self->ca_basedn().", ou=Hosts, cn=$cn.$domain/emailaddress=root\@$cn.$domain";
     }
 print STDERR "-=[$cn]=-\n";
+return 1;
     my ($identity_type, $identity,$orgunit,$domain);
     if($objectname=~m/\s*(.*)\s*=\s*(.*)\s*,\s*[Oo][Uu]\s*=\s*([^,]+)\s*,\s*dc\s*=\s*(.*)\s*/){
         $identity_type=$1; $identity=$2; $orgunit=$3; $domain=$4; $domain=~s/,\s*dc=/./g;
