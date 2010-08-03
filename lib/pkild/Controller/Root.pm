@@ -175,6 +175,7 @@ sub default : Private {
                     }
                 }
                 if($c->model('Certificates')->user_cert_exists($c->session->{'user'})){
+print STDERR $c->req->param('action_type')."\n";
                     $c->stash->{'legend'}='Certificate Created.(2)';
                     $c->stash->{'template'}='show_cert.tt';
                     $c->detach();
