@@ -201,7 +201,10 @@ if(grep /Certificate Signing Request/, $pt->legends() ){ $pt->sign_csr(); }
 if(grep /Valid Certificate Found/, $pt->legends() ){ $pt->retrieve_cert("/etc/ssl/certs/$fqdn.pem"); }
 
 # Pull down CA Trust Chain, install it in /var/www/, /etc/ssl/certs/
-if(grep /Valid Certificate Found/, $pt->legends() ){ $pt->retrieve_trustchain("/etc/ssl/certs/".$domainname."_trustchain.pem"); }
+if(grep /Valid Certificate Found/, $pt->legends() ){ 
+    $pt->retrieve_trustchain("/etc/ssl/certs/".$domainname."_trustchain.pem"); 
+    $pt->retrieve_trustchain("/var/www/".$domainname."_trustchain.pem"); 
+}
 
 # If we're running pkild, and we're still linked to pkild-ssl.snakeoil, unlink it, and link to pkild-ssl
 # if( (-s "/etc/ssl/certs/$fqdn.crt") && (-s "/etc/ssl/private/$fqdn.key")){
