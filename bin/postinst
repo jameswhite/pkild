@@ -15,20 +15,23 @@ if [ ! -f /etc/apache2/sites-available/default-ssl.dist ]; then
        /etc/apache2/sites-available/default-ssl.dist
 fi
 
-# load our modules
+# load our modules in our config file
 if [ ! -f /etc/apache2/conf.d/pkild ]; then
     echo -e "PerlSwitches -I /usr/share/pkild/lib">>/etc/apache2/conf.d/pkild
     echo -e "PerlModule pkild" >> /etc/apache2/conf.d/pkild
 fi
 
-# write out our config
+# write out our new ssl config 
 sed -e 's/<VirtualHost _default_:443>/<VirtualHost _default_:443>\n<Location \/>\nSetHandler          modperl\nPerlResponseHandler pkild\n<\/Location>\n/' \
-    -e "s/ssl-cert-snakeoil/$(hostname -f)/g" \
-    -e "s/#SSLCACertificatePath/SSLCACertificatePath/g" \
-    /etc/apache2/sites-available/default-ssl.dist > \
-        /etc/apache2/sites-available/pkild-ssl
+     -e "s/#SSLCACertificatePath/SSLCACertificatePath/g" \
+     /etc/apache2/sites-available/default-ssl.dist > \
+         /etc/apache2/sites-available/pkild-ssl
+
+# we need to use the snakeoil cert long enough to bootstrap our environment
+cp /etc/apache2/sites-available/pkild-ssl /etc/apache2/sites-available/pkild-ssl.snakeoil
+sed -e "s/ssl-cert-snakeoil/$(hostname -f)/g" /etc/apache2/sites-available/pkild-ssl.snakeoil > /etc/apache2/sites-available/pkild-ssl
 if [ ! -h /etc/apache2/sites-enabled/001-pkild-ssl ]; then
-    (cd /etc/apache2/sites-enabled/; ln -s ../sites-available/pkild-ssl 001-pkild-ssl)
+    (cd /etc/apache2/sites-enabled/; ln -s ../sites-available/pkild-ssl.snakeoil 001-pkild-ssl)
 fi
 
 # create and permission our working dir
@@ -36,7 +39,8 @@ if [ ! -d /var/lib/pkild/certificate_authority ]; then
     mkdir -p /var/lib/pkild/certificate_authority
 fi
 
-nohup bash -c "( /usr/share/pkild/bin/ca_tree-init > /var/log/pkild-ca_tree-init.log  2>&1; chown -R www-data:ssl-cert /var/lib/pkild/certificate_authority 2>&1)" > /var/log/ca_tree-init.log &
+# we do this via perl now.
+# nohup bash -c "( /usr/share/pkild/bin/ca_tree-init > /var/log/pkild-ca_tree-init.log  2>&1; chown -R www-data:ssl-cert /var/lib/pkild/certificate_authority 2>&1)" > /var/log/ca_tree-init.log &
 
 # attempt to generate a config from /etc/ldap/ldap.conf
 (cd /usr/share/pkild/bin; ./local_config)
