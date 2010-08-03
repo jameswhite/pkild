@@ -108,8 +108,7 @@ sub retrieve_trustchain{
     my $target = shift if @_;
     # Retrieve our cert
     print "Retrieving our trustchain\n";
-    #$self->{'mech'}->get("$uri/?get=trustchain");
-    $self->{'mech'}->get("$uri/?get=certificate");
+    $self->{'mech'}->get("$uri/?get=trustchain");
     open(CERTFILE, ">$target");
     print CERTFILE $self->{'mech'}->content;
     close(CERTFILE);
