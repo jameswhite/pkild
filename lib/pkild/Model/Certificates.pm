@@ -886,7 +886,7 @@ sub ca_initialize{
     }
     # trustchain.pem
     if(defined($parent)){
-        system("/bin/cat \"$dir/pem\" \"$parent/chain\" > \"$dir/chain\"");
+        system("/bin/cat \"$parent/chain\" \"$dir/pem\" > \"$dir/chain\"");
     }else{
         system("/bin/cp \"$dir/pem\" \"$dir/chain\"");
     }
