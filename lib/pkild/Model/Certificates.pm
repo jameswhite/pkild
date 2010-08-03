@@ -429,10 +429,10 @@ sub opensslcnf_for{
     my $opensslcnf= "################################################################################
 #                                                                              #
 # Create your key with:                                                        #
-# /usr/bin/openssl genrsa -out \$(hostename -f).key 2048                        #
+# /usr/bin/openssl genrsa -out \$(hostname -f).key 2048                         #
 #                                                                              #
 # Create your Certificate Signing Request with:                                #
-# /usr/bin/openssl req -new -sha1 -days 90 -key \$(hostname -f)            \    #
+# /usr/bin/openssl req -new -sha1 -days 90 -key \$(hostname -f)                 #
 #                      -out \$(hostname -f).csr -config openssl.cnf -batch      #
 # (using this openssl.cnf)                                                     #
 #                                                                              #
