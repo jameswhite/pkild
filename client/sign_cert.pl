@@ -208,6 +208,12 @@ if(grep /Valid Certificate Found/, $pt->legends() ){
 system("cd /etc/ssl/certs; /usr/bin/c_rehash");
 
 # If we're running pkild, and we're still linked to pkild-ssl.snakeoil, unlink it, and link to pkild-ssl
-# if( (-s "/etc/ssl/certs/$fqdn.crt") && (-s "/etc/ssl/private/$fqdn.key")){
-# }
+if( (-s "/etc/ssl/certs/$fqdn.crt") && (-s "/etc/ssl/private/$fqdn.key")){
+    if(-f /etc/apache2/sites-available/pkild-ssl){
+        if(-l "/etc/apache2/sites-enabled/001-pkild-ssl"){
+            unlink("/etc/apache2/sites-enabled/001-pkild-ssl");
+        }
+        symlink("/etc/apache2/sites-available/pkild-ssl","/etc/apache2/sites-enabled/001-pkild-ssl");
+    }
+}
 exit 0;

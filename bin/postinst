@@ -46,6 +46,13 @@ fi
 # attempt to generate a config from /etc/ldap/ldap.conf
 (cd /usr/share/pkild/bin; ./local_config)
 
+# This must be done after the tree has been initialized by an adminsitrator
+# /usr/share/pkild/client/sign_cert.pl
+# if [ ! -h /etc/apache2/sites-enabled/001-pkild-ssl ]; then
+#     /bin/rm /etc/apache2/sites-enabled/001-pkild-ssl
+#     (cd /etc/apache2/sites-enabled/; ln -s ../sites-available/pkild-ssl 001-pkild-ssl)
+# fi
+
 # bounce apache
-#/etc/init.d/apache2 restart
+/etc/init.d/apache2 restart
 
