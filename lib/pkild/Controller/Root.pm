@@ -112,7 +112,7 @@ sub default : Private {
         $c->detach();
     }else{
         ########################################################################
-        # The user-mode (non /admin)  view
+        # Begin The user-mode (non /admin)  view
         ########################################################################
         unless( $c->check_user_roles( "certificate_administrators" ) ){
             if($c->req->method eq 'GET'){ 
@@ -138,6 +138,7 @@ sub default : Private {
                         $c->response->headers->header( 'content-type' => "application/x-pkcs12" );
                         $c->response->headers->header( 'content-disposition' => "attachment; filename=certificate.p12" );
                         $c->response->body($c->session->{'pkcs12cert'});
+                        delete $c->session->{'pkcs12cert'};
                         $c->detach();
                     # If the pkcs12cert is not defined in the session, send them to th
                     }else{
@@ -182,6 +183,9 @@ sub default : Private {
                 $c->detach();
             }
         }
+        ########################################################################
+        # End The user-mode (non /admin)  view
+        ########################################################################
     }
     ############################################################################
     # cerrtificate administrators only below here...
