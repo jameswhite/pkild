@@ -130,6 +130,10 @@ sub default : Private {
                              $c->response->headers->header( 'content-type' => "text/plain" );
                              $c->response->body($c->model('Certificates')->opensslcnf_for($c->session->{'user'}));
                              $c->detach();
+                    }elsif($c->req->param('get') eq "trustchain"){
+                             $c->response->headers->header( 'content-type' => "text/plain" );
+                             $c->response->body($c->model('Certificates')->trustchain_for($c->session->{'user'}));
+                             $c->detach();
                     }
                 }else{
                     # If we did not post (we did a GET) and no action was specified (no ?get=something), 

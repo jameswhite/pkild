@@ -603,6 +603,22 @@ sub remove_certificate{
     rmdir "$node_dir";
 }
 
+sub trustchain_for{
+    my ($self, $session)=@_;
+    my $pdir = $self->user_parent_cert_dir($session);
+    if(-f "$pdir/chain"){
+        my $trustchain='';
+        open(TRUSTCHAIN,"$pdir/chain");
+        while(my $line=<USERCERT>){
+            $trustchain.=$line;
+        }
+        close(TRUSTCHAIN);
+        return $trustchain;
+    }else{
+        return "File not found.\n";
+    }
+}
+
 sub certificate_for{
     my ($self, $session)=@_;
     my $user_cert_file=$self->user_cert_file($session);
