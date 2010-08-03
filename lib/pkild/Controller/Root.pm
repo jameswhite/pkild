@@ -175,13 +175,13 @@ sub default : Private {
                     }
                 }
                 if($c->model('Certificates')->user_cert_exists($c->session->{'user'})){
-                #    if( defined($c->req->param('action_type') ){
-                #        $c->stash->{'legend'}='Certificate Created.';
-                #    }else{
-                #        $c->stash->{'legend'}='Valid Certificate Found.';
-                #    }
-                #    $c->stash->{'template'}='show_cert.tt';
-                #    $c->detach();
+                    if( defined($c->req->param('action_type') )){
+                        $c->stash->{'legend'}='Certificate Created.';
+                    }else{
+                        $c->stash->{'legend'}='Valid Certificate Found.';
+                    }
+                    $c->stash->{'template'}='show_cert.tt';
+                    $c->detach();
                 }else{
                     $c->stash->{'user_cert_dn'}=$c->model('Certificates')->user_cert_dn($c->session->{'user'});
                     $c->stash->{'template'}='csr_sign.tt';
