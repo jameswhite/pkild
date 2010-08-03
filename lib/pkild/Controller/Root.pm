@@ -166,7 +166,7 @@ sub default : Private {
                             $c->session->{'pkcs12cert'} = $c->model('Certificates')->create_certificate($c->req->params,$c->session->{'user'});
                             $c->stash->{'refreshto'}="<meta http-equiv=\"refresh\" content=\"5\" />";
                             $c->stash->{'instructions'}="Your certificate should start downloading momentarily. Import it into your browser.";
-                            $c->stash->{'legend'}='Certificate Created.';
+                            $c->stash->{'legend'}='Certificate Created.(1)';
                             $c->stash->{'template'}="show_cert.tt";
                         }
                     }elsif(! $c->req->param('username')){
@@ -175,7 +175,7 @@ sub default : Private {
                     }
                 }
                 if($c->model('Certificates')->user_cert_exists($c->session->{'user'})){
-                    $c->stash->{'legend'}='Certificate Created.';
+                    $c->stash->{'legend'}='Certificate Created.(2)';
                     $c->stash->{'template'}='show_cert.tt';
                     $c->detach();
                 }else{
