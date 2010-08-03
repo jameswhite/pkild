@@ -37,6 +37,7 @@ fi
 # create and permission our working dir
 if [ ! -d /var/lib/pkild/certificate_authority ]; then
     mkdir -p /var/lib/pkild/certificate_authority
+    chown www-data:ssl-cert /var/lib/pkild/certificate_authority
 fi
 
 # we do this via perl now.
