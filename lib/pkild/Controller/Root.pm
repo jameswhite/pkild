@@ -143,7 +143,7 @@ sub default : Private {
                     # If the pkcs12cert is not defined in the session, send them to th
                     }else{
                         if($c->model('Certificates')->user_cert_exists($c->session->{'user'})){
-                            $c->stash->{'legend'}='Valid Certificate Found.';
+                            $c->stash->{'legend'}='Valid Certificate Found. (1)';
                             $c->stash->{'template'}='show_cert.tt';
                             $c->detach();
                         }else{
@@ -176,7 +176,7 @@ sub default : Private {
                 }
             }
             if($c->model('Certificates')->user_cert_exists($c->session->{'user'})){
-                $c->stash->{'legend'}='Valid Certificate Found.';
+                $c->stash->{'legend'}='Valid Certificate Found. (2)';
                 $c->stash->{'template'}='show_cert.tt';
                 $c->detach();
             }else{
