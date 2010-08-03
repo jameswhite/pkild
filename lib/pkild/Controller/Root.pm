@@ -320,7 +320,7 @@ sub logout : Global {
     my ( $self, $c ) = @_;
     # remove all user handles
     my $justloggedout=0;
-    $justloggedout=1 if(defined $c->session->{'user');
+    $justloggedout=1 if(defined $c->session->{'user'});
     delete $c->session->{'user'};
     delete $c->session->{'username'};
     # expire our session
