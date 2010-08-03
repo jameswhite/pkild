@@ -131,6 +131,15 @@ sub default : Private {
                              $c->response->body($c->model('Certificates')->opensslcnf_for($c->session->{'user'}));
                              $c->detach();
                     }
+                }else{
+                    # If we did not post (we did a GET) and no action was specified (no ?get=something), 
+                    # but we have a $c->session->{'pkcs12cert'} defined then ship the pkcs12 cert
+                    if(defined($c->session->{'pkcs12cert'})){
+                        $c->response->headers->header( 'content-type' => "application/x-pkcs12" );
+                        $c->response->headers->header( 'content-disposition' => "attachment; filename=certificate.p12" );
+                        $c->response->body($c->session->{'pkcs12cert'});
+                    }
+                    $c->detach();
                 }
             }elsif($c->req->method eq 'POST'){
                 if($c->req->param){
