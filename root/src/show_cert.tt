@@ -17,7 +17,7 @@
                 </tr>
                 <tr>
                     <td align='center'> 
-                        <a href='/?get=certificate'>Download your Certificate</a>
+                        [% whatsnext %]
                     </td>
                 </tr>
             </table>
