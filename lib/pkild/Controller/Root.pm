@@ -138,8 +138,18 @@ sub default : Private {
                         $c->response->headers->header( 'content-type' => "application/x-pkcs12" );
                         $c->response->headers->header( 'content-disposition' => "attachment; filename=certificate.p12" );
                         $c->response->body($c->session->{'pkcs12cert'});
+                        $c->detach();
+                    # If the pkcs12cert is not defined in the session, send them to th
+                    }else{
+                        if($c->model('Certificates')->user_cert_exists($c->session->{'user'})){
+                            $c->stash->{'template'}='show_cert.tt';
+                            $c->detach();
+                        }else{
+                            $c->stash->{'user_cert_dn'}=$c->model('Certificates')->user_cert_dn($c->session->{'user'});
+                            $c->stash->{'template'}='csr_sign.tt';
+                            $c->detach();
+                        }
                     }
-                    $c->detach();
                 }
             }elsif($c->req->method eq 'POST'){
                 if($c->req->param){
