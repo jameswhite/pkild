@@ -87,6 +87,12 @@ sub pkcs12_request{
                                                    'password'         => 'password',
                                                    'confirm_password' => 'password'
                                                  });
+    # This simulates the "refreshto"  on the page, that then pulls the cert once before the controller deletes it from memory
+    sleep(5);
+    $self->{'mech'}->get( $self->{'uri'} );
+    $self->{'pkcs12cert'} = $self->{'mech'}->content;
+
+    # then we test if we have a valid cert
     if (grep/Valid Certificate Found/, $self->legends()){
         return 1;
     }else{
@@ -168,7 +174,10 @@ while(( ($test->{'csr_signed'} == 0) || ($test->{'cert_revoke'} == 0) || ($test-
 
         if($test->{'csr_signed'}){
             print "We need a pkcs#12 created\n";
-            $test->{'pkcs12_create'} = $pt->pkcs12_request()
+            $test->{'pkcs12_create'} = $pt->pkcs12_request();
+            open(PKCS12,">/tmp/certificate.p12") || die "could not open /tmp/certificate.p12 for write";
+            print PKCS12 $pt->{'pkcs12cert'};
+            close(PKCS12);
         }else{
             print "We need a CSR signed\n";
             $test->{'csr_signed'} = $pt->sign_csr();

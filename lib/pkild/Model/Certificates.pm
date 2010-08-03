@@ -426,7 +426,20 @@ sub opensslcnf_for{
     my $tpl_data={};
     my $output='';
     my $tt=Template->new();
-    my $opensslcnf= "[ req ]
+    my $opensslcnf= "################################################################################
+#                                                                              #
+# Create your key with:                                                        #
+# /usr/bin/openssl genrsa -out \$(hostename -f).key 2048                        #
+#                                                                              #
+# Create your Certificate Signing Request with:                                #
+# /usr/bin/openssl req -new -sha1 -days 90 -key \$(hostname -f)            \    #
+#                      -out \$(hostname -f).csr -config openssl.cnf -batch      #
+# (using this openssl.cnf)                                                     #
+#                                                                              #
+# Then paste the contents of the resulting *.csr into the textarea             # 
+################################################################################
+
+[ req ]
 distinguished_name = req_distinguished_name
 req_extensions = v3_req
 
@@ -449,6 +462,8 @@ emailAddress_default = [% emailAddress %]
 [ v3_req ]
 basicConstraints = CA:FALSE
 keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+# Additional things you might add to v3_req:
+# subjectAltName=DNS:www.websages.com,DNS:www.wcyd.org,DNS:on.yermom.now
 ";
     my $cnf_attrs = [ 
                       'domainName',
