@@ -19,6 +19,7 @@ sub new {
         $self->{'password'} = $cnstr->{'password'}; 
     }
     $self->{'mech'} = WWW::Mechanize->new();
+    $self->{'mech'}->get( $self->{'uri'} );
     $self->{'host_long'} = hostname_long;
     bless($self,$class);
     return $self;
@@ -121,18 +122,29 @@ sub retrieve_cert{
 
 sub log_in{
     my $self = shift;
-    print "Authenticating.\n";
+    print "Authenticating as $self->{'username'}.\n";
     $self->{'mech'}->submit_form(
                                  with_fields => {
                                                   'username'    => $self->{'username'},
                                                   'password'    => $self->{'password'},
                                                 }
                                );
-   return $self;
+   return 1;
 }
 
 sub create_tree{
     my $self = shift;
+    my $found = 0; 
+    print "Trying to create the tree.\n";
+    foreach my $form ( $self->{'mech'}->forms ){
+        foreach my $input ( $form->inputs ){
+           if($input->name() eq 'create_cert_tree'){ $found =1; }
+        }
+    }
+    unless ($found == 1){
+        print "Did not find the create_cert_tree link needed for submission.\n";
+        return 0;
+    }
     $self->{'mech'}->click( 'create_cert_tree' );
     foreach my $form ($self->{'mech'}->forms()){
         if($form->inputs() < 1){
@@ -186,14 +198,23 @@ while(( ($test->{'csr_signed'} == 0) || ($test->{'cert_revoke'} == 0) || ($test-
         $test->{'cert_revoke'} = $pt->revoke_cert();
     }elsif(grep /No certificate tree found/, $pt->legends() ){
         print "We need to create the tree.\n";
-        unless( $self->create_tree() ){
+        if($pt->create_tree() == 0){
+            ####################################################################
             my $apt = pkild::tests->new({ 
                                           'uri'      => 'https://loki.websages.com',
                                           'username' => 'whitejs', 
                                           'password' => $ENV{'WHITEJS_PASSWD'} 
                                         });
-            $apt->log_in();
-            $apt->create_tree();
+            if($apt->log_in() == 1){
+                $apt->create_tree();
+            }else{
+                print STDERR "Unable to log in as administrator. Aborting\n";
+            }
+            ####################################################################
+            if(grep /No certificate tree found/, $pt->legends() ){
+                print STDERR "Failed to make the tree\n";
+                exit -1;
+            }
         }
     }else{
         print "Unhandled legends found:\n";
@@ -201,5 +222,4 @@ while(( ($test->{'csr_signed'} == 0) || ($test->{'cert_revoke'} == 0) || ($test-
        
     }
     $idx++;
-    print STDERR Data::Dumper->Dump([$test]);
 }
