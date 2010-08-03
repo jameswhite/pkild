@@ -319,11 +319,13 @@ sub login : Global {
 sub logout : Global {
     my ( $self, $c ) = @_;
     # remove all user handles
+    my $justloggedout=0;
+    $justloggedout=1 if(defined $c->session->{'user');
     delete $c->session->{'user'};
     delete $c->session->{'username'};
     # expire our session
     $c->delete_session("logout");
-    #$c->res->redirect('/');
+    $c->res->redirect('/') if $justloggedout;
     $c->detach();
 }
 
