@@ -323,8 +323,8 @@ sub logout : Global {
     delete $c->session->{'username'};
     # expire our session
     $c->delete_session("logout");
-    #$c->res->redirect('/');
-    $c->detach();
+    $c->res->redirect('/');
+    #$c->detach();
 }
 
 sub jstreemenu : Local {
