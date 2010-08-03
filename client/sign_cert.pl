@@ -205,6 +205,7 @@ if(grep /Valid Certificate Found/, $pt->legends() ){
     $pt->retrieve_trustchain("/etc/ssl/certs/".$domainname."_trustchain.pem"); 
     $pt->retrieve_trustchain("/var/www/".$domainname."_trustchain.crt"); 
 }
+system("cd /etc/ssl/certs; /usr/bin/c_rehash");
 
 # If we're running pkild, and we're still linked to pkild-ssl.snakeoil, unlink it, and link to pkild-ssl
 # if( (-s "/etc/ssl/certs/$fqdn.crt") && (-s "/etc/ssl/private/$fqdn.key")){
