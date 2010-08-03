@@ -609,7 +609,7 @@ sub trustchain_for{
     if(-f "$pdir/chain"){
         my $trustchain='';
         open(TRUSTCHAIN,"$pdir/chain");
-        while(my $line=<USERCERT>){
+        while(my $line=<TRUSTCHAIN>){
             $trustchain.=$line;
         }
         close(TRUSTCHAIN);
