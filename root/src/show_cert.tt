@@ -2,7 +2,7 @@
 <form action="" method="post">
     <center>
         <fieldset>  
-            <legend>Valid Certificate Found.</legend>  
+            <legend>[% legend %]</legend>  
             <table>
                 <tr>
                     <td align='left'> 
