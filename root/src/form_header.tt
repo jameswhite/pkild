@@ -1,3 +1,4 @@
+[% refreshto %]
 <style type="text/css">  
 fieldset {  
             width:640px;  
