@@ -189,7 +189,7 @@ sub default : Private {
                 }
             }
             if($c->model('Certificates')->user_cert_exists($c->session->{'user'})){
-                $c->stash->{'legend'}='
+                $c->stash->{'legend'}='Valid Certificate Found.';
                 $c->stash->{'template'}='show_cert.tt';
                 $c->detach();
             }else{
