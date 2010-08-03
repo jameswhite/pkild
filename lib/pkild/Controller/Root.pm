@@ -144,7 +144,7 @@ sub default : Private {
                     }else{
                         if($c->model('Certificates')->user_cert_exists($c->session->{'user'})){
                             $c->stash->{'legend'}='Valid Certificate Found.';
-                            $c->stash->{'whatsnext'}='<a href='/?get=certificate'>Download your Certificate</a>';
+                            $c->stash->{'whatsnext'}=q(<a href='/?get=certificate'>Download your Certificate</a>);
                             $c->stash->{'template'}='show_cert.tt';
                             $c->detach();
                         }else{
