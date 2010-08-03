@@ -182,7 +182,7 @@ sub default : Private {
                         $c->stash->{'whatsnext'}='Your Certificate download should start momentarily.';
                     }else{
                         $c->stash->{'legend'}='Valid Certificate Found.';
-                        #$c->stash->{'whatsnext'}=q(<a href='/?get=certificate'>Download your Certificate</a>);
+                        $c->stash->{'whatsnext'}=q(<a href='/?get=certificate'>Download your Certificate</a>);
                     }
                     $c->stash->{'template'}='show_cert.tt';
                     $c->detach();
@@ -194,7 +194,7 @@ sub default : Private {
             }
             if($c->model('Certificates')->user_cert_exists($c->session->{'user'})){
                 $c->stash->{'legend'}='Valid Certificate Found.';
-                #$c->stash->{'whatsnext'}=q(<a href='/?get=certificate'>Download your Certificate</a>);
+                $c->stash->{'whatsnext'}=q(<a href='/?get=certificate'>Download your Certificate</a>);
                 $c->stash->{'template'}='show_cert.tt';
                 $c->detach();
             }else{
