@@ -203,7 +203,7 @@ if(grep /Valid Certificate Found/, $pt->legends() ){ $pt->retrieve_cert("/etc/ss
 # Pull down CA Trust Chain, install it in /var/www/, /etc/ssl/certs/
 if(grep /Valid Certificate Found/, $pt->legends() ){ 
     $pt->retrieve_trustchain("/etc/ssl/certs/".$domainname."_trustchain.pem"); 
-    $pt->retrieve_trustchain("/var/www/".$domainname."_trustchain.pem"); 
+    $pt->retrieve_trustchain("/var/www/".$domainname."_trustchain.crt"); 
 }
 
 # If we're running pkild, and we're still linked to pkild-ssl.snakeoil, unlink it, and link to pkild-ssl
