@@ -144,10 +144,12 @@ sub user_cert_file{
             $key=~tr/A-Z/a-z/;
             $subject_parts[$idx]="$key=$value";
             push(@dir_parts,$subject_parts[$idx]);
+            if ($key='o'){
+                push(@dir_parts,$domain Certificate Authority);
         }
 
     }
-    my $user_cert_file= $rootdir."/".join("/",@dir_parts)."/$domain Certificate Authority/$common_name.crt";
+    my $user_cert_file= $rootdir."/".join("/",@dir_parts)."/$common_name.crt";
     print STDERR "-=[ $user_cert_file ]=- \n";
     return $user_cert_file;
 }
