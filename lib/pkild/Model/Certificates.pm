@@ -658,7 +658,9 @@ sub certificate_sign{
         # get the parent dir
         my $pdir = $self->user_parent_cert_dir($session);
         # sign the csr with the parent cert
+print STDERR "ONE\n";
         system("/usr/bin/openssl ca -config \"$pdir/openssl.cnf\" -policy policy_anything -out \"$user_cert_file\" -batch -infiles \"$user_cert_dir/csr\"");
+print STDERR "TWO\n";
     }else{
         return undef;
     }
