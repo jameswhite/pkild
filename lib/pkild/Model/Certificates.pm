@@ -872,7 +872,11 @@ sub ca_initialize{
     $tpldata->{'cert_home_dir'}="\"$dir\"";
     $tpldata->{'ca_orgunit'}="$dir";
     $tpldata->{'ca_orgunit'}=~s/.*\///;
-    if($tpldata->{'ca_orgunit'} eq ''){ $tpldata->{'ca_orgunit'}="$domain Certificate Authority"; }
+    $tpldata->{'ca_cn'} = $tpldata->{'ca_orgunit'};
+    if($tpldata->{'ca_orgunit'} eq ''){ 
+        $tpldata->{'ca_orgunit'}="$domain Certificate Authority"; 
+        $tpldata->{'ca_cn'}="Domain Certificate Authority"; 
+    }
     $tpldata->{'ca_email'}="certmaster\@$domain";
     $tpldata->{'crl_days'}="30";
     my $key_size=2048;
@@ -1268,7 +1272,7 @@ organizationalUnitName = Organizational Unit Name (eg, section)
 organizationalUnitName_default = [\% ca_orgunit \%]
 commonName = Common Name (eg, YOUR name)
 commonName_max = 64
-commonName_default = [\% ca_domain \%]
+commonName_default = [\% ca_cn \%]
 emailAddress = Email Address
 emailAddress_max = 64
 emailAddress_default = [\% ca_email \%]
