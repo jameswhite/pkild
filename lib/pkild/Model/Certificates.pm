@@ -871,6 +871,7 @@ sub ca_initialize{
     $tpldata->{'cert_home_dir'}="\"$dir\"";
     $tpldata->{'ca_orgunit'}="$dir";
     $tpldata->{'ca_orgunit'}=~s/.*\///;
+    if($tpldata->{'ca_orgunit'} eq ''){ $tpldata->{'ca_orgunit'}="$domain Certificate Authority"; }
     $tpldata->{'ca_email'}="certmaster\@$domain";
     $tpldata->{'crl_days'}="30";
     if($level == 0){
@@ -897,8 +898,7 @@ sub ca_initialize{
             $org=$v if($k eq 'ou');
         }
     }
-    if($org eq ''){ $org="$domain Certificate Authority"; }
-    $tpldata->{'crl_path'}="$crl_path/$org.crl";
+    $tpldata->{'crl_path'}="$crl_path/$tpldata->{'ca_orgunit'}.crl";
     # let's not use spaces and capital letters in our uris...
     $tpldata->{'crl_path'}=~s/ /_/g;
     $tpldata->{'crl_path'}=~tr/A-Z/a-z/;
