@@ -887,7 +887,6 @@ sub ca_initialize{
                 'st' => 'ca_state',
                 'l'  => 'ca_locality',
                 'o'  => 'ca_org',
-                'ou' => 'ca_orgunit'
               };
     my $org;
     my @tree=split(/\//,$dir);
