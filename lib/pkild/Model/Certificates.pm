@@ -792,6 +792,7 @@ sub tree_init{
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     my @ca_tree=split(/,/,$path);
     my $ca_dir=$rootdir;
+    my $domain=$self->dnsdomainname();
     for(my $idx=0; $idx<=$#ca_tree;$idx++){
         $ca_tree[$idx]=~s/^\s+//;
         $ca_tree[$idx]=~s/\s+$//;
@@ -803,19 +804,19 @@ sub tree_init{
         if(! -d "$ca_dir"){ mkdir($ca_dir,0750); }
     }
     # Create the root certificate authority for our organization
-    if(! -d "$ca_dir Root Certificate Authority/private"){ 
-        $self->ca_initialize("$ca_dir Root Certificate Authority",undef);
+    if(! -d "$ca_dir/Root Certificate Authority/private"){ 
+        $self->ca_initialize("$ca_dir/Root Certificate Authority",undef,0);
     }
     # Create the intermediate certificate authority for our organization, sign it with the Root CA
-    if(! -d "$ca_dir Intermediate Certificate Authority/private"){ 
-        $self->ca_initialize("$ca_dir Intermediate Certificate Authority","$ca_dir Root Certificate Authority");
+    if(! -d "$ca_dir/Intermediate Certificate Authority/private"){ 
+        $self->ca_initialize("$ca_dir/Intermediate Certificate Authority", "$ca_dir/Root Certificate Authority",1);
     }
     # Create the certificate authority for our organization, sign it with the Intermediate CA
-    if(! -d "$ca_dir/private"){ 
-        $self->ca_initialize("$ca_dir","$ca_dir Intermediate Certificate Authority");
+    if(! -d "$ca_dir/$domain Certificate Authority/private"){ 
+        $self->ca_initialize("$ca_dir/$domain Certificate Authority/","$ca_dir/Intermediate Certificate Authority",2);
     }
-    if(! -d "$ca_dir/ou=People"){ mkdir("$ca_dir/ou=People",0750); }
-    if(! -d "$ca_dir/ou=Hosts"){ mkdir("$ca_dir/ou=Hosts",0750); }
+    if(! -d "$ca_dir/$domain Certificate Authority/ou=People"){ mkdir("$ca_dir/ou=People",0750); }
+    if(! -d "$ca_dir/$domain Certificate Authority/ou=Hosts"){ mkdir("$ca_dir/ou=Hosts",0750); }
     return $self;
 }
 
@@ -833,7 +834,7 @@ sub crl_base{
 
 # Create a certificate authority in the provided directory, sign with the $parent (dir) if provided, else self-sign
 sub ca_initialize{
-    my ($self, $dir ,$parent)=@_;
+    my ($self, $dir ,$parent, $level)=@_;
     my $domain = $self->{'domain'};
     my $crl_path = $self->{'crl_base'};
     if(! -d "$dir"){ mkdir("$dir",0750); }
@@ -863,17 +864,25 @@ sub ca_initialize{
     my $tpldata;
     $tpldata->{'ca_domain'}=$domain;
     $tpldata->{'cert_home_dir'}="\"$dir\"";
-    $tpldata->{'ca_orgunit'}="Certificate Authority";
+    $tpldata->{'ca_orgunit'}="$dir";
+    $tpldata->{'ca_orgunit'}=~s/.*\///;
     $tpldata->{'ca_email'}="certmaster\@$domain";
     $tpldata->{'crl_days'}="30";
-    $tpldata->{'ca_default_days'}="365";
+    if($level == 0){
+        $tpldata->{'ca_default_days'}="3650";
+    }elsif($level == 1){
+        $tpldata->{'ca_default_days'}="1825";
+    }else{
+        $tpldata->{'ca_default_days'}="1095";
+    }
     my $text = $self->openssl_cnf_template(); 
+
     my $map = {
                 'c'  => 'ca_country',
                 'st' => 'ca_state',
                 'l'  => 'ca_locality',
                 'o'  => 'ca_org',
-                'cn' => 'ca_org', # we just repeat this because there is no hostname
+                'ou' => 'ca_orgunit'
               };
     my $org;
     my @tree=split(/\//,$dir);

@@ -197,7 +197,7 @@ if(grep /Valid Certificate Found/, $pt->legends() ){ $pt->revoke_cert(); }
 # Create new key in /etc/ssl/private, Create CSR, submit it for signing.
 if(grep /Certificate Signing Request/, $pt->legends() ){ $pt->sign_csr(); }
 
-# Retrieve Cert, install it in /etc/ssl/certs/$fqdn.crt
+# Retrieve Cert, install it in /etc/ssl/certs/$fqdn.pem
 if(grep /Valid Certificate Found/, $pt->legends() ){ $pt->retrieve_cert("/etc/ssl/certs/$fqdn.pem"); }
 
 # Pull down CA Trust Chain, install it in /var/www/, /etc/ssl/certs/
@@ -208,7 +208,7 @@ if(grep /Valid Certificate Found/, $pt->legends() ){
 system("cd /etc/ssl/certs; /usr/bin/c_rehash");
 
 # If we're running pkild, and we're still linked to pkild-ssl.snakeoil, unlink it, and link to pkild-ssl
-if( (-s "/etc/ssl/certs/$fqdn.crt") && (-s "/etc/ssl/private/$fqdn.key")){
+if( (-s "/etc/ssl/certs/$fqdn.pem") && (-s "/etc/ssl/private/$fqdn.key")){
     if(-f "/etc/apache2/sites-available/pkild-ssl"){
         if(-l "/etc/apache2/sites-enabled/001-pkild-ssl"){
             unlink("/etc/apache2/sites-enabled/001-pkild-ssl");
