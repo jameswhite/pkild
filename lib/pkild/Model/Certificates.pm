@@ -147,6 +147,7 @@ sub user_cert_file{
         }
 
     }
+print STDERR "-=[".$rootdir."/".join("/",@dir_parts,"$domain Certificate Authority")."/$common_name.crt"."]=-\n";
     return $rootdir."/".join("/",@dir_parts,"$domain Certificate Authority")."/$common_name.crt";
 }
 
@@ -656,7 +657,6 @@ sub certificate_sign{
         # get the parent dir
         my $pdir = $self->user_parent_cert_dir($session);
         # sign the csr with the parent cert
-print STDERR "-=[$pdir/openssl.cnf]=-\n";
         system("/usr/bin/openssl ca -config \"$pdir/openssl.cnf\" -policy policy_anything -out \"$user_cert_file\" -batch -infiles \"$user_cert_dir/csr\"");
     }else{
         return undef;
