@@ -144,7 +144,6 @@ sub user_cert_file{
             $key=~tr/A-Z/a-z/;
             $subject_parts[$idx]="$key=$value";
             push(@dir_parts,$subject_parts[$idx]);
-            print STDERR "-=[ $key = $value ]=- \n";
             if ($key eq 'o'){ push(@dir_parts,"$domain Certificate Authority"); }
         }
 
@@ -528,17 +527,17 @@ use File::Slurp;
     if(! -d "$user_cert_dir/private"){
         mkdir("$user_cert_dir/private",0700);
     }
-    system("/usr/bin/openssl genrsa -out $user_cert_dir/private/key 2048");
+    system("/usr/bin/openssl genrsa -out \"$user_cert_dir/private/key\" 2048");
 
     ############################################################################    
     # create the CSR
     ############################################################################    
-    system("/usr/bin/openssl req -new -sha1 -days 90 -key $user_cert_dir/private/key  -out $user_cert_dir/csr -config $user_cert_dir/openssl.cnf -batch");
+    system("/usr/bin/openssl req -new -sha1 -days 90 -key \"$user_cert_dir/private/key\"  -out \"$user_cert_dir/csr\" -config \"$user_cert_dir/openssl.cnf\" -batch");
 
     ############################################################################    
     # Ensure the DN is correct
     ############################################################################    
-    open(VERIFY,"openssl req -text -noout -in $user_cert_dir/csr|");
+    open(VERIFY,"openssl req -text -noout -in \"$user_cert_dir/csr\"|");
     while(my $line=<VERIFY>){
         # do something else here, yo
         print STDERRR $line;
@@ -548,12 +547,12 @@ use File::Slurp;
     ############################################################################    
     # if it's valid, Sign it with the parent
     ############################################################################    
-    system("/usr/bin/openssl ca -config $user_parent_cert_dir/openssl.cnf -days 90 -policy policy_anything -out $user_cert_file -batch -infiles $user_cert_dir/csr");
+    system("/usr/bin/openssl ca -config \"$user_parent_cert_dir/openssl.cnf\" -days 90 -policy policy_anything -out \"$user_cert_file\" -batch -infiles \"$user_cert_dir/csr\"");
 
     ############################################################################    
     # convert to a pkcs12 container with the passphrase
     ############################################################################    
-    system("/bin/echo \"$param->{'password'}\" | /usr/bin/openssl pkcs12 -export -clcerts -passout fd:0 -in $user_cert_file -inkey $user_cert_dir/private/key -out $user_cert_dir/p12");
+    system("/bin/echo \"$param->{'password'}\" | /usr/bin/openssl pkcs12 -export -clcerts -passout fd:0 -in \"$user_cert_file\" -inkey \"$user_cert_dir/private/key\" -out \"$user_cert_dir/p12\"");
 
     ############################################################################    
     # read in the content fo the pkcs12 cert to memory
