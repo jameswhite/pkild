@@ -116,6 +116,7 @@ sub cert_dn_tree{
 
 sub user_cert_file{
     my ($self,$session) = @_;
+    my $domain=$self->dnsdomainname();
     my $user_cert_dn=$self->user_cert_dn($session);
     return undef unless ($user_cert_dn);
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
@@ -146,7 +147,7 @@ sub user_cert_file{
         }
 
     }
-    return $rootdir."/".join("/",@dir_parts)."/$common_name.crt";
+    return $rootdir."/".join("/",@dir_parts,"$domain Certificate Authority")."/$common_name.crt";
 }
 
 sub user_cert_dir{
