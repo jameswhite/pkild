@@ -148,7 +148,6 @@ sub user_cert_file{
 
     }
     my $user_cert_file= $rootdir."/".join("/",@dir_parts)."/$domain Certificate Authority/$common_name.crt";
-    print STDERR "::: $user_cert_file :::\n";
     return $user_cert_file;
 }
 
@@ -659,6 +658,7 @@ sub certificate_sign{
         my $pdir = $self->user_parent_cert_dir($session);
         # sign the csr with the parent cert
 print STDERR "ONE\n";
+        print STDERR "/usr/bin/openssl ca -config \"$pdir/openssl.cnf\" -policy policy_anything -out \"$user_cert_file\" -batch -infiles \"$user_cert_dir/csr\"\n";
         system("/usr/bin/openssl ca -config \"$pdir/openssl.cnf\" -policy policy_anything -out \"$user_cert_file\" -batch -infiles \"$user_cert_dir/csr\"");
 print STDERR "TWO\n";
     }else{
