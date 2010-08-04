@@ -92,6 +92,7 @@ sub ca_basedn{
 ################################################################################
 sub cert_dn_tree{
     my ($self,$dnsdomain,$orgunit) = @_;
+    my $domain=$self->dnsdomainname();
     print STDERR "enter cert_dn_tree\n" if $self->{'trace'};
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     my @components=split(",",$self->{'ca_basedn'});
@@ -102,7 +103,7 @@ sub cert_dn_tree{
         $key=~tr/A-Z/a-z/;
         $components[$idx]="$key=$val";
     }
-    my $dir_path=join('/',@components);
+    my $dir_path=join('/',@components,"$domain Certificate Authority");
     if(! -d "$rootdir/$dir_path/ou=$orgunit"){
         print STDERR "Not found: $rootdir/$dir_path/ou=$orgunit\n";
         return undef;
