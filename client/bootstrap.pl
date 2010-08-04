@@ -207,16 +207,16 @@ if(grep /Valid Certificate Found/, $pt->legends() ){
 }
 system("cd /etc/ssl/certs; /usr/bin/c_rehash >/dev/null 2>&1");
 
-## perlify this:
-#system( "echo \"<html><body>\" > /var/www/cacerts.html; find /var/lib/pkild/certificate_authority/ -name pem | while read line; do NAME=\$(openssl x509 -in \"\${line}\" -text -noout | grep \"Subject:\"| sed -e 's/.*CN=//' -e 's/\\/.*//' -e 's/ /_/g'); cp \"\$line\" \"/var/www/\${NAME}.crt\" ; echo \"<a href='\${NAME}.crt'>\${NAME}</a><br>\" >> /var/www/cacerts.html ;done ; echo \"</body></html>\" >> /var/www/cacerts.html" );
-#
-## If we're running pkild, and we're still linked to pkild-ssl.snakeoil, unlink it, and link to pkild-ssl
-#if( (-s "/etc/ssl/certs/$fqdn.pem") && (-s "/etc/ssl/private/$fqdn.key")){
-#    if(-f "/etc/apache2/sites-available/pkild-ssl"){
-#        if(-l "/etc/apache2/sites-enabled/001-pkild-ssl"){
-#            unlink("/etc/apache2/sites-enabled/001-pkild-ssl");
-#        }
-#        symlink("/etc/apache2/sites-available/pkild-ssl","/etc/apache2/sites-enabled/001-pkild-ssl");
-#    }
-#}
+# perlify this:
+system( "echo \"<html><body>\" > /var/www/cacerts.html; find /var/lib/pkild/certificate_authority/ -name pem | while read line; do NAME=\$(openssl x509 -in \"\${line}\" -text -noout | grep \"Subject:\"| sed -e 's/.*CN=//' -e 's/\\/.*//' -e 's/ /_/g'); cp \"\$line\" \"/var/www/\${NAME}.crt\" ; echo \"<a href='\${NAME}.crt'>\${NAME}</a><br>\" >> /var/www/cacerts.html ;done ; echo \"</body></html>\" >> /var/www/cacerts.html" );
+
+# If we're running pkild, and we're still linked to pkild-ssl.snakeoil, unlink it, and link to pkild-ssl
+if( (-s "/etc/ssl/certs/$fqdn.pem") && (-s "/etc/ssl/private/$fqdn.key")){
+    if(-f "/etc/apache2/sites-available/pkild-ssl"){
+        if(-l "/etc/apache2/sites-enabled/001-pkild-ssl"){
+            unlink("/etc/apache2/sites-enabled/001-pkild-ssl");
+        }
+        symlink("/etc/apache2/sites-available/pkild-ssl","/etc/apache2/sites-enabled/001-pkild-ssl");
+    }
+}
 exit 0;
