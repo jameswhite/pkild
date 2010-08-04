@@ -656,7 +656,7 @@ sub certificate_sign{
         # get the parent dir
         my $pdir = $self->user_parent_cert_dir($session);
         # sign the csr with the parent cert
-        system("/usr/bin/openssl ca -config $pdir/openssl.cnf -policy policy_anything -out $user_cert_file -batch -infiles $user_cert_dir/csr");
+        system("/usr/bin/openssl ca -config $pdir/openssl.cnf -policy policy_anything -out \"$user_cert_file\" -batch -infiles \"$user_cert_dir/csr\"");
     }else{
         return undef;
     }
@@ -667,7 +667,7 @@ sub revoke_user_certificate{
     my $user_cert_file=$self->user_cert_file($session);
     my $user_cert_dir=$self->user_cert_dir($session);
     my $pdir = $self->user_parent_cert_dir($session);
-    system("/usr/bin/openssl ca -revoke $user_cert_file -keyfile $pdir/private/key -cert $pdir/pem -config $pdir/openssl.cnf");
+    system("/usr/bin/openssl ca -revoke \"$user_cert_file\" -keyfile $pdir/private/key -cert $pdir/pem -config $pdir/openssl.cnf");
     if($? == 0){
         # update the Certificate Revocation list
         system("/usr/bin/openssl ca -gencrl -keyfile $pdir/private/key -cert $pdir/pem -config $pdir/openssl.cnf -out $pdir/crl");
@@ -678,7 +678,7 @@ sub revoke_user_certificate{
                 unlink("$user_cert_dir/$file");
             }
             closedir $dh;
-            if( -d "$user_cert_dir"){ rmdir $user_cert_dir; };
+            if( -d "$user_cert_dir"){ rmdir "$user_cert_dir"; };
             if( -d "$user_cert_dir"){ print STDERR "Unable to remove $user_cert_dir\n" };
         }else{
             print STDERR "Unable to update the Certificate Revokation list\n";
