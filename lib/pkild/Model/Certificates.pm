@@ -148,6 +148,7 @@ sub user_cert_file{
 
     }
     my $user_cert_file= $rootdir."/".join("/",@dir_parts)."/$domain Certificate Authority/$common_name.crt";
+    print STDERR "-=[ $user_cert_file ]=- \n";
     return $user_cert_file;
 }
 
