@@ -874,12 +874,16 @@ sub ca_initialize{
     if($tpldata->{'ca_orgunit'} eq ''){ $tpldata->{'ca_orgunit'}="$domain Certificate Authority"; }
     $tpldata->{'ca_email'}="certmaster\@$domain";
     $tpldata->{'crl_days'}="30";
+    my $key_size=2048;
     if($level == 0){
         $tpldata->{'ca_default_days'}="3650";
+        $key_size=8192;
     }elsif($level == 1){
         $tpldata->{'ca_default_days'}="1825";
+        $key_size=4096;
     }else{
         $tpldata->{'ca_default_days'}="1095";
+        $key_size=4096;
     }
     my $text = $self->openssl_cnf_template(); 
 
@@ -904,7 +908,7 @@ sub ca_initialize{
     $tpldata->{'crl_path'}=~tr/A-Z/a-z/;
     $template->process(\$text,$tpldata,"$dir/openssl.cnf");
     # private.key
-    system("/usr/bin/openssl genrsa -out \"$dir/private/key\" 4096");
+    system("/usr/bin/openssl genrsa -out \"$dir/private/key\" $key_size");
     # csr
     system("/usr/bin/openssl req -new -sha1 -days $tpldata->{'ca_default_days'} -key \"$dir/private/key\"  -out \"$dir/csr\" -config \"$dir/openssl.cnf\" -batch");
     # pem
