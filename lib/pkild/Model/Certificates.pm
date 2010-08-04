@@ -815,8 +815,8 @@ sub tree_init{
     if(! -d "$ca_dir/$domain Certificate Authority/private"){ 
         $self->ca_initialize("$ca_dir/$domain Certificate Authority/","$ca_dir/Intermediate Certificate Authority",2);
     }
-    if(! -d "$ca_dir/$domain Certificate Authority/ou=People"){ mkdir("$ca_dir/ou=People",0750); }
-    if(! -d "$ca_dir/$domain Certificate Authority/ou=Hosts"){ mkdir("$ca_dir/ou=Hosts",0750); }
+    if(! -d "$ca_dir/$domain Certificate Authority/ou=People"){ mkdir("$ca_dir/$domain Certificate Authority/ou=People",0750); }
+    if(! -d "$ca_dir/$domain Certificate Authority/ou=Hosts"){ mkdir("$ca_dir/$domain Certificate Authority/ou=Hosts",0750); }
     return $self;
 }
 
