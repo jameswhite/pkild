@@ -146,6 +146,7 @@ sub user_cert_file{
             push(@dir_parts,$subject_parts[$idx]);
             if ($key='o'){
                 push(@dir_parts,"$domain Certificate Authority");
+            }
         }
 
     }
