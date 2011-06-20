@@ -1,0 +1,8 @@
+[eft-centos-5.5-dag]
+name=EFTSOURCE CentOS Repository for DAG
+baseurl=http://packages.lab.eftdomain.net/mirrors/dag/latest/redhat/el5/en/i386/dag/
+enabled=1
+gpgcheck=0
+
+yum install -y perl-Catalyst-Runtime perl-YAML perl-Class-Accessor perl-Class-Data-Inheritable
+
