@@ -14,6 +14,8 @@ if(-f $LDAP_CONF){
     $fh = FileHandle->new;
     if($fh->open("< $LDAP_CONF")) {
         while(my $line=<$fh>){
+            chomp($line);
+            print "$line\n";
             $line=~s/#.*//g;
             if($line=~m/^\s*uri\s+(.*)/){ $var->{'LDAP_URI'}=$1; }
             if($var->{'LDAP_URI'}=~m/,/){$var->{'LDAP_URI'}=[ split(", +",$var->{'LDAP_URI'}) ];}
