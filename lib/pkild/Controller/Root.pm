@@ -40,7 +40,7 @@ sub json_wrap{
 sub default : Private {
     my ( $self, $c ) = @_;
     # remove this if not running in apache (can we do this automatically?)
-    $c->require_ssl;
+    #$c->require_ssl;
     ############################################################################
     # Attempt to authenticate
     ############################################################################
