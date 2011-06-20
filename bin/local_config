@@ -50,7 +50,7 @@ foreach my $vitem (@variables){
 }
 exit unless $ready;
 my $anonymous_bind=0;
-my @variables=('LDAP_BINDDN','LDAP_BINDPW');
+@variables=('LDAP_BINDDN','LDAP_BINDPW');
 foreach my $vitem (@variables){
     if(!defined($var->{$vitem})){
         if(!defined($ENV{$var})){
@@ -109,6 +109,15 @@ my $template;
 if(-f "$config"){
     $template=YAML::LoadFile($config);
 }
+
+# remove the bind options
+if($anonymous_bind){
+    delete $template->{'authentication'}->{'realms'}->{'ldap-hosts'}->{'store'}->{'binddn'};
+    delete $template->{'authentication'}->{'realms'}->{'ldap-hosts'}->{'store'}->{'bindpw'};
+    delete $template->{'authentication'}->{'realms'}->{'ldap-people'}->{'store'}->{'binddn'};
+    delete $template->{'authentication'}->{'realms'}->{'ldap-people'}->{'store'}->{'bindpw'};
+}
+
 foreach my $key (keys(%{ $template->{'authentication'}->{'realms'}->{'ldap-people'}->{'store'} })){
     if($template->{'authentication'}->{'realms'}->{'ldap-people'}->{'store'}->{$key}=~m/\[\% (.*) \%\]/){ 
         my $replacement=$1;
@@ -122,14 +131,6 @@ foreach my $key (keys(%{ $template->{'authentication'}->{'realms'}->{'ldap-hosts
         my $replacement=$1;
         $template->{'authentication'}->{'realms'}->{'ldap-hosts'}->{'store'}->{$key}=~s/\[\%.*\%\]/$var->{$replacement}/;
     }
-}
-
-# remove the bind options
-if($anonymous){
-    delete $template->{'authentication'}->{'realms'}->{'ldap-hosts'}->{'store'}->{'binddn'};
-    delete $template->{'authentication'}->{'realms'}->{'ldap-hosts'}->{'store'}->{'bindpw'};
-    delete $template->{'authentication'}->{'realms'}->{'ldap-people'}->{'store'}->{'binddn'};
-    delete $template->{'authentication'}->{'realms'}->{'ldap-people'}->{'store'}->{'bindpw'};
 }
 
 # make the servers a list
