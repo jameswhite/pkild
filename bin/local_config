@@ -14,7 +14,6 @@ if(-f $LDAP_CONF){
     $fh = FileHandle->new;
     if($fh->open("< $LDAP_CONF")) {
         while(my $line=<$fh>){
-print "$line\n";
             $line=~s/#.*//g;
             if($line=~m/^\s*uri\s+(.*)/){ $var->{'LDAP_URI'}=$1; }
             if($var->{'LDAP_URI'}=~m/,/){$var->{'LDAP_URI'}=[ split(", +",$var->{'LDAP_URI'}) ];}
@@ -38,7 +37,7 @@ $dnsdomain=~s/^dc=//g;
 # verify we have something for each of them or complain
 ################################################################################
 my $ready=1;
-my @variables=('LDAP_URI','LDAP_BASEDN','LDAP_BINDDN','LDAP_BINDPW');
+my @variables=('LDAP_URI','LDAP_BASEDN');
 foreach my $vitem (@variables){
     if(!defined($var->{$vitem})){
         if(!defined($ENV{$var})){
@@ -50,6 +49,19 @@ foreach my $vitem (@variables){
     }
 }
 exit unless $ready;
+my $anonymous_bind=0;
+my @variables=('LDAP_BINDDN','LDAP_BINDPW');
+foreach my $vitem (@variables){
+    if(!defined($var->{$vitem})){
+        if(!defined($ENV{$var})){
+            $anonymous_bind=1;
+            print "\$$vitem not defined in the environment. Assuming anonymous bind.\n";
+ 
+        }else{
+            $var->{$vitem}=$ENV{$vitem};
+        }
+    }
+}
 
 ################################################################################
 # figure out where we are so we can find our authconfig template
@@ -111,6 +123,16 @@ foreach my $key (keys(%{ $template->{'authentication'}->{'realms'}->{'ldap-hosts
         $template->{'authentication'}->{'realms'}->{'ldap-hosts'}->{'store'}->{$key}=~s/\[\%.*\%\]/$var->{$replacement}/;
     }
 }
+
+# remove the bind options
+if($anonymous){
+    delete $template->{'authentication'}->{'realms'}->{'ldap-hosts'}->{'store'}->{'binddn'};
+    delete $template->{'authentication'}->{'realms'}->{'ldap-hosts'}->{'store'}->{'bindpw'};
+    delete $template->{'authentication'}->{'realms'}->{'ldap-people'}->{'store'}->{'binddn'};
+    delete $template->{'authentication'}->{'realms'}->{'ldap-people'}->{'store'}->{'bindpw'};
+}
+
+# make the servers a list
 $template->{'authentication'}->{'realms'}->{'ldap-hosts'}->{'store'}->{'ldap_server'}=YAML::Load(YAML::Dump($var->{'LDAP_URI'}));
 $template->{'global'}->{'domain'}=$dnsdomain;
 $template->{'global'}->{'cert_basedn'}=$ca_basedn;
