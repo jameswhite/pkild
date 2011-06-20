@@ -10,6 +10,7 @@ my $var;
 my $LDAP_CONF;
 $LDAP_CONF="/etc/ldap/ldap.conf" if( -f "/etc/ldap/ldap.conf");
 $LDAP_CONF="/etc/ldap.conf" if( -f "/etc/ldap.conf");
+print "$LDAP_CONF\n";
 if(-f $LDAP_CONF){
     $fh = FileHandle->new;
     if($fh->open("< /etc/ldap/ldap.conf")) {
