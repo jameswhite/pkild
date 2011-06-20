@@ -7,7 +7,10 @@ my $var;
 ################################################################################
 # Scrape our ldap.conf to get our read-only credentials
 ################################################################################
-if(-f "/etc/ldap/ldap.conf"){
+my $LDAP_CONF;
+$LDAP_CONF="/etc/ldap/ldap.conf" if( -f "/etc/ldap/ldap.conf");
+$LDAP_CONF="/etc/ldap.conf" if( -f "/etc/ldap/ldap.conf");
+if(-f $LDAP_CONF){
     $fh = FileHandle->new;
     if($fh->open("< /etc/ldap/ldap.conf")) {
         while(my $line=<$fh>){

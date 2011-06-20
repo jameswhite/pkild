@@ -1,3 +1,8 @@
+# yum install httpd mod_ssl mod_perl
+# Add to /etc/http/conf.d/ssl.conf:
+# PerlSwitches -I/usr/share/pkild/lib
+# PerlModule pkild
+
 redwood:
   domain: "root@redwood.lab"
   deploy_to: "/usr/share/pkild"
