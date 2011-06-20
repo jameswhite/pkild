@@ -12,7 +12,7 @@ $LDAP_CONF="/etc/ldap/ldap.conf" if( -f "/etc/ldap/ldap.conf");
 $LDAP_CONF="/etc/ldap.conf" if( -f "/etc/ldap.conf");
 if(-f $LDAP_CONF){
     $fh = FileHandle->new;
-    if($fh->open("< /etc/ldap/ldap.conf")) {
+    if($fh->open("< $LDAP_CONF")) {
         while(my $line=<$fh>){
 print "$line\n";
             $line=~s/#.*//g;
