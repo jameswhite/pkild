@@ -1,0 +1,364 @@
+#!/bin/bash
+################################################################################
+# Getting this to run on CentOS 5 proved to be impossible without overwriting
+# perl modules provided by RPMs, thus breaking all package management principles
+# so I decided to install them locally as needed. This script will pull them down
+# from CPAN and install them in a local directory to which we can point jarvis' @INC
+# 
+# Why not just use CPAN? I needed something that didn't play 40 questions with me
+# every time I use it. I want to background this process and let jarvis just get
+# what he needs without the water-boarding interrogation that's provided by -MCPAN -eshell
+################################################################################
+# Get some packages we need to build some of the modules
+CPANLIB="$(cd $(dirname $0);pwd)/cpan";
+PREFIX="${CPANLIB}"
+CANHAS="fortune-mod gcc git openssl-devel expat-devel ircd-hybrid mysql-server mysql-devel"
+NEED=''
+for pkg in $(echo "${CANHAS}"); do
+    echo "$(rpm -q ${pkg})"|grep -q "not installed" && NEED="${NEED} ${pkg}"
+done
+echo $NEED
+
+if [ ! -z "${NEED}" ]; then
+    if [ "${UID}" == "0" ];then
+        yum install -y ${NEED}
+    else
+        echo "please: yum install -y ${NEED}"
+        exit;
+    fi
+fi
+if [ "$(stat -c %a /usr/local/share)" != "755" ] ;then 
+    if [ "${UID}" == "0" ];then
+        chmod 755 /usr/local/share
+    else
+        echo "/usr/local/share needs to be 0755"
+        exit 2;
+    fi
+fi
+################################################################################
+# mysql bullshit:
+if [ ! -f /usr/bin/mysql ];then 
+    echo "mysql not installed?"
+    exit 2
+fi
+if [ ! -f /etc/init.d/mysqld ];then 
+    echo "mysql-server not installed?"
+    exit 2
+fi
+
+ps -ef | grep -q my[Ss]ql
+if [ $? -ne 0 ]; then
+    if [ "${UID}" == "0" ];then
+        /etc/init.d/mysqld start
+    else
+        echo "please start mysql: /etc/init.d/mysqld start"
+    fi
+fi 
+
+echo "show tables;" | mysql -hlocalhost -u${LOGNAME} -ps3kr1t test
+if [ $? -ne 0 ]; then
+    if [ "${UID}" == "0" ];then
+        echo "grant all privileges on test.* to '${LOGNAME}'@'localhost' identified by 's3kr1t';"|mysql
+        echo "flush privileges;"| mysql
+    else
+        echo "MYSQL tests will fail: please run the following commands:";
+        echo "grant all privileges on test.* to '${LOGNAME}'@'localhost' identified by 's3kr1t';"|mysql
+        echo "flush privileges;"| mysql
+        echo "show grants FOR '${LOGNAME}'@'localhost'; (to confirm)" 
+    exit 3
+    fi
+fi
+################################################################################
+# gist bullshit:
+if [ ! -f /usr/local/bin/gist ];then 
+    if [ "${UID}" == "0" ];then
+        wget --no-check-certificate -O /usr/local/bin/gist https://github.com/fapestniegd/gist/raw/3a4d20ef432beb8e7541bdc594e54ab132a4e59b/gist
+        chmod 755 /usr/local/bin/gist
+    else
+         echo "you'll want to install gist in /usr/local/bin..."
+    fi
+fi
+################################################################################
+alias go='( cd /opt/local/jarvis/; ./universal.pl)'
+################################################################################
+[ ! -d "$(cd $(dirname $0);pwd)/tmp" ] &&  mkdir -p "$(cd $(dirname $0);pwd)/tmp"
+LOGFILE=$(mktemp $(cd $(dirname $0);pwd)/tmp/cpan.install.log.XXXX)
+################################################################################
+spin(){
+    while [ 1 ]; do 
+        echo -ne '/\x08' ; sleep 0.05
+        echo -ne '-\x08' ; sleep 0.05
+        echo -ne '\\\x08' ; sleep 0.05
+        echo -ne '|\x08' ; sleep 0.05
+    done
+}
+
+spinner(){
+    PROC=$1
+    spin &
+    disown
+    SPINNER=$!
+    wait $PROC
+    RETURN=$?
+    kill -9 ${SPINNER}
+    echo -ne "\x08 [${RETURN}] "
+    return $RETURN
+}
+################################################################################
+try(){
+    cd "$(cd $(dirname $0);pwd)/tmp"
+    URI=$1
+    if [ -z "${URI}" ]; then exit 1;fi
+
+    FILE=$(echo "${URI}"|sed -e 's/.*\///')
+    first=$(echo ${URI}|cut -b 1)
+    firsttwo=$(echo ${URI}|cut -b 1-2)
+
+    INCLUDES="${INCLUDES} -I ${PREFIX}/lib/perl5/5.8.8"
+    INCLUDES="${INCLUDES} -I ${PREFIX}/lib/perl5/site_perl/5.8.8/"
+    INCLUDES="${INCLUDES} -I ${PREFIX}/lib/perl5/5.8.8/i386-linux-thread-multi/"
+    INCLUDES="${INCLUDES} -I ${PREFIX}/lib/perl5/site_perl/5.8.8/i386-linux-thread-multi"
+    export INCLUDES
+
+    MODULEANDVER=$(echo "${FILE}"|sed -e 's/\.tar.gz//')
+    MODULE=$(echo "${MODULEANDVER}"|sed -e 's/-[^\-]*$//')      # strip the version
+    VERSION=$(echo "${MODULEANDVER}"|sed -e "s/^${MODULE}-//")  # strip everything but the version
+    VERSION=$(echo "${VERSION}"|sed -e 's/0*$//')               # 0.3800 -> 0.38
+    MODULE=$(echo ${MODULE} | sed -e 's/-/::/g')                # put :: where the dashes are
+
+    ACTUAL_VERSION=$(perl ${INCLUDES} -M${MODULE} -le "print qq(\$${MODULE}::VERSION);")
+    ACTUAL_VERSION=$(echo "${ACTUAL_VERSION}"|sed -e 's/0*$//') # 0.3800 -> 0.38
+    if [ -z ${ACTUAL_VERSION} ]; then
+        echo "NO VERSION INFO FOR ${MODULE}"
+        #If it won't return a version, go with any version
+        perl ${INCLUDES} -M${MODULE} -le 'print;'
+        if [ $? -eq 0 ]; then return 0; fi
+    else 
+        echo "Got: [ ${MODULE} ${ACTUAL_VERSION}/${VERSION} ]"
+        if [ "${ACTUAL_VERSION}" == "${VERSION}" ];then return 0; fi
+    fi
+
+    # fetch the file if we don't have it.
+    if [ ! -f "${FILE}" ];then
+        if [ -z "${FILE}" ]; then exit 2;fi
+        echo "Fetching ${FILE} from http://search.cpan.org/CPAN/authors/id/${first}/${firsttwo}/${URI}"
+        wget -qO "${FILE}" "http://search.cpan.org/CPAN/authors/id/${first}/${firsttwo}/${URI}"
+        if [ ! -f "${FILE}" ]; then exit 3;fi
+    fi
+
+    DIR=$(tar tzf "${FILE}"|sed -e 's/\/.*//'|sort -u|head -1)
+    tar xzf "${FILE}"
+    if [ ! -d "${DIR}" ]; then exit 4;fi
+
+    PERL5LIB="${PERL5LIB}:${PREFIX}/lib/perl5/5.8.8"
+    PERL5LIB="${PERL5LIB}:${PREFIX}/lib/perl5/site_perl/5.8.8/"
+    PERL5LIB="${PERL5LIB}:${PREFIX}/lib/perl5/5.8.8/i386-linux-thread-multi"
+    PERL5LIB="${PERL5LIB}:${PREFIX}/lib/perl5/site_perl/5.8.8/i386-linux-thread-multi"
+    export PERL5LIB
+
+    # Build
+    if [ -f "${DIR}/Build.PL" ]; then
+       export PERL5LIB
+       (cd "${DIR}" ; perl Build.PL --install_base "${PREFIX}" && ./Build && ./Build test && ./Build install) || exit 8
+       # maybe roll back the version if fails?
+    fi
+
+    # Make
+    # interactive by default options are gay
+    if [ "$DIR" == "XML-Twig-3.38" ];then GAYOPTIONS='-y'; fi
+
+    if [ -f "${DIR}/Makefile.PL" ]; then
+        (cd "${DIR}";yes "y"|perl ${INCLUDES} Makefile.PL ${GAYOPTIONS} PREFIX="${PREFIX}" 2>&1)|grep prerequisite
+        if [ $? == 0 ]; then
+            (cd "${DIR}";yes "y"|perl ${INCLUDES} Makefile.PL ${GAYOPTIONS} PREFIX="${PREFIX}" 2>&1)|grep prerequisite | while read line;do
+                echo "${line}" | sed -e 's/Warning: prerequisite //' -e 's/ .*$//'
+            done
+            exit 7 # could we try somwe fetching here?
+        else
+           export PERL5LIB
+           (cd "${DIR}";make && make test && make install) || exit 9 # maybe roll back the version if fails?
+        fi
+    fi
+    # clean up
+    rm -fr "${DIR}" "${FILE}"
+}
+################################################################################
+
+################################################################################
+the_needful(){
+    uri=$1;
+    pkg=$(echo $uri|sed -e 's/.*\///' -e's/.tar.gz.*$//')
+    echo -n "${pkg}: "
+    echo "################################################################################" >> ${LOGFILE} 2>&1
+    echo "# ${pkg}:  ">> ${LOGFILE} 2>&1
+    echo "################################################################################" >> ${LOGFILE} 2>&1
+    try $line >> ${LOGFILE} 2>&1 &
+    spinner $!
+    if [ $? -eq 0 ];then
+        echo OK
+        return 0;
+    else
+        echo FAIL
+        return 1;
+    fi
+}
+################################################################################
+cat<<EOF |sed -e's/#.*//' -e 's/^ *try //' -e 's/^ *$//'| grep .|while read line;do the_needful $line||exit $?;done
+##try RCAPUTO/POE-1.310.tar.gz # fails with deps, indented below
+#    try GBARR/IO-1.25.tar.gz
+#    try TODDR/IO-Tty-1.10.tar.gz
+#    try RCAPUTO/POE-Test-Loops-1.050.tar.gz
+#    try AMS/Storable-2.25.tar.gz
+#try RCAPUTO/POE-1.310.tar.gz
+#try ABW/AppConfig-1.66.tar.gz
+##try MIYAGAWA/Log-Dispatch-Config-1.04.tar.gz
+#    try DSKOLL/IO-stringy-2.110.tar.gz
+#    #try DROLSKY/Log-Dispatch-2.29.tar.gz
+#        try MSCHWERN/ExtUtils-MakeMaker-6.56.tar.gz
+#        try MSCHWERN/Test-Simple-0.98.tar.gz
+#        try SAPER/Sys-Syslog-0.29.tar.gz
+#        #try DROLSKY/Params-Validate-0.98.tar.gz #silent
+#            #try DAGOLDEN/Module-Build-0.3800.tar.gz
+#                #try DAGOLDEN/ExtUtils-ParseXS-2.2206.tar.gz
+#                    #try DAGOLDEN/ExtUtils-CBuilder-0.280202.tar.gz
+#                        try SMUELLER/PathTools-3.33.tar.gz
+#                        #try BINGOS/IPC-Cmd-0.70.tar.gz
+#                            try JESSE/Locale-Maketext-Simple-0.21.tar.gz
+#                            #try BINGOS/Module-Load-Conditional-0.44.tar.gz
+#                                try JPEACOCK/version-0.88.tar.gz
+#                                try BINGOS/Module-CoreList-2.46.tar.gz
+#                                try BINGOS/Module-Load-0.18.tar.gz
+#                                try BINGOS/Params-Check-0.28.tar.gz
+#                            try BINGOS/Module-Load-Conditional-0.44.tar.gz
+#                        try BINGOS/IPC-Cmd-0.70.tar.gz
+#                    try DAGOLDEN/ExtUtils-CBuilder-0.280202.tar.gz
+#                try DAGOLDEN/ExtUtils-ParseXS-2.2206.tar.gz
+#                try DAGOLDEN/Module-Metadata-1.000004.tar.gz
+#                #try DAGOLDEN/CPAN-Meta-2.110930.tar.gz
+#                    try DAGOLDEN/CPAN-Meta-YAML-0.003.tar.gz
+#                    try TJENNESS/File-Temp-0.22.tar.gz
+#                    try MAKAMAKA/JSON-PP-2.27105.tar.gz
+#                    try DAGOLDEN/Parse-CPAN-Meta-1.4401.tar.gz
+#                    try RJBS/Version-Requirements-0.101020.tar.gz
+#                try DAGOLDEN/CPAN-Meta-2.110930.tar.gz
+#                try DAGOLDEN/Parse-CPAN-Meta-1.4401.tar.gz
+#                try DAGOLDEN/Perl-OSType-1.002.tar.gz
+#                try ANDYA/Test-Harness-3.23.tar.gz
+#                #try BIGPRESH/Pod-Readme-0.11.tar.gz
+#                   #try RRA/podlators-2.4.0.tar.gz
+#                        #try DWHEELER/Pod-Simple-3.16.tar.gz
+#                            try SBURKE/Pod-Escapes-1.04.tar.gz
+#                        try DWHEELER/Pod-Simple-3.16.tar.gz
+#                     try RRA/podlators-2.4.0.tar.gz
+#                    try ABIGAIL/Regexp-Common-2011041701.tar.gz
+#                try BIGPRESH/Pod-Readme-0.11.tar.gz
+#                #try BINGOS/Archive-Tar-1.76.tar.gz
+#                    # try PMQS/IO-Compress-2.033.tar.gz
+#                        try PMQS/Compress-Raw-Bzip2-2.033.tar.gz
+#                    #try PMQS/IO-Compress-2.033.tar.gz
+#                        try PMQS/Compress-Raw-Zlib-2.033.tar.gz
+#                    try PMQS/IO-Compress-2.033.tar.gz
+#                     try TOMHUGHES/IO-Zlib-1.10.tar.gz
+#                     try KANE/Package-Constants-0.02.tar.gz
+#                     #try OVID/Text-Diff-1.41.tar.gz
+#                         try NEDKONZ/Algorithm-Diff-1.15.tar.gz
+#                     try RBS/Text-Diff-0.35.tar.gz # <- newer versions require nonexistant Algorithm-Diff-1.19
+#                try BINGOS/Archive-Tar-1.76.tar.gz
+#            try DAGOLDEN/Module-Build-0.3800.tar.gz
+#            try RKOBES/ExtUtils-Manifest-1.58.tar.gz
+#            try YVES/ExtUtils-Install-1.54.tar.gz
+#        try DROLSKY/Params-Validate-0.98.tar.gz
+#    try DROLSKY/Log-Dispatch-2.29.tar.gz 
+#try MIYAGAWA/Log-Dispatch-Config-1.04.tar.gz
+##try HINRIK/POE-Component-IRC-6.61.tar.gz
+#    try DOY/Try-Tiny-0.09.tar.gz
+#    try FERREIRA/Exporter-5.63.tar.gz
+#    try RJBS/Test-Fatal-0.005.tar.gz
+#    try PEVANS/ExtUtils-CChecker-0.07.tar.gz
+#    try PEVANS/Socket-GetAddrInfo-0.21.tar.gz
+#    try BINGOS/POE-Filter-IRCD-2.42.tar.gz
+#    try HINRIK/IRC-Utils-0.07.tar.gz
+#    # try HINRIK/Object-Pluggable-1.29.tar.gz
+#        try MAREKR/Pod-Parser-1.38.tar.gz
+#        try ADAMK/Task-Weaken-1.04.tar.gz
+#        try SAPER/constant-1.21.tar.gz
+#    try HINRIK/Object-Pluggable-1.29.tar.gz
+#try HINRIK/POE-Component-IRC-6.61.tar.gz
+##try HACHI/POE-Component-Client-LDAP-0.04.tar.gz
+#    try HACHI/POE-Wheel-Null-0.01.tar.gz
+#try HACHI/POE-Component-Client-LDAP-0.04.tar.gz
+## try DOLMEN/POE-Component-Logger-1.10.tar.gz
+#    # try ADAMK/Test-NoWarnings-1.02.tar.gz
+#        try FDALY/Test-Tester-0.107.tar.gz
+#    try ADAMK/Test-NoWarnings-1.02.tar.gz
+#try DOLMEN/POE-Component-Logger-1.10.tar.gz
+#try RCAPUTO/Filter-Template-1.040.tar.gz
+## try APOCAL/POE-Component-SSLify-1.006.tar.gz
+#    try FLORA/Net-SSLeay-1.36.tar.gz
+#    try CORION/parent-0.225.tar.gz
+#try APOCAL/POE-Component-SSLify-1.006.tar.gz
+#try GBARR/Authen-SASL-2.15.tar.gz
+##try MIROD/XML-Twig-3.38.tar.gz
+#    try CHORNY/XML-Parser-2.40.tar.gz
+#try MIROD/XML-Twig-3.38.tar.gz
+#try CHORNY/AI-MegaHAL-0.07.tar.gz
+#try MAKAMAKA/JSON-2.51.tar.gz
+#try SCOTT/Sys-Hostname-Long-1.4.tar.gz
+## try MARKOV/MailTools-2.07.tar.gz
+#    try GBARR/TimeDate-1.20.tar.gz
+#    # try DWHEELER/Test-Pod-1.45.tar.gz
+#    try DWHEELER/Test-Pod-1.45.tar.gz
+#try MARKOV/MailTools-2.07.tar.gz
+#try TIMB/DBI-1.616.tar.gz
+##try JESSE/WWW-Mechanize-1.68.tar.gz
+##try PETDANCE/WWW-Mechanize-1.66.tar.gz # (1.68 fails tests)
+#    #try JFEARN/HTML-Tree-4.2.tar.gz
+#        #try ADIE/Test-Exception-0.31.tar.gz
+#            try DAGOLDEN/Sub-Uplevel-0.22.tar.gz
+#        try ADIE/Test-Exception-0.31.tar.gz
+#    try JFEARN/HTML-Tree-4.2.tar.gz
+#    try JESSE/HTTP-Server-Simple-0.44.tar.gz
+#    #try GAAS/libwww-perl-6.02.tar.gz
+#        try GAAS/Encode-Locale-1.02.tar.gz
+#        #try GAAS/File-Listing-6.02.tar.gz
+#            try GAAS/HTTP-Date-6.00.tar.gz
+#        try GAAS/File-Listing-6.02.tar.gz
+#        #try GAAS/HTTP-Cookies-6.00.tar.gz
+#            #try GAAS/HTTP-Message-6.02.tar.gz
+#                try GAAS/LWP-MediaTypes-6.01.tar.gz
+#            try GAAS/HTTP-Message-6.02.tar.gz
+#        try GAAS/HTTP-Cookies-6.00.tar.gz
+#        try GAAS/HTTP-Daemon-6.00.tar.gz
+#        try GAAS/HTTP-Date-6.00.tar.gz
+#        try GAAS/HTTP-Negotiate-6.00.tar.gz
+#        try GAAS/HTTP-Message-6.02.tar.gz
+#        try GAAS/LWP-MediaTypes-6.01.tar.gz
+#        try GAAS/Net-HTTP-6.01.tar.gz
+#        try GAAS/WWW-RobotRules-6.01.tar.gz
+#    try GAAS/libwww-perl-6.02.tar.gz
+#    # try CHORNY/Test-Warn-0.23.tar.gz
+#        try COGENT/Tree-DAG_Node-1.06.tar.gz
+#    try CHORNY/Test-Warn-0.23.tar.gz
+#    try GAAS/URI-1.58.tar.gz   
+#    # try PETDANCE/Test-Memory-Cycle-1.04.tar.gz
+#        try LDS/Devel-Cycle-1.11.tar.gz
+#        try ROBIN/PadWalker-1.92.tar.gz
+#    try PETDANCE/Test-Memory-Cycle-1.04.tar.gz
+#try PETDANCE/WWW-Mechanize-1.66.tar.gz # (1.68 fails )
+#try INGY/YAML-0.73.tar.gz
+##try CAPTTOFU/DBD-mysql-4.018.tar.gz
+#    try TIMB/DBI-1.616.tar.gz
+#try CAPTTOFU/DBD-mysql-4.018.tar.gz
+#try ABW/Template-Toolkit-2.22.tar.gz
+EOF
+
+################################################################################
+# un-do the crap we did just to make this stuff build/test/install
+if [ ! -z "${NEED}" ]; then
+    if [ "${UID}" == "0" ];then
+        rpm -e ${NEED}
+    else
+        echo "you may: rpm -e ${NEED} now."
+        exit;
+    fi
+fi

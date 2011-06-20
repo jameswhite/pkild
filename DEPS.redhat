@@ -6,3 +6,13 @@ gpgcheck=0
 
 yum install -y perl-Catalyst-Runtime perl-YAML perl-Class-Accessor perl-Class-Data-Inheritable
 
+
+
+yum install -y perl-Catalyst-Model-File perl-Catalyst-Runtime perl-Catalyst-Plugin-Authentication       \
+               perl-Catalyst-Plugin-ConfigLoader perl-Catalyst-Action-RenderView                        \
+               perl-Catalyst-Component-InstancePerContext perl-Catalyst-View-TT perl-Catalyst-Devel     \
+               perl-Catalyst-Plugin-Authorization-Roles perl-Catalyst-Plugin-Session-State-Cookie       \
+               perl-Catalyst-Authentication-Store-LDAP perl-Catalyst-Plugin-Static-Simple               \
+               perl-Catalyst-Plugin-RequireSSL perl-Catalyst-Engine-Apache perl-Catalyst-Plugin-Session \
+               perl-Catalyst-Plugin-Session-Store-FastMmap
+
