@@ -92,7 +92,7 @@ if ($query) {
         }
     }
 }else{
-    warn "query failed: ", $res->errorstring, "\n";
+    warn "query TXT [ca-basedn.$dnsdomain] failed: ", $res->errorstring, "\n";
 }
 
 
