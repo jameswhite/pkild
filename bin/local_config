@@ -18,7 +18,9 @@ if(-f $LDAP_CONF){
             print "$line\n";
             $line=~s/#.*//g;
             if($line=~m/^\s*uri\s+(.*)/){ $var->{'LDAP_URI'}=$1; }
-            if($var->{'LDAP_URI'}=~m/,/){$var->{'LDAP_URI'}=[ split(", +",$var->{'LDAP_URI'}) ];}
+            if($var->{'LDAP_URI'}){
+                if($var->{'LDAP_URI'}=~m/,/){$var->{'LDAP_URI'}=[ split(", +",$var->{'LDAP_URI'}) ];}
+            }
             if($line=~m/^\s*binddn\s+(.*)/){$var->{'LDAP_BINDDN'}=$1;}
             if($line=~m/^\s*bindpw\s+(.*)/){$var->{'LDAP_BINDPW'}=$1;}
             if($line=~m/^\s*base\s+(.*)/){$var->{'LDAP_BASEDN'}=$1;}
