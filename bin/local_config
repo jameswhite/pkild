@@ -24,6 +24,7 @@ if(-f $LDAP_CONF){
         $fh->close;
     }
 }
+print Data::Dumper->Dump([$var]);
 
 ################################################################################
 # get our domain name
