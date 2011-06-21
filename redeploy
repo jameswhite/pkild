@@ -4,19 +4,20 @@ if [ ! -d .ssh ]; then mkdir .ssh ;fi
 chmod 750 .ssh
 ssh-keyscan -t dsa,rsa github.com > .ssh/known_hosts
 ssh-keyscan -t dsa,rsa \$(dig +short github.com) >> .ssh/known_hosts
+yum update -y
 for pkg in httpd mod_perl mod_ssl git ;do
     rpm -qa | grep \$pkg || yum install -y \$pkg 
 done
 rpm -qa | grep autodir || (yum install -y autodir; /etc/init.d/autohome start)
 
 try(){
-    URI="$*"
-    FILE=$(echo $URI|sed -e 's/.*\///')
-    wget -qO "${FILE}" "${URI}"
-    rpm -Uvh "${FILE}"
-    if [ $? -ne 0 ]; then
-        rpm -Uvh "${FILE}" 2>&1|grep "is needed"|sed -e 's/is needed.*//' -e 's/^[\t ]*//'|while read line; do
-            yum install -y "${line}" 2>&1 | grep "No package"
+    URI="\$*"
+    FILE=\$(echo \$URI|sed -e 's/.*\///')
+    wget -qO "\${FILE}" "\${URI}"
+    rpm -Uvh "\${FILE}"
+    if [ \$? -ne 0 ]; then
+        rpm -Uvh "\${FILE}" 2>&1|grep "is needed"|sed -e 's/is needed.*//' -e 's/^[\t ]*//'|while read line; do
+            yum install -y "\${line}" 2>&1 | grep "No package"
         done
     fi
 }
@@ -33,7 +34,7 @@ yum install -y "perl(Class::Data::Inheritable)"
 yum install -y "perl(Data::OptList)"
 yum install -y "perl(Params::Util)"
 yum install -y "perl(Sub::Install)"
-yum install -y "perl(Sub::Exporter) "
+yum install -y "perl(Sub::Exporter)"
 
 try "http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-Object-Signature-1.05-1.el5.rf.noarch.rpm"
 try "http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-Sub-Exporter-0.982-1.el5.rf.noarch.rpm"
