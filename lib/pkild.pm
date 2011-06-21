@@ -32,13 +32,13 @@ our $VERSION = '0.01';
 __PACKAGE__->config( YAML::LoadFile( file(__PACKAGE__->config->{home}, 'pkild.yaml') ) );
 __PACKAGE__->config->{layout} = YAML::LoadFile( file(__PACKAGE__->config->{home},'root/forms/default.yaml') );
 # Start the application
-__PACKAGE__->setup( qw/RequireSSL/ );
-__PACKAGE__->config->{require_ssl} = {
-                                      #https => 'https://server.example.org:443',
-                                      #http => 'http://server.example.org:80',
-                                       remain_in_ssl => 1,
-                                       no_cache => 1,
-                                     };
+#__PACKAGE__->setup( qw/RequireSSL/ );
+#__PACKAGE__->config->{require_ssl} = {
+#                                      #https => 'https://server.example.org:443',
+#                                      #http => 'http://server.example.org:80',
+#                                       remain_in_ssl => 1,
+#                                       no_cache => 1,
+#                                     };
 
 =head1 NAME
 
