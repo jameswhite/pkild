@@ -1,9 +1,8 @@
 # yum install httpd mod_ssl mod_perl
-# Add to /etc/http/conf.d/ssl.conf:
+# Add to /etc/httpd/conf.d/ssl.conf (above <VirtualHost _default_:443>)
 # PerlSwitches -I/usr/share/pkild/lib
 # PerlModule pkild
-
-redwood:
+redwood.lab:
   domain: "root@redwood.lab"
   deploy_to: "/usr/share/pkild"
   repository: "git@github.com:fapestniegd/pkild.git"

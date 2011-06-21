@@ -1,3 +1,5 @@
+yum install -y httpd mod_ssl mod_perl
+
 [eft-centos-5.5-dag]
 name=EFTSOURCE CentOS Repository for DAG
 baseurl=http://packages.lab.eftdomain.net/mirrors/dag/latest/redhat/el5/en/i386/dag/

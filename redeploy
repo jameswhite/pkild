@@ -1,0 +1,113 @@
+#!/bin/bash
+cat<<EOF | ssh root@redwood.lab 
+if [ ! -d .ssh ]; then mkdir .ssh ;fi
+chmod 750 .ssh
+ssh-keyscan -t dsa,rsa github.com > .ssh/known_hosts
+ssh-keyscan -t dsa,rsa \$(dig +short github.com) >> .ssh/known_hosts
+for pkg in httpd mod_perl mod_ssl git ;do
+    rpm -qa | grep \$pkg || yum install -y \$pkg 
+done
+rpm -qa | grep autodir || (yum install -y autodir; /etc/init.d/autohome start)
+
+try(){
+    URI="$*"
+    FILE=$(echo $URI|sed -e 's/.*\///')
+    wget -qO "${FILE}" "${URI}"
+    rpm -Uvh "${FILE}"
+    if [ $? -ne 0 ]; then
+        rpm -Uvh "${FILE}" 2>&1|grep "is needed"|sed -e 's/is needed.*//' -e 's/^[\t ]*//'|while read line; do
+            yum install -y "${line}" 2>&1 | grep "No package"
+        done
+    fi
+}
+
+try "http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-File-Modified-0.07-1.2.el5.rf.noarch.rpm"
+try "http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-HTTP-Body-1.07-2.el5.rf.noarch.rpm"
+try "http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-Text-SimpleTable-2.03-1.el5.rf.noarch.rpm"
+try "http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-Tree-Simple-VisitorFactory-0.10-1.el5.rf.noarch.rpm"
+
+yum install -y perl-YAML
+yum install -y "perl(Class::Accessor::Fast)"
+yum install -y "perl(Class::Data::Inheritable)"
+
+yum install -y "perl(Data::OptList)"
+yum install -y "perl(Params::Util)"
+yum install -y "perl(Sub::Install)"
+yum install -y "perl(Sub::Exporter) "
+
+try "http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-Object-Signature-1.05-1.el5.rf.noarch.rpm"
+try "http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-Sub-Exporter-0.982-1.el5.rf.noarch.rpm"
+try "http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-Try-Tiny-0.09-1.el5.rf.noarch.rpm"
+try "http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-Sub-Name-0.05-1.el5.rf.i386.rpm"
+try "http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-Devel-GlobalDestruction-0.02-1.el5.rf.i386.rpm"
+
+yum install -y "perl(MRO::Compat)"
+# try "http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-Class-MOP-1.01-1.el5.rf.i386.rpm"
+#     Couldn't load class (MooseX::Emulate::Class::Accessor::Fast) because:
+#       Can't locate object method "get_mutable_metaclass_name"
+#         via package "Class::MOP::Class::Immutable::Class::MOP::Class"
+try http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-Class-MOP-0.92-1.el5.rf.i386.rpm
+
+yum install -y "perl(List::MoreUtils)"
+yum install -y "perl(metaclass)"
+# try "http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-Moose-1.02-2.el5.rf.i386.rpm"
+#     perl(Catalyst) <= 5.80017 conflicts with perl-Moose-1.02-2.el5.rf.i386
+try http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-Moose-0.89-2.el5.rf.noarch.rpm
+
+try "http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-Sub-Identify-0.04-1.el5.rf.i386.rpm"
+try "http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-Variable-Magic-0.46-1.el5.rf.i386.rpm"
+try "http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-B-Hooks-EndOfScope-0.08-2.el5.rf.noarch.rpm"
+try "http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-namespace-clean-0.13-1.el5.rf.noarch.rpm"
+try "http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-MooseX-Emulate-Class-Accessor-Fast-0.00903-1.el5.rf.noarch.rpm"
+
+yum install -y "perl(File::Copy::Recursive)"
+yum install -y "perl(Module::Install::Base)"
+yum install -y "perl(Template)"
+yum install -y "perl(CGI::Simple::Cookie)"
+yum install -y "perl(Class::Inspector)"
+yum install -y "perl(Data::Dump)"
+yum install -y "perl(Devel::InnerPackage)"
+yum install -y "perl(Module::Build)"
+yum install -y "perl(Module::Pluggable::Object)"
+yum install -y "perl(Path::Class)"
+yum install -y "perl(Path::Class::Dir)"
+yum install -y "perl(Path::Class::File)"
+yum install -y "perl(Tree::Simple)"
+
+################################################################################
+# must be installed together: and conflict with moose
+wget -q "http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-Catalyst-Devel-1.08-1.el5.rf.noarch.rpm"
+wget -q "http://dag.wieers.com/rpm/packages/perl-Catalyst-Runtime/perl-Catalyst-Runtime-5.7015-1.el5.rf.noarch.rpm"
+rpm -Uvh perl-Catalyst-Devel-1.08-1.el5.rf.noarch.rpm perl-Catalyst-Runtime-5.7015-1.el5.rf.noarch.rpm
+################################################################################
+
+try "http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-Catalyst-Plugin-Session-State-Cookie-0.09-1.el5.rf.noarch.rpm"
+try "http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-Catalyst-Plugin-Session-0.29-1.el5.rf.noarch.rpm"
+yum install -y "perl(Cache::FastMmap)"
+try "http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-Catalyst-Plugin-Session-Store-FastMmap-0.13-1.el5.rf.noarch.rpm"
+
+try http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-MIME-Types-1.28-1.el5.rf.noarch.rpm
+try http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-namespace-autoclean-0.09-1.el5.rf.noarch.rpm
+yum install -y "perl(Carp::Clan)"
+# try http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-MooseX-Types-0.21-1.el5.rf.noarch.rpm
+#     perl(Moose) >= 0.93 is needed by perl-MooseX-Types-0.21-1.el5.rf.noarch
+try http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-MooseX-Types-0.17-1.el5.rf.noarch.rpm
+
+try "http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-Catalyst-Plugin-Static-Simple-0.28-1.el5.rf.noarch.rpm"
+try http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-Set-Object-1.27-1.el5.rf.i386.rpm
+try http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-UNIVERSAL-isa-1.03-1.el5.rf.noarch.rpm
+try http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-Catalyst-Plugin-Authentication-0.10016-1.el5.rf.noarch.rpm
+try http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-Catalyst-Plugin-Authorization-Roles-0.08-1.el5.rf.noarch.rpm
+try http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-Config-Any-0.21-1.el5.rf.noarch.rpm
+try http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-Test-use-ok-0.02-1.el5.rf.noarch.rpm
+try http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-Tie-ToObject-0.03-1.el5.rf.noarch.rpm
+
+yum install -y "perl(Task::Weaken)"
+try http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-Data-Visitor-0.27-1.el5.rf.noarch.rpm
+try http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-Catalyst-Plugin-ConfigLoader-0.27-1.el5.rf.noarch.rpm
+EOF
+
+wd setup --to=redwood.lab
+
+ssh root@redwood.lab "(cd /usr/share/pkild/; bin/local_config)"
+
