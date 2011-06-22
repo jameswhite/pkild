@@ -4,9 +4,10 @@ use strict;
 use warnings;
 
 use Catalyst::Runtime '5.70';
+
 use YAML qw(LoadFile);
 use Path::Class 'file';
-use parent qw/Catalyst/; # added for centos 5
+use base qw/Catalyst/; # added for centos 5
 
 # Set flags and add plugins for the application
 #
@@ -30,8 +31,8 @@ our $VERSION = '0.01';
 # with a external configuration file acting as an override for
 # local deployment.
 
-__PACKAGE__->config( YAML::LoadFile( file(__PACKAGE__->config->{home}, 'pkild.yaml') ) );
-__PACKAGE__->config->{layout} = YAML::LoadFile( file(__PACKAGE__->config->{home},'root/forms/default.yaml') );
+#__PACKAGE__->config( YAML::LoadFile( file(__PACKAGE__->config->{home}, 'pkild.yaml') ) );
+#__PACKAGE__->config->{layout} = YAML::LoadFile( file(__PACKAGE__->config->{home},'root/forms/default.yaml') );
 # Start the application
 
 # Cannot install on CentOS 5

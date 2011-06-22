@@ -163,6 +163,9 @@ ssh root@redwood.lab "/etc/init.d/httpd resstart"
 # jd;slkfja;lkj;alsdkjf;dsflj dfssakjafsd this shit is so ghetto
 
 
+################################################################################
+# # Just trying to get base functionality back...
+# #    
 # catalyst.pl myApp
 # cd myApp
 # ./script/myapp_server.pl
@@ -173,4 +176,16 @@ cpan2rpm --no-sign "Config::General"
 rpm -Uvh /usr/src/redhat/RPMS/i386/perl-Config-General-2.50-1.i386.rpm
 wget http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-Catalyst-Action-RenderView-0.14-1.el5.rf.noarch.rpm
 rpm -Uvh perl-Catalyst-Action-RenderView-0.14-1.el5.rf.noarch.rpm
+
+wget http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-Template-Timer-1.00-1.el5.rf.noarch.rpm
+rpm -Uvh perl-Template-Timer-1.00-1.el5.rf.noarch.rpm
+wget http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-Catalyst-View-TT-0.31-1.el5.rf.noarch.rpm
+rpm -Uvh perl-Catalyst-View-TT-0.31-1.el5.rf.noarch.rpm 
+# ./script/pkild_create.pl view TT TT
+
+wget http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-Catalyst-Model-File-0.06-1.el5.rf.noarch.rpm
+perl-Catalyst-Model-File-0.06-1.el5.rf.noarch.rpm
+cpan2rpm --no-sign Catalyst::Component::InstancePerContext
+rpm -Uvh /usr/src/redhat/RPMS/noarch/perl-Catalyst-Component-InstancePerContext-0.001001-1.noarch.rpm
+# ./script/pkild_create.pl model File File "/tmp"
 
