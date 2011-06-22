@@ -6,6 +6,7 @@ use warnings;
 use Catalyst::Runtime '5.70';
 use YAML qw(LoadFile);
 use Path::Class 'file';
+use parent qw/Catalyst/; # added for centos 5
 
 # Set flags and add plugins for the application
 #
