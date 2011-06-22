@@ -189,3 +189,51 @@ cpan2rpm --no-sign Catalyst::Component::InstancePerContext
 rpm -Uvh /usr/src/redhat/RPMS/noarch/perl-Catalyst-Component-InstancePerContext-0.001001-1.noarch.rpm
 # ./script/pkild_create.pl model File File "/tmp"
 
+
+# Nothing builds in this day-and-age without a newer ExtUtils::MakeMaker than centos provides with perl
+# This will put it in front of the one redhat ships:
+cpan2rpm --no-sign --name perl-ExtUtils-MakeMaker --version 6.57 --make-maker=" INSTALL_BASE=/usr/lib/perl5/site_perl/5.8.8 INSTALLPRIVLIB=/usr/lib/perl5/site_perl/5.8.8" ExtUtils::MakeMaker
+rpm -Uvh /usr/src/redhat/RPMS/noarch/perl-perl-ExtUtils-MakeMaker-6.57-1.noarch.rpm
+
+yum install -y "perl(Test::MockObject)"
+yum install -y "perl(Test::Exception)"
+cpan2rpm --no-sign Net::LDAP::Server
+rpm -Uvh /usr/src/redhat/RPMS/noarch/perl-Net-LDAP-Server-0.43-1.noarch.rpm
+
+
+# Now we override the centos provided LDAP, so we can install Net::LDAP::Server::Test
+yum install -y "perl(Authen::SASL)"
+yum install -y "perl(XML::SAX::Writer)"
+cpan2rpm --no-sign --name LDAP --epoch 2 perl-ldap
+rpm -Uvh /usr/src/redhat/RPMS/noarch/perl-LDAP-0.4001-1.noarch.rpm
+
+
+#cpan2rpm --no-sign Net::LDAP::Server::Test #<-- fails tests because of TIME_WAIT/CLOSE_WAIT
+# Un-pack it, change the port numbers in the t/01-ldap.t, and repack
+cpanflute2 Net-LDAP-Server-Test-0.11.tar.gz 
+rpm -Uvh ./perl-Net-LDAP-Server-Test-0.11-8.src.rpm
+rpmbuild -ba /usr/src/redhat/SPECS/perl-Net-LDAP-Server-Test.spec 
+wget http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-Class-Accessor-Chained-0.01-1.el5.rf.noarch.rpm
+rpm -Uvh perl-Class-Accessor-Chained-0.01-1.el5.rf.noarch.rpm
+wget http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-Data-Page-2.02-1.el5.rf.noarch.rpm
+rpm -Uvh perl-Data-Page-2.02-1.el5.rf.noarch.rpm 
+
+
+
+wget http://search.cpan.org/CPAN/authors/id/D/DA/DANIELTWC/Catalyst-Model-LDAP-0.17.tar.gz
+cpanflute2 Catalyst-Model-LDAP-0.17.tar.gz
+
+rpm -Uvh ./perl-Catalyst-Model-LDAP-0.17-8.src.rpm
+# edit /usr/src/redhat/SPECS/perl-Catalyst-Model-LDAP.spec change perl(perl) to perl
+rpmbuild -ba /usr/src/redhat/SPECS/perl-Catalyst-Model-LDAP.spec 
+rpm -Uvh /usr/src/redhat/RPMS/noarch/perl-Catalyst-Model-LDAP-0.17-8.noarch.rpm
+
+
+wget http://search.cpan.org/CPAN/authors/id/B/BO/BOBTFISH/Catalyst-Authentication-Store-LDAP-1.012.tar.gz
+cpanflute2 Catalyst-Authentication-Store-LDAP-1.012.tar.gz
+rpm -Uvh ./perl-Catalyst-Authentication-Store-LDAP-1.012-8.src.rpm
+rpmbuild -ba /usr/src/redhat/SPECS/perl-Catalyst-Authentication-Store-LDAP.spec 
+rpm -Uvh /usr/src/redhat/RPMS/noarch/perl-Catalyst-Authentication-Store-LDAP-1.012-8.noarch.rpm
+
+
+
