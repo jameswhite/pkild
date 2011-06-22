@@ -235,5 +235,6 @@ rpm -Uvh ./perl-Catalyst-Authentication-Store-LDAP-1.012-8.src.rpm
 rpmbuild -ba /usr/src/redhat/SPECS/perl-Catalyst-Authentication-Store-LDAP.spec 
 rpm -Uvh /usr/src/redhat/RPMS/noarch/perl-Catalyst-Authentication-Store-LDAP-1.012-8.noarch.rpm
 
+yum install -y perl-JSON perl-File-Slurp
 
 

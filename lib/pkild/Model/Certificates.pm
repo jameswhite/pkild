@@ -54,7 +54,7 @@ sub csr_subject{
     $subject=~s/^\s+//;
     $subject=~s/^[Ss]ubject:\s*//;
     my @subject_parts=split(",",$subject);  
-    my @dir_parts; my $common_name;
+    my @dir_parts;
     for(my $idx=0; $idx<=$#subject_parts; $idx++){
         $subject_parts[$idx]=~s/^\s+//g;
         $subject_parts[$idx]=~s/\s+=/=/g;
