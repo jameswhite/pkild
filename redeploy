@@ -119,15 +119,33 @@ wd setup --to=redwood.lab
 ssh root@redwood.lab "(cd /usr/share/pkild/; bin/local_config)"
 ssh root@redwood.lab "/etc/init.d/httpd resstart"
 
+################################################################################
+# # RPM::Specfile builds broken packages
 # yum install -y rpm-devel rpm-build
 # wget http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-RPM-Specfile-1.51-1.el5.rf.noarch.rpm
 # rpm -Uvh perl-RPM-Specfile-1.51-1.el5.rf.noarch.rpm 
 # wget http://search.cpan.org/CPAN/authors/id/A/AG/AGRUNDMA/Catalyst-Plugin-RequireSSL-0.06.tar.gz
 # cpanflute2 Catalyst-Plugin-RequireSSL-0.06.tar.gz 
-rpm -Uvh perl-Catalyst-Plugin-RequireSSL-0.06-8.src.rpm
-rpmbuild -ba /usr/src/redhat/SPECS/perl-Catalyst-Plugin-RequireSSL.spec 
-rpm -Uvh /usr/src/redhat/RPMS/noarch/perl-Catalyst-Plugin-RequireSSL-0.06-8.noarch.rpm
+# rpm -Uvh perl-Catalyst-Plugin-RequireSSL-0.06-8.src.rpm
+# rpmbuild -ba /usr/src/redhat/SPECS/perl-Catalyst-Plugin-RequireSSL.spec 
+# rpm -Uvh /usr/src/redhat/RPMS/noarch/perl-Catalyst-Plugin-RequireSSL-0.06-8.noarch.rpm
 
 
+################################################################################
+# # Requires Catalyst/Engine/Apache2/MP20.pm which is in Catalyst-Engine-Apache 
+# #    which needs ExtUtils::MakeMaker version 6.31 to build
+# #        which  won't install without force
+#wget http://ftp.arix.com/cpan2rpm-2.028-1.noarch.rpm
+#rpm -Uvh cpan2rpm-2.028-1.noarch.rpm 
+#yum install -y "perl(Test::Pod::Coverage)"
+#wget http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-HTTP-Request-AsCGI-1.2-1.el5.rf.noarch.rpm
+#rpm -Uvh perl-HTTP-Request-AsCGI-1.2-1.el5.rf.noarch.rpm
+#cpan2rpm --no-sign --author "Andy Grundman" --version "0.06" Catalyst::Plugin::RequireSSL
+#rpm -Uvh /usr/src/redhat/RPMS/noarch/perl-Catalyst-Plugin-RequireSSL-0.06-1.noarch.rpm
+#
+#cat<<EOF | perl -MCPAN -eshell
+#install M/MS/MSCHWERN/ExtUtils-MakeMaker-6.54.tar.gz 
+#EOF
+#  # won't install without force
 
-
+# jd;slkfja;lkj;alsdkjf;dsflj dfssakjafsd this shit is so ghetto
