@@ -13,7 +13,19 @@ cp /etc/httpd/conf.d/ssl.conf /etc/httpd/conf.d/ssl.conf.dist
 rpm -qa | grep autodir || (yum install -y autodir; /etc/init.d/autohome start)
 
 grep PerlSwitches /etc/httpd/conf.d/ssl.conf || \
-    awk '{if($0 == "<VirtualHost _default_:443>"){print "PerlSwitches -I/usr/share/pkild/lib\nPerlModule pkild\n\n";} print $0; }' /etc/httpd/conf.d/ssl.conf.dist > /etc/httpd/conf.d/ssl.conf
+    awk '{
+           if($0 == "<VirtualHost _default_:443>"){
+               print "PerlSwitches -I/usr/share/pkild/lib";
+               print "PerlModule pkild\n";
+               print $0;
+               print "<Location />"
+               print "    SetHandler          modperl"
+               print "    PerlResponseHandler pkild"
+               print "</Location>" ;
+           }else{ 
+               print $0; 
+           } 
+         }' /etc/httpd/conf.d/ssl.conf.dist > /etc/httpd/conf.d/ssl.conf
 
 
 try(){
@@ -149,3 +161,16 @@ ssh root@redwood.lab "/etc/init.d/httpd resstart"
 #  # won't install without force
 
 # jd;slkfja;lkj;alsdkjf;dsflj dfssakjafsd this shit is so ghetto
+
+
+# catalyst.pl myApp
+# cd myApp
+# ./script/myapp_server.pl
+
+yum install -y "perl(Config::General)"
+try http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-parent-0.221-1.el5.rf.noarch.rpm
+cpan2rpm --no-sign "Config::General"
+rpm -Uvh /usr/src/redhat/RPMS/i386/perl-Config-General-2.50-1.i386.rpm
+wget http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-Catalyst-Action-RenderView-0.14-1.el5.rf.noarch.rpm
+rpm -Uvh perl-Catalyst-Action-RenderView-0.14-1.el5.rf.noarch.rpm
+
