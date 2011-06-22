@@ -8,7 +8,13 @@ yum update -y
 for pkg in httpd mod_perl mod_ssl git ;do
     rpm -qa | grep \$pkg || yum install -y \$pkg 
 done
+
+cp /etc/httpd/conf.d/ssl.conf /etc/httpd/conf.d/ssl.conf.dist
 rpm -qa | grep autodir || (yum install -y autodir; /etc/init.d/autohome start)
+
+grep PerlSwitches /etc/httpd/conf.d/ssl.conf || \
+    awk '{if($0 == "<VirtualHost _default_:443>"){print "PerlSwitches -I/usr/share/pkild/lib\nPerlModule pkild\n\n";} print $0; }' /etc/httpd/conf.d/ssl.conf.dist > /etc/httpd/conf.d/ssl.conf
+
 
 try(){
     URI="\$*"
@@ -111,4 +117,17 @@ EOF
 wd setup --to=redwood.lab
 
 ssh root@redwood.lab "(cd /usr/share/pkild/; bin/local_config)"
+ssh root@redwood.lab "/etc/init.d/httpd resstart"
+
+# yum install -y rpm-devel rpm-build
+# wget http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-RPM-Specfile-1.51-1.el5.rf.noarch.rpm
+# rpm -Uvh perl-RPM-Specfile-1.51-1.el5.rf.noarch.rpm 
+# wget http://search.cpan.org/CPAN/authors/id/A/AG/AGRUNDMA/Catalyst-Plugin-RequireSSL-0.06.tar.gz
+# cpanflute2 Catalyst-Plugin-RequireSSL-0.06.tar.gz 
+rpm -Uvh perl-Catalyst-Plugin-RequireSSL-0.06-8.src.rpm
+rpmbuild -ba /usr/src/redhat/SPECS/perl-Catalyst-Plugin-RequireSSL.spec 
+rpm -Uvh /usr/src/redhat/RPMS/noarch/perl-Catalyst-Plugin-RequireSSL-0.06-8.noarch.rpm
+
+
+
 
