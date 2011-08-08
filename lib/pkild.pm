@@ -17,7 +17,7 @@ use base qw/Catalyst/;
 #                 directory
 
 #use Catalyst qw/-Debug ConfigLoader Authentication Authorization::Roles Static::Simple Session Session::Store::FastMmap Session::State::Cookie/;
-use Catalyst qw/ConfigLoader Authentication Authorization::Roles Static::Simple Session Session::Store::FastMmap Session::State::Cookie -Debug/;
+use Catalyst qw/ConfigLoader Authentication Authorization::Roles Static::Simple Session Session::Store::FastMmap Session::State::Cookie/;
 
 our $VERSION = '0.01';
 

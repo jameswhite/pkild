@@ -115,11 +115,14 @@ sub cert_dn_tree{
 }
 
 sub user_cert_file{
+print STDERR "################################################################################\n";
     my ($self,$session) = @_;
     my $domain=$self->dnsdomainname();
     my $user_cert_dn=$self->user_cert_dn($session);
     return undef unless ($user_cert_dn);
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
+
+    print STDERR "rootdir: $rootdir\n";
 
     my @subject_parts=split(",",$user_cert_dn);  
     my @dir_parts; my $common_name;
@@ -149,16 +152,15 @@ sub user_cert_file{
 
     }
     my $user_cert_file= $rootdir."/".join("/",@dir_parts)."/$common_name.crt";
+    print STDERR "user_cert_file: $user_cert_file\n";
+print STDERR "################################################################################\n";
     return $user_cert_file;
 }
 
 sub user_cert_dir{
     my ($self,$session) = @_;
-print STDERR "################################################################################\n";
     my $user_cert_file=$self->user_cert_file($session);
-print STDERR "$user_cert_file\n";
     $user_cert_file=~s/\/[^\/]*$//;
-print STDERR "################################################################################\n";
     return $user_cert_file;
 }
 
