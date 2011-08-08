@@ -119,6 +119,7 @@ print STDERR "##################################################################
     my ($self,$session) = @_;
     my $domain=$self->dnsdomainname();
     my $user_cert_dn=$self->user_cert_dn($session);
+    print STDERR "user_cert_dn: $user_cert_dn\n";
     return undef unless ($user_cert_dn);
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
 
