@@ -234,7 +234,35 @@ cpanflute2 Catalyst-Authentication-Store-LDAP-1.012.tar.gz
 rpm -Uvh ./perl-Catalyst-Authentication-Store-LDAP-1.012-8.src.rpm
 rpmbuild -ba /usr/src/redhat/SPECS/perl-Catalyst-Authentication-Store-LDAP.spec 
 rpm -Uvh /usr/src/redhat/RPMS/noarch/perl-Catalyst-Authentication-Store-LDAP-1.012-8.noarch.rpm
-
 yum install -y perl-JSON perl-File-Slurp
+
+
+################################################################################
+Package::Stash
+
+cpan2rpm --no-sign Test::Fatal
+rpm -Uvh /usr/src/redhat/RPMS/noarch/perl-Test-Fatal-0.006-1.noarch.rpm
+cpan2rpm --no-sign Test::Requires
+rpm -Uvh /usr/src/redhat/RPMS/noarch/perl-Test-Requires-0.06-1.noarch.rpm
+cpan2rpm --no-sign Test::Tester
+rpm -Uvh /usr/src/redhat/RPMS/noarch/perl-Test-Tester-0.107-1.noarch.rpm
+cpan2rpm --no-sign Test::Output
+rpm -Uvh /usr/src/redhat/RPMS/noarch/perl-Test-Output-1.01-1.noarch.rpm
+
+# Test::More -> Test::Simple
+wget http://search.cpan.org/CPAN/authors/id/M/MS/MSCHWERN/Test-Simple-0.98.tar.gz
+cpanflute2 Test-Simple-0.98.tar.gz
+rpm -Uvh ./perl-Test-Simple-0.98-8.src.rpm
+# edit the spec file, change perl(perl) to perl, change  %{__perl} Makefile.PL to %{__perl} Makefile.PL INSTALL_BASE=/usr/lib/perl5/site_perl/5.8.8 INSTALLPRIVLIB=/usr/lib/perl5/site_perl/5.8.8 
+rpmbuild -ba /usr/src/redhat/SPECS/perl-Test-Simple.spec       
+   /usr/src/redhat/RPMS/noarch/perl-Test-Simple-0.98-8.noarch.rpm
+rpm -Uvh /usr/src/redhat/RPMS/noarch/perl-Test-Simple-0.98-8.noarch.rpm
+
+cpan2rpm --no-sign Package::DeprecationManager
+rpm -Uvh /usr/src/redhat/RPMS/noarch/perl-Package-DeprecationManager-0.11-1.noarch.rpm
+
+wget http://apt.sw.be/redhat/el5/en/i386/dag/RPMS/perl-Package-DeprecationManager-0.10-1.el5.rf.noarch.rpm
+
+cpan2rpm --no-sign Class::MOP
 
 

@@ -8,3 +8,9 @@ redwood.lab:
   repository: "git@github.com:fapestniegd/pkild.git"
   post_setup: "bin/local_config"
   post_deploy: "bin/local_config"
+loki:
+  domain: "root@loki.websages.com"
+  deploy_to: "/usr/share/pkild"
+  repository: "git@github.com:fapestniegd/pkild.git"
+  post_setup: "bin/local_config"
+  post_deploy: "bin/local_config"
