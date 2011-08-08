@@ -223,7 +223,7 @@ print STDERR "##################################################################
     my ($self,$user_session) = @_;
     print STDERR "enter cert_dn\n" if $self->{'trace'};
     my $objectname=$self->objectname($user_session);
-    print STERR "objectname: $objectname\n";
+    print STDERR "objectname: $objectname\n";
     my $cn=$objectname;
     my $domain=$self->dnsdomainname();
     my $type=undef;
