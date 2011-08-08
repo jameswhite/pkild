@@ -9,7 +9,8 @@
                        libconvert-asn1-perl libmoose-perl
      
 # The following assume you're ${CWD} is the top-level pkild app...
-cd /var/cache/git/pkild
+#cd /var/cache/git/pkild
+cd /path/to/pkild
 
 # Catalyst-Plugin-Authentication-Store-LDAP (for authentication/authorization against LDAP)
     bin/cpan2deb http://backpan.perl.org/authors/id/K/KA/KARMAN/Net-LDAP-Server-Test-0.08.tar.gz
@@ -31,8 +32,9 @@ cd /var/cache/git/pkild
     # (you should really push these to your custom apt repo)
 
 # Catalyst::Model::File (to access the certificates)
-    bin/cpan2deb http://search.cpan.org/CPAN/authors/id/G/GR/GRODITI/Catalyst-Component-InstancePerContext-0.001001.tar.gz
-    dpkg -i /opt/local/src/CPAN/libcatalyst-component-instancepercontext-perl_0.001001-1_all.deb
+#    included in squeeze:
+#    bin/cpan2deb http://search.cpan.org/CPAN/authors/id/G/GR/GRODITI/Catalyst-Component-InstancePerContext-0.001001.tar.gz
+#    dpkg -i /opt/local/src/CPAN/libcatalyst-component-instancepercontext-perl_0.001001-1_all.deb
     bin/cpan2deb http://search.cpan.org/CPAN/authors/id/A/AS/ASH/Catalyst-Model-File-0.08.tar.gz
     dpkg -i /opt/local/src/CPAN/libcatalyst-model-file-perl_0.08-1_all.deb
 
@@ -54,16 +56,17 @@ cd /var/cache/git/pkild
 apt-get install -y apache2-mpm-prefork libapache2-mod-perl2                  \
                    libcatalyst-engine-apache-perl perlmagick                 \
                    libcatalyst-modules-extra-perl libcatalyst-modules-perl   \
-                   libcatalyst-perl libcatalyst-plugin-session-fastmmap-perl \
+                   libcatalyst-perl \
                    libcatalyst-view-tt-perl libhtml-prototype-perl
+                   #libcatalyst-plugin-session-fastmmap-perl \ # not in squeeze?
 
 # Copy it to where apache will expect it to be:
-if [ ! -d /var/cache/git ];then 
-    mkdir -p /var/cache/git
-    (cd /var/cache/git; git clone git://github.com/fapestniegd/pkild.git )
-else
-    (cd /var/cache/git/pkild; git pull)
-fi
+#if [ ! -d /var/cache/git ];then 
+#    mkdir -p /var/cache/git
+#    (cd /var/cache/git; git clone git://github.com/fapestniegd/pkild.git )
+#else
+#    (cd /var/cache/git/pkild; git pull)
+#fi
 
 ################################################################################
 # apache setup (from a fresh install)

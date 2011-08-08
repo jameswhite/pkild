@@ -16,8 +16,8 @@ use base qw/Catalyst/;
 # Static::Simple: will serve static files from the application's root 
 #                 directory
 
-use Catalyst qw/-Debug ConfigLoader Authentication Authorization::Roles Static::Simple Session Session::Store::FastMmap Session::State::Cookie/;
-#use Catalyst qw/ConfigLoader Authentication Authorization::Roles Static::Simple Session Session::Store::FastMmap Session::State::Cookie -Debug/;
+#use Catalyst qw/-Debug ConfigLoader Authentication Authorization::Roles Static::Simple Session Session::Store::FastMmap Session::State::Cookie/;
+use Catalyst qw/ConfigLoader Authentication Authorization::Roles Static::Simple Session Session::Store::FastMmap Session::State::Cookie -Debug/;
 
 our $VERSION = '0.01';
 
