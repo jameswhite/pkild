@@ -14,3 +14,9 @@ loki:
   repository: "git://github.com/fapestniegd/pkild.git"
   post_setup: "bin/local_config"
   post_deploy: "bin/local_config"
+vili:
+  domain: "root@vili.websages.com"
+  deploy_to: "/usr/share/pkild"
+  repository: "git://github.com/fapestniegd/pkild.git"
+  post_setup: "bin/local_config"
+  post_deploy: "bin/local_config"
