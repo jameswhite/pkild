@@ -252,7 +252,7 @@ sub objectname{
         print STDERR "exit objectname with objectname\n" if $self->{'trace'};
         return $user_session->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'};
     }
-    print STDERR Data::Dumper->Dump([ $user_session->{'user'} ]);
+    print STDERR Data::Dumper->Dump([ $user_session->{'user'}->{'user'} ]);
     print STDERR "exit objectname undef\n" if $self->{'trace'};
     return undef;
 }
