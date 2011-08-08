@@ -155,8 +155,8 @@ sub user_cert_file{
 sub user_cert_dir{
     my ($self,$session) = @_;
 print STDERR "################################################################################\n";
-print STDERR "$user_cert_file\n";
     my $user_cert_file=$self->user_cert_file($session);
+print STDERR "$user_cert_file\n";
     $user_cert_file=~s/\/[^\/]*$//;
 print STDERR "################################################################################\n";
     return $user_cert_file;
