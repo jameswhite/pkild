@@ -829,38 +829,12 @@ sub tree_init{
 
     # Create the root certificate authority for all organizations
 
-    if(! -d "$root_dir/ou=Certificate Authority"){ 
-        mkdir("$root_dir/ou=Certificate Authority",0750);
-    }
-    if(! -d "$root_dir/ou=Certificate Authority/cn=Root"){ 
-        mkdir("$root_dir/ou=Certificate Authority/cn=Root",0750);
-    }
     if(! -d "$root_dir/ou=Certificate Authority/cn=Intermediate"){ 
-        mkdir("$root_dir/ou=Certificate Authority/cn=Intermediate",0750);
+        $self->ca_initialize("$root_dir/ou=Certificate Authority/cn=Intermediate");
     }
 
-    # Create the root certificate authority for our organization
-    #  + o=Websages LLC
-    #       + ou=Certificate Authority
-    #       |      + cn=Intermediate
-    #       |             + crl
-    #       |             + pem
-    #       |
-    #       + ou=websages.com
-    #            + ou=Certificate Authority
-    #            |      + cn=Intermediate
-    #            |             + crl
-    #            |             + pem
-    #            + ou=Hosts
-    #            + ou=People
-    #            + ou=Groups
-    #                  + cn=Certificate Administrators
-
-    if(! -d "$ca_dir/ou=Certificate Authority"){ 
-        mkdir("$ca_dir/ou=Certificate Authority",0750);
-    }
     if(! -d "$ca_dir/ou=Certificate Authority/cn=Intermediate"){ 
-        mkdir("$ca_dir/ou=Certificate Authority/cn=Intermediate",0750);
+        $self->ca_initialize("$ca_dir/ou=Certificate Authority/cn=Intermediate");
     }
 
 #    #$self->ca_initialize("$ca_dir/Certificate Authority",undef,0);
@@ -872,9 +846,11 @@ sub tree_init{
 #    if(! -d "$ca_dir/$domain Certificate Authority/private"){ 
 #        $self->ca_initialize("$ca_dir/$domain Certificate Authority/","$ca_dir/Intermediate Certificate Authority",2);
 #    }
-    if(! -d "$ca_dir/ou=$domain"){ mkdir("$ca_dir/ou=$domain",0750); }
-    if(! -d "$ca_dir/ou=$domain/ou=People"){ mkdir("$ca_dir/ou=$domain/ou=People",0750); }
-    if(! -d "$ca_dir/ou=$domain/ou=Hosts"){ mkdir("$ca_dir/ou=$domain/ou=Hosts",0750); }
+
+     # now create some placeholders for our certs:
+#    if(! -d "$ca_dir/ou=$domain"){ mkdir("$ca_dir/ou=$domain",0750); }
+#    if(! -d "$ca_dir/ou=$domain/ou=People"){ mkdir("$ca_dir/ou=$domain/ou=People",0750); }
+#    if(! -d "$ca_dir/ou=$domain/ou=Hosts"){ mkdir("$ca_dir/ou=$domain/ou=Hosts",0750); }
     return $self;
 }
 
@@ -897,6 +873,9 @@ sub parent_ca{
     if($l_s_dir eq "cn=Root"){                   # a root ca is it's own parent
         return $dir;
     }elsif($l_s_dir eq 'cn=Intermediate'){       # an ICA can have several parents depending on what exists
+        if(-d join('/',@path) eq $self->rootdir."/Certificate Authority"){ # If it's the top-level ICA, then it's root is samelevel
+            return join('/',@path)."/Certificate Authority/cn=Root";
+        }
         if(-d join('/',@path).'/cn=Root'){
             return join('/',@path)."/cn=Root";
         }else{                                   # otherwise we look to the parent's parent's Intermediate CA
@@ -914,12 +893,16 @@ sub parent_ca{
 # Create a certificate authority in the provided directory, sign with the $parent (dir) if provided, else self-sign
 sub ca_initialize{
     my ($self, $dir, $asroot)=@_;
+    print STDERR "Initializing $dir as a certificate authority\n";
     my $domain = $self->{'domain'};
     my $crl_path = $self->{'crl_base'};
     my $level=0;
 
     my $parent_ca =$self->parent_ca($dir);
     print STDERR "Parent for $dir is $parent_ca\n";
+    if(! -d "$parent_ca"){
+        $self->ca_initialize($parent_ca);
+    }
 
 #    if(! -d "$dir"){ mkdir("$dir",0750); }
 #    if(! -d "$dir/certs"){ mkdir("$dir/private",0750); }
