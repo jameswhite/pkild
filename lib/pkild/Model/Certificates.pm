@@ -897,19 +897,41 @@ sub mkdir{
     }
 }
 
+sub level_of{
+    my ($self, $dir) = @_;
+    print STDERR "Level of: $dir\n";
+    ############################################################################
+    # The level of the cert defines how long it is good for and how large the 
+    #   key is, (larger keys used less often can live longer)
+    # Level_0: The Pkild Root CA is good for 8 years, 
+    #          (<strike>8192 bits</strike> 4096 bits) effin' apple can't do 8192
+    # level_1: The Pkild ICA (and Optional Org Root CAs) 5 / 4096 bit
+    # level_2: Organizational ICAs (and Optional Domain Root CAs) 3 years (4096 bits)
+    # level_3: Domain ICAs are good for 2 years  (4096 bits)
+    # level_4: Host certs are good for 1 year    (2048 bits)
+    # level_5: People certs are good for 90 days (2048 bits)
+    ############################################################################
+    return 0; 
+}
+
 # Create a certificate authority in the provided directory, sign with the $parent (dir) if provided, else self-sign
 sub ca_initialize{
     my ($self, $dir)=@_;
-    $self->mkdir($dir,0755); if(! -d $dir){ return $self; } # failure to create causes an infinite loop on cn=Root dirs
+
+    $self->mkdir($dir,0755); 
+    if(! -d $dir){ return $self; } # failure to create causes an infinite loop on cn=Root dirs
+
     my $domain = $self->{'domain'};
     my $crl_path = $self->{'crl_base'};
     my $level=0;
 
-    my $parent_ca =$self->parent_ca($dir);
+    my $parent_ca = $self->parent_ca($dir);
     #if($dir eq $parent_ca){ return $self; } # infinite loop detection
     if(! -d "$parent_ca"){
         $self->ca_initialize($parent_ca);
     }
+    my $level = $self->level_of($dir);
+
 
     if(! -d "$dir/certs"){ mkdir("$dir/private",0750); }
     if(! -d "$dir/newcerts"){ mkdir("$dir/newcerts",0750); }
@@ -933,22 +955,22 @@ sub ca_initialize{
     # 
     # openssl.cnf # we assume a very particular directory structure here.
     #
-#    my $template=Template->new();
-#    my $tpldata;
-#    $tpldata->{'ca_domain'}=$domain;
-#    $tpldata->{'cert_home_dir'}="\"$dir\"";
-#    $tpldata->{'ca_orgunit'}="$dir";
-#    $tpldata->{'ca_orgunit'}=~s/.*\///;
-#    $tpldata->{'ca_cn'} = $tpldata->{'ca_orgunit'};
-#    if($tpldata->{'ca_orgunit'} eq ''){ 
-#        $tpldata->{'ca_orgunit'}="$domain Certificate Authority"; 
-#        $tpldata->{'ca_cn'}="Domain Certificate Authority"; 
-#    }
-#    $tpldata->{'ca_email'}="certmaster\@$domain";
-#    $tpldata->{'crl_days'}="30";
-#    my $key_size=2048;
-#    if($level == 0){
-#        $tpldata->{'ca_default_days'}="3650";
+    my $template=Template->new();
+    my $tpldata;
+    $tpldata->{'ca_domain'}=$domain;
+    $tpldata->{'cert_home_dir'}="\"$dir\"";
+    $tpldata->{'ca_orgunit'}="$dir";
+    $tpldata->{'ca_orgunit'}=~s/.*\///;
+    $tpldata->{'ca_cn'} = $tpldata->{'ca_orgunit'};
+    if($tpldata->{'ca_orgunit'} eq ''){ 
+        $tpldata->{'ca_orgunit'}="$domain Certificate Authority"; 
+        $tpldata->{'ca_cn'}="Domain Certificate Authority"; 
+    }
+    $tpldata->{'ca_email'}="certmaster\@$domain";
+    $tpldata->{'crl_days'}="30";
+    my $key_size=2048;
+    if($level == 0){
+        $tpldata->{'ca_default_days'}="3650";
 #        $key_size=4096;
 #    }elsif($level == 1){
 #        $tpldata->{'ca_default_days'}="1825";
@@ -1325,18 +1347,12 @@ attributes = req_attributes
 x509_extensions = v3_ca
  
 [ req_distinguished_name ]
-countryName = Country Name (2 letter code)
-countryName_default = [\% ca_country \%]
-countryName_min = 2
-countryName_max = 2
-stateOrProvinceName = State or Province Name (full name)
-stateOrProvinceName_default = [\% ca_state \%]
-localityName = Locality Name (eg, city)
-localityName_default = [\% ca_locality \%]
-0.organizationName = Organization Name (eg, company)
-0.organizationName_default = [\% ca_org \%]
-organizationalUnitName = Organizational Unit Name (eg, section)
-organizationalUnitName_default = [\% ca_orgunit \%]
+organizationName = Organization Name (eg, company)
+organizationName_default = [\% ca_org \%]
+0.organizationalUnitName = Organizational Unit Name (eg, section)
+0.organizationalUnitName_default = [\% ca_orgunit \%]
+1.organizationalUnitName = Organizational Unit Name (eg, section)
+1.organizationalUnitName_default = [\% ca_orgunit \%]
 commonName = Common Name (eg, YOUR name)
 commonName_max = 64
 commonName_default = [\% ca_cn \%]
