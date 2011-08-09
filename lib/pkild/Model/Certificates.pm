@@ -31,6 +31,11 @@ sub cert_subject{
     return $subject;
 }
 
+sub rootdir{
+    my $self = shift;
+    return join("/",@{ $self->{'root_dir'}->{'dirs'} });
+}
+
 sub csr_subject{
     my ($self, $csr) =@_;
     # write out the csr to a temp file and get the Subject: String
@@ -801,11 +806,6 @@ sub sign_certificate{
     return "SUCCESS";
 }
 
-sub rootdir{
-    my $self = shift;
-    return join("/",@{ $self->{'root_dir'}->{'dirs'} });
-}
-
 sub tree_init{
     my ($self,$path)=@_;
     my @ca_tree = split(/,/,$path);
@@ -828,19 +828,24 @@ sub tree_init{
     }
 
     # Create the root certificate authority for our organization
-    if(! -d "$ca_dir/Root Certificate Authority/private"){ 
-        $self->ca_initialize("$ca_dir/Root Certificate Authority",undef,0);
+    if(! -d "$ca_dir/Certificate Authority"){ 
+        mkdir("$ca_dir/Certificate Authority",750);
     }
-    # Create the intermediate certificate authority for our organization, sign it with the Root CA
-    if(! -d "$ca_dir/Intermediate Certificate Authority/private"){ 
-        $self->ca_initialize("$ca_dir/Intermediate Certificate Authority", "$ca_dir/Root Certificate Authority",1);
+    if(! -d "$ca_dir/Certificate Authority/cn=Intermediate"){ 
     }
-    # Create the certificate authority for our organization, sign it with the Intermediate CA
-    if(! -d "$ca_dir/$domain Certificate Authority/private"){ 
-        $self->ca_initialize("$ca_dir/$domain Certificate Authority/","$ca_dir/Intermediate Certificate Authority",2);
-    }
-    if(! -d "$ca_dir/$domain Certificate Authority/ou=People"){ mkdir("$ca_dir/$domain Certificate Authority/ou=People",0750); }
-    if(! -d "$ca_dir/$domain Certificate Authority/ou=Hosts"){ mkdir("$ca_dir/$domain Certificate Authority/ou=Hosts",0750); }
+
+#    #$self->ca_initialize("$ca_dir/Certificate Authority",undef,0);
+#    # Create the intermediate certificate authority for our organization, sign it with the Root CA
+#    if(! -d "$ca_dir/Intermediate Certificate Authority/private"){ 
+#        $self->ca_initialize("$ca_dir/Intermediate Certificate Authority", "$ca_dir/Root Certificate Authority",1);
+#    }
+#    # Create the certificate authority for our organization, sign it with the Intermediate CA
+#    if(! -d "$ca_dir/$domain Certificate Authority/private"){ 
+#        $self->ca_initialize("$ca_dir/$domain Certificate Authority/","$ca_dir/Intermediate Certificate Authority",2);
+#    }
+    if(! -d "$ca_dir/ou=$domain"){ mkdir("$ca_dir/ou=$domain",0750); }
+    if(! -d "$ca_dir/ou=$domain/ou=People"){ mkdir("$ca_dir/ou=$domain/ou=People",0750); }
+    if(! -d "$ca_dir/ou=$domain/ou=Hosts"){ mkdir("$ca_dir/ou=$domain/ou=Hosts",0750); }
     return $self;
 }
 
