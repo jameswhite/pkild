@@ -902,11 +902,11 @@ sub parent_ca{
         }else{                                   # otherwise we look to the parent's parent's Intermediate CA
             my $parent_dn=pop(@path);
             my $grandparent_dn=pop(@path);
-            return join('/',@path)."/ou=Certififcate Authority/cn=Intermediate");
+            return join('/',@path)."/ou=Certififcate Authority/cn=Intermediate";
         }
     }else{                                       # any other cn we look to the parent's Intermediate CA
         my $parent_dn=pop(@path);
-        return join('/',@path)."/ou=Certififcate Authority/cn=Intermediate");
+        return join('/',@path)."/ou=Certififcate Authority/cn=Intermediate";
     }
     return undef;
 }
