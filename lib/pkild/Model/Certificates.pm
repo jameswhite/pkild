@@ -874,10 +874,10 @@ sub parent_ca{
         return $dir;
     }elsif($l_s_dir eq 'cn=Intermediate'){       # an ICA can have several parents depending on what exists
 
-        print STDERR "[".join('/',@path)."] eq [".$self->rootdir."/Certificate Authority]\n";
+        print STDERR "[".join('/',@path)."] eq [".$self->rootdir."/ou=Certificate Authority]\n";
 
-        if(join('/',@path) eq $self->rootdir."/Certificate Authority"){ # If it's the top-level ICA, then it's root is samelevel
-            return join('/',@path)."/Certificate Authority/cn=Root";
+        if(join('/',@path) eq $self->rootdir."/ou=Certificate Authority"){ # If it's the top-level ICA, then it's root is samelevel
+            return join('/',@path)."/ou=Certificate Authority/cn=Root";
         }
         if(-d join('/',@path).'/cn=Root'){
             return join('/',@path)."/cn=Root";
