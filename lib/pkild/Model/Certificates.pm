@@ -801,13 +801,19 @@ sub sign_certificate{
     return "SUCCESS";
 }
 
+sub rootdir{
+    my $self = shift;
+    return join("/",@{ $self->{'root_dir'}->{'dirs'} });
+}
+
 sub tree_init{
     my ($self,$path)=@_;
-    my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
-    my @ca_tree=split(/,/,$path);
-    my $ca_dir=$rootdir;
+    my @ca_tree = split(/,/,$path);
+    my $ca_dir=$self->rootdir;
     my $domain=$self->dnsdomainname();
-    for(my $idx=0; $idx<=$#ca_tree;$idx++){
+
+    # wtf am i doing here?
+    for(my $idx=0; $idx<=$#ca_tree;$idx++){           
         $ca_tree[$idx]=~s/^\s+//;
         $ca_tree[$idx]=~s/\s+$//;
         $ca_tree[$idx]=~s/[\/\\\.]//;
@@ -815,8 +821,12 @@ sub tree_init{
         $key=~tr/A-Z/a-z/;
         $ca_tree[$idx]="$key=$value";       
         $ca_dir.="/$ca_tree[$idx]";
-        if(! -d "$ca_dir"){ mkdir($ca_dir,0750); }
+        if(! -d "$ca_dir"){ 
+            print STDERR "Creating $ca_dir\n";
+            mkdir($ca_dir,0750); 
+        }
     }
+
     # Create the root certificate authority for our organization
     if(! -d "$ca_dir/Root Certificate Authority/private"){ 
         $self->ca_initialize("$ca_dir/Root Certificate Authority",undef,0);
