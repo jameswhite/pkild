@@ -900,9 +900,8 @@ sub mkdir{
 sub level_of{
     my ($self, $dir) = @_;
     my $rootdir = $self->rootdir;
-
     $dir=~s/^$rootdir\///;
-    print STDERR "Level of: $dir\n";
+    # print STDERR "Level of: $dir\n";
     my @path=split('/',$dir);
     my $basename = pop(@path);
     my $level = $#path;
@@ -912,6 +911,21 @@ sub level_of{
     if($basename eq "ou=Hosts"){ return $level + 2; }
     if($basename eq "ou=People"){ return $level + 3; }
     return 8; 
+}
+
+sub reqdn_block{
+    my ($self,$dir) = @_;
+    my $rootdir = $self->rootdir;
+    $dir=~s/^$rootdir\///;
+    my @path=split('/',$dir);
+    my @rdnlines;
+    while (my $d = shift(@path)){
+        print STDERR "$d\n";
+        #if($line=~m/^o=/){
+        
+        #}
+    }
+    return(join("\n",@rdnlines));
 }
 
 # Create a certificate authority in the provided directory, sign with the $parent (dir) if provided, else self-sign
@@ -953,11 +967,14 @@ sub ca_initialize{
         my $fh = FileHandle->new("> $dir/crl");
         if (defined $fh) { print $fh ''; $fh->close; }
     }
+    
     # 
     # openssl.cnf # we assume a very particular directory structure here.
     #
     my $template=Template->new();
     my $tpldata;
+    $tpldata->{'req_distinguished_name'} = $self->reqdn_block($dir);
+return $self;
     $tpldata->{'ca_domain'}=$domain;
     $tpldata->{'cert_home_dir'}="\"$dir\"";
     $tpldata->{'ca_orgunit'}="$dir";
@@ -1371,18 +1388,7 @@ attributes = req_attributes
 x509_extensions = v3_ca
  
 [ req_distinguished_name ]
-organizationName = Organization Name (eg, company)
-organizationName_default = [\% ca_org \%]
-0.organizationalUnitName = Organizational Unit Name (eg, section)
-0.organizationalUnitName_default = [\% ca_orgunit \%]
-1.organizationalUnitName = Organizational Unit Name (eg, section)
-1.organizationalUnitName_default = [\% ca_orgunit \%]
-commonName = Common Name (eg, YOUR name)
-commonName_max = 64
-commonName_default = [\% ca_cn \%]
-emailAddress = Email Address
-emailAddress_max = 64
-emailAddress_default = [\% ca_email \%]
+[\% req_distinguished_name \%]
  
 [ req_attributes ]
 challengePassword = A challenge password
