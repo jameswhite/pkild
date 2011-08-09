@@ -989,7 +989,6 @@ sub ca_initialize{
     my $template=Template->new();
     my $tpldata;
     $tpldata->{'req_distinguished_name'} = $self->reqdn_block($dir);
-return $self;
     $tpldata->{'ca_domain'}=$domain;
     $tpldata->{'cert_home_dir'}="\"$dir\"";
     $tpldata->{'ca_orgunit'}="$dir";
