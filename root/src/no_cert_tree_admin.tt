@@ -28,7 +28,7 @@ legend   {
         <td align="right"><input type="submit" name="create_cert_tree" value="Create"></td>
     <tr>
     </tr>
-        <td colspan='2' align="middle"><font size='-1'><b>(This is defined in your domain's ca-base TXT record.)</b></font></td>
+        <td colspan='2' align="middle"><font size='-1'><b>(This is defined in your domain's ca-basedn TXT record.)</b></font></td>
     <tr>
     </tr>
 </table>
