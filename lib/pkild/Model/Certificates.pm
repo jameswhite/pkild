@@ -894,11 +894,11 @@ sub parent_ca{
     my ($self, $dir) = @_;
     my @path=split('/', $dir); 
     my $l_s_dir=pop(@path);
-    if($l_s_dir eq "cn=Root"){   # a root ca is it's own parent
+    if($l_s_dir eq "cn=Root"){                   # a root ca is it's own parent
         return $dir;
-    }elsif($l_s_dir eq "cn=Intermediate"){ 
-        if(-d join('/',@path)."/cn=Root"){       # an intermediate cert with a same-level root cert is a chain
-            return join('/',@path)."/cn=Root");
+    }elsif($l_s_dir eq 'cn=Intermediate'){       # an ICA can have several parents depending on what exists
+        if(-d join('/',@path).'/cn=Root'){
+            return join('/',@path)."/cn=Root";
         }else{                                   # otherwise we look to the parent's parent's Intermediate CA
             my $parent_dn=pop(@path);
             my $grandparent_dn=pop(@path);
