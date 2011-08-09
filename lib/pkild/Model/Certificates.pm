@@ -323,8 +323,8 @@ sub tree{
         # skip directories containing key data and used for work.
         next if $node=~m/\/private$/;
         next if $node=~m/\/.rnd$/;
-        #next if $node=~m/\/openssl.cnf$/;
-        next if $node=~m/\/csr$/;
+        # next if $node=~m/\/openssl.cnf$/;
+        # next if $node=~m/\/csr$/;
         next if $node=~m/\/chain$/;
         next if $node=~m/\/index.txt$/;
         next if $node=~m/\/serial$/;
@@ -1055,7 +1055,6 @@ sub ca_initialize{
     # let's not use spaces and capital letters in our uris...
     $tpldata->{'crl_path'}=~s/ /_/g;
     $tpldata->{'crl_path'}=~tr/A-Z/a-z/;
-print STDERR Data::Dumper->Dump([$dir,$tpldata]);
     $template->process(\$text,$tpldata,"$dir/openssl.cnf");
     # private.key
     system("/usr/bin/openssl genrsa -out \"$dir/private/key\" $key_size");
