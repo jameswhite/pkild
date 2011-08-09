@@ -1059,9 +1059,9 @@ print STDERR Data::Dumper->Dump([$dir,$tpldata]);
     $template->process(\$text,$tpldata,"$dir/openssl.cnf");
     # private.key
     system("/usr/bin/openssl genrsa -out \"$dir/private/key\" $key_size");
-#    # csr
-#    system("/usr/bin/openssl req -new -sha1 -days $tpldata->{'ca_default_days'} -key \"$dir/private/key\"  -out \"$dir/csr\" -config \"$dir/openssl.cnf\" -batch");
-#    # pem
+    # csr
+    system("/usr/bin/openssl req -new -sha1 -days $tpldata->{'ca_default_days'} -key \"$dir/private/key\"  -out \"$dir/csr\" -config \"$dir/openssl.cnf\" -batch");
+    # pem
 #    if(defined($parent)){
 #        system("/usr/bin/openssl ca -extensions v3_ca -days $tpldata->{'ca_default_days'} -out \"$dir/pem\" -in \"$dir/csr\" -config \"$parent/openssl.cnf\" -batch");
 #    }else{
