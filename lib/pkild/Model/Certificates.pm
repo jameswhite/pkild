@@ -829,7 +829,7 @@ sub tree_init{
 
     # Create the root certificate authority for our organization
     if(! -d "$ca_dir/Certificate Authority"){ 
-        mkdir("$ca_dir/Certificate Authority",750);
+        mkdir("$ca_dir/Certificate Authority",0750);
     }
     if(! -d "$ca_dir/Certificate Authority/cn=Intermediate"){ 
     }
