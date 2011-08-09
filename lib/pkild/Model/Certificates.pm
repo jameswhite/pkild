@@ -969,8 +969,8 @@ sub ca_initialize{
     $tpldata->{'ca_email'}="certmaster\@$domain";
     $tpldata->{'crl_days'}="30";
     my $key_size=2048;
-    if($level == 0){
-        $tpldata->{'ca_default_days'}="3650";
+#    if($level == 0){
+#        $tpldata->{'ca_default_days'}="3650";
 #        $key_size=4096;
 #    }elsif($level == 1){
 #        $tpldata->{'ca_default_days'}="1825";
