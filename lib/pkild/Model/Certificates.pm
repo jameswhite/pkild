@@ -809,7 +809,8 @@ sub sign_certificate{
 sub tree_init{
     my ($self,$path)=@_;
     my @ca_tree = split(/,/,$path);
-    my $ca_dir=$self->rootdir;
+    my $root_dir=$self->rootdir;
+    my $ca_dir=$root_dir;
     my $domain=$self->dnsdomainname();
 
     # wtf am i doing here?
@@ -822,12 +823,34 @@ sub tree_init{
         $ca_tree[$idx]="$key=$value";       
         $ca_dir.="/$ca_tree[$idx]";
         if(! -d "$ca_dir"){ 
-            print STDERR "Creating $ca_dir\n";
             mkdir($ca_dir,0750); 
         }
     }
 
+    if(! -d "$root_dir/Certificate Authority"){ 
+        mkdir("$root_dir/Certificate Authority",0750);
+    }
+    if(! -d "$root_dir/Certificate Authority/cn=Intermediate"){ 
+        mkdir("$root_dir/Certificate Authority/cn=Intermediate",0750);
+    }
+
     # Create the root certificate authority for our organization
+    #  + o=Websages LLC
+    #       + ou=Certificate Authority
+    #       |      + cn=Intermediate
+    #       |             + crl
+    #       |             + pem
+    #       |
+    #       + ou=websages.com
+    #            + ou=Certificate Authority
+    #            |      + cn=Intermediate
+    #            |             + crl
+    #            |             + pem
+    #            + ou=Hosts
+    #            + ou=People
+    #            + ou=Groups
+    #                  + cn=Certificate Administrators
+
     if(! -d "$ca_dir/Certificate Authority"){ 
         mkdir("$ca_dir/Certificate Authority",0750);
     }
