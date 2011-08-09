@@ -837,20 +837,14 @@ sub tree_init{
         $self->ca_initialize("$ca_dir/ou=Certificate Authority/cn=Intermediate");
     }
 
-#    #$self->ca_initialize("$ca_dir/Certificate Authority",undef,0);
-#    # Create the intermediate certificate authority for our organization, sign it with the Root CA
-#    if(! -d "$ca_dir/Intermediate Certificate Authority/private"){ 
-#        $self->ca_initialize("$ca_dir/Intermediate Certificate Authority", "$ca_dir/Root Certificate Authority",1);
-#    }
-#    # Create the certificate authority for our organization, sign it with the Intermediate CA
-#    if(! -d "$ca_dir/$domain Certificate Authority/private"){ 
-#        $self->ca_initialize("$ca_dir/$domain Certificate Authority/","$ca_dir/Intermediate Certificate Authority",2);
-#    }
+    if(! -d "$ca_dir/ou=$domain/ou=Certificate Authority/cn=Intermediate"){ 
+        $self->ca_initialize("$ca_dir/ou=$domain/ou=Certificate Authority/cn=Intermediate");
+    }
 
-     # now create some placeholders for our certs:
-#    if(! -d "$ca_dir/ou=$domain"){ mkdir("$ca_dir/ou=$domain",0750); }
-#    if(! -d "$ca_dir/ou=$domain/ou=People"){ mkdir("$ca_dir/ou=$domain/ou=People",0750); }
-#    if(! -d "$ca_dir/ou=$domain/ou=Hosts"){ mkdir("$ca_dir/ou=$domain/ou=Hosts",0750); }
+    # now create some placeholders for our certs:
+    if(! -d "$ca_dir/ou=$domain/ou=People"){ $self->mkdir("$ca_dir/ou=$domain/ou=People",0750); }
+    if(! -d "$ca_dir/ou=$domain/ou=Hosts"){ $self->mkdir("$ca_dir/ou=$domain/ou=Hosts",0750); }
+
     return $self;
 }
 
@@ -896,11 +890,9 @@ sub parent_ca{
 sub mkdir{
     my ($self,$path,$mode)=@_;
     my @path = split(/\//,$path);
-print STDERR Data::Dumper->Dump([@path]);
     my $newdir = shift(@path);
     while(my $dir = shift(@path)){
         $newdir.="/$dir";
-        print STDERR "Inspecting $newdir\n";
         if(! -d $newdir){
             print STDERR "Creating $newdir\n";
             mkdir($newdir,$mode);
@@ -912,8 +904,7 @@ print STDERR Data::Dumper->Dump([@path]);
 sub ca_initialize{
     my ($self, $dir, $asroot)=@_;
     print STDERR "Initializing $dir as a certificate authority\n";
-    $self->mkdir($dir,0755);
-    if(! -d $dir){ return $self; }
+    $self->mkdir($dir,0755); if(! -d $dir){ return $self; } # failure to create causes an infinite loop on cn=Root dirs
     my $domain = $self->{'domain'};
     my $crl_path = $self->{'crl_base'};
     my $level=0;
