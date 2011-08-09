@@ -868,8 +868,6 @@ sub parent_ca{
         return $dir;
     }elsif($l_s_dir eq 'cn=Intermediate'){       # an ICA can have several parents depending on what exists
 
-        print STDERR "[".join('/',@path)."] eq [".$self->rootdir."/ou=Certificate Authority]\n";
-
         if(join('/',@path) eq $self->rootdir."/ou=Certificate Authority"){ # If it's the top-level ICA, then it's root is samelevel
             return join('/',@path)."/cn=Root";
         }
@@ -894,7 +892,6 @@ sub mkdir{
     while(my $dir = shift(@path)){
         $newdir.="/$dir";
         if(! -d $newdir){
-            print STDERR "Creating $newdir\n";
             mkdir($newdir,$mode);
         }
     }
@@ -902,43 +899,40 @@ sub mkdir{
 
 # Create a certificate authority in the provided directory, sign with the $parent (dir) if provided, else self-sign
 sub ca_initialize{
-    my ($self, $dir, $asroot)=@_;
-    print STDERR "Initializing $dir as a certificate authority\n";
+    my ($self, $dir)=@_;
     $self->mkdir($dir,0755); if(! -d $dir){ return $self; } # failure to create causes an infinite loop on cn=Root dirs
     my $domain = $self->{'domain'};
     my $crl_path = $self->{'crl_base'};
     my $level=0;
 
     my $parent_ca =$self->parent_ca($dir);
-    print STDERR "Parent for $dir is $parent_ca\n";
     #if($dir eq $parent_ca){ return $self; } # infinite loop detection
     if(! -d "$parent_ca"){
         $self->ca_initialize($parent_ca);
     }
 
-#    if(! -d "$dir"){ mkdir("$dir",0750); }
-#    if(! -d "$dir/certs"){ mkdir("$dir/private",0750); }
-#    if(! -d "$dir/newcerts"){ mkdir("$dir/newcerts",0750); }
-#    if(! -d "$dir/private"){ mkdir("$dir/private",0750); }
-#    if(! -f "$dir/serial"){
-#        my $fh = FileHandle->new("> $dir/serial");
-#        if (defined $fh) { print $fh "01\n"; $fh->close; }
-#    }
-#    if(! -f "$dir/crlnumber"){
-#        my $fh = FileHandle->new("> $dir/crlnumber");
-#        if (defined $fh) { print $fh "01\n"; $fh->close; }
-#    }
-#    if(! -f "$dir/index.txt"){
-#        my $fh = FileHandle->new("> $dir/index.txt");
-#        if (defined $fh) { print $fh ''; $fh->close; }
-#    }
-#    if(! -f "$dir/crl"){
-#        my $fh = FileHandle->new("> $dir/crl");
-#        if (defined $fh) { print $fh ''; $fh->close; }
-#    }
-#    # 
-#    # openssl.cnf # we assume a very particular directory structure here.
-#    #
+    if(! -d "$dir/certs"){ mkdir("$dir/private",0750); }
+    if(! -d "$dir/newcerts"){ mkdir("$dir/newcerts",0750); }
+    if(! -d "$dir/private"){ mkdir("$dir/private",0750); }
+    if(! -f "$dir/serial"){
+        my $fh = FileHandle->new("> $dir/serial");
+        if (defined $fh) { print $fh "01\n"; $fh->close; }
+    }
+    if(! -f "$dir/crlnumber"){
+        my $fh = FileHandle->new("> $dir/crlnumber");
+        if (defined $fh) { print $fh "01\n"; $fh->close; }
+    }
+    if(! -f "$dir/index.txt"){
+        my $fh = FileHandle->new("> $dir/index.txt");
+        if (defined $fh) { print $fh ''; $fh->close; }
+    }
+    if(! -f "$dir/crl"){
+        my $fh = FileHandle->new("> $dir/crl");
+        if (defined $fh) { print $fh ''; $fh->close; }
+    }
+    # 
+    # openssl.cnf # we assume a very particular directory structure here.
+    #
 #    my $template=Template->new();
 #    my $tpldata;
 #    $tpldata->{'ca_domain'}=$domain;
