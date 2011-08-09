@@ -916,6 +916,7 @@ sub ca_initialize{
     my ($self, $dir, $asroot)=@_;
     my $domain = $self->{'domain'};
     my $crl_path = $self->{'crl_base'};
+    my $level=0;
 
     my $parent_ca =$self->parent_ca($dir);
     print STDERR "Parent for $dir is $parent_ca\n";
