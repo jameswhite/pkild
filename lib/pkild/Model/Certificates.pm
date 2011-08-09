@@ -921,7 +921,7 @@ sub reqdn_block{
     my @rdnlines;
     my ($o, $ou, $cn) = (0, 0, 0);
     while (my $d = shift(@path)){
-        if($line=~m/^o=(.*)/){
+        if($d=~m/^o=(.*)/){
             print STDERR "$o.organizationName = Organization Name (eg, company)\n";
             print STDERR "$o.organizationName_default = $1\n";
             $o++;
