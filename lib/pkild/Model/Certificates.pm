@@ -103,7 +103,7 @@ sub cert_dn_tree{
         $key=~tr/A-Z/a-z/;
         $components[$idx]="$key=$val";
     }
-    my $dir_path=join('/',@components,"$domain Certificate Authority");
+    my $dir_path=join('/',@components,"ou=$domain");
     if(! -d "$rootdir/$dir_path/ou=$orgunit"){
         print STDERR "Not found: $rootdir/$dir_path/ou=$orgunit\n";
         return undef;
