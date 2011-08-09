@@ -893,11 +893,22 @@ sub parent_ca{
     return undef;
 }
 
+sub mkdir{
+    my ($self,$path,$mode)=@_;
+    my @path = split(/\//,$path);
+    while(my $newdir .= shift(@path)."/"){
+        print STDERR "Inspecting $newdir\n";
+        if(! -d $newdir){
+            mkdir($newdir,$mode);
+        }
+    }
+}
+
 # Create a certificate authority in the provided directory, sign with the $parent (dir) if provided, else self-sign
 sub ca_initialize{
     my ($self, $dir, $asroot)=@_;
     print STDERR "Initializing $dir as a certificate authority\n";
-    mkdir($dir,0755);
+    $self->mkdir($dir,0755);
     if(! -d $dir){ return $self; }
     my $domain = $self->{'domain'};
     my $crl_path = $self->{'crl_base'};
