@@ -361,7 +361,7 @@ sub jstreemenu : Local {
         push( @{ $menu_tree },
               { 
                 'attributes' => { 'id' =>  unpack("H*","new_root_ca") },
-                'data' => { 'title' => 'Organizations', 'icon' => 'createnew'},
+                'data' => { 'title' => 'Public Key Infrastructure', 'icon' => 'createnew'},
                 'children' => $certificate_tree
               }
             );
