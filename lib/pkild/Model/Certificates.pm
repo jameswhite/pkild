@@ -832,6 +832,7 @@ sub tree_init{
         mkdir("$ca_dir/Certificate Authority",0750);
     }
     if(! -d "$ca_dir/Certificate Authority/cn=Intermediate"){ 
+        mkdir("$ca_dir/Certificate Authority/cn=Intermediate",0750);
     }
 
 #    #$self->ca_initialize("$ca_dir/Certificate Authority",undef,0);
