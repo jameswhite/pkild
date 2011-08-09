@@ -323,7 +323,7 @@ sub tree{
         # skip directories containing key data and used for work.
         next if $node=~m/\/private$/;
         next if $node=~m/\/.rnd$/;
-        next if $node=~m/\/openssl.cnf$/;
+        #next if $node=~m/\/openssl.cnf$/;
         next if $node=~m/\/csr$/;
         next if $node=~m/\/chain$/;
         next if $node=~m/\/index.txt$/;
