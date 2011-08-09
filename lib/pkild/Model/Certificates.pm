@@ -829,14 +829,14 @@ sub tree_init{
 
     # Create the root certificate authority for all organizations
 
-    if(! -d "$root_dir/Certificate Authority"){ 
-        mkdir("$root_dir/Certificate Authority",0750);
+    if(! -d "$root_dir/ou=Certificate Authority"){ 
+        mkdir("$root_dir/ou=Certificate Authority",0750);
     }
-    if(! -d "$root_dir/Certificate Authority/cn=Root"){ 
-        mkdir("$root_dir/Certificate Authority/cn=Root",0750);
+    if(! -d "$root_dir/ou=Certificate Authority/cn=Root"){ 
+        mkdir("$root_dir/ou=Certificate Authority/cn=Root",0750);
     }
-    if(! -d "$root_dir/Certificate Authority/cn=Intermediate"){ 
-        mkdir("$root_dir/Certificate Authority/cn=Intermediate",0750);
+    if(! -d "$root_dir/ou=Certificate Authority/cn=Intermediate"){ 
+        mkdir("$root_dir/ou=Certificate Authority/cn=Intermediate",0750);
     }
 
     # Create the root certificate authority for our organization
@@ -856,11 +856,11 @@ sub tree_init{
     #            + ou=Groups
     #                  + cn=Certificate Administrators
 
-    if(! -d "$ca_dir/Certificate Authority"){ 
-        mkdir("$ca_dir/Certificate Authority",0750);
+    if(! -d "$ca_dir/ou=Certificate Authority"){ 
+        mkdir("$ca_dir/ou=Certificate Authority",0750);
     }
-    if(! -d "$ca_dir/Certificate Authority/cn=Intermediate"){ 
-        mkdir("$ca_dir/Certificate Authority/cn=Intermediate",0750);
+    if(! -d "$ca_dir/ou=Certificate Authority/cn=Intermediate"){ 
+        mkdir("$ca_dir/ou=Certificate Authority/cn=Intermediate",0750);
     }
 
 #    #$self->ca_initialize("$ca_dir/Certificate Authority",undef,0);
@@ -890,11 +890,36 @@ sub crl_base{
     return $self->{'crl_base'};
 }
 
+sub parent_ca{
+    my ($self, $dir) = @_;
+    my @path=split('/', $dir); 
+    my $l_s_dir=pop(@path);
+    if($l_s_dir eq "cn=Root"){   # a root ca is it's own parent
+        return $dir;
+    }elsif($l_s_dir eq "cn=Intermediate"){ 
+        if(-d join('/',@path)."/cn=Root"){       # an intermediate cert with a same-level root cert is a chain
+            return join('/',@path)."/cn=Root");
+        }else{                                   # otherwise we look to the parent's parent's Intermediate CA
+            my $parent_dn=pop(@path);
+            my $grandparent_dn=pop(@path);
+            return join('/',@path)."/ou=Certififcate Authority/cn=Intermediate");
+        }
+    }else{                                       # any other cn we look to the parent's Intermediate CA
+        my $parent_dn=pop(@path);
+        return join('/',@path)."/ou=Certififcate Authority/cn=Intermediate");
+    }
+    return undef;
+}
+
 # Create a certificate authority in the provided directory, sign with the $parent (dir) if provided, else self-sign
 sub ca_initialize{
-    my ($self, $dir ,$parent, $level)=@_;
+    my ($self, $dir, $asroot)=@_;
     my $domain = $self->{'domain'};
     my $crl_path = $self->{'crl_base'};
+
+    my $parent_ca =$self->parent_ca($dir);
+    print STDERR "Parent for $dir is $parent_ca\n";
+
     if(! -d "$dir"){ mkdir("$dir",0750); }
     if(! -d "$dir/certs"){ mkdir("$dir/private",0750); }
     if(! -d "$dir/newcerts"){ mkdir("$dir/newcerts",0750); }
@@ -934,7 +959,7 @@ sub ca_initialize{
     my $key_size=2048;
     if($level == 0){
         $tpldata->{'ca_default_days'}="3650";
-        $key_size=8192;
+        $key_size=4096;
     }elsif($level == 1){
         $tpldata->{'ca_default_days'}="1825";
         $key_size=4096;
