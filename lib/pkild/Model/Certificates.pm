@@ -913,7 +913,7 @@ sub level_of{
     return 8; 
 }
 
-sub reqdn_block{
+sub reqdn_block{ # Create the req_distinguished_name block of our openssl.crt
     my ($self,$dir) = @_;
     my $rootdir = $self->rootdir;
     $dir=~s/^$rootdir\///;
@@ -922,20 +922,24 @@ sub reqdn_block{
     my ($o, $ou, $cn) = (0, 0, 0);
     while (my $d = shift(@path)){
         if($d=~m/^o=(.*)/){
-            print STDERR "$o.organizationName = Organization Name (eg, company)\n";
-            print STDERR "$o.organizationName_default = $1\n";
+            push(@rdnlines,"$o.organizationName = Organization Name (eg, company)");
+            push(@rdnlines,"$o.organizationName_default = $1");
             $o++;
         }elsif($d=~m/^ou=(.*)/){
-            print STDERR "$ou.organizationalUnitName = Organizational Unit Name (eg, section)\n";
-            print STDERR "$ou.organizationalUnitName_default = $1\n";
+            push(@rdnlines,"$ou.organizationalUnitName = Organizational Unit Name (eg, section)");
+            push(@rdnlines,"$ou.organizationalUnitName_default = $1");
             $ou++;
         }elsif($d=~m/^cn=(.*)/){
-            print STDERR "$cn.commonName = Organizational Unit Name (eg, section)\n";
-            print STDERR "$cn.commonName_max = 64\n";
-            print STDERR "$cn.commonName_default = $1\n";
+            push(@rdnlines,"$cn.commonName = Organizational Unit Name (eg, section)");
+            push(@rdnlines,"$cn.commonName_max = 64");
+            push(@rdnlines,"$cn.commonName_default = $1");
             $cn++;
         }
     }
+    # not sure how to determine the domain
+    #push(@rdnlines,"$cn.emailAddress = Email Address"); 
+    #push(@rdnlines,"$cn.emailAddress_max = 64");
+    #push(@rdnlines,"$cn.emailAddress_default = certificates@");
     return(join("\n",@rdnlines));
 }
 
