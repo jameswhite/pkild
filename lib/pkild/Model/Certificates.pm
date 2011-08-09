@@ -921,94 +921,94 @@ sub ca_initialize{
     my $parent_ca =$self->parent_ca($dir);
     print STDERR "Parent for $dir is $parent_ca\n";
 
-    if(! -d "$dir"){ mkdir("$dir",0750); }
-    if(! -d "$dir/certs"){ mkdir("$dir/private",0750); }
-    if(! -d "$dir/newcerts"){ mkdir("$dir/newcerts",0750); }
-    if(! -d "$dir/private"){ mkdir("$dir/private",0750); }
-    if(! -f "$dir/serial"){
-        my $fh = FileHandle->new("> $dir/serial");
-        if (defined $fh) { print $fh "01\n"; $fh->close; }
-    }
-    if(! -f "$dir/crlnumber"){
-        my $fh = FileHandle->new("> $dir/crlnumber");
-        if (defined $fh) { print $fh "01\n"; $fh->close; }
-    }
-    if(! -f "$dir/index.txt"){
-        my $fh = FileHandle->new("> $dir/index.txt");
-        if (defined $fh) { print $fh ''; $fh->close; }
-    }
-    if(! -f "$dir/crl"){
-        my $fh = FileHandle->new("> $dir/crl");
-        if (defined $fh) { print $fh ''; $fh->close; }
-    }
-    # 
-    # openssl.cnf # we assume a very particular directory structure here.
-    #
-    my $template=Template->new();
-    my $tpldata;
-    $tpldata->{'ca_domain'}=$domain;
-    $tpldata->{'cert_home_dir'}="\"$dir\"";
-    $tpldata->{'ca_orgunit'}="$dir";
-    $tpldata->{'ca_orgunit'}=~s/.*\///;
-    $tpldata->{'ca_cn'} = $tpldata->{'ca_orgunit'};
-    if($tpldata->{'ca_orgunit'} eq ''){ 
-        $tpldata->{'ca_orgunit'}="$domain Certificate Authority"; 
-        $tpldata->{'ca_cn'}="Domain Certificate Authority"; 
-    }
-    $tpldata->{'ca_email'}="certmaster\@$domain";
-    $tpldata->{'crl_days'}="30";
-    my $key_size=2048;
-    if($level == 0){
-        $tpldata->{'ca_default_days'}="3650";
-        $key_size=4096;
-    }elsif($level == 1){
-        $tpldata->{'ca_default_days'}="1825";
-        $key_size=4096;
-    }else{
-        $tpldata->{'ca_default_days'}="1095";
-        $key_size=4096;
-    }
-    my $text = $self->openssl_cnf_template(); 
-
-    my $map = {
-                'c'  => 'ca_country',
-                'st' => 'ca_state',
-                'l'  => 'ca_locality',
-                'o'  => 'ca_org',
-              };
-    my $org;
-    my @tree=split(/\//,$dir);
-    foreach my $branch (@tree){
-        my ($k,$v)=split(/=/,$branch);
-        if(defined($map->{$k})){ 
-            $tpldata->{ $map->{$k} }=$v; 
-            $org=$v if($k eq 'ou');
-        }
-    }
-    $tpldata->{'crl_path'}="$crl_path/$tpldata->{'ca_orgunit'}.crl";
-    # let's not use spaces and capital letters in our uris...
-    $tpldata->{'crl_path'}=~s/ /_/g;
-    $tpldata->{'crl_path'}=~tr/A-Z/a-z/;
-    $template->process(\$text,$tpldata,"$dir/openssl.cnf");
-    # private.key
-    system("/usr/bin/openssl genrsa -out \"$dir/private/key\" $key_size");
-    # csr
-    system("/usr/bin/openssl req -new -sha1 -days $tpldata->{'ca_default_days'} -key \"$dir/private/key\"  -out \"$dir/csr\" -config \"$dir/openssl.cnf\" -batch");
-    # pem
-    if(defined($parent)){
-        system("/usr/bin/openssl ca -extensions v3_ca -days $tpldata->{'ca_default_days'} -out \"$dir/pem\" -in \"$dir/csr\" -config \"$parent/openssl.cnf\" -batch");
-    }else{
-        system("openssl req -new -x509 -nodes -sha1 -days $tpldata->{'ca_default_days'} -key \"$dir/private/key\" -out \"$dir/pem\" -config \"$dir/openssl.cnf\" -batch");
-
-    }
-    # trustchain.pem
-    if(defined($parent)){
-        # OS X likes it this way, linux doesn't seem to care.
-        system("/bin/cat \"$parent/chain\" \"$dir/pem\" > \"$dir/chain\"");
-        # system("/bin/cat \"$dir/pem\" \"$parent/chain\" > \"$dir/chain\"");
-    }else{
-        system("/bin/cp \"$dir/pem\" \"$dir/chain\"");
-    }
+#    if(! -d "$dir"){ mkdir("$dir",0750); }
+#    if(! -d "$dir/certs"){ mkdir("$dir/private",0750); }
+#    if(! -d "$dir/newcerts"){ mkdir("$dir/newcerts",0750); }
+#    if(! -d "$dir/private"){ mkdir("$dir/private",0750); }
+#    if(! -f "$dir/serial"){
+#        my $fh = FileHandle->new("> $dir/serial");
+#        if (defined $fh) { print $fh "01\n"; $fh->close; }
+#    }
+#    if(! -f "$dir/crlnumber"){
+#        my $fh = FileHandle->new("> $dir/crlnumber");
+#        if (defined $fh) { print $fh "01\n"; $fh->close; }
+#    }
+#    if(! -f "$dir/index.txt"){
+#        my $fh = FileHandle->new("> $dir/index.txt");
+#        if (defined $fh) { print $fh ''; $fh->close; }
+#    }
+#    if(! -f "$dir/crl"){
+#        my $fh = FileHandle->new("> $dir/crl");
+#        if (defined $fh) { print $fh ''; $fh->close; }
+#    }
+#    # 
+#    # openssl.cnf # we assume a very particular directory structure here.
+#    #
+#    my $template=Template->new();
+#    my $tpldata;
+#    $tpldata->{'ca_domain'}=$domain;
+#    $tpldata->{'cert_home_dir'}="\"$dir\"";
+#    $tpldata->{'ca_orgunit'}="$dir";
+#    $tpldata->{'ca_orgunit'}=~s/.*\///;
+#    $tpldata->{'ca_cn'} = $tpldata->{'ca_orgunit'};
+#    if($tpldata->{'ca_orgunit'} eq ''){ 
+#        $tpldata->{'ca_orgunit'}="$domain Certificate Authority"; 
+#        $tpldata->{'ca_cn'}="Domain Certificate Authority"; 
+#    }
+#    $tpldata->{'ca_email'}="certmaster\@$domain";
+#    $tpldata->{'crl_days'}="30";
+#    my $key_size=2048;
+#    if($level == 0){
+#        $tpldata->{'ca_default_days'}="3650";
+#        $key_size=4096;
+#    }elsif($level == 1){
+#        $tpldata->{'ca_default_days'}="1825";
+#        $key_size=4096;
+#    }else{
+#        $tpldata->{'ca_default_days'}="1095";
+#        $key_size=4096;
+#    }
+#    my $text = $self->openssl_cnf_template(); 
+#
+#    my $map = {
+#                'c'  => 'ca_country',
+#                'st' => 'ca_state',
+#                'l'  => 'ca_locality',
+#                'o'  => 'ca_org',
+#              };
+#    my $org;
+#    my @tree=split(/\//,$dir);
+#    foreach my $branch (@tree){
+#        my ($k,$v)=split(/=/,$branch);
+#        if(defined($map->{$k})){ 
+#            $tpldata->{ $map->{$k} }=$v; 
+#            $org=$v if($k eq 'ou');
+#        }
+#    }
+#    $tpldata->{'crl_path'}="$crl_path/$tpldata->{'ca_orgunit'}.crl";
+#    # let's not use spaces and capital letters in our uris...
+#    $tpldata->{'crl_path'}=~s/ /_/g;
+#    $tpldata->{'crl_path'}=~tr/A-Z/a-z/;
+#    $template->process(\$text,$tpldata,"$dir/openssl.cnf");
+#    # private.key
+#    system("/usr/bin/openssl genrsa -out \"$dir/private/key\" $key_size");
+#    # csr
+#    system("/usr/bin/openssl req -new -sha1 -days $tpldata->{'ca_default_days'} -key \"$dir/private/key\"  -out \"$dir/csr\" -config \"$dir/openssl.cnf\" -batch");
+#    # pem
+#    if(defined($parent)){
+#        system("/usr/bin/openssl ca -extensions v3_ca -days $tpldata->{'ca_default_days'} -out \"$dir/pem\" -in \"$dir/csr\" -config \"$parent/openssl.cnf\" -batch");
+#    }else{
+#        system("openssl req -new -x509 -nodes -sha1 -days $tpldata->{'ca_default_days'} -key \"$dir/private/key\" -out \"$dir/pem\" -config \"$dir/openssl.cnf\" -batch");
+#
+#    }
+#    # trustchain.pem
+#    if(defined($parent)){
+#        # OS X likes it this way, linux doesn't seem to care.
+#        system("/bin/cat \"$parent/chain\" \"$dir/pem\" > \"$dir/chain\"");
+#        # system("/bin/cat \"$dir/pem\" \"$parent/chain\" > \"$dir/chain\"");
+#    }else{
+#        system("/bin/cp \"$dir/pem\" \"$dir/chain\"");
+#    }
     return $self;
 }
 
