@@ -903,6 +903,11 @@ sub level_of{
 
     $dir=~s/^$rootdir\///;
     print STDERR "Level of: $dir\n";
+    my @path=split('/',$dir);
+    my $basename = pop(@path);
+    my $level = $#path;
+    if($basename eq "cn=Root"){ return $level; }
+    if($basename eq "cn=Intermediate"){ return $level + 1; }
     ############################################################################
     # The level of the cert defines how long it is good for and how large the 
     #   key is, (larger keys used less often can live longer)
@@ -934,6 +939,7 @@ sub ca_initialize{
         $self->ca_initialize($parent_ca);
     }
     my $level = $self->level_of($dir);
+    print STDERR "level: $level\n";
 
 
     if(! -d "$dir/certs"){ mkdir("$dir/private",0750); }
