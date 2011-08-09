@@ -873,7 +873,6 @@ sub parent_ca{
     if($l_s_dir eq "cn=Root"){                   # a root ca is it's own parent
         return $dir;
     }elsif($l_s_dir eq 'cn=Intermediate'){       # an ICA can have several parents depending on what exists
-print
         if(-d join('/',@path) eq $self->rootdir."/Certificate Authority"){ # If it's the top-level ICA, then it's root is samelevel
             return join('/',@path)."/Certificate Authority/cn=Root";
         }
@@ -901,7 +900,7 @@ sub ca_initialize{
 
     my $parent_ca =$self->parent_ca($dir);
     print STDERR "Parent for $dir is $parent_ca\n";
-    if($dir eq $parent_ca){ return $self; }
+    if($dir eq $parent_ca){ return $self; } # infinite loop detection
     if(! -d "$parent_ca"){
         $self->ca_initialize($parent_ca);
     }
