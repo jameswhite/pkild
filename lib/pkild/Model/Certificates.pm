@@ -897,13 +897,14 @@ sub parent_ca{
 sub ca_initialize{
     my ($self, $dir, $asroot)=@_;
     print STDERR "Initializing $dir as a certificate authority\n";
+    mkdir($dir,0755);
     my $domain = $self->{'domain'};
     my $crl_path = $self->{'crl_base'};
     my $level=0;
 
     my $parent_ca =$self->parent_ca($dir);
     print STDERR "Parent for $dir is $parent_ca\n";
-    if($dir eq $parent_ca){ return $self; } # infinite loop detection
+    #if($dir eq $parent_ca){ return $self; } # infinite loop detection
     if(! -d "$parent_ca"){
         $self->ca_initialize($parent_ca);
     }
