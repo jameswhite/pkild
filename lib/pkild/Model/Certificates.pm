@@ -899,6 +899,9 @@ sub mkdir{
 
 sub level_of{
     my ($self, $dir) = @_;
+    my $rootdir = $self->rootdir;
+
+    $dir=~s/^$rootdir//;
     print STDERR "Level of: $dir\n";
     ############################################################################
     # The level of the cert defines how long it is good for and how large the 
