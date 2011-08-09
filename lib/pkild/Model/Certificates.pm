@@ -908,18 +908,10 @@ sub level_of{
     my $level = $#path;
     if($basename eq "cn=Root"){ return $level; }
     if($basename eq "cn=Intermediate"){ return $level + 1; }
-    ############################################################################
-    # The level of the cert defines how long it is good for and how large the 
-    #   key is, (larger keys used less often can live longer)
-    # Level_0: The Pkild Root CA is good for 8 years, 
-    #          (<strike>8192 bits</strike> 4096 bits) effin' apple can't do 8192
-    # level_1: The Pkild ICA (and Optional Org Root CAs) 5 / 4096 bit
-    # level_2: Organizational ICAs (and Optional Domain Root CAs) 3 years (4096 bits)
-    # level_3: Domain ICAs are good for 2 years  (4096 bits)
-    # level_4: Host certs are good for 1 year    (2048 bits)
-    # level_5: People certs are good for 90 days (2048 bits)
-    ############################################################################
-    return 0; 
+    my $parentname = pop(@path);
+    if($basename eq "ou=Hosts"){ return $level + 2; }
+    if($basename eq "ou=People"){ return $level + 3; }
+    return 8; 
 }
 
 # Create a certificate authority in the provided directory, sign with the $parent (dir) if provided, else self-sign
@@ -978,40 +970,63 @@ sub ca_initialize{
     $tpldata->{'ca_email'}="certmaster\@$domain";
     $tpldata->{'crl_days'}="30";
     my $key_size=2048;
-#    if($level == 0){
-#        $tpldata->{'ca_default_days'}="3650";
-#        $key_size=4096;
-#    }elsif($level == 1){
-#        $tpldata->{'ca_default_days'}="1825";
-#        $key_size=4096;
-#    }else{
-#        $tpldata->{'ca_default_days'}="1095";
-#        $key_size=4096;
-#    }
-#    my $text = $self->openssl_cnf_template(); 
-#
-#    my $map = {
-#                'c'  => 'ca_country',
-#                'st' => 'ca_state',
-#                'l'  => 'ca_locality',
-#                'o'  => 'ca_org',
-#              };
-#    my $org;
-#    my @tree=split(/\//,$dir);
-#    foreach my $branch (@tree){
-#        my ($k,$v)=split(/=/,$branch);
-#        if(defined($map->{$k})){ 
-#            $tpldata->{ $map->{$k} }=$v; 
-#            $org=$v if($k eq 'ou');
-#        }
-#    }
-#    $tpldata->{'crl_path'}="$crl_path/$tpldata->{'ca_orgunit'}.crl";
-#    # let's not use spaces and capital letters in our uris...
-#    $tpldata->{'crl_path'}=~s/ /_/g;
-#    $tpldata->{'crl_path'}=~tr/A-Z/a-z/;
-#    $template->process(\$text,$tpldata,"$dir/openssl.cnf");
-#    # private.key
-#    system("/usr/bin/openssl genrsa -out \"$dir/private/key\" $key_size");
+    ############################################################################
+    # The level of the cert defines how long it is good for and how large the 
+    #   key is, (larger keys used less often can live longer)
+    # Level_0: The Pkild Root CA is good for 8 years, 
+    #          (<strike>8192 bits</strike> 4096 bits) effin' apple can't do 8192
+    # level_1: The Pkild ICA (and Optional Org Root CAs) 5 / 4096 bit
+    # level_2: Organizational ICAs (and Optional Domain Root CAs) 3 years (4096 bits)
+    # level_3: Domain ICAs are good for 2 years   (4096 bits)
+    # level_4: Host certs are good for 1 year     (2048 bits)
+    # level_5: People certs are good for 90 days  (2048 bits)
+    # level_6: Testing certs are good for 30 days (1024 bits)
+    # level_7+: Junk certs are good for 1 day      (512 bits)
+    ############################################################################
+    if($level == 0){
+        $tpldata->{'ca_default_days'}="2920";
+        $key_size=4096; # effin apple
+    }elsif($level == 1){
+        $tpldata->{'ca_default_days'}="1825";
+        $key_size=4096;
+    }elsif($level == 2){
+        $tpldata->{'ca_default_days'}="1095";
+        $key_size=4096;
+    }elsif($level == 3){
+        $tpldata->{'ca_default_days'}="730";
+        $key_size=4096;
+    }elsif($level == 4){
+        $tpldata->{'ca_default_days'}="365";
+        $key_size=2048;
+    }elsif($level == 5){
+        $tpldata->{'ca_default_days'}="90";
+        $key_size=2048;
+    }elsif($level == 6){
+        $tpldata->{'ca_default_days'}="30";
+        $key_size=1024;
+    }else{
+        $tpldata->{'ca_default_days'}="1";
+        $key_size=512;
+    }
+    my $text = $self->openssl_cnf_template(); 
+
+    my $map = { 'o'  => 'ca_org', };
+    my $org;
+    my @tree=split(/\//,$dir);
+    foreach my $branch (@tree){
+        my ($k,$v)=split(/=/,$branch);
+        if(defined($map->{$k})){ 
+            $tpldata->{ $map->{$k} }=$v; 
+            $org=$v if($k eq 'ou');
+        }
+    }
+    $tpldata->{'crl_path'}="$crl_path/$tpldata->{'ca_orgunit'}.crl";
+    # let's not use spaces and capital letters in our uris...
+    $tpldata->{'crl_path'}=~s/ /_/g;
+    $tpldata->{'crl_path'}=~tr/A-Z/a-z/;
+    $template->process(\$text,$tpldata,"$dir/openssl.cnf");
+    # private.key
+    system("/usr/bin/openssl genrsa -out \"$dir/private/key\" $key_size");
 #    # csr
 #    system("/usr/bin/openssl req -new -sha1 -days $tpldata->{'ca_default_days'} -key \"$dir/private/key\"  -out \"$dir/csr\" -config \"$dir/openssl.cnf\" -batch");
 #    # pem
