@@ -919,11 +919,22 @@ sub reqdn_block{
     $dir=~s/^$rootdir\///;
     my @path=split('/',$dir);
     my @rdnlines;
+    my ($o, $ou, $cn) = (0, 0, 0);
     while (my $d = shift(@path)){
-        print STDERR "$d\n";
-        #if($line=~m/^o=/){
-        
-        #}
+        if($line=~m/^o=(.*)/){
+            print STDERR "$o.organizationName = Organization Name (eg, company)\n";
+            print STDERR "$o.organizationName_default = $1\n";
+            $o++;
+        }elsif($line=~m/^ou=(.*)/){
+            print STDERR "$ou.organizationalUnitName = Organizational Unit Name (eg, section)\n";
+            print STDERR "$ou.organizationalUnitName_default = $1\n";
+            $ou++;
+        }elsif($line=~m/^cn=(.*)/){
+            print STDERR "$cn.commonName = Organizational Unit Name (eg, section)\n";
+            print STDERR "$cn.commonName_max = 64\n";
+            print STDERR "$cn.commonName_default = $1\n";
+            $cn++;
+        }
     }
     return(join("\n",@rdnlines));
 }
@@ -945,7 +956,7 @@ sub ca_initialize{
         $self->ca_initialize($parent_ca);
     }
     my $level = $self->level_of($dir);
-    print STDERR "level: $level\n";
+    #print STDERR "level: $level\n";
 
 
     if(! -d "$dir/certs"){ mkdir("$dir/private",0750); }
