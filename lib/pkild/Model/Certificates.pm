@@ -898,6 +898,7 @@ sub ca_initialize{
     my ($self, $dir, $asroot)=@_;
     print STDERR "Initializing $dir as a certificate authority\n";
     mkdir($dir,0755);
+    if(! -d $dir){ return $self; }
     my $domain = $self->{'domain'};
     my $crl_path = $self->{'crl_base'};
     my $level=0;
