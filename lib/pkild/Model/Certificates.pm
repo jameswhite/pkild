@@ -897,10 +897,12 @@ sub mkdir{
     my ($self,$path,$mode)=@_;
     my @path = split(/\//,$path);
 print STDERR Data::Dumper->Dump([@path]);
-    return $self;
-    while(my $newdir .= shift(@path)."/"){
+    my $newdir shift(@path);
+    while(my $dir = shift(@path)){
+        $newdir.="/$dir";
         print STDERR "Inspecting $newdir\n";
         if(! -d $newdir){
+            print STDERR "Creating $newdir\n";
             mkdir($newdir,$mode);
         }
     }
