@@ -896,6 +896,8 @@ sub parent_ca{
 sub mkdir{
     my ($self,$path,$mode)=@_;
     my @path = split(/\//,$path);
+print STDERR Data::Dumper->Dump([@path]);
+    return $self;
     while(my $newdir .= shift(@path)."/"){
         print STDERR "Inspecting $newdir\n";
         if(! -d $newdir){
