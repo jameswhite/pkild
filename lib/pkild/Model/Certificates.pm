@@ -925,11 +925,11 @@ sub reqdn_block{
             print STDERR "$o.organizationName = Organization Name (eg, company)\n";
             print STDERR "$o.organizationName_default = $1\n";
             $o++;
-        }elsif($line=~m/^ou=(.*)/){
+        }elsif($d=~m/^ou=(.*)/){
             print STDERR "$ou.organizationalUnitName = Organizational Unit Name (eg, section)\n";
             print STDERR "$ou.organizationalUnitName_default = $1\n";
             $ou++;
-        }elsif($line=~m/^cn=(.*)/){
+        }elsif($d=~m/^cn=(.*)/){
             print STDERR "$cn.commonName = Organizational Unit Name (eg, section)\n";
             print STDERR "$cn.commonName_max = 64\n";
             print STDERR "$cn.commonName_default = $1\n";
