@@ -135,11 +135,11 @@ sub default : Private {
                          }
                     }elsif($c->req->param('get') eq "openssl.cnf"){
                              $c->response->headers->header( 'content-type' => "text/plain" );
-                             $c->response->body($c->model('Certificates')->opensslcnf_for($c->session->{'user'}));
+                             $c->response->body($c->model('Certificates')->opensslcnf_for($c->session}));
                              $c->detach();
                     }elsif($c->req->param('get') eq "trustchain"){
                              $c->response->headers->header( 'content-type' => "text/plain" );
-                             $c->response->body($c->model('Certificates')->trustchain_for($c->session->{'user'}));
+                             $c->response->body($c->model('Certificates')->trustchain_for($c->session));
                              $c->detach();
                     }
                 }else{
