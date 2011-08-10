@@ -228,6 +228,7 @@ sub default : Private {
             $c->response->headers->header( 'content-type' => "application/x-x509-ca-cert" );
             # The following line makes it come down like an attachment
             #$c->response->headers->header( 'content-disposition' => "attachment; filename=".$c->model('Certificates')->object_domain($c->model('Certificates')->objectname($c->session)).".crt" );
+            print STDERR "TRUST_CHAIN: [".$c->model('Certificates')->domain_trust_chain($c->model('Certificates')->object_domain($c->model('Certificates')->objectname($c->session)))."]\n";;
             $c->response->body($c->model('Certificates')->domain_trust_chain($c->model('Certificates')->object_domain($c->model('Certificates')->objectname($c->session))));
             $c->detach();
         }
