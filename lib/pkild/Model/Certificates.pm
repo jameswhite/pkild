@@ -1260,7 +1260,6 @@ sub actual_node_from_objectname{
     my $objectname=shift;
     my $rootdir = $self->rootdir;
     my ($identity_type, $identity,$orgunit,$domain);
-print STDERR "Searching for dir for $objectname\n";
     if($objectname=~m/\s*(.*)\s*=\s*(.*)\s*,\s*[Oo][Uu]\s*=\s*([^,]+)\s*,\s*dc\s*=\s*(.*)\s*/){
         $identity_type=$1; $identity=$2; $orgunit=$3; $domain=$4; $domain=~s/,\s*dc=/./g;
         # I hate upper case.
@@ -1274,17 +1273,17 @@ print STDERR "Searching for dir for $objectname\n";
             $domain = $map->{'cert_domain'};
         }
     }
-print STDERR "domain: $domain\n";
     my $cacert_dir = $self->ca_for($domain);
-print STDERR "cacert_dir: $cacert_dir\n";
+print STDERR "1) cacert_dir: $cacert_dir\n";
     my $cert_dir=undef;
     if($cacert_dir){
         $cert_dir="$cacert_dir/certs/$identity";
     }
+print STDERR "2) cacert_dir: $cacert_dir\n";
     my $actual_node=$cert_dir;
     $actual_node=~s/^$rootdir\///;
     $actual_node=~s/\//::/g;
-print STDERR "Returning: $actual_node\n";
+print STDERR "actual_node: $actual_node\n";
     print STDERR "exit actucal_node_from_objectname\n" if $self->{'trace'};
     return unpack("H*",$actual_node);
 }
