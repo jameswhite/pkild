@@ -1298,7 +1298,7 @@ sub node_type{
     ############################################################################     
     # These are conventions for type detection
     ############################################################################     
-    print STDERR "[ $rootdir ] [ $node ] [ $nodepart[$#nodepart] ]\n";
+    # print STDERR "[ $rootdir ] [ $node ] [ $nodepart[$#nodepart] ]\n";
     if(-d "$rootdir/$node"){ 
         if($nodepart[$#nodepart] eq "cn=Root"){ return "ca";}
         if($nodepart[$#nodepart] eq "cn=Intermediate"){ return "ca";}
