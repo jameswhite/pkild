@@ -1224,6 +1224,8 @@ sub ca_for{
            push(@domain_cnfs,$cnf_file);
        }
     }
+
+print STDERR Data::Dumper->Dump([@domain_cnfs]);
     my $physical_path;
     my $leastdepth=0;
     if($#domain_cnfs >= 0){
