@@ -42,13 +42,11 @@ sub csr_subject{
     # write out the csr to a temp file and get the Subject: String
     my $tmpdir = tempdir( 'CLEANUP' => 1 );
     my ($fh, $filename) = tempfile( 'DIR' => $tmpdir );
-print STDERR "filename: $filename\n";
     print $fh $csr;
     my $common_name;
     my $subject;
     open(GETCN, "/usr/bin/openssl req -in $filename -noout -text | ");
     while(my $line=<GETCN>){  
-print STDERR "$line";
         if($line=~m/Subject:/){
             $subject=$line;
             $line=~s/.*[Cc][Nn]=//g;
@@ -674,14 +672,8 @@ sub certificate_for{
 sub certificate_sign{
     my ($self, $session, $csr)=@_;
     my $csr_subject=$self->csr_subject($csr);
-    print STDERR "csr_subject: $csr_subject\n";
-
     my $user_cert_dn=$self->user_cert_dn($session);
-    print STDERR "user_cert_dn: $user_cert_dn\n";
-
     my $ca_cert_dn=$self->user_cert_dn($session);
-    print STDERR "ca_cert_dn: $ca_cert_dn\n";
-
     if( $csr_subject eq $user_cert_dn ){
         my $user_cert_dir=$self->user_cert_dir($session);
         if(! -d "$user_cert_dir"){ mkdir($user_cert_dir,0750); };
@@ -692,10 +684,13 @@ sub certificate_sign{
             close(CSR);
         }
         my $user_cert_file=$self->user_cert_file($session);
+        my $user_cert_dir=$self->user_cert_dir($session);
+
         # get the parent dir
-        my $pdir = $self->user_parent_cert_dir($session);
+        my $pdir = $self->parent_ca($user_cert_dir);
+
         # sign the csr with the parent cert
-        system("/usr/bin/openssl ca -config \"$pdir/openssl.cnf\" -policy policy_anything -out \"$user_cert_file\" -batch -infiles \"$user_cert_dir/csr\"");
+        system("/usr/bin/openssl ca -config \'$pdir/openssl.cnf\' -policy policy_anything -out \'$user_cert_file\' -batch -infiles \'$user_cert_dir/csr\'");
     }else{
         return undef;
     }
