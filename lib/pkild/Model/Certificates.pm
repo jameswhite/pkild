@@ -1283,7 +1283,7 @@ print STDERR "objectname: $objectname\n";
     if($identity=~m/^cn=/){ push(@cert_dir_parts,'ou=Hosts'); }
     if($identity=~m/^uid=/){ push(@cert_dir_parts,'ou=People'); }
     push(@cert_dir_parts,$identity);
-print STDERR Data::Dumper([@cert_dir_parts]);
+print STDERR Data::Dumper->Dump([@cert_dir_parts]);
     my $actual_node=join('/',@cert_dir_parts);
     $actual_node=~s/^$rootdir\///;
     $actual_node=~s/\//::/g;
