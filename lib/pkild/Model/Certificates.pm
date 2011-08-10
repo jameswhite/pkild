@@ -678,25 +678,29 @@ sub revoke_user_certificate{
     my $user_cert_file=$self->user_cert_file($session);
     my $user_cert_dir=$self->user_cert_dir($session);
     my $pdir = $self->user_parent_cert_dir($session);
-    system("/usr/bin/openssl ca -revoke \"$user_cert_file\" -keyfile \"$pdir/private/key\" -cert \"$pdir/pem\" -config \"$pdir/openssl.cnf\"");
-    if($? == 0){
-        # update the Certificate Revocation list
-        system("/usr/bin/openssl ca -gencrl -keyfile \"$pdir/private/key\" -cert \"$pdir/pem\" -config \"$pdir/openssl.cnf\" -out \"$pdir/crl\"");
-        if($? == 0){
-            opendir(my $dh, "$user_cert_dir");
-            my @files = readdir($dh);
-            foreach my $file (@files){
-                unlink("$user_cert_dir/$file");
-            }
-            closedir $dh;
-            if( -d "$user_cert_dir"){ rmdir "$user_cert_dir"; };
-            if( -d "$user_cert_dir"){ print STDERR "Unable to remove $user_cert_dir\n" };
-        }else{
-            print STDERR "Unable to update the Certificate Revokation list\n";
-        }
-    }else{
-        print STDERR "Unable to revoke certificate.\n";
-    }
+    # my $parent_ca = $self->parent_ca($dir);
+
+print STDERR "FUCK FUCK FUCK\n";
+return $self;
+#    system("/usr/bin/openssl ca -revoke \"$user_cert_file\" -keyfile \"$pdir/private/key\" -cert \"$pdir/pem\" -config \"$pdir/openssl.cnf\"");
+#    if($? == 0){
+#        # update the Certificate Revocation list
+#        system("/usr/bin/openssl ca -gencrl -keyfile \"$pdir/private/key\" -cert \"$pdir/pem\" -config \"$pdir/openssl.cnf\" -out \"$pdir/crl\"");
+#        if($? == 0){
+#            opendir(my $dh, "$user_cert_dir");
+#            my @files = readdir($dh);
+#            foreach my $file (@files){
+#                unlink("$user_cert_dir/$file");
+#            }
+#            closedir $dh;
+#            if( -d "$user_cert_dir"){ rmdir "$user_cert_dir"; };
+#            if( -d "$user_cert_dir"){ print STDERR "Unable to remove $user_cert_dir\n" };
+#        }else{
+#            print STDERR "Unable to update the Certificate Revokation list\n";
+#        }
+#    }else{
+#        print STDERR "Unable to revoke certificate.\n";
+#    }
     return $self;
 }
 
