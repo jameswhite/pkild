@@ -1284,7 +1284,7 @@ sub actual_node_from_objectname{
 # by convention, all CAs have a subdir named "certs" and others don't
 sub node_type{
     my ($self, $unpacked_node)=@_;
-    print STDERR "enter node_type\n" if $self->{'trace'};
+    print STDERR "enter node_type\n";# if $self->{'trace'};
     my $node = pack("H*",$unpacked_node);
     my @nodepart=split(/$self->{'node_separator'}/, $node);
     $node =~s/$self->{'node_separator'}/\//g;
@@ -1301,15 +1301,16 @@ sub node_type{
         if($isacertbucket eq "certs") { return "certs"; }
         if($nodepart[$#nodepart - 1]  eq "certs"){ 
             if(-f "$rootdir/$node/$nodepart[$#nodepart].revoked"){
+                print STDERR "exit node_type revoked_certificate\n";# if $self->{'trace'};
                 return "revoked_certificate" ;
             }
-            print STDERR "exit node_type certificate\n" if $self->{'trace'};
+            print STDERR "exit node_type certificate\n";# if $self->{'trace'};
             return "certificate" 
         };
-        print STDERR "exit node_type directory\n" if $self->{'trace'};
+        print STDERR "exit node_type directory\n";# if $self->{'trace'};
         return "directory"; 
     }
-    print STDERR "exit node_type undef\n" if $self->{'trace'};
+    print STDERR "exit node_type undef\n";# if $self->{'trace'};
     return undef;
 }
 
