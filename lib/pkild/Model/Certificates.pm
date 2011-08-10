@@ -457,7 +457,7 @@ sub opensslcnf_for{
 # /usr/bin/openssl genrsa -out \$(hostname -f).key 2048                         #
 #                                                                              #
 # Create your Certificate Signing Request with:                                #
-# /usr/bin/openssl req -new -sha1 -days 90 -key \$(hostname -f) \\               #
+# /usr/bin/openssl req -new -sha1 -days 90 -key \$(hostname -f).key \\           #
 #                      -out \$(hostname -f).csr -config openssl.cnf -batch      #
 # (using this openssl.cnf)                                                     #
 #                                                                              #
