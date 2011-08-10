@@ -1269,6 +1269,12 @@ print STDERR "objectname: $objectname\n";
         $domain=~tr/A-Z/a-z/;
     }
 print STDERR "Possible: ou=$domain/ou=$orgunit/$identity\n";
+    $self->find_file($rootdir,"openssl.cnf");
+    foreach my $cnf_file (@{ $self->{'file_list'} }){
+        print STDERR "inspecting $cnf_file\n";
+    }
+
+
 }
 
 # by convention, all CAs have a subdir named "certs" and others don't
