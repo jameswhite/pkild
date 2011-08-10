@@ -670,6 +670,7 @@ sub certificate_for{
 
 sub certificate_sign{
     my ($self, $session, $csr)=@_;
+    return undef; # this is broken
     my $csr_subject=$self->csr_subject($csr);
     my $user_cert_dn=$self->user_cert_dn($session);
     my $ca_cert_dn=$self->user_cert_dn($session);
@@ -972,6 +973,7 @@ sub reqdn_block{ # Create the req_distinguished_name block of our openssl.crt
 # Create a certificate authority in the provided directory, sign with the $parent (dir) if provided, else self-sign
 sub ca_initialize{
     my ($self, $dir)=@_;
+    my $rootdir=$self->rootdir;
 
     $self->mkdir($dir,0755); 
     if(! -d $dir){ return $self; } # failure to create causes an infinite loop on cn=Root dirs
@@ -1073,10 +1075,13 @@ sub ca_initialize{
             $org=$v if($k eq 'ou');
         }
     }
-    $tpldata->{'crl_path'}="$crl_path/$tpldata->{'ca_orgunit'}.crl";
+    my $crl_offset=$dir;
+    $crl_offset=~s/^$rootdir\///;
+    $tpldata->{'crl_path'}="$crl_path/$crl_offset";
     # let's not use spaces and capital letters in our uris...
     $tpldata->{'crl_path'}=~s/ /_/g;
     $tpldata->{'crl_path'}=~tr/A-Z/a-z/;
+print STDERR "crl: $tpldata->{'crl_path'}\n";
     $template->process(\$text,$tpldata,"$dir/openssl.cnf");
     # private.key
     system("/usr/bin/openssl genrsa -out \"$dir/private/key\" $key_size");
