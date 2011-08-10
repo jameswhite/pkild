@@ -120,15 +120,14 @@ sub cert_dn_tree{
 }
 
 sub user_cert_file{
-print STDERR "################################################################################\n";
     my ($self,$session) = @_;
     my $domain=$self->dnsdomainname();
     my $user_cert_dn=$self->user_cert_dn($session);
-    print STDERR "user_cert_dn: $user_cert_dn\n";
+    #print STDERR "user_cert_dn: $user_cert_dn\n";
     return undef unless ($user_cert_dn);
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
 
-    print STDERR "rootdir: $rootdir\n";
+    #print STDERR "rootdir: $rootdir\n";
 
     my @subject_parts=split(",",$user_cert_dn);  
     my @dir_parts; my $common_name;
@@ -157,7 +156,7 @@ print STDERR "##################################################################
 
     }
     my $user_cert_file= $rootdir."/".join("/",@dir_parts)."/$common_name.crt";
-    print STDERR "user_cert_file: $user_cert_file\n";
+    #print STDERR "user_cert_file: $user_cert_file\n";
     return $user_cert_file;
 }
 
@@ -492,6 +491,7 @@ keyUsage = nonRepudiation, digitalSignature, keyEncipherment
         $tpl_data->{$cnf_attr} = $self->attr_for($session,$cnf_attr);
     }
     $tpl_data->{'req_distinguished_name'} = $self->reqdn_block($user_cert_dir);
+print STDERR "###################################\n";
 print STDERR Data::Dumper->Dump([$user_cert_dir,$tpl_data->{'req_distinguished_name'} ]);
     $tt->process(\$opensslcnf,$tpl_data,\$output);
     return $output;
