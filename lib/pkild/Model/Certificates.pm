@@ -1346,7 +1346,7 @@ sub node_type{
         return "directory"; 
     }
     print STDERR "exit node_type undef\n" if $self->{'trace'};
-    return undef;
+    return "certificate_authority";
 }
 
 sub contents{
