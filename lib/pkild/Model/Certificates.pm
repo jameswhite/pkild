@@ -46,6 +46,7 @@ sub csr_subject{
     my $subject;
     open(GETCN, "/usr/bin/openssl req -in $filename -noout -text | ");
     while(my $line=<GETCN>){  
+print STDERR "$line";
         if($line=~m/Subject:/){
             $subject=$line;
             $line=~s/.*[Cc][Nn]=//g;
