@@ -1260,7 +1260,7 @@ sub actual_node_from_objectname{
     my $objectname=shift;
     my $rootdir = $self->rootdir;
     my ($identity_type, $identity,$orgunit,$domain);
-    if($objectname=~m/\s*(.*)\s*=\s*(.*)\s*,\s*[Oo][Uu]\s*=\s*([^,]+)\s*,\s*dc\s*=\s*(.*)\s*/){
+    if($objectname=~m/\s*(.*)\s*,\s*[Oo][Uu]\s*=\s*([^,]+)\s*,\s*dc\s*=\s*(.*)\s*/){
         $identity_type=$1; $identity=$2; $orgunit=$3; $domain=$4; $domain=~s/,\s*dc=/./g;
         # I hate upper case.
         $identity_type=~tr/A-Z/a-z/;
@@ -1274,13 +1274,15 @@ sub actual_node_from_objectname{
         }
     }
     my $cacert_dir = $self->ca_for($domain);
-print STDERR "cacert_dir: $cacert_dir\n";
     my $cert_dir = undef;
-    if($cacert_dir){
-        $cert_dir="$cacert_dir/certs/$identity";
-    }
-print STDERR "cert_dir: $cert_dir\n";
-    my $actual_node=$cert_dir;
+    if($cacert_dir){ $cert_dir="$cacert_dir"; }
+    my @cert_dir_parts = split('/',cert_dir);
+    pop(@cert_dir_parts) if($ca_dir_parts[$#ca_dir_parts] eq 'cn=Intermediate');
+    pop(@cert_dir_parts) if($ca_dir_parts[$#ca_dir_parts] eq 'ou=Certificate Authority');
+    if($identity=~m/^cn=/){ push(@cert_dir_parts,'ou=Hosts'); }
+    if($identity=~m/^uid=/){ push(@cert_dir_parts,'ou=People'); }
+    push(@cert_dir_parts,$identity);
+    my $actual_node=join('/',@cert_dir_parts);
     $actual_node=~s/^$rootdir\///;
     $actual_node=~s/\//::/g;
 print STDERR "actual_node: $actual_node\n";
