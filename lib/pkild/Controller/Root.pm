@@ -421,7 +421,7 @@ sub drawform : Global {
     if($c->model('Certificates')->node_type( $actual_node )){
         if($c->model('Certificates')->node_type( $actual_node ) eq "logout"){              $menu='logout';      }
         #if($c->model('Certificates')->node_type( $actual_node ) eq "new_root_ca"){         $menu='new_root_ca'; }
-        #if($c->model('Certificates')->node_type( $actual_node ) eq "new_root_ca"){         $menu='certificate_authority'; }
+        if($c->model('Certificates')->node_type( $actual_node ) eq "new_root_ca"){         $menu='certificate_authority'; }
         if($c->model('Certificates')->node_type( $actual_node ) eq "certs"){               $menu='sign';        }
         if($c->model('Certificates')->node_type( $actual_node ) eq "certs"){               $menu='sign';        }
         if($c->model('Certificates')->node_type( $actual_node ) eq "certificate_authority"){
