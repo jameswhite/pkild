@@ -1259,7 +1259,7 @@ sub actual_node_from_objectname{
 print STDERR "objectname: $objectname\n";
     my $rootdir = $self->rootdir;
     my ($identity_type, $identity,$orgunit,$domain);
-    if($objectname=~m/\s*(.*)\s*,\s*[Oo][Uu]\s*=\s*([^,]+)\s*,\s*dc\s*=\s*(.*)\s*/){
+    if($objectname=~m/\s*([^,]*)\s*,\s*[Oo][Uu]\s*=\s*([^,]+)\s*,\s*dc\s*=\s*(.*)\s*/){
         $identity_type=$1; $identity=$2; $orgunit=$3; $domain=$4; $domain=~s/,\s*dc=/./g;
         # I hate upper case.
         $identity_type=~tr/A-Z/a-z/;
@@ -1278,6 +1278,7 @@ print STDERR "objectname: $objectname\n";
     my $cert_dir = undef;
     if($cacert_dir){ $cert_dir = $cacert_dir; }
     my @cert_dir_parts = split('/',$cert_dir);
+print STDERR Data::Dumper->Dump([@cert_dir_parts]);
     pop(@cert_dir_parts) if($cert_dir_parts[$#cert_dir_parts] eq 'cn=Intermediate');
     pop(@cert_dir_parts) if($cert_dir_parts[$#cert_dir_parts] eq 'ou=Certificate Authority');
     if($identity=~m/^cn=/){ push(@cert_dir_parts,'ou=Hosts'); }
