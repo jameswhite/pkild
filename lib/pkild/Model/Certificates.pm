@@ -119,16 +119,16 @@ sub cert_dn_tree{
     return undef;
 }
 
+# get the user_cert_file from the session
 sub user_cert_file{
     my ($self,$session) = @_;
-    my $domain=$self->dnsdomainname();
+    my $domain = $self->dnsdomainname();
     my $user_cert_dn = $self->user_cert_dn($session);
     print STDERR "user_cert_dn: $user_cert_dn\n";
+
     return undef unless ($user_cert_dn);
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
-
     #print STDERR "rootdir: $rootdir\n";
-
     my @subject_parts=split(",",$user_cert_dn);  
     my @dir_parts; my $common_name;
     for(my $idx=0; $idx<=$#subject_parts; $idx++){
@@ -223,7 +223,7 @@ sub attr_for{
 sub user_cert_dn{
 use FileHandle;
     my ($self,$session) = @_;
-    print STDERR "enter user_cert_dn\n";# if $self->{'trace'};
+    print STDERR "enter user_cert_dn\n" if $self->{'trace'};
     my $objectname = $self->objectname($session);
     #print STDERR "objectname: $objectname\n";
     my $cn=$objectname;
@@ -244,7 +244,7 @@ use FileHandle;
         $cn=~s/\s*cn=//;
         $subject = $self->ca_basedn().",ou=".$self->dnsdomainname().",ou=Hosts,cn=$cn.$domain/emailaddress=root\@$cn.$domain";
     }
-    print STDERR "exit user_cert_dn with [$subject]\n";
+    #print STDERR "exit user_cert_dn with [$subject]\n";
     return $subject;
 }
 
@@ -252,7 +252,7 @@ sub objectname{
     my $self=shift;
     print STDERR "enter objectname\n" if $self->{'trace'};
     my $user_session=shift;
-    print STDERR Data::Dumper->Dump([ $user_session->{'user'}->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'} ]);
+    #print STDERR Data::Dumper->Dump([ $user_session->{'user'}->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'} ]);
     if(defined($user_session->{'user'}->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'})){
         print STDERR "exit objectname with objectname\n" if $self->{'trace'};
         return $user_session->{'user'}->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'};
