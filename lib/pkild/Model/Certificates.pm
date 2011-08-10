@@ -674,10 +674,14 @@ sub certificate_sign{
 }
 
 sub revoke_user_certificate{
-    my ($self, $session)=@_;
+    my ($self, $params, $session)=@_;
+
     my $user_cert_file=$self->user_cert_file($session);
     my $user_cert_dir=$self->user_cert_dir($session);
     my $pdir = $self->user_parent_cert_dir($session);
+print STDERR "user_cert_file: $user_cert_file\n";
+print STDERR "user_cert_dir: $user_cert_dir\n";
+print STDERR "pdir: $pdir\n";
     # my $parent_ca = $self->parent_ca($dir);
 
 print STDERR "FUCK FUCK FUCK\n";
@@ -708,7 +712,7 @@ return $self;
 sub revoke_certificate{
     my ($self, $param, $session)=@_;
     print STDERR "enter revoke_certificate\n" if $self->{'trace'};
-    my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
+    my $rootdir = $self->rootdir;
 
     # convert the $self->{'node_separator'} delimited node names into a path
     my $node_dir = $self->actual_node($param->{'node_name'});
@@ -719,21 +723,22 @@ sub revoke_certificate{
     $node_dir=~s/$self->{'node_separator'}/\//g;
     $node_dir="$rootdir/$node_dir";
 
-    chdir ($parent_dir);
-    if( ! -f "$parent_dir/crlnumber"){
-        open(CRLINDEX,">$parent_dir/crlnumber");
-        print CRLINDEX "01\n";
-        close(CRLINDEX);
-    }
-    # Revoke the Certificate (updates the Index)
-    system("/usr/bin/openssl ca -revoke $node_dir/$node_name.crt -keyfile $parent_dir/private/$parent_name.key -cert $parent_dir/$parent_name.pem -config $parent_dir/openssl.cnf");
-
-    # update the Certificate Revocation list
-    system("/usr/bin/openssl ca -gencrl -keyfile $parent_dir/private/$parent_name.key -cert $parent_dir/$parent_name.pem -config $parent_dir/openssl.cnf -out $parent_dir/$parent_name.crl");
-
-    # Rename the cert to indicate it has been revoked
-    rename("$node_dir/$node_name.crt","$node_dir/$node_name.revoked");
-    print STDERR "exit revoke_certificate\n" if $self->{'trace'};
+return $self;
+#    chdir ($parent_dir);
+#    if( ! -f "$parent_dir/crlnumber"){
+#        open(CRLINDEX,">$parent_dir/crlnumber");
+#        print CRLINDEX "01\n";
+#        close(CRLINDEX);
+#    }
+#    # Revoke the Certificate (updates the Index)
+#    system("/usr/bin/openssl ca -revoke $node_dir/$node_name.crt -keyfile $parent_dir/private/$parent_name.key -cert $parent_dir/$parent_name.pem -config $parent_dir/openssl.cnf");
+#
+#    # update the Certificate Revocation list
+#    system("/usr/bin/openssl ca -gencrl -keyfile $parent_dir/private/$parent_name.key -cert $parent_dir/$parent_name.pem -config $parent_dir/openssl.cnf -out $parent_dir/$parent_name.crl");
+#
+#    # Rename the cert to indicate it has been revoked
+#    rename("$node_dir/$node_name.crt","$node_dir/$node_name.revoked");
+#    print STDERR "exit revoke_certificate\n" if $self->{'trace'};
     return $self;  
 }
 

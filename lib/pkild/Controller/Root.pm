@@ -168,7 +168,7 @@ sub default : Private {
             }elsif($c->req->method eq 'POST'){
                 if($c->req->param){
                     if(defined($c->req->param('revoke'))){
-                        $c->model('Certificates')->revoke_user_certificate($c->session->{'user'});
+                        $c->model('Certificates')->revoke_user_certificate($c->req->params,$c->session);
                     }elsif(defined($c->req->param('csr_request'))){
                         if(! $c->model('Certificates')->user_cert_exists($c->session->{'user'})){
                             $c->model('Certificates')->certificate_sign($c->session->{'user'},$c->req->param('csr_request'));
@@ -532,7 +532,7 @@ sub do_form : Global {
             $c->stash->{'result'} = $c->model('Certificates')->create_certificate($c->req->params,$c->session);
             $c->stash->{'template'}="application.tt";
         }elsif($c->req->param('action_type') eq 'revoke_cert'){
-            $c->stash->{'result'} = $c->model('Certificates')->revoke_certificate($c->req->params,$c->session);
+            $c->stash->{'result'} = $c->model('Certificates')->revoke_user_certificate($c->req->params,$c->session);
             $c->stash->{'template'}="application.tt";
         }elsif($c->req->param('action_type') eq 'remove_cert'){
             $c->stash->{'result'} = $c->model('Certificates')->remove_certificate($c->req->params,$c->session);
