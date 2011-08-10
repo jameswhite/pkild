@@ -1270,12 +1270,17 @@ print STDERR "objectname: $objectname\n";
     }
     my $search = "ou=$domain/ou=$orgunit/$identity";
     $self->find_file($rootdir,"openssl.cnf");
+    my $cert_dir = undef;
     foreach my $cnf_file (@{ $self->{'file_list'} }){
         if($cnf_file=~m/$search\/openssl.cnf$/i){
-            print STDERR "$cnf_file\n";
+            $cert_dir = "$cnf_file\n";
+            $cert_dir =~ s/\/openssl.cnf$//;
+            $cert_dir =~ s/^rootdir//;
+            $cert_dir =~ s/\//::/;
         }
     }
-
+    print STDERR "Returning: $cert_dir\n";
+    return $cert_dir;
 
 }
 
