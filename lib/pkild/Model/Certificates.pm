@@ -525,6 +525,7 @@ use File::Slurp;
         $cn=~s/\s*cn=//;
         $subject = $self->ca_basedn().", ou=Hosts, cn=$cn.$domain/emailaddress=root\@$cn.$domain";
     }
+    print STDERR "\nuser_cert_dir: $user_cert_dir\n\n";
     if(! -d "$user_cert_dir"){
         mkdir("$user_cert_dir",0700);
     }
