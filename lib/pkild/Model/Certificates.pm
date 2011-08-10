@@ -158,7 +158,6 @@ print STDERR "##################################################################
     }
     my $user_cert_file= $rootdir."/".join("/",@dir_parts)."/$common_name.crt";
     print STDERR "user_cert_file: $user_cert_file\n";
-print STDERR "################################################################################\n";
     return $user_cert_file;
 }
 
@@ -238,7 +237,7 @@ use FileHandle;
     if($cn=~m/\s*uid=(.*)/){ 
         $type="user"; 
         $cn=~s/\s*uid=//;
-        $subject = $self->ca_basedn().",ou=".$self->dnsdomainname().",ou=People,cn=$cn/emailaddress=$cn\@$domain";
+        $subject = $self->ca_basedn().",ou=".$self->dnsdomainname().",ou=People,uid=$cn/emailaddress=$cn\@$domain";
     }
     if($cn=~m/\s*cn=(.*)/){ 
         $type="host";  
