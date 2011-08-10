@@ -1202,7 +1202,7 @@ sub ca_create{
 sub ca_for{
     my ($self,$ca_domain)=@_;
     print STDERR "enter ca_for\n" if $self->{'trace'};
-    my $rootdir = $self->root_dir;
+    my $rootdir = $self->rootdir;
 
     ############################################################################
     # find all the openssl.cnfs with ca_domain=$ca_domain
