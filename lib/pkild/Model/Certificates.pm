@@ -410,7 +410,6 @@ use FileHandle;
                $ca_domain=~s/\s*$//g;
            }
            if($line=~m/^\s*1.organizationalUnitName_default\s*=\s*(.*)/){
-               $ca_domain=$1; 
                if($1 =~m/^\s*Certificate Authority\s*$/){
                    $got_ca = 1;
                }
