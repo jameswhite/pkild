@@ -1295,25 +1295,21 @@ sub node_type{
     if($node eq "new_cert"){ return "new_cert"; }
     if($node eq "logout"){ return "logout"; }
     if(-f "$rootdir/$node"){ return "file"; }
-
-
     ############################################################################     
     # These are conventions for type detection
     ############################################################################     
-    print STDERR "[ $rootdir ] [ $node ] $nodepart[$#nodepart] ]\n";
+    print STDERR "[ $rootdir ] [ $node ] [ $nodepart[$#nodepart] ]\n";
     if(-d "$rootdir/$node"){ 
-        if(-d "$rootdir/$node/certs"){ return "ca"; }
-        my $isacertbucket="$rootdir/$node";
-        $isacertbucket=~s/.*\///;
-        if($isacertbucket eq "certs") { return "certs"; }
-        if($nodepart[$#nodepart - 1]  eq "certs"){ 
+        if($nodepart[$#nodepart] eq "cn=Root"){ return "ca";}
+        if($nodepart[$#nodepart] eq "cn=Intermediate"){ return "ca";}
+        if( ($nodepart[$#nodepart] =~ m/^cn=/) || ($nodepart[$#nodepart] =~ m/^uid=/)){ 
             if(-f "$rootdir/$node/$nodepart[$#nodepart].revoked"){
                 print STDERR "exit node_type revoked_certificate\n";# if $self->{'trace'};
                 return "revoked_certificate" ;
             }
             print STDERR "exit node_type certificate\n";# if $self->{'trace'};
             return "certificate" 
-        };
+        }
         print STDERR "exit node_type directory\n";# if $self->{'trace'};
         return "directory"; 
     }
