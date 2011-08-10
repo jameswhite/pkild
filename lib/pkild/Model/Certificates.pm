@@ -1202,8 +1202,7 @@ sub ca_create{
 sub ca_for{
     my ($self,$ca_domain)=@_;
     print STDERR "enter ca_for\n" if $self->{'trace'};
-    my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
-
+    my $rootdir = $self->root_dir;
 
     ############################################################################
     # find all the openssl.cnfs with ca_domain=$ca_domain
@@ -1212,7 +1211,9 @@ sub ca_for{
     my @least_depth_domain_cnfs;
     $self->find_file($rootdir,"openssl.cnf");
     foreach my $cnf_file (@{ $self->{'file_list'} }){
+print STDERR "    Searching: $cnf_file\n";
        my $cnf_domain=$self->ca_domain_from_file($cnf_file);
+print STDERR "        domain: $cnf_domain\n";
        if($cnf_domain eq $ca_domain){
            push(@domain_cnfs,$cnf_file);
        }
