@@ -388,8 +388,8 @@ sub actual_node{
 
 sub has_certificate{
     my ($self, $object)=@_;
-    print STDERR "enter has_certificate\n" if $self->{'trace'};
-    print STDERR "exit has_certificate\n" if $self->{'trace'};
+    print STDERR "enter has_certificate\n";# if $self->{'trace'};
+    print STDERR "exit has_certificate\n";# if $self->{'trace'};
     return undef;
 }
 
