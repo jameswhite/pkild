@@ -178,6 +178,7 @@ sub user_parent_cert_dir{
 sub user_cert_exists{
     my ($self,$session) = @_;
     my $user_cert_file=$self->user_cert_file($session);
+    print STDERR "user_cert_file: $user_cert_file\n"
     if( -f $user_cert_file){
         # we should probably validate the cert here
         return 1;
@@ -320,10 +321,10 @@ sub tree{
     for my $node (@file_names){
         next if $node eq '.';
         # skip directories containing key data and used for work.
-#        next if $node=~m/\/private$/;
+        next if $node=~m/\/private$/;
         next if $node=~m/\/.rnd$/;
-#        next if $node=~m/\/openssl.cnf$/;
-#        next if $node=~m/\/csr$/;
+        next if $node=~m/\/openssl.cnf$/;
+        next if $node=~m/\/csr$/;
         next if $node=~m/\/chain$/;
         next if $node=~m/\/index.txt$/;
         next if $node=~m/\/serial$/;
@@ -332,7 +333,7 @@ sub tree{
         next if $node=~m/\.attr$/;
         next if $node=~m/\/newcerts$/;
         #next if $node=~m/\/crl$/;
-#        next if $node=~m/\.pem$/;
+        next if $node=~m/\.pem$/;
         next if $node=~m/\.csr$/;
         next if $node=~m/\.p12$/;
         # We need to know if this is a file, or a directory
