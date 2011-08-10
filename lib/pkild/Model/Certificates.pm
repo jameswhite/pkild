@@ -905,7 +905,7 @@ sub reqdn_block{ # Create the req_distinguished_name block of our openssl.crt
     $dir=~s/^$rootdir\///;
     my @path=split('/',$dir);
     my @rdnlines;
-    my ($o, $ou, $cn) = (0, 0, 0);
+    my ($o, $ou, $cn, $uid) = (0, 0, 0, 0);
     while (my $d = shift(@path)){
         if($d=~m/^o=(.*)/){
             push(@rdnlines,"$o.organizationName = Organization Name (eg, company)");
@@ -921,12 +921,13 @@ sub reqdn_block{ # Create the req_distinguished_name block of our openssl.crt
             push(@rdnlines,"$cn.commonName_default = $1");
             $cn++;
         }elsif($d=~m/^uid=(.*)/){
-            push(@rdnlines,"$cn.uid = User ID (eg, account)");
-            push(@rdnlines,"$cn.commonName_max = 20");
-            push(@rdnlines,"$cn.commonName_default = $1");
-            push(@rdnlines,"$cn.emailAddress = Email Address"); 
-            push(@rdnlines,"$cn.emailAddress_max = 64");
-            push(@rdnlines,"$cn.emailAddress_default = $1@".$self->dnsdomainname());
+            push(@rdnlines,"$uid.uid = User ID (eg, account)");
+            push(@rdnlines,"$uid.uid_max = 20");
+            push(@rdnlines,"$uid.uid_default = $1");
+            push(@rdnlines,"emailAddress = Email Address"); 
+            push(@rdnlines,"emailAddress_max = 64");
+            push(@rdnlines,"emailAddress_default = $1@".$self->dnsdomainname());
+            $uid++;
         }
     }
     # not sure how to determine the domain
