@@ -921,9 +921,9 @@ sub reqdn_block{ # Create the req_distinguished_name block of our openssl.crt
             push(@rdnlines,"$cn.commonName_default = $1");
             $cn++;
         }elsif($d=~m/^uid=(.*)/){
-            push(@rdnlines,"uid = User ID (eg, account)");
-            push(@rdnlines,"uid_max = 20");
-            push(@rdnlines,"uid_default = $1");
+            push(@rdnlines,"uId = User ID (eg, account)");
+            push(@rdnlines,"uId_max = 20");
+            push(@rdnlines,"uId_default = $1");
             push(@rdnlines,"emailAddress = Email Address"); 
             push(@rdnlines,"emailAddress_max = 64");
             push(@rdnlines,"emailAddress_default = $1@".$self->dnsdomainname());
