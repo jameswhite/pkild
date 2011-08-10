@@ -529,12 +529,12 @@ use File::Slurp;
     }
     system("/usr/bin/openssl genrsa -out \"$user_cert_dir/private/key\" 2048");
 
-return $self;
     ############################################################################    
     # create the CSR
     ############################################################################    
     system("/usr/bin/openssl req -new -sha1 -days 90 -key \"$user_cert_dir/private/key\"  -out \"$user_cert_dir/csr\" -config \"$user_cert_dir/openssl.cnf\" -batch");
 
+return $self;
     ############################################################################    
     # Ensure the DN is correct
     ############################################################################    
