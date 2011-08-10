@@ -136,7 +136,7 @@ print STDERR "##################################################################
         $subject_parts[$idx]=~s/^\s+//g;
         $subject_parts[$idx]=~s/\s+=/=/g;
         $subject_parts[$idx]=~s/=\s+/=/g;
-        if($subject_parts[$idx]=~m/^[Cc][Nn].*\/.*/){
+        if($subject_parts[$idx]=~m/^([Cc][Nn]|[Uu][Ii][Dd]).*\/.*/){
             my ($key,$value);
             my ($cn,$email)=split("\/",$subject_parts[$idx]);
             ($key,$value)=split("=",$cn);
@@ -518,7 +518,7 @@ use File::Slurp;
     if($cn=~m/\s*uid=(.*)/){
         $type="user";
         $cn=~s/\s*uid=//;
-        $subject = $self->ca_basedn().", ou=People, cn=$cn/emailaddress=$cn\@$domain";
+        $subject = $self->ca_based().", ou=People, cn=$cn/emailaddress=$cn\@$domain";
     }
     if($cn=~m/\s*cn=(.*)/){
         $type="host";
