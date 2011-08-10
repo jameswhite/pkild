@@ -91,11 +91,11 @@ sub default : Private {
     $c->model('Certificates')->ca_basedn($c->config->{'global'}->{'cert_basedn'});
     $c->model('Certificates')->crl_base($c->config->{'global'}->{'crl_base'});
 
-    if( $c->check_user_roles( "certificate_administrators" ) ){ 
-        print STDERR "Admin: \n";
-    }else{
-        print STDERR "User: \n";
-    }
+    #if( $c->check_user_roles( "certificate_administrators" ) ){ 
+    #    print STDERR "Admin: \n";
+    #}else{
+    #    print STDERR "User: \n";
+    #}
     #print STDERR Data::Dumper->Dump([$c->user->{'user'}->{'ldap_entry'}->{'attrs'}->{'uid'}]);
     #print STDERR Data::Dumper->Dump([$c->user->{'_roles'}]);
     ############################################################################
