@@ -323,8 +323,8 @@ sub tree{
         # skip directories containing key data and used for work.
         next if $node=~m/\/private$/;
         next if $node=~m/\/.rnd$/;
-        # next if $node=~m/\/openssl.cnf$/;
-        # next if $node=~m/\/csr$/;
+#        next if $node=~m/\/openssl.cnf$/;
+#        next if $node=~m/\/csr$/;
         next if $node=~m/\/chain$/;
         next if $node=~m/\/index.txt$/;
         next if $node=~m/\/serial$/;
@@ -333,7 +333,7 @@ sub tree{
         next if $node=~m/\.attr$/;
         next if $node=~m/\/newcerts$/;
         #next if $node=~m/\/crl$/;
-        next if $node=~m/\.pem$/;
+#        next if $node=~m/\.pem$/;
         next if $node=~m/\.csr$/;
         next if $node=~m/\.p12$/;
         # We need to know if this is a file, or a directory
