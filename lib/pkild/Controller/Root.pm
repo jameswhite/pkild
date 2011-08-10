@@ -199,6 +199,7 @@ sub default : Private {
                     $c->detach();
                 }else{
                     $c->stash->{'user_cert_dn'}=$c->model('Certificates')->user_cert_dn($c->session->{'user'});
+                    $c->stash->{'user_cert_dn'}="smeg" unless $c->stash->{'user_cert_dn'};
                     $c->stash->{'template'}='csr_sign.tt';
                     $c->detach();
                 }
