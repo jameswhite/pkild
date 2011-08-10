@@ -491,8 +491,6 @@ keyUsage = nonRepudiation, digitalSignature, keyEncipherment
         $tpl_data->{$cnf_attr} = $self->attr_for($session,$cnf_attr);
     }
     $tpl_data->{'req_distinguished_name'} = $self->reqdn_block($user_cert_dir);
-print STDERR "###################################\n";
-print STDERR Data::Dumper->Dump([$user_cert_dir,$tpl_data->{'req_distinguished_name'} ]);
     $tt->process(\$opensslcnf,$tpl_data,\$output);
     return $output;
 }

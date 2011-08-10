@@ -153,7 +153,7 @@ sub default : Private {
                         $c->detach();
                     # If the pkcs12cert is not defined in the session, send them to th
                     }else{
-                        if($c->model('Certificates')->user_cert_exists($c->session->{'user'})){
+                        if($c->model('Certificates')->user_cert_exists($c->session)){
                             $c->stash->{'legend'}='Valid Certificate Found.';
                             $c->stash->{'whatsnext'}=q(<a href='/?get=certificate'>View your Certificate</a>);
                             $c->stash->{'template'}='show_cert.tt';
