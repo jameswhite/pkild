@@ -1249,6 +1249,7 @@ sub actual_node_from_objectname{
     my $self=shift;
     print STDERR "enter actucal_node_from_objectname\n" if $self->{'trace'};
     my $objectname=shift;
+print STDERR "Searching for dir for $objectname\n";
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     my ($identity_type, $identity,$orgunit,$domain);
     if($objectname=~m/\s*(.*)\s*=\s*(.*)\s*,\s*[Oo][Uu]\s*=\s*([^,]+)\s*,\s*dc\s*=\s*(.*)\s*/){
@@ -1282,13 +1283,8 @@ sub node_type{
     my ($self, $unpacked_node)=@_;
     print STDERR "enter node_type\n" if $self->{'trace'};
     my $node = pack("H*",$unpacked_node);
-print STDERR "node: $node\n";
     my @nodepart=split(/$self->{'node_separator'}/, $node);
-print STDERR Data::Dumper->Dump([@nodepart]);
     $node =~s/$self->{'node_separator'}/\//g;
-
-print STDERR "node: $node\n";
-
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     if($node eq "new_root_ca"){ return "new_root_ca"; }
     if($node eq "certificate_authority"){ return "certificate_authority"; }
