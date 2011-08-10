@@ -949,7 +949,7 @@ sub reqdn_block{ # Create the req_distinguished_name block of our openssl.crt
     $dir=~s/^$rootdir\///;
     my @path=split('/',$dir);
     my @rdnlines;
-    my ($o, $ou, $cn) = (0, 0, 0);
+    my ($o, $ou) = (0, 0);
     while (my $d = shift(@path)){
         if($d=~m/^o=(.*)/){
             push(@rdnlines,"$o.organizationName = Organization Name (eg, company)");
@@ -960,13 +960,12 @@ sub reqdn_block{ # Create the req_distinguished_name block of our openssl.crt
             push(@rdnlines,"$ou.organizationalUnitName_default = $1");
             $ou++;
         }elsif($d=~m/^cn=(.*)/){
-            push(@rdnlines,"$cn.commonName = Organizational Unit Name (eg, section)");
-            push(@rdnlines,"$cn.commonName_max = 64");
-            push(@rdnlines,"$cn.commonName_default = $1");
+            push(@rdnlines,"commonName = Organizational Unit Name (eg, section)");
+            push(@rdnlines,"commonName_max = 64");
+            push(@rdnlines,"commonName_default = $1");
             push(@rdnlines,"emailAddress = Email Address"); 
             push(@rdnlines,"emailAddress_max = 64");
             push(@rdnlines,"emailAddress_default = root@".$1);
-            $cn++;
         }elsif($d=~m/^uid=(.*)/){
             push(@rdnlines,"userId = User ID (eg, account)");
             push(@rdnlines,"userId_max = 20");
