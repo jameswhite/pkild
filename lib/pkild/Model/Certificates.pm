@@ -38,6 +38,7 @@ sub rootdir{
 
 sub csr_subject{
     my ($self, $csr) =@_;
+    $csr=~s/^\s*//;
     # write out the csr to a temp file and get the Subject: String
     my $tmpdir = tempdir( 'CLEANUP' => 1 );
     my ($fh, $filename) = tempfile( 'DIR' => $tmpdir );
