@@ -1271,9 +1271,8 @@ print STDERR "objectname: $objectname\n";
     my $search = "ou=$domain/ou=$orgunit/$identity";
     $self->find_file($rootdir,"openssl.cnf");
     foreach my $cnf_file (@{ $self->{'file_list'} }){
-        print STDERR "inspecting $cnf_file\n";
         if($cnf_file=~m/$search\/openssl.cnf$/i){
-            print STDERR "    HERE.\n";
+            print STDERR "$cnf_file\n";
         }
     }
 
