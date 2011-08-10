@@ -1212,7 +1212,8 @@ sub ca_for{
     $self->find_file($rootdir,"openssl.cnf");
     foreach my $cnf_file (@{ $self->{'file_list'} }){
 print STDERR "    Searching: $cnf_file\n";
-       my $cnf_domain=$self->ca_domain_from_file($cnf_file);
+       my $cnf_domain = '';
+       my $cnf_domain = $self->ca_domain_from_file($cnf_file);
 print STDERR "        domain: $cnf_domain\n";
        if($cnf_domain eq $ca_domain){
            push(@domain_cnfs,$cnf_file);
