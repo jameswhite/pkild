@@ -534,7 +534,6 @@ use File::Slurp;
     ############################################################################    
     system("/usr/bin/openssl req -new -sha1 -days 90 -key \"$user_cert_dir/private/key\"  -out \"$user_cert_dir/csr\" -config \"$user_cert_dir/openssl.cnf\" -batch");
 
-return $self;
     ############################################################################    
     # Ensure the DN is correct
     ############################################################################    
@@ -550,6 +549,7 @@ return $self;
     ############################################################################    
     system("/usr/bin/openssl ca -config \"$user_parent_cert_dir/openssl.cnf\" -days 90 -policy policy_anything -out \"$user_cert_file\" -batch -infiles \"$user_cert_dir/csr\"");
 
+return $self;
     ############################################################################    
     # convert to a pkcs12 container with the passphrase
     ############################################################################    
