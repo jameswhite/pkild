@@ -1218,10 +1218,8 @@ sub ca_for{
     my @least_depth_domain_cnfs;
     $self->find_file($rootdir,"openssl.cnf");
     foreach my $cnf_file (@{ $self->{'file_list'} }){
-print STDERR "    Searching: $cnf_file\n";
        my $cnf_domain = '';
        my $cnf_domain = $self->ca_domain_from_file($cnf_file);
-print STDERR "        domain: $cnf_domain\n";
        if($cnf_domain eq $ca_domain){
            push(@domain_cnfs,$cnf_file);
        }
@@ -1258,6 +1256,7 @@ sub actual_node_from_objectname{
     my $self=shift;
     print STDERR "enter actucal_node_from_objectname\n" if $self->{'trace'};
     my $objectname=shift;
+print STDERR "objectname: $objectname\n";
     my $rootdir = $self->rootdir;
     my ($identity_type, $identity,$orgunit,$domain);
     if($objectname=~m/\s*(.*)\s*,\s*[Oo][Uu]\s*=\s*([^,]+)\s*,\s*dc\s*=\s*(.*)\s*/){
@@ -1274,6 +1273,8 @@ sub actual_node_from_objectname{
         }
     }
     my $cacert_dir = $self->ca_for($domain);
+
+    # Transform the parent into the child
     my $cert_dir = undef;
     if($cacert_dir){ $cert_dir = $cacert_dir; }
     my @cert_dir_parts = split('/',$cert_dir);
@@ -1282,6 +1283,7 @@ sub actual_node_from_objectname{
     if($identity=~m/^cn=/){ push(@cert_dir_parts,'ou=Hosts'); }
     if($identity=~m/^uid=/){ push(@cert_dir_parts,'ou=People'); }
     push(@cert_dir_parts,$identity);
+print STDERR Data::Dumper([@cert_dir_parts]);
     my $actual_node=join('/',@cert_dir_parts);
     $actual_node=~s/^$rootdir\///;
     $actual_node=~s/\//::/g;
