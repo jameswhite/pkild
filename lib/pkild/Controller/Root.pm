@@ -127,7 +127,7 @@ sub default : Private {
                     if($c->req->param('get') eq "certificate"){
                          if($c->model('Certificates')->user_cert_exists($c->session->{'user'})){
                              $c->response->headers->header( 'content-type' => "text/plain" );
-                             $c->response->body($c->model('Certificates')->certificate_for($c->session}));
+                             $c->response->body($c->model('Certificates')->certificate_for($c->session));
                              $c->detach();
                          }else{
                              $c->response->body('File not found.');
