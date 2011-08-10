@@ -1273,6 +1273,7 @@ print STDERR "objectname: $objectname\n";
         }
     }
     my $cacert_dir = $self->ca_for($domain);
+print STDERR "cacert_dir: $cacert_dir\n";
 
     # Transform the parent into the child
     my $cert_dir = undef;
