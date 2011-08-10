@@ -41,6 +41,7 @@ sub csr_subject{
     # write out the csr to a temp file and get the Subject: String
     my $tmpdir = tempdir( 'CLEANUP' => 1 );
     my ($fh, $filename) = tempfile( 'DIR' => $tmpdir );
+print STDERR "filename: $filename\n";
     print $fh $csr;
     my $common_name;
     my $subject;
@@ -671,8 +672,6 @@ sub certificate_for{
 
 sub certificate_sign{
     my ($self, $session, $csr)=@_;
-    print STDERR "csr: $csr\n";
-
     my $csr_subject=$self->csr_subject($csr);
     print STDERR "csr_subject: $csr_subject\n";
 
