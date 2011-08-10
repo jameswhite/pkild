@@ -1288,13 +1288,14 @@ sub node_type{
     my $node = pack("H*",$unpacked_node);
     my @nodepart=split(/$self->{'node_separator'}/, $node);
     $node =~s/$self->{'node_separator'}/\//g;
-    print STDERR "node: $node\n";
     my $rootdir=$self->rootdir();
 
     if($node eq "new_root_ca"){ return "new_root_ca"; }
     if($node eq "certificate_authority"){ return "certificate_authority"; }
     if($node eq "new_cert"){ return "new_cert"; }
     if($node eq "logout"){ return "logout"; }
+
+    print STDERR "node: [$rootdir/$node]\n";
     if(-f "$rootdir/$node"){ return "file"; }
     if(-d "$rootdir/$node"){ 
         if(-d "$rootdir/$node/certs"){ return "ca"; }
