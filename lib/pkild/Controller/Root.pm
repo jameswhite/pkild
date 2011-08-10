@@ -91,6 +91,11 @@ sub default : Private {
     $c->model('Certificates')->ca_basedn($c->config->{'global'}->{'cert_basedn'});
     $c->model('Certificates')->crl_base($c->config->{'global'}->{'crl_base'});
 
+    if( $c->check_user_roles( "certificate_administrators" ) ){ 
+        print STDERR "Admin: $c->user->{'user'}\n";
+    }else{
+        print STDERR "User: $c->user->{'user'}\n";
+    }
     ############################################################################
     # if we have no data to operate on, then forward to the "Create Tree" view
     ############################################################################
