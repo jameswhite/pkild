@@ -203,12 +203,15 @@ sub default : Private {
                     $c->detach();
                 }
             }
+            print STDERR "smeg.\n";
             if($c->model('Certificates')->user_cert_exists($c->session->{'user'})){
+            print STDERR "smeg 1.\n";
                 $c->stash->{'legend'}='Valid Certificate Found.';
                 $c->stash->{'whatsnext'}=q(<a href='/?get=certificate'>View your Certificate</a>);
                 $c->stash->{'template'}='show_cert.tt';
                 $c->detach();
             }else{
+            print STDERR "smeg 2.\n";
                 $c->stash->{'user_cert_dn'}=$c->model('Certificates')->user_cert_dn($c->session->{'user'});
                 $c->stash->{'template'}='csr_sign.tt';
                 $c->detach();
