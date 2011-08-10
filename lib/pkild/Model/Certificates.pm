@@ -1256,7 +1256,6 @@ sub actual_node_from_objectname{
     my $self=shift;
     print STDERR "enter actucal_node_from_objectname\n" if $self->{'trace'};
     my $objectname=shift;
-print STDERR "objectname: $objectname\n";
     my $rootdir = $self->rootdir;
     my ($identity_type, $identity,$orgunit,$domain);
     if($objectname=~m/\s*([^,]*)\s*,\s*[Oo][Uu]\s*=\s*([^,]+)\s*,\s*dc\s*=\s*(.*)\s*/){
@@ -1279,9 +1278,7 @@ print STDERR "objectname: $objectname\n";
             $cert_dir =~ s/\//::/g;
         }
     }
-    print STDERR "Returning: $cert_dir\n";
     return $cert_dir;
-
 }
 
 # by convention, all CAs have a subdir named "certs" and others don't
