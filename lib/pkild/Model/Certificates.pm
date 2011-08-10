@@ -1275,11 +1275,11 @@ sub actual_node_from_objectname{
     }
     my $cacert_dir = $self->ca_for($domain);
 print STDERR "1) cacert_dir: $cacert_dir\n";
-    my $cert_dir=undef;
+    my $cert_dir = undef;
     if($cacert_dir){
         $cert_dir="$cacert_dir/certs/$identity";
     }
-print STDERR "2) cacert_dir: $cacert_dir\n";
+print STDERR "cert_dir: $cert_dir\n";
     my $actual_node=$cert_dir;
     $actual_node=~s/^$rootdir\///;
     $actual_node=~s/\//::/g;
