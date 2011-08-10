@@ -554,10 +554,7 @@ use File::Slurp;
         }
     }
     close(VERIFY);
-    if($subject eq $self->user_cert_dn()){
-        $valid_request = 1;
-    }
- 
+    if($subject eq $self->user_cert_dn($session)){ $valid_request = 1; }
     if($valid_request == 1){
         ############################################################################    
         # if it's valid, Sign it with the parent
