@@ -555,6 +555,7 @@ use File::Slurp;
         }
     }
     close(VERIFY);
+    print STDERR "CSR [$subject] from $cn\n";
     if($subject eq $self->user_cert_dn($session)){ $valid_request = 1; }
     if($valid_request == 1){
         ############################################################################    
