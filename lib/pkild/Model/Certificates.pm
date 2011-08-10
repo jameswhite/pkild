@@ -1343,7 +1343,7 @@ sub node_type{
             return "certificate" 
         }
         print STDERR "exit node_type directory\n" if $self->{'trace'};
-        return "certificate_authority"; 
+        return "directory"; 
     }
     print STDERR "exit node_type undef\n" if $self->{'trace'};
     return "certificate_authority";
