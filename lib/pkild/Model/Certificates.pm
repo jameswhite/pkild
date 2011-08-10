@@ -1224,8 +1224,6 @@ sub ca_for{
            push(@domain_cnfs,$cnf_file);
        }
     }
-
-print STDERR Data::Dumper->Dump([@domain_cnfs]);
     my $physical_path;
     my $leastdepth=0;
     if($#domain_cnfs >= 0){
@@ -1263,37 +1261,14 @@ print STDERR "objectname: $objectname\n";
     my ($identity_type, $identity,$orgunit,$domain);
     if($objectname=~m/\s*([^,]*)\s*,\s*[Oo][Uu]\s*=\s*([^,]+)\s*,\s*dc\s*=\s*(.*)\s*/){
         $identity_type=$1; $identity=$2; $orgunit=$3; $domain=$4; $domain=~s/,\s*dc=/./g;
+
         # I hate upper case.
         $identity_type=~tr/A-Z/a-z/;
         $identity=~tr/A-Z/a-z/;
         $orgunit=~tr/A-Z/a-z/;
         $domain=~tr/A-Z/a-z/;
     }
-    foreach my $map (@{ $self->{'personal_cert_remap'} }){
-        if($domain eq $map->{'auth_domain'}){
-            $domain = $map->{'cert_domain'};
-        }
-    }
-    my $cacert_dir = $self->ca_for($domain);
-print STDERR "cacert_dir: $cacert_dir\n";
-
-    # Transform the parent into the child
-    my $cert_dir = undef;
-    if($cacert_dir){ $cert_dir = $cacert_dir; }
-    my @cert_dir_parts = split('/',$cert_dir);
-print STDERR Data::Dumper->Dump([@cert_dir_parts]);
-    pop(@cert_dir_parts) if($cert_dir_parts[$#cert_dir_parts] eq 'cn=Intermediate');
-    pop(@cert_dir_parts) if($cert_dir_parts[$#cert_dir_parts] eq 'ou=Certificate Authority');
-    if($identity=~m/^cn=/){ push(@cert_dir_parts,'ou=Hosts'); }
-    if($identity=~m/^uid=/){ push(@cert_dir_parts,'ou=People'); }
-    push(@cert_dir_parts,$identity);
-print STDERR Data::Dumper->Dump([@cert_dir_parts]);
-    my $actual_node=join('/',@cert_dir_parts);
-    $actual_node=~s/^$rootdir\///;
-    $actual_node=~s/\//::/g;
-print STDERR "actual_node: $actual_node\n";
-    print STDERR "exit actucal_node_from_objectname\n" if $self->{'trace'};
-    return unpack("H*",$actual_node);
+print STDERR "Possible: ou=$domain/ou=$orgunit/$identity\n";
 }
 
 # by convention, all CAs have a subdir named "certs" and others don't
