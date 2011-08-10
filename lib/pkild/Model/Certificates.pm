@@ -440,7 +440,7 @@ sub find_file{
 
 sub opensslcnf_for{
     use Template;
-    my ($self,$session)=@_;
+    my ($self,$session,$dir)=@_;
     my $tpl_data={};
     my $output='';
     my $tt=Template->new();
@@ -482,7 +482,7 @@ keyUsage = nonRepudiation, digitalSignature, keyEncipherment
     foreach my $cnf_attr (@{ $cnf_attrs }){
         $tpl_data->{$cnf_attr} = $self->attr_for($session,$cnf_attr);
     }
-    $tpl_data->{'req_distinguished_name'} = $self->reqdn_block();
+    $tpl_data->{'req_distinguished_name'} = $self->reqdn_block($dir);
     $tt->process(\$opensslcnf,$tpl_data,\$output);
     return $output;
 }
@@ -518,7 +518,7 @@ use File::Slurp;
     # Create an openssl.cnf in the $user_cert_dir 
     ############################################################################    
     open(SSLCNF,">$user_cert_dir/openssl.cnf");
-    print SSLCNF $self->opensslcnf_for($session);
+    print SSLCNF $self->opensslcnf_for($session,$user_cert_dir);
     close(SSLCNF);
 
     ############################################################################    
@@ -920,6 +920,13 @@ sub reqdn_block{ # Create the req_distinguished_name block of our openssl.crt
             push(@rdnlines,"$cn.commonName_max = 64");
             push(@rdnlines,"$cn.commonName_default = $1");
             $cn++;
+        }elsif($d=~m/^uid=(.*)/){
+            push(@rdnlines,"$cn.uid = User ID (eg, account)");
+            push(@rdnlines,"$cn.commonName_max = 20");
+            push(@rdnlines,"$cn.commonName_default = $1");
+            push(@rdnlines,"$cn.emailAddress = Email Address"); 
+            push(@rdnlines,"$cn.emailAddress_max = 64");
+            push(@rdnlines,"$cn.emailAddress_default = $1@".$self->dnsdomainname());
         }
     }
     # not sure how to determine the domain
