@@ -709,7 +709,6 @@ sub revoke_user_certificate{
     my $user_cert_file=$self->user_cert_file($session);
     my $user_cert_dir=$self->user_cert_dir($session);
     my $parent_ca = $self->parent_ca($user_cert_dir);
-    print STDERR "/usr/bin/openssl ca -revoke \'$user_cert_file\' -keyfile \'$parent_ca/private/key\' -cert \'$parent_ca/pem\' -config \'$parent_ca/openssl.cnf\'\n";
     system("/usr/bin/openssl ca -revoke \'$user_cert_file\' -keyfile \'$parent_ca/private/key\' -cert \'$parent_ca/pem\' -config \'$parent_ca/openssl.cnf\'");
     if($? == 0){
         # update the Certificate Revocation list
