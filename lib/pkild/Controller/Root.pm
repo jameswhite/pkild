@@ -96,7 +96,7 @@ sub default : Private {
     }else{
         print STDERR "User: \n";
     }
-    print Data::Dumper->Dump([$c->user]);
+    print STDERR Data::Dumper->Dump([$c->user]);
     ############################################################################
     # if we have no data to operate on, then forward to the "Create Tree" view
     ############################################################################
