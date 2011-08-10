@@ -1095,14 +1095,14 @@ sub ca_initialize{
         # sign us with our parent
         system("/usr/bin/openssl ca -extensions v3_ca -days $tpldata->{'ca_default_days'} -out \"$dir/pem\" -in \"$dir/csr\" -config \"$parent/openssl.cnf\" -batch");
     }
-#    # trustchain.pem
-#    if(defined($parent)){
-#        # OS X likes it this way, linux doesn't seem to care.
-#        system("/bin/cat \"$parent/chain\" \"$dir/pem\" > \"$dir/chain\"");
-#        # system("/bin/cat \"$dir/pem\" \"$parent/chain\" > \"$dir/chain\"");
-#    }else{
-#        system("/bin/cp \"$dir/pem\" \"$dir/chain\"");
-#    }
+    # trustchain.pem
+    if(defined($parent)){
+        # OS X likes it this way, linux doesn't seem to care.
+        system("/bin/cat \"$parent/chain\" \"$dir/pem\" > \"$dir/chain\"");
+        # system("/bin/cat \"$dir/pem\" \"$parent/chain\" > \"$dir/chain\"");
+    }else{
+        system("/bin/cp \"$dir/pem\" \"$dir/chain\"");
+    }
     return $self;
 }
 
