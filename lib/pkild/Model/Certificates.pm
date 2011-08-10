@@ -1288,6 +1288,7 @@ sub node_type{
     my $node = pack("H*",$unpacked_node);
     my @nodepart=split(/$self->{'node_separator'}/, $node);
     $node =~s/$self->{'node_separator'}/\//g;
+    chomp($node);
     my $rootdir=$self->rootdir();
 
     if($node eq "new_root_ca"){ return "new_root_ca"; }
