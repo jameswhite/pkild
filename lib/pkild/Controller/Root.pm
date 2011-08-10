@@ -243,7 +243,6 @@ sub default : Private {
                 # if we've selected a tree item, populate the form as per our forms yaml
                 if( $c->request->arguments->[1] eq "select" ){
                     $c->session->{'selected'} = $c->request->arguments->[2];
-print STDERR "selected:". pack("H*",$c->session->{'selected'}). "\n";
                     # clear this if there is anything selected.
                     if(pack("H*",$c->session->{'selected'}) ne "new_cert"){ $c->session->{'pkcs12cert'} = undef; }
                     if($c->model('Certificates')->node_type($c->request->arguments->[2])){

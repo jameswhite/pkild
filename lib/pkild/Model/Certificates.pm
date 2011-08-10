@@ -1278,7 +1278,7 @@ sub actual_node_from_objectname{
             $cert_dir =~ s/\//::/g;
         }
     }
-    return $cert_dir;
+    return pack("H*",$cert_dir);
 }
 
 # by convention, all CAs have a subdir named "certs" and others don't
