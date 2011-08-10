@@ -125,7 +125,7 @@ sub default : Private {
             if($c->req->method eq 'GET'){ 
                 if($c->req->param('get')){
                     if($c->req->param('get') eq "certificate"){
-                         if($c->model('Certificates')->user_cert_exists($c->session->{'user'})){
+                         if($c->model('Certificates')->user_cert_exists($c->session)){
                              $c->response->headers->header( 'content-type' => "text/plain" );
                              $c->response->body($c->model('Certificates')->certificate_for($c->session));
                              $c->detach();
@@ -160,7 +160,7 @@ print STDERR "-----------------------------------------------\n";
                             $c->stash->{'template'}='show_cert.tt';
                             $c->detach();
                         }else{
-                            $c->stash->{'user_cert_dn'}=$c->model('Certificates')->user_cert_dn($c->session->{'user'});
+                            $c->stash->{'user_cert_dn'}=$c->model('Certificates')->user_cert_dn($c->session);
                             $c->stash->{'template'}='csr_sign.tt';
                             $c->detach();
                         }
@@ -172,12 +172,12 @@ print STDERR "-----------------------------------------------\n";
                     if(defined($c->req->param('revoke'))){
                         $c->model('Certificates')->revoke_user_certificate($c->req->params,$c->session);
                     }elsif(defined($c->req->param('csr_request'))){
-                        if(! $c->model('Certificates')->user_cert_exists($c->session->{'user'})){
-                            $c->model('Certificates')->certificate_sign($c->session->{'user'},$c->req->param('csr_request'));
+                        if(! $c->model('Certificates')->user_cert_exists($c->session)){
+                            $c->model('Certificates')->certificate_sign($c->session,$c->req->param('csr_request'));
                         }
                     }elsif(defined($c->req->param('action_type'))){
                         if( $c->req->param('action_type') eq 'pkcs12_cert'){
-                            $c->session->{'pkcs12cert'} = $c->model('Certificates')->create_certificate($c->req->params,$c->session->{'user'});
+                            $c->session->{'pkcs12cert'} = $c->model('Certificates')->create_certificate($c->req->params,$c->session);
                             $c->stash->{'refreshto'}="<meta http-equiv=\"refresh\" content=\"5\" />";
                             $c->stash->{'instructions'}="Your certificate should start downloading momentarily. Import it into your browser.";
                             $c->stash->{'legend'}='Certificate Created.';
@@ -189,7 +189,7 @@ print STDERR "-----------------------------------------------\n";
                         print STDERR Data::Dumper->Dump([$c->req->param]);
                     }
                 }
-                if($c->model('Certificates')->user_cert_exists($c->session->{'user'})){
+                if($c->model('Certificates')->user_cert_exists($c->session)){
                     if( defined($c->req->param('action_type') )){
                         $c->stash->{'legend'}='Certificate Created.';
                         $c->stash->{'whatsnext'}='Your Certificate download should start momentarily.';
@@ -206,13 +206,13 @@ print STDERR "-----------------------------------------------\n";
                     $c->detach();
                 }
             }
-            if($c->model('Certificates')->user_cert_exists($c->session->{'user'})){
+            if($c->model('Certificates')->user_cert_exists($c->session)){
                 $c->stash->{'legend'}='Valid Certificate Found.';
                 $c->stash->{'whatsnext'}=q(<a href='/?get=certificate'>View your Certificate</a>);
                 $c->stash->{'template'}='show_cert.tt';
                 $c->detach();
             }else{
-                $c->stash->{'user_cert_dn'}=$c->model('Certificates')->user_cert_dn($c->session->{'user'});
+                $c->stash->{'user_cert_dn'}=$c->model('Certificates')->user_cert_dn($c->session);
                 $c->stash->{'template'}='csr_sign.tt';
                 $c->detach();
             }
@@ -229,8 +229,8 @@ print STDERR "-----------------------------------------------\n";
         if($c->req->param("get") eq "ca_trustchain"){
             $c->response->headers->header( 'content-type' => "application/x-x509-ca-cert" );
             # The following line makes it come down like an attachment
-            #$c->response->headers->header( 'content-disposition' => "attachment; filename=".$c->model('Certificates')->object_domain($c->model('Certificates')->objectname($c->session->{'user'})).".crt" );
-            $c->response->body($c->model('Certificates')->domain_trust_chain($c->model('Certificates')->object_domain($c->model('Certificates')->objectname($c->session->{'user'}))));
+            #$c->response->headers->header( 'content-disposition' => "attachment; filename=".$c->model('Certificates')->object_domain($c->model('Certificates')->objectname($c->session)).".crt" );
+            $c->response->body($c->model('Certificates')->domain_trust_chain($c->model('Certificates')->object_domain($c->model('Certificates')->objectname($c->session))));
             $c->detach();
         }
     }
@@ -413,7 +413,7 @@ sub drawform : Global {
             my $objectname = $c->session->{'user'}->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'};
             $actual_node = $c->model('Certificates')->actual_node_from_objectname($objectname);
             # Get the logged in user's valid Cert DN
-            $c->stash->{'user_cert_dn'}=$c->model('Certificates')->user_cert_dn($c->session->{'user'});
+            $c->stash->{'user_cert_dn'}=$c->model('Certificates')->user_cert_dn($c->session);
             $menu='my_cert'; 
         }else{
             $actual_node = $c->session->{'current_node'};
