@@ -153,7 +153,6 @@ print STDERR "##################################################################
             $key=~tr/A-Z/a-z/;
             $subject_parts[$idx]="$key=$value";
             push(@dir_parts,$subject_parts[$idx]);
-            if ($key eq 'o'){ push(@dir_parts,"$domain Certificate Authority"); }
         }
 
     }
@@ -995,10 +994,6 @@ sub ca_initialize{
     $tpldata->{'ca_orgunit'}="$dir";
     $tpldata->{'ca_orgunit'}=~s/.*\///;
     $tpldata->{'ca_cn'} = $tpldata->{'ca_orgunit'};
-    if($tpldata->{'ca_orgunit'} eq ''){ 
-        $tpldata->{'ca_orgunit'}="$domain Certificate Authority"; 
-        $tpldata->{'ca_cn'}="Domain Certificate Authority"; 
-    }
     $tpldata->{'ca_email'}="certmaster\@$domain";
     $tpldata->{'crl_days'}="30";
     my $key_size=2048;
