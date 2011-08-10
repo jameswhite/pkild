@@ -1285,7 +1285,7 @@ sub actual_node_from_objectname{
 sub node_type{
     my ($self, $unpacked_node)=@_;
     print STDERR "enter node_type\n";# if $self->{'trace'};
-    print STDERR "node: $unpacked_node\n";
+    print STDERR "unpacked_node: $unpacked_node\n";
     my $node = pack("H*",$unpacked_node);
 
     my @nodepart=split(/$self->{'node_separator'}/, $node);
