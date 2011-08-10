@@ -1260,7 +1260,7 @@ print STDERR "objectname: $objectname\n";
     my $rootdir = $self->rootdir;
     my ($identity_type, $identity,$orgunit,$domain);
     if($objectname=~m/\s*([^,]*)\s*,\s*[Oo][Uu]\s*=\s*([^,]+)\s*,\s*dc\s*=\s*(.*)\s*/){
-        $identity_type=$1; $identity=$2; $orgunit=$3; $domain=$4; $domain=~s/,\s*dc=/./g;
+        $identity=$1; $orgunit=$2; $domain=$3; $domain=~s/,\s*dc=/./g;
 
         # I hate upper case.
         $identity_type=~tr/A-Z/a-z/;
