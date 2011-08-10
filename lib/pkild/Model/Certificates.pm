@@ -1272,6 +1272,7 @@ sub actual_node_from_objectname{
     my $actual_node=$cert_dir;
     $actual_node=~s/^$rootdir\///;
     $actual_node=~s/\//::/g;
+print STDERR "Returning: $actual_node\n";
     print STDERR "exit actucal_node_from_objectname\n" if $self->{'trace'};
     return unpack("H*",$actual_node);
 }
