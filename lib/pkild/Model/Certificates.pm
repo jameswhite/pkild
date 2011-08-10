@@ -544,21 +544,21 @@ use File::Slurp;
     ############################################################################    
     # Ensure the DN is correct
     ############################################################################    
-    my $valid_request=0;
-    open(VERIFY,"openssl req -text -noout -in \"$user_cert_dir/csr\"|");
-    my $subject="";
-    while(my $line=<VERIFY>){
-        # grab the first "Subject: " line's subject
-        print STDERR "$line";
-        if($subject eq ''){
-            if($line=~m/\s+Subject:\s+(.*)\s*/){ $subject=$1; }
-        }
-    }
-    close(VERIFY);
-    print STDERR "CSR [$subject] from $cn\n";
-    my $valid_dn=$self->user_cert_dn($session);
-    if( $subject =~ m/$valid_dn/i ){ $valid_request = 1; }
-    print  STDERR "[$subject] == [".$self->user_cert_dn($session)."] ?\n";
+    my $valid_request=1;
+#    open(VERIFY,"openssl req -text -noout -in \"$user_cert_dir/csr\"|");
+#    my $subject="";
+#    while(my $line=<VERIFY>){
+#        # grab the first "Subject: " line's subject
+#        print STDERR "$line";
+#        if($subject eq ''){
+#            if($line=~m/\s+Subject:\s+(.*)\s*/){ $subject=$1; }
+#        }
+#    }
+#    close(VERIFY);
+#    print STDERR "CSR [$subject] from $cn\n";
+#    my $valid_dn=$self->user_cert_dn($session);
+#    if( $subject =~ m/$valid_dn/i ){ $valid_request = 1; }
+#    print  STDERR "[$subject] == [".$self->user_cert_dn($session)."] ?\n";
     if($valid_request == 1){
         ############################################################################    
         # if it's valid, Sign it with the parent
