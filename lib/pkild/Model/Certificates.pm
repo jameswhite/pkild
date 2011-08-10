@@ -1061,12 +1061,14 @@ sub ca_initialize{
     # csr
     system("/usr/bin/openssl req -new -sha1 -days $tpldata->{'ca_default_days'} -key \"$dir/private/key\"  -out \"$dir/csr\" -config \"$dir/openssl.cnf\" -batch");
     # pem
-#    if(defined($parent)){
-#        system("/usr/bin/openssl ca -extensions v3_ca -days $tpldata->{'ca_default_days'} -out \"$dir/pem\" -in \"$dir/csr\" -config \"$parent/openssl.cnf\" -batch");
-#    }else{
-#        system("openssl req -new -x509 -nodes -sha1 -days $tpldata->{'ca_default_days'} -key \"$dir/private/key\" -out \"$dir/pem\" -config \"$dir/openssl.cnf\" -batch");
-#
-#    }
+    my $parent = $parent_ca;
+    if($parent eq $dir){
+        # self sign if we're our own parent
+        system("openssl req -new -x509 -nodes -sha1 -days $tpldata->{'ca_default_days'} -key \"$dir/private/key\" -out \"$dir/pem\" -config \"$dir/openssl.cnf\" -batch");
+    }else{
+        # sign us with our parent
+        system("/usr/bin/openssl ca -extensions v3_ca -days $tpldata->{'ca_default_days'} -out \"$dir/pem\" -in \"$dir/csr\" -config \"$parent/openssl.cnf\" -batch");
+    }
 #    # trustchain.pem
 #    if(defined($parent)){
 #        # OS X likes it this way, linux doesn't seem to care.
