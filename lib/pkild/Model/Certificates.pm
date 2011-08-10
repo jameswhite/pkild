@@ -549,7 +549,7 @@ use File::Slurp;
     my $subject="";
     while(my $line=<VERIFY>){
         # grab the first "Subject: " line's subject
-        print STDERR "$line\n";
+        print STDERR "$line";
         if($subject eq ''){
             if($line=~m/\s+Subject:\s+(.*)\s*/){ $subject=$1; }
         }
@@ -557,6 +557,7 @@ use File::Slurp;
     close(VERIFY);
     print STDERR "CSR [$subject] from $cn\n";
     if($subject eq $self->user_cert_dn($session)){ $valid_request = 1; }
+    print  STDERR "[$subject] == [".$self->user_cert_dn($session)."] ?\n";
     if($valid_request == 1){
         ############################################################################    
         # if it's valid, Sign it with the parent
