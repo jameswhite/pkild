@@ -927,7 +927,6 @@ sub reqdn_block{ # Create the req_distinguished_name block of our openssl.crt
             push(@rdnlines,"emailAddress = Email Address"); 
             push(@rdnlines,"emailAddress_max = 64");
             push(@rdnlines,"emailAddress_default = $1@".$self->dnsdomainname());
-            $uid++;
         }
     }
     # not sure how to determine the domain
