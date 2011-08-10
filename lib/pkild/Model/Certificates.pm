@@ -1249,10 +1249,9 @@ sub actual_node_from_objectname{
     my $self=shift;
     print STDERR "enter actucal_node_from_objectname\n" if $self->{'trace'};
     my $objectname=shift;
-print STDERR "Searching for dir for $objectname\n";
     my $rootdir = $self->rootdir;
     my ($identity_type, $identity,$orgunit,$domain);
-
+print STDERR "Searching for dir for $objectname\n";
     if($objectname=~m/\s*(.*)\s*=\s*(.*)\s*,\s*[Oo][Uu]\s*=\s*([^,]+)\s*,\s*dc\s*=\s*(.*)\s*/){
         $identity_type=$1; $identity=$2; $orgunit=$3; $domain=$4; $domain=~s/,\s*dc=/./g;
         # I hate upper case.
