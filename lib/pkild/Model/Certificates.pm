@@ -320,7 +320,7 @@ sub tree{
     for my $node (@file_names){
         next if $node eq '.';
         # skip directories containing key data and used for work.
-        next if $node=~m/\/private$/;
+#        next if $node=~m/\/private$/;
         next if $node=~m/\/.rnd$/;
 #        next if $node=~m/\/openssl.cnf$/;
 #        next if $node=~m/\/csr$/;
@@ -463,20 +463,7 @@ distinguished_name = req_distinguished_name
 req_extensions = v3_req
 
 [ req_distinguished_name ]
-countryName = Country Name (2 letter code)
-countryName_default = [% countryName %]
-stateOrProvinceName = State or Province Name (full name)
-stateOrProvinceName_default = [% stateOrProvinceName %]
-localityName = Locality Name (eg, city)
-localityName_default = [% localityName %]
-0.organizationName = Organization Name (eg, company)
-0.organizationName_default = [% organizationName %]
-organizationalUnitName = Organizational Unit Name (eg, section)
-organizationalUnitName_default = [% organizationalUnitName %]
-commonName = Common Name (eg, YOUR name)
-commonName_default = [% commonName %]
-emailAddress = Email Address
-emailAddress_default = [% emailAddress %]
+[\% req_distinguished_name \%]
 
 [ v3_req ]
 basicConstraints = CA:FALSE
@@ -486,9 +473,6 @@ keyUsage = nonRepudiation, digitalSignature, keyEncipherment
 ";
     my $cnf_attrs = [ 
                       'domainName',
-                      'countryName',
-                      'stateOrProvinceName',
-                      'localityName',
                       'organizationName',
                       'organizationalUnitName',
                       'commonName',
@@ -498,6 +482,7 @@ keyUsage = nonRepudiation, digitalSignature, keyEncipherment
     foreach my $cnf_attr (@{ $cnf_attrs }){
         $tpl_data->{$cnf_attr} = $self->attr_for($session,$cnf_attr);
     }
+    $tpl_data->{'req_distinguished_name'} = $self->reqdn_block();
     $tt->process(\$opensslcnf,$tpl_data,\$output);
     return $output;
 }
@@ -544,6 +529,7 @@ use File::Slurp;
     }
     system("/usr/bin/openssl genrsa -out \"$user_cert_dir/private/key\" 2048");
 
+return $self;
     ############################################################################    
     # create the CSR
     ############################################################################    
