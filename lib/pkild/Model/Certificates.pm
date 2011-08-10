@@ -1268,10 +1268,13 @@ print STDERR "objectname: $objectname\n";
         $orgunit=~tr/A-Z/a-z/;
         $domain=~tr/A-Z/a-z/;
     }
-print STDERR "Possible: ou=$domain/ou=$orgunit/$identity\n";
+    my $search = "ou=$domain/ou=$orgunit/$identity";
     $self->find_file($rootdir,"openssl.cnf");
     foreach my $cnf_file (@{ $self->{'file_list'} }){
         print STDERR "inspecting $cnf_file\n";
+        if($cnf_file=~m/$search\/openssl.cnf$/i){
+            print STDERR "    HERE.\n";
+        }
     }
 
 
