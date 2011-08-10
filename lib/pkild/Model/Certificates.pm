@@ -1331,6 +1331,8 @@ sub node_type{
     if(-d "$rootdir/$node"){ 
         if($nodepart[$#nodepart] eq "cn=Root"){ return "ca";}
         if($nodepart[$#nodepart] eq "cn=Intermediate"){ return "ca";}
+        if($nodepart[$#nodepart] eq "ou=People"){ return "certificate authority";}
+        if($nodepart[$#nodepart] eq "ou=Hosts"){ return "certificate authority";}
         if( ($nodepart[$#nodepart] =~ m/^cn=/) || ($nodepart[$#nodepart] =~ m/^uid=/)){ 
             if(-f "$rootdir/$node/$nodepart[$#nodepart].revoked"){
                 print STDERR "exit node_type revoked_certificate\n" if $self->{'trace'};
