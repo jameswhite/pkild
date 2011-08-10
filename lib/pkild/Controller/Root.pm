@@ -153,7 +153,6 @@ sub default : Private {
                         $c->detach();
                     # If the pkcs12cert is not defined in the session, send them to th
                     }else{
-print STDERR "-----------------------------------------------\n";
                         if($c->model('Certificates')->user_cert_exists($c->session)){
                             $c->stash->{'legend'}='Valid Certificate Found.';
                             $c->stash->{'whatsnext'}=q(<a href='/?get=certificate'>View your Certificate</a>);
@@ -164,7 +163,6 @@ print STDERR "-----------------------------------------------\n";
                             $c->stash->{'template'}='csr_sign.tt';
                             $c->detach();
                         }
-print STDERR "-----------------------------------------------\n";
                     }
                 }
             }elsif($c->req->method eq 'POST'){
