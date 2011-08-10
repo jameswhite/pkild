@@ -85,7 +85,7 @@ sub default : Private {
     }
 
     ############################################################################
-    # set our model parameters
+    # set our model parameters from the config file
     ############################################################################
     $c->model('Certificates')->dnsdomainname($c->config->{'global'}->{'domain'});
     $c->model('Certificates')->ca_basedn($c->config->{'global'}->{'cert_basedn'});

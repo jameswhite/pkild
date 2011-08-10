@@ -232,18 +232,19 @@ use FileHandle;
     my $domain=$self->dnsdomainname();
     my $type=undef;
     my $orgunit=undef;
+
     $cn=~s/,.*//g;
     $cn=~tr/A-Z/a-z/;
     my $subject;
     if($cn=~m/\s*uid=(.*)/){ 
         $type="user"; 
         $cn=~s/\s*uid=//;
-        $subject = $self->ca_basedn().", ou=People, cn=$cn/emailaddress=$cn\@$domain";
+        $subject = $self->ca_basedn().",ou=".$self->dnsdomainname().",ou=People,cn=$cn/emailaddress=$cn\@$domain";
     }
     if($cn=~m/\s*cn=(.*)/){ 
         $type="host";  
         $cn=~s/\s*cn=//;
-        $subject = $self->ca_basedn().", ou=Hosts, cn=$cn.$domain/emailaddress=root\@$cn.$domain";
+        $subject = $self->ca_basedn().",ou=".$self->dnsdomainname().",ou=Hosts,cn=$cn.$domain/emailaddress=root\@$cn.$domain";
     }
     print STDERR "exit user_cert_dn with [$subject]\n";
     return $subject;
