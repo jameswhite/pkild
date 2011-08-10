@@ -177,7 +177,7 @@ sub user_parent_cert_dir{
 sub user_cert_exists{
     my ($self,$session) = @_;
     my $user_cert_file = $self->user_cert_file($session);
-    print STDERR "user_cert_file: $user_cert_file\n";
+    #print STDERR "user_cert_file: $user_cert_file\n";
     if( -f $user_cert_file){
         # we should probably validate the cert here
         return 1;
@@ -544,46 +544,65 @@ use File::Slurp;
     ############################################################################    
     # Ensure the DN is correct
     ############################################################################    
+    my $valid_request=0;
     open(VERIFY,"openssl req -text -noout -in \"$user_cert_dir/csr\"|");
+    my $subject="";
     while(my $line=<VERIFY>){
-        # do something else here, yo
-        print STDERRR $line;
+        # grab the first "Subject: " line's subject
+        if($subject eq ''){
+            if($line=~m/\s+Subject:\s+(.*)\s*/){ $subject=$1; }
+        }
     }
     close(VERIFY);
- 
-    ############################################################################    
-    # if it's valid, Sign it with the parent
-    ############################################################################    
-    system("/usr/bin/openssl ca -config \"$user_parent_cert_dir/openssl.cnf\" -days 90 -policy policy_anything -out \"$user_cert_file\" -batch -infiles \"$user_cert_dir/csr\"");
-
-    ############################################################################    
-    # convert to a pkcs12 container with the passphrase
-    ############################################################################    
-    my $passphrase=$param->{'password'};
-    system("/bin/echo \'$param->{'password'}\' | /usr/bin/openssl pkcs12 -export -clcerts -passout fd:0 -in \"$user_cert_file\" -inkey \"$user_cert_dir/private/key\" -out \"$user_cert_dir/p12\"");
-
-    ############################################################################    
-    # read in the content fo the pkcs12 cert to memory
-    ############################################################################    
-    my $pkcs12data = read_file( "$user_cert_dir/p12", binmode => ':raw' ) ;        
-
-    ############################################################################    
-    # remove the pkcs12 cert from disk
-    ############################################################################    
-    unlink("$user_cert_dir/p12");
-
-    ############################################################################    
-    # remove the key from disk
-    ############################################################################    
-    unlink("$user_cert_dir/private/key");
-    if(-d "$user_cert_dir/private"){
-        rmdir("$user_cert_dir/private");
+    if($subject eq $self->user_cert_dn()){
+        $valid_request = 1;
     }
-
-    ############################################################################    
-    # return the content of the pkcs12 cert as a blob for file transfer to the client
-    ############################################################################    
-    return $pkcs12data;
+ 
+    if($valid_request == 1){
+        ############################################################################    
+        # if it's valid, Sign it with the parent
+        ############################################################################    
+        system("/usr/bin/openssl ca -config \"$user_parent_cert_dir/openssl.cnf\" -days 90 -policy policy_anything -out \"$user_cert_file\" -batch -infiles \"$user_cert_dir/csr\"");
+    
+        ############################################################################    
+        # convert to a pkcs12 container with the passphrase
+        ############################################################################    
+        my $passphrase=$param->{'password'};
+        system("/bin/echo \'$param->{'password'}\' | /usr/bin/openssl pkcs12 -export -clcerts -passout fd:0 -in \"$user_cert_file\" -inkey \"$user_cert_dir/private/key\" -out \"$user_cert_dir/p12\"");
+    
+        ############################################################################    
+        # read in the content fo the pkcs12 cert to memory
+        ############################################################################    
+        
+        my $pkcs12data = read_file( "$user_cert_dir/p12", binmode => ':raw' ) ;        
+    
+        ############################################################################    
+        # remove the pkcs12 cert from disk
+        ############################################################################    
+        unlink("$user_cert_dir/p12");
+    
+        ############################################################################    
+        # remove the key from disk
+        ############################################################################    
+        unlink("$user_cert_dir/private/key");
+        if(-d "$user_cert_dir/private"){
+            rmdir("$user_cert_dir/private");
+        }
+    
+        ############################################################################    
+        # return the content of the pkcs12 cert as a blob for file transfer to the client
+        ############################################################################    
+        return $pkcs12data;
+    }else{
+        unlink("$user_cert_dir/csr");
+        unlink("$user_cert_dir/openssl.cnf");
+        unlink("$user_cert_dir/private/key");
+        if(-d "$user_cert_dir/private"){
+            rmdir("$user_cert_dir/private");
+        }
+        rmdir("$user_cert_dir");
+        return 0;
+    }
 }
 
 sub remove_certificate{
