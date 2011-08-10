@@ -1077,11 +1077,10 @@ sub ca_initialize{
     }
     my $crl_offset=$dir;
     $crl_offset=~s/^$rootdir\///;
-    $tpldata->{'crl_path'}="$crl_path/$crl_offset";
+    $tpldata->{'crl_path'}="$crl_path/$crl_offset.crl";
     # let's not use spaces and capital letters in our uris...
     $tpldata->{'crl_path'}=~s/ /_/g;
     $tpldata->{'crl_path'}=~tr/A-Z/a-z/;
-print STDERR "crl: $tpldata->{'crl_path'}\n";
     $template->process(\$text,$tpldata,"$dir/openssl.cnf");
     # private.key
     system("/usr/bin/openssl genrsa -out \"$dir/private/key\" $key_size");
