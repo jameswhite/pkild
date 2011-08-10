@@ -549,11 +549,11 @@ use File::Slurp;
     ############################################################################    
     system("/usr/bin/openssl ca -config \"$user_parent_cert_dir/openssl.cnf\" -days 90 -policy policy_anything -out \"$user_cert_file\" -batch -infiles \"$user_cert_dir/csr\"");
 
-return $self;
     ############################################################################    
     # convert to a pkcs12 container with the passphrase
     ############################################################################    
-    system("/bin/echo \"$param->{'password'}\" | /usr/bin/openssl pkcs12 -export -clcerts -passout fd:0 -in \"$user_cert_file\" -inkey \"$user_cert_dir/private/key\" -out \"$user_cert_dir/p12\"");
+    my $passphrase=$param->{'password'};
+    system("/bin/echo \'$param->{'password'}\' | /usr/bin/openssl pkcs12 -export -clcerts -passout fd:0 -in \"$user_cert_file\" -inkey \"$user_cert_dir/private/key\" -out \"$user_cert_dir/p12\"");
 
     ############################################################################    
     # read in the content fo the pkcs12 cert to memory
