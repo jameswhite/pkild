@@ -223,10 +223,9 @@ sub attr_for{
 sub user_cert_dn{
 use FileHandle;
     my ($self,$session) = @_;
-print STDERR "FUCK\n";
-    print STDERR "enter user_cert_dn\n" if $self->{'trace'};
+    #print STDERR "enter user_cert_dn\n" if $self->{'trace'};
     my $objectname = $self->objectname($session);
-    print STDERR "objectname: $objectname\n";
+    #print STDERR "objectname: $objectname\n";
     my $cn=$objectname;
     my $domain=$self->dnsdomainname();
     my $type=undef;
@@ -246,7 +245,6 @@ print STDERR "FUCK\n";
         $subject = $self->ca_basedn().",ou=".$self->dnsdomainname().",ou=Hosts,cn=$cn.$domain/emailaddress=root\@$cn.$domain";
     }
     #print STDERR "exit user_cert_dn with [$subject]\n";
-print STDERR "KCUF\n";
     return $subject;
 }
 
@@ -680,14 +678,14 @@ sub revoke_user_certificate{
     my $user_cert_file=$self->user_cert_file($session);
     my $user_cert_dir=$self->user_cert_dir($session);
     my $parent_ca = $self->parent_ca($user_cert_dir);
-
-print STDERR "user_cert_file: $user_cert_file\n";
-print STDERR "user_cert_dir: $user_cert_dir\n";
-print STDERR "parent_ca: $parent_ca\n";
     system("/usr/bin/openssl ca -revoke \'$user_cert_file\' -keyfile \'$parent_ca/private/key\' -cert \'$parent_ca/pem\' -config \'$parent_ca/openssl.cnf\'");
     if($? == 0){
         # update the Certificate Revocation list
         system("/usr/bin/openssl ca -gencrl -keyfile \'$parent_ca/private/key\' -cert \'$parent_ca/pem\' -config \'$parent_ca/openssl.cnf\' -out \'$parent_ca/crl\'");
+
+        if(-f "$user_cert_dir/private/key"){ unlink("$user_cert_dir/private/key"); }
+        if(-d "$user_cert_dir/private"){ rmdir("$user_cert_dir/private"); }
+
         if($? == 0){
             opendir(my $dh, "$user_cert_dir");
             my @files = readdir($dh);
