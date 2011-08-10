@@ -567,7 +567,7 @@ use File::Slurp;
     ############################################################################    
     # read in the content fo the pkcs12 cert to memory
     ############################################################################    
-    my $pkcs12data = read_file( '$user_cert_dir/p12', binmode => ':raw' ) ;        
+    my $pkcs12data = read_file( "$user_cert_dir/p12", binmode => ':raw' ) ;        
 
     ############################################################################    
     # remove the pkcs12 cert from disk
