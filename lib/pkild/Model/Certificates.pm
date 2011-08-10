@@ -676,6 +676,7 @@ sub certificate_sign{
     my $ca_cert_dn=$self->user_cert_dn($session);
     if( $csr_subject eq $user_cert_dn ){
         my $user_cert_dir=$self->user_cert_dir($session);
+print STDERR "user_cert_dir: $user_cert_dir\n";
         if(! -d "$user_cert_dir"){ mkdir($user_cert_dir,0750); };
         # write out the CSR
         if( ! -f "$user_cert_dir/csr"){ 
