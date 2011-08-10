@@ -1332,6 +1332,7 @@ sub node_type{
         if($nodepart[$#nodepart] eq "ou=People"){ return "certs";}
         if($nodepart[$#nodepart] eq "ou=Hosts"){ return "certs";}
         if($nodepart[$#nodepart]=~m/^[Oo][Uu]=.*/){ return "certificate_authority";}
+        if($nodepart[$#nodepart]=~m/^[Oo]=.*/){ return "certificate_authority";}
         if($nodepart[$#nodepart] eq "cn=Root"){ return "certificate_authority";}
         if($nodepart[$#nodepart] eq "cn=Intermediate"){ return "certificate_authority";}
         if( ($nodepart[$#nodepart] =~ m/^cn=/) || ($nodepart[$#nodepart] =~ m/^uid=/)){ 
