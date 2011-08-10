@@ -122,7 +122,7 @@ sub cert_dn_tree{
 sub user_cert_file{
     my ($self,$session) = @_;
     my $domain=$self->dnsdomainname();
-    my $user_cert_dn=$self->user_cert_dn($session);
+    my $user_cert_dn = $self->user_cert_dn($session);
     print STDERR "user_cert_dn: $user_cert_dn\n";
     return undef unless ($user_cert_dn);
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
@@ -223,7 +223,7 @@ sub attr_for{
 sub user_cert_dn{
 use FileHandle;
     my ($self,$session) = @_;
-    print STDERR "enter user_cert_dn\n" if $self->{'trace'};
+    print STDERR "enter user_cert_dn\n";# if $self->{'trace'};
     my $objectname = $self->objectname($session);
     #print STDERR "objectname: $objectname\n";
     my $cn=$objectname;
@@ -244,7 +244,7 @@ use FileHandle;
         $cn=~s/\s*cn=//;
         $subject = $self->ca_basedn().",ou=".$self->dnsdomainname().",ou=Hosts,cn=$cn.$domain/emailaddress=root\@$cn.$domain";
     }
-    #print STDERR "exit user_cert_dn with [$subject]\n";
+    print STDERR "exit user_cert_dn with [$subject]\n";
     return $subject;
 }
 
