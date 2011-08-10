@@ -1286,9 +1286,14 @@ sub node_type{
     my ($self, $unpacked_node)=@_;
     print STDERR "enter node_type\n";# if $self->{'trace'};
     my $node = pack("H*",$unpacked_node);
+    print STDERR "node: $node\n";
+
     my @nodepart=split(/$self->{'node_separator'}/, $node);
+
     $node =~s/$self->{'node_separator'}/\//g;
+
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
+
     if($node eq "new_root_ca"){ return "new_root_ca"; }
     if($node eq "certificate_authority"){ return "certificate_authority"; }
     if($node eq "new_cert"){ return "new_cert"; }
