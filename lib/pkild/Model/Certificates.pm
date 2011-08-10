@@ -1370,7 +1370,8 @@ policy = policy_match
 [ policy_match ]
 organizationName = optional
 organizationalUnitName = optional
-commonName = supplied
+commonName = optional
+userId = optional
 emailAddress = optional
  
 [ policy_anything ]
