@@ -678,11 +678,10 @@ sub revoke_user_certificate{
 
     my $user_cert_file=$self->user_cert_file($session);
     my $user_cert_dir=$self->user_cert_dir($session);
-    my $pdir = $self->user_parent_cert_dir($session);
+    my $parent_ca = $self->parent_ca($$user_cert_dir);
 print STDERR "user_cert_file: $user_cert_file\n";
 print STDERR "user_cert_dir: $user_cert_dir\n";
-print STDERR "pdir: $pdir\n";
-    # my $parent_ca = $self->parent_ca($dir);
+print STDERR "parent_ca: $parent_ca\n";
 
 print STDERR "FUCK FUCK FUCK\n";
 return $self;
