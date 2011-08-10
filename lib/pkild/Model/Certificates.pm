@@ -1379,9 +1379,6 @@ preserve = no
 policy = policy_match
  
 [ policy_match ]
-countryName = match
-stateOrProvinceName = match
-localityName = match
 organizationName = optional
 organizationalUnitName = optional
 commonName = supplied
