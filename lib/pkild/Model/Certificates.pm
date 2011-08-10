@@ -1275,8 +1275,8 @@ print STDERR "objectname: $objectname\n";
         if($cnf_file=~m/$search\/openssl.cnf$/i){
             $cert_dir = "$cnf_file\n";
             $cert_dir =~ s/\/openssl.cnf$//;
-            $cert_dir =~ s/^rootdir//;
-            $cert_dir =~ s/\//::/;
+            $cert_dir =~ s/^$rootdir//;
+            $cert_dir =~ s/\//::/g;
         }
     }
     print STDERR "Returning: $cert_dir\n";
