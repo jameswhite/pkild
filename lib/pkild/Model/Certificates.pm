@@ -226,7 +226,7 @@ use FileHandle;
     my ($self,$user_session) = @_;
     print STDERR "enter cert_dn\n" if $self->{'trace'};
     my $objectname=$self->objectname($user_session);
-    print STDERR "objectname: $objectname\n";
+    #print STDERR "objectname: $objectname\n";
     my $cn=$objectname;
     my $domain=$self->dnsdomainname();
     my $type=undef;
@@ -245,7 +245,7 @@ use FileHandle;
         $cn=~s/\s*cn=//;
         $subject = $self->ca_basedn().",ou=".$self->dnsdomainname().",ou=Hosts,cn=$cn.$domain/emailaddress=root\@$cn.$domain";
     }
-    print STDERR "exit user_cert_dn with [$subject]\n";
+    #print STDERR "exit user_cert_dn with [$subject]\n";
     return $subject;
 }
 
@@ -1283,6 +1283,7 @@ sub node_type{
     my $node = pack("H*",$unpacked_node);
     my @nodepart=split(/$self->{'node_separator'}/, $node);
     $node =~s/$self->{'node_separator'}/\//g;
+print STDERR "node: $node\n";
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
     if($node eq "new_root_ca"){ return "new_root_ca"; }
     if($node eq "certificate_authority"){ return "certificate_authority"; }
