@@ -400,13 +400,20 @@ use FileHandle;
    my $file=shift;
    my $fh = FileHandle->new;
    my $ca_domain;
+   my $got_ca=0;
    if ($fh->open("< $file")) {
        while(my $line=<$fh>){
            chomp($line);
-           if($line=~m/^\s*ca-domain\s*=\s*(.*)/){
+           if($line=~m/^\s*0.organizationalUnitName_default\s*=\s*(.*)/){
                $ca_domain=$1; 
                $ca_domain=~s/^\s*//g;
                $ca_domain=~s/\s*$//g;
+           }
+           if($line=~m/^\s*1.organizationalUnitName_default\s*=\s*(.*)/){
+               $ca_domain=$1; 
+               if($1 =~m/^\s*Certificate Authority\s*$/){
+                   $got_ca = 1;
+               }
            }
        }
        $fh->close;
