@@ -670,9 +670,13 @@ sub certificate_for{
 
 sub certificate_sign{
     my ($self, $session, $csr)=@_;
-    return undef; # this is broken
+
     my $csr_subject=$self->csr_subject($csr);
+    print STDERR "csr_subject: $csr_subject\n";
+
     my $user_cert_dn=$self->user_cert_dn($session);
+    print STDERR "user_cert_dn: $user_cert_dn\n";
+
     my $ca_cert_dn=$self->user_cert_dn($session);
     if( $csr_subject eq $user_cert_dn ){
         my $user_cert_dir=$self->user_cert_dir($session);
