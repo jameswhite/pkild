@@ -123,7 +123,7 @@ sub user_cert_file{
     my ($self,$session) = @_;
     my $domain=$self->dnsdomainname();
     my $user_cert_dn=$self->user_cert_dn($session);
-    #print STDERR "user_cert_dn: $user_cert_dn\n";
+    print STDERR "user_cert_dn: $user_cert_dn\n";
     return undef unless ($user_cert_dn);
     my $rootdir=join("/",@{ $self->{'root_dir'}->{'dirs'} });
 
@@ -156,7 +156,7 @@ sub user_cert_file{
 
     }
     my $user_cert_file= $rootdir."/".join("/",@dir_parts)."/$common_name.crt";
-    #print STDERR "user_cert_file: $user_cert_file\n";
+    print STDERR "user_cert_file: $user_cert_file\n";
     return $user_cert_file;
 }
 
@@ -176,7 +176,7 @@ sub user_parent_cert_dir{
 
 sub user_cert_exists{
     my ($self,$session) = @_;
-    my $user_cert_file=$self->user_cert_file($session);
+    my $user_cert_file = $self->user_cert_file($session);
     print STDERR "user_cert_file: $user_cert_file\n";
     if( -f $user_cert_file){
         # we should probably validate the cert here
