@@ -496,7 +496,7 @@ use File::Slurp;
     my $domain=$self->dnsdomainname();
     my $user_cert_dir=$self->user_cert_dir($session);
     my $user_cert_file=$self->user_cert_file($session);
-    my $user_parent_cert_dir=$self->user_parent_cert_dir($session);
+    my $user_parent_cert_dir=$self->parent_ca($user_cert_dir);
     my ($subject,$type);
     $cn=~s/,.*//g;
     $cn=~tr/A-Z/a-z/;
