@@ -549,6 +549,7 @@ use File::Slurp;
     my $subject="";
     while(my $line=<VERIFY>){
         # grab the first "Subject: " line's subject
+        print STDERR "$line\n";
         if($subject eq ''){
             if($line=~m/\s+Subject:\s+(.*)\s*/){ $subject=$1; }
         }
