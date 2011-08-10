@@ -223,9 +223,10 @@ sub attr_for{
 sub user_cert_dn{
 use FileHandle;
     my ($self,$session) = @_;
+print STDERR "FUCK\n";
     print STDERR "enter user_cert_dn\n" if $self->{'trace'};
     my $objectname = $self->objectname($session);
-    #print STDERR "objectname: $objectname\n";
+    print STDERR "objectname: $objectname\n";
     my $cn=$objectname;
     my $domain=$self->dnsdomainname();
     my $type=undef;
@@ -245,6 +246,7 @@ use FileHandle;
         $subject = $self->ca_basedn().",ou=".$self->dnsdomainname().",ou=Hosts,cn=$cn.$domain/emailaddress=root\@$cn.$domain";
     }
     #print STDERR "exit user_cert_dn with [$subject]\n";
+print STDERR "KCUF\n";
     return $subject;
 }
 
