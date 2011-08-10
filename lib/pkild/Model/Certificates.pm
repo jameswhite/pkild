@@ -1275,8 +1275,8 @@ sub actual_node_from_objectname{
     }
     my $cacert_dir = $self->ca_for($domain);
     my $cert_dir = undef;
-    if($cacert_dir){ $cert_dir="$cacert_dir"; }
-    my @cert_dir_parts = split('/',cert_dir);
+    if($cacert_dir){ $cert_dir = $cacert_dir; }
+    my @cert_dir_parts = split('/',$cert_dir);
     pop(@cert_dir_parts) if($cert_dir_parts[$#cert_dir_parts] eq 'cn=Intermediate');
     pop(@cert_dir_parts) if($cert_dir_parts[$#cert_dir_parts] eq 'ou=Certificate Authority');
     if($identity=~m/^cn=/){ push(@cert_dir_parts,'ou=Hosts'); }
