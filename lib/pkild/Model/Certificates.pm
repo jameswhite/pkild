@@ -670,6 +670,7 @@ sub certificate_for{
 
 sub certificate_sign{
     my ($self, $session, $csr)=@_;
+    print STDERR "csr: $csr\n";
 
     my $csr_subject=$self->csr_subject($csr);
     print STDERR "csr_subject: $csr_subject\n";
@@ -678,6 +679,8 @@ sub certificate_sign{
     print STDERR "user_cert_dn: $user_cert_dn\n";
 
     my $ca_cert_dn=$self->user_cert_dn($session);
+    print STDERR "ca_cert_dn: $ca_cert_dn\n";
+
     if( $csr_subject eq $user_cert_dn ){
         my $user_cert_dir=$self->user_cert_dir($session);
         if(! -d "$user_cert_dir"){ mkdir($user_cert_dir,0750); };
