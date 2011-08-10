@@ -1267,6 +1267,7 @@ print STDERR "Searching for dir for $objectname\n";
     }
 print STDERR "domain: $domain\n";
     my $cacert_dir = $self->ca_for($domain);
+print STDERR "cacert_dir: $cacert_dir\n";
     my $cert_dir=undef;
     if($cacert_dir){
         $cert_dir="$cacert_dir/certs/$identity";
