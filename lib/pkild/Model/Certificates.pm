@@ -448,10 +448,15 @@ sub find_file{
 
 sub opensslcnf_for{
     use Template;
-    my ($self,$session,$dir)=@_;
+    my ($self,$session)=@_;
     my $tpl_data={};
     my $output='';
     my $tt=Template->new();
+    my $user_cert_dir=$self->user_cert_dir($session);
+    my $user_cert_file=$self->user_cert_file($session);
+    my $user_parent_cert_dir=$self->parent_ca($user_cert_dir);
+#HERE#
+
     my $opensslcnf= "################################################################################
 #                                                                              #
 # Create your key with:                                                        #
@@ -459,7 +464,7 @@ sub opensslcnf_for{
 #                                                                              #
 # Create your Certificate Signing Request with:                                #
 # /usr/bin/openssl req -new -sha1 -days 90 -key \$(hostname -f) \\              #
-#                      -out \$(hostname -f).csr -config openssl.cnf -batch      #
+#                      -out \$(hostname -f).csr -config openssl.cnf -batch       #
 # (using this openssl.cnf)                                                     #
 #                                                                              #
 # Then paste the contents of the resulting *.csr into the textarea             # 
@@ -490,7 +495,7 @@ keyUsage = nonRepudiation, digitalSignature, keyEncipherment
     foreach my $cnf_attr (@{ $cnf_attrs }){
         $tpl_data->{$cnf_attr} = $self->attr_for($session,$cnf_attr);
     }
-    $tpl_data->{'req_distinguished_name'} = $self->reqdn_block($dir);
+    $tpl_data->{'req_distinguished_name'} = $self->reqdn_block($user_cert_dir);
     $tt->process(\$opensslcnf,$tpl_data,\$output);
     return $output;
 }
@@ -526,7 +531,7 @@ use File::Slurp;
     # Create an openssl.cnf in the $user_cert_dir 
     ############################################################################    
     open(SSLCNF,">$user_cert_dir/openssl.cnf");
-    print SSLCNF $self->opensslcnf_for($session,$user_cert_dir);
+    print SSLCNF $self->opensslcnf_for($session);
     close(SSLCNF);
 
     ############################################################################    
@@ -566,7 +571,7 @@ use File::Slurp;
     ############################################################################    
     # read in the content fo the pkcs12 cert to memory
     ############################################################################    
-    my $pkcs12data = read_file( "$user_cert_dir/p12", binmode => ':raw' ) ;        
+    my $pkcs12data = read_file( '$user_cert_dir/p12', binmode => ':raw' ) ;        
 
     ############################################################################    
     # remove the pkcs12 cert from disk
