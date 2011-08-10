@@ -1290,14 +1290,17 @@ sub node_type{
     $node =~s/$self->{'node_separator'}/\//g;
     chomp($node);
     my $rootdir=$self->rootdir();
-
     if($node eq "new_root_ca"){ return "new_root_ca"; }
     if($node eq "certificate_authority"){ return "certificate_authority"; }
     if($node eq "new_cert"){ return "new_cert"; }
     if($node eq "logout"){ return "logout"; }
-
-    print STDERR "node: [$rootdir/$node]\n";
     if(-f "$rootdir/$node"){ return "file"; }
+
+
+    ############################################################################     
+    # These are conventions for type detection
+    ############################################################################     
+    print STDERR "[ $rootdir ] [ $node ] $nodepart[$#nodepart] ]\n";
     if(-d "$rootdir/$node"){ 
         if(-d "$rootdir/$node/certs"){ return "ca"; }
         my $isacertbucket="$rootdir/$node";
