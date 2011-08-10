@@ -419,7 +419,8 @@ use FileHandle;
        $fh->close;
    }
    print STDERR "exit ca_domain_from_file\n" if $self->{'trace'};
-   print return $ca_domain;
+   if($got_ca == 1){ return $ca_domain; }
+   return '';
 }
 
 sub find_file{
