@@ -674,6 +674,7 @@ sub certificate_sign{
     my $csr_subject=$self->csr_subject($csr);
     my $user_cert_dn=$self->user_cert_dn($session);
     my $ca_cert_dn=$self->user_cert_dn($session);
+    print STDERR "$csr_subject eq $user_cert_dn \n";
     if( $csr_subject eq $user_cert_dn ){
         my $user_cert_dir=$self->user_cert_dir($session);
 print STDERR "user_cert_dir: $user_cert_dir\n";
