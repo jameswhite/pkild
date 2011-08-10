@@ -1265,7 +1265,7 @@ print STDERR "Searching for dir for $objectname\n";
             $domain = $map->{'cert_domain'};
         }
     }
-print "domain: $domain\n";
+print STDERR "domain: $domain\n";
     my $cacert_dir = $self->ca_for($domain);
     my $cert_dir=undef;
     if($cacert_dir){
