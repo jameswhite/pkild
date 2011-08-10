@@ -223,9 +223,9 @@ sub attr_for{
 
 sub user_cert_dn{
 use FileHandle;
-    my ($self,$user_session) = @_;
+    my ($self,$session) = @_;
     print STDERR "enter user_cert_dn\n";# if $self->{'trace'};
-    my $objectname=$self->objectname($user_session);
+    my $objectname = $self->objectname($session);
     print STDERR "objectname: $objectname\n";
     my $cn=$objectname;
     my $domain=$self->dnsdomainname();
@@ -253,7 +253,7 @@ sub objectname{
     my $self=shift;
     print STDERR "enter objectname\n" if $self->{'trace'};
     my $user_session=shift;
-    #print STDERR Data::Dumper->Dump([ $user_session->{'user'}->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'} ]);
+    print STDERR Data::Dumper->Dump([ $user_session->{'user'}->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'} ]);
     if(defined($user_session->{'user'}->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'})){
         print STDERR "exit objectname with objectname\n" if $self->{'trace'};
         return $user_session->{'user'}->{'user'}->{'ldap_entry'}->{'asn'}->{'objectName'};
